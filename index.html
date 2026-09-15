@@ -9,9 +9,12 @@
       index.html                          this file — the home page
       about/aboutcrabby.html              the "About Crabby" page
       about/aboutsofia.html               the "About Sofia" page
+      stories/crabby-and-the-mango-ice-cream.html   a story page
       images/mainpagebackground.webp      this page's illustration
       images/Crabby Image.png             the About Crabby thumbnail
       images/Sofia Image.png              the About Sofia thumbnail
+      images/Crabby Mango Ice Cream.png   the story's thumbnail + a story picture
+      images/Mango Ice Cream Stall.png    the story's other picture
 
   HOW TO EDIT IT
   --------------
@@ -55,18 +58,20 @@
   follows automatically). To replace the picture itself, you'd
   need to re-generate that base64 text from a new image file.
 
-  ABOUT THE LINK CARDS ("About Crabby" / "About Sofia")
-  --------------------------------------------------------
-  Along the bottom-left of the picture are two small cards — each
-  a thumbnail picture plus a caption — that link to the site's
-  other pages: about/aboutcrabby.html and about/aboutsofia.html.
-  Both cards share their look (size, rounded corners, shadow) from
-  the ".about-link" rule in the style section; ".link-crabby" and
-  ".link-sofia" just position one to the left of the other. To add
-  a third card, copy one of the two <a class="about-link ..."> 
-  blocks in the BODY section, give it a new position class (e.g.
-  ".link-newpage"), and add that class's "left" value in the style
-  section.
+  ABOUT THE LINK CARDS ("About Crabby" / "About Sofia" / a story)
+  ------------------------------------------------------------------
+  Along the bottom-left of the picture are small cards — each a
+  thumbnail picture plus a caption — that link to the site's other
+  pages: about/aboutcrabby.html, about/aboutsofia.html, and now
+  stories/crabby-and-the-mango-ice-cream.html. All the cards share
+  their look (size, rounded corners, shadow) from the ".about-link"
+  rule in the style section; ".link-crabby" / ".link-sofia" /
+  ".link-story" just position them left-to-right, each one 56px
+  (card width + a 10px gap) further right than the last. To add
+  another card, copy one of the <a class="about-link ..."> blocks
+  in the BODY section, give it a new position class (e.g.
+  ".link-newstory"), and add that class's "left" value — the next
+  multiple of 56px — in the style section.
   ============================================================
 -->
 <html lang="en-AU">
@@ -224,6 +229,7 @@
      56px = the 46px card width plus a 10px gap to the next card. */
   .link-crabby { left: 3%; }
   .link-sofia  { left: calc(3% + 56px); }
+  .link-story  { left: calc(3% + 112px); }
 
   .about-link:hover {
     transform: translateY(-2px);
@@ -314,6 +320,13 @@
     <a class="about-link link-sofia" href="about/aboutsofia.html">
       <img src="images/Sofia%20Image.png" alt="Cartoon illustration of Sofia, a ten-year-old girl">
       <span>About Sofia</span>
+    </a>
+
+    <!-- EDIT: the "Mango Ice Cream" story link — same idea as the
+         two cards above, positioned by ".link-story". -->
+    <a class="about-link link-story" href="stories/crabby-and-the-mango-ice-cream.html">
+      <img src="images/Crabby%20Mango%20Ice%20Cream.png" alt="Crabby the Lego crab triumphantly holding a mango ice cream cone">
+      <span>Mango Ice Cream</span>
     </a>
 
   </div>
