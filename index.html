@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <!--
   ============================================================
-  jivablue.com.au  —  Adventures of Crabby
+  thecheekycrab.com  —  The Adventures of Crabby
   ============================================================
 
-  This folder is the whole website. Two files, nothing else:
+  This is the site's home page. The whole site is:
 
-      index.html   this file — the page itself
-      mainpagebackground.webp    the illustration in images folder
+      index.html                          this file — the home page
+      aboutcrabby/aboutcrabby.html        the "About Crabby" page
+      images/mainpagebackground.webp      this page's illustration
+      images/Crabby Image.png             the About Crabby thumbnail
 
   HOW TO EDIT IT
   --------------
@@ -24,29 +26,29 @@
 
   ABOUT THE TITLE LETTERING
   --------------------------
-  The title is three lines of script lettering — "Adventures",
-  "of", "Crabby" — stacked in the blank sky between the little
-  shell flourish near the top of the artwork and the small
-  diamond flourish lower down. It's plain SVG text, not a curve:
-  each line has its own x/y position and font-size in the BODY
-  section, in the SAME 1200 x 1498 units as the illustration, so
-  it lines up with the artwork at any screen size.
+  The title is four lines of script lettering — "The",
+  "Adventures", "of", "Crabby" — stacked in the blank sky between
+  the little shell flourish near the top of the artwork and the
+  small diamond flourish lower down. It's plain SVG text, not a
+  curve: each line has its own x/y position and font-size in the
+  BODY section, in the SAME 1200 x 1498 units as the illustration,
+  so it lines up with the artwork at any screen size.
 
   To nudge a line, change its "y" (smaller = higher up) or its
   "x" (600 is dead-centre). To resize a line, change the
-  font-size for its class (.line-adventures / .line-of /
-  .line-crabby) down in the style section. Each line is drawn
-  twice — once as a pale halo, once as navy lettering — so keep
-  both copies of a line's wording identical.
+  font-size for its class (.line-the / .line-adventures /
+  .line-of / .line-crabby) down in the style section. Each line
+  is drawn twice — once as a pale halo, once as navy lettering —
+  so keep both copies of a line's wording identical.
 
   ABOUT THE CORNER SIGN
   ----------------------
   The little hanging wooden sign in the top-right corner is a
   picture, but it is NOT a separate file — its data is baked
   right into this document (the long line of letters/numbers
-  after "data:image/webp;base64," in the CORNER_SIGN img tag
-  below). That keeps the site at just the two files above. To
-  reposition or resize it, edit the ".corner-sign" rule in the
+  after "data:image/webp;base64," in the corner-sign img tag
+  below), so it doesn't need its own file in the images folder.
+  To reposition or resize it, edit the ".corner-sign" rule in the
   style section (top/right move it, width resizes it — height
   follows automatically). To replace the picture itself, you'd
   need to re-generate that base64 text from a new image file.
@@ -54,12 +56,11 @@
   ABOUT THE "ABOUT CRABBY" LINK
   -------------------------------
   Below the picture is a small card — a thumbnail picture plus the
-  words "About Crabby" — that links to about.html, a second page
-  (currently just a placeholder saying "Coming"). Like the corner
-  sign, the thumbnail picture is baked into this file as base64
-  text rather than a separate file. Its wording, and where it
-  links to, are in the ABOUT_LINK block in the BODY section; its
-  look is in the ".about-link" rule in the style section.
+  words "About Crabby" — that links to
+  aboutcrabby/aboutcrabby.html, the site's second page. Its
+  wording, and where it links to, are in the <a class="about-link">
+  block in the BODY section; its look is in the ".about-link" rule
+  in the style section.
   ============================================================
 -->
 <html lang="en-AU">
@@ -68,14 +69,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- EDIT: the text shown on the browser tab -->
-<title>Adventures of Crabby</title>
+<title>The Adventures of Crabby</title>
 
 <!-- EDIT: the one-line description search engines show -->
-<meta name="description" content="Adventures of Crabby — a children's picture book.">
+<meta name="description" content="The Adventures of Crabby — a children's picture book.">
 
-<meta property="og:title" content="Adventures of Crabby">
+<meta property="og:title" content="The Adventures of Crabby">
 <meta property="og:description" content="A children's picture book">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://thecheekycrab.com/">
+<meta property="og:image" content="https://thecheekycrab.com/images/mainpagebackground.webp">
 
 <!-- The lettering font: Alex Brush, a flowing brush-script face that
      matches the illustration's hand-painted, storybook feel. If it
