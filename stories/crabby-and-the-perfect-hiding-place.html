@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  thecheekycrab.com  —  Crabby and the Perfect Hiding Place
+  ============================================================
+
+  A story page, living in the "stories" folder. It follows the
+  same look as the other story pages — same paper background,
+  same ink colour, same fonts.
+
+  HOW TO EDIT IT
+  --------------
+  Open this file in a plain text editor (VS Code, Notepad — not
+  Microsoft Word). The title and the story text are plain HTML in
+  the BODY section — edit the words there directly. Its two
+  pictures live in the site's shared images folder (../images/),
+  the same folder every other page uses.
+
+  A NOTE ON THIS STORY'S PICTURES
+  ----------------------------------
+  Unlike the Mango Ice Cream story's pictures (tall and narrow),
+  this story's two pictures are wide and short (1024 x 677) — so
+  the .hero-picture and .story-picture sizes below are set wider
+  than on that page to suit. If a future story's pictures are a
+  different shape again, adjust the max-width values to taste.
+  ============================================================
+-->
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- EDIT: the text shown on the browser tab -->
+<title>Crabby and the Perfect Hiding Place</title>
+
+<meta name="description" content="Crabby and the Perfect Hiding Place — a story from The Adventures of Crabby.">
+
+<!-- Same lettering font as the rest of the site, for the heading here. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper: #fbf4dd;   /* same page background as the rest of the site */
+    --ink:   #163a5c;   /* same ink colour as the home page's title */
+    --text:  #2b2b2b;   /* body text — softer than pure black */
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    padding: 50px 20px 90px;
+  }
+
+  .page {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .back {
+    display: inline-block;
+    margin-bottom: 24px;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    color: var(--ink);
+    text-decoration: none;
+    opacity: .75;
+  }
+
+  .back:hover { opacity: 1; }
+
+  /* EDIT: the title wording */
+  h1 {
+    font-family: "Alex Brush", "Segoe Script", "Brush Script MT", cursive;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 1.15;
+    color: var(--ink);
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  /* EDIT: the wide picture below the title. width resizes it; it
+     always keeps its own proportions and stays centred. */
+  .hero-picture {
+    display: block;
+    width: 100%;
+    max-width: 640px;
+    height: auto;
+    margin: 0 auto 34px;
+    border-radius: 10px;
+    box-shadow: 0 10px 28px rgba(90, 66, 30, .22);
+  }
+
+  /* EDIT: the story text */
+  p {
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--text);
+    text-align: justify;
+    margin-bottom: 20px;
+  }
+
+  /* The second picture, set into the text partway through the story. */
+  .story-picture {
+    display: block;
+    width: 100%;
+    max-width: 460px;
+    height: auto;
+    margin: 8px auto 28px;
+    border-radius: 10px;
+    box-shadow: 0 8px 22px rgba(90, 66, 30, .22);
+  }
+
+  .the-end {
+    text-align: center;
+    font-family: "Alex Brush", "Segoe Script", "Brush Script MT", cursive;
+    font-size: 34px;
+    color: var(--ink);
+    margin-top: 26px;
+  }
+</style>
+</head>
+
+<body>
+
+  <div class="page">
+
+    <a class="back" href="../index.html">&larr; Back</a>
+
+    <h1>Crabby and the Perfect Hiding Place</h1>
+
+    <img class="hero-picture" src="../images/Crabby%20and%20Sofia%20Windowsill.jpg"
+         alt="Crabby the Lego crab watching from a windowsill as Sofia brushes her hair before school">
+
+    <p>Crabby was bored. He was lurking in his usual crevice in the Beach Club Lego, trying to solve a very important problem. I need, Crabby thought, tapping one claw thoughtfully, a secret hiding place to follow Sofia on her adventures.</p>
+
+    <p>There has to be somewhere, he thought. Somewhere close to Sofia. Somewhere safe. Somewhere that moves when she moves, so I never get left behind.</p>
+
+    <p>He was still turning the problem over when Sofia sat down at her little desk to brush her hair before school, and gathered it all up into a ponytail. Crabby stared.</p>
+
+    <p>Well, he thought slowly, scuttling closer along the windowsill for a better look. Well, well, well.</p>
+
+    <p>It was, he realised, examining it from every angle, really quite remarkable. Thick. Bouncy. Gathered up nice and snug, with all sorts of promising gaps and tunnels near the base where a small crab might tuck himself in and go entirely unnoticed. It moved wherever Sofia moved. It went wherever Sofia went. And best of all — nobody thinks to look for a crab in someone's hair.</p>
+
+    <p>This, Crabby announced to no one in particular, is genius. This is possibly my greatest discovery since I discovered ice cream. There was, of course, only one way to test a theory like this, and that was immediately.</p>
+
+    <p>Crabby waited until Sofia bent down to tie her shoelace, and then made his move — three quick scuttling steps and a determined leap. He caught the very end of the ponytail, missed his footing, and spent one heart-stopping second dangling by a single claw before hauling himself up, claw over claw, into the thick of it.</p>
+
+    <img class="story-picture" src="../images/Crabby%20in%20the%20Ponytail.jpg"
+         alt="Crabby the Lego crab nestled snugly inside Sofia's tied-up ponytail">
+
+    <p>Made it, he thought, breathless, wedging himself into a snug little pocket near the hair tie. Excellent landing. Nobody saw a thing.</p>
+
+    <p>Sofia straightened up, entirely unaware she now had a passenger, and went to find her shoes.</p>
+
+    <p>It took Crabby a moment to get used to the swing and sway of it — considerably bouncier than the Lego, and prone to sudden direction changes whenever Sofia turned her head. But he found, rather to his own surprise, that he liked it. From up here he could see everything: the kitchen, the hallway, the world going by outside the car window. All without lifting a claw, and all without anybody ever guessing he was there.</p>
+
+    <p>As Sofia grabbed her bag and headed out the door, her ponytail swinging cheerfully with every step, Crabby settled deeper into his new hiding spot.</p>
+
+    <p>No being left behind anymore. Wherever Sofia goes, I go. This is it. This is the place.</p>
+
+    <p>And from that day on, it was.</p>
+
+    <p class="the-end">The End</p>
+
+  </div>
+
+</body>
+</html>
