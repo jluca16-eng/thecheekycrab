@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  thecheekycrab.com  —  Stories
+  ============================================================
+
+  The stories landing page — this is where the big "Stories" link
+  on the home page leads. It lists every story with a small tile
+  (picture, title, one-line blurb); each tile links to that
+  story's own page, sitting right next to this file in the
+  "stories" folder.
+
+  HOW TO EDIT IT
+  --------------
+  Open this file in a plain text editor (VS Code, Notepad — not
+  Microsoft Word).
+
+  ADDING A NEW STORY TILE
+  --------------------------
+  Once a new story page exists (see the "ADDING MORE STORIES" note
+  in crabby-and-the-mango-ice-cream.html), copy one whole
+  <a class="story-tile"> block down in the BODY section below,
+  and change its href, picture, title and blurb to the new story's.
+  Tiles wrap onto a new row automatically as more are added — no
+  layout changes needed.
+  ============================================================
+-->
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- EDIT: the text shown on the browser tab -->
+<title>Stories — The Adventures of Crabby</title>
+
+<meta name="description" content="All the stories from The Adventures of Crabby.">
+
+<!-- Same lettering font as the rest of the site, for the heading here. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper: #fbf4dd;   /* same page background as the rest of the site */
+    --ink:   #163a5c;   /* same ink colour as the home page's title */
+    --text:  #2b2b2b;   /* body text — softer than pure black */
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    padding: 50px 20px 90px;
+  }
+
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .back {
+    display: inline-block;
+    margin-bottom: 24px;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    color: var(--ink);
+    text-decoration: none;
+    opacity: .75;
+  }
+
+  .back:hover { opacity: 1; }
+
+  /* EDIT: the heading wording */
+  h1 {
+    font-family: "Alex Brush", "Segoe Script", "Brush Script MT", cursive;
+    font-weight: 400;
+    font-size: 56px;
+    color: var(--ink);
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  /* The row of story tiles — wraps onto new rows as more are added. */
+  .tiles {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 28px;
+  }
+
+  .story-tile {
+    display: block;
+    width: 220px;
+    text-decoration: none;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 8px 22px rgba(90, 66, 30, .18);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+
+  .story-tile:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(90, 66, 30, .26);
+  }
+
+  .story-tile img {
+    display: block;
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+  }
+
+  .story-tile .tile-text {
+    padding: 14px 16px 18px;
+  }
+
+  /* EDIT: story titles on each tile */
+  .story-tile h2 {
+    font-family: "Alex Brush", "Segoe Script", "Brush Script MT", cursive;
+    font-weight: 400;
+    font-size: 26px;
+    color: var(--ink);
+    line-height: 1.15;
+    margin-bottom: 4px;
+  }
+
+  /* EDIT: the one-line blurb under each title */
+  .story-tile p {
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--text);
+  }
+</style>
+</head>
+
+<body>
+
+  <div class="page">
+
+    <a class="back" href="../index.html">&larr; Back</a>
+
+    <h1>Stories</h1>
+
+    <div class="tiles">
+
+      <!-- EDIT: one tile per story. Copy this whole block for a new one. -->
+      <a class="story-tile" href="crabby-and-the-mango-ice-cream.html">
+        <img src="../images/Crabby%20Mango%20Ice%20Cream.png" alt="Crabby the Lego crab triumphantly holding a mango ice cream cone">
+        <div class="tile-text">
+          <h2>Crabby and the Mango Ice Cream</h2>
+          <p>Crabby wants an adventure. He gets one, and a mango ice cream, and a very angry ice cream man.</p>
+        </div>
+      </a>
+
+    </div>
+
+  </div>
+
+</body>
+</html>
