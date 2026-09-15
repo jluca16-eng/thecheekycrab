@@ -9,13 +9,16 @@
       index.html                          this file — the home page
       about/aboutcrabby.html              the "About Crabby" page
       about/aboutsofia.html               the "About Sofia" page
-      stories/stories-index.html     the "Stories" list page
-      stories/crabby-and-the-mango-ice-cream.html   a story page
+      stories/stories-index.html     the "Stories" list page (links to every story)
       images/mainpagebackground.webp      this page's illustration
       images/Crabby Image.png             the About Crabby thumbnail
       images/Sofia Image.png              the About Sofia thumbnail
-      images/Crabby Mango Ice Cream.png   the story's thumbnail + a story picture
-      images/Mango Ice Cream Stall.png    the story's other picture + the Stories thumbnail
+      images/Mango Ice Cream Stall.png    the Stories link's thumbnail
+
+      The stories themselves (crabby-and-the-mango-ice-cream.html and
+      their pictures) live in stories/ and images/ too, but aren't
+      linked directly from this page any more — see "ABOUT THE LINK
+      CARDS" below.
 
   HOW TO EDIT IT
   --------------
@@ -61,23 +64,24 @@
 
   ABOUT THE LINK CARDS
   ----------------------
-  Bottom-left of the picture are three small cards — each a
-  thumbnail plus a caption — linking to about/aboutcrabby.html,
-  about/aboutsofia.html and the one story so far. They share their
-  look (size, rounded corners, shadow) from the ".about-link" rule
-  in the style section; ".link-crabby" / ".link-sofia" /
-  ".link-story" just position them left-to-right, each one 56px
-  (card width + a 10px gap) further right than the last. To add
-  another small card, copy one of these <a class="about-link ...">
-  blocks in the BODY section, give it a new position class, and add
-  that class's "left" value — the next multiple of 56px — in the
-  style section.
+  Bottom-left of the picture are two small cards — each a
+  thumbnail plus a caption — linking to about/aboutcrabby.html and
+  about/aboutsofia.html. They share their look (size, rounded
+  corners, shadow) from the ".about-link" rule in the style
+  section; ".link-crabby" / ".link-sofia" just position them
+  left-to-right, each one 56px (card width + a 10px gap) further
+  right than the last. To add another small card here, copy one of
+  these <a class="about-link ..."> blocks in the BODY section, give
+  it a new position class, and add that class's "left" value — the
+  next multiple of 56px — in the style section.
 
   Bottom-right is a bigger card, "Stories", linking to
-  stories/stories-index.html — the page listing every story. It reuses the
-  same ".about-link" look but ".link-stories" doubles its width (to
-  92px) and positions it from the right edge instead of the left,
-  so it doesn't compete with the row of small cards opposite it.
+  stories/stories-index.html — the page listing every story
+  (including Crabby and the Mango Ice Cream, which no longer has
+  its own card here). It reuses the same ".about-link" look but
+  ".link-stories" doubles its width (to 92px) and positions it from
+  the right edge instead of the left, so it doesn't compete with
+  the row of small cards opposite it.
   ============================================================
 -->
 <html lang="en-AU">
@@ -235,7 +239,6 @@
      56px = the 46px card width plus a 10px gap to the next card. */
   .link-crabby { left: 3%; }
   .link-sofia  { left: calc(3% + 56px); }
-  .link-story  { left: calc(3% + 112px); }
 
   /* EDIT: the big "Stories" link — same card style as the three
      above, but twice their width and mirrored to the right side of
@@ -338,13 +341,6 @@
     <a class="about-link link-sofia" href="about/aboutsofia.html">
       <img src="images/Sofia%20Image.png" alt="Cartoon illustration of Sofia, a ten-year-old girl">
       <span>About Sofia</span>
-    </a>
-
-    <!-- EDIT: the "Mango Ice Cream" story link — same idea as the
-         two cards above, positioned by ".link-story". -->
-    <a class="about-link link-story" href="stories/crabby-and-the-mango-ice-cream.html" title="Crabby and the Mango Ice Cream">
-      <img src="images/Crabby%20Mango%20Ice%20Cream.png" alt="Crabby the Lego crab triumphantly holding a mango ice cream cone">
-      <span>Mango Ice Cream</span>
     </a>
 
     <!-- EDIT: the big "Stories" link — leads to the page listing
