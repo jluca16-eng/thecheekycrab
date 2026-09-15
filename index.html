@@ -332,7 +332,15 @@
   // on a tall phone or a wide monitor alike.
   function fit() {
     var availW = window.innerWidth  - 32;
-    var availH = window.innerHeight - 32;
+    // Match the ".plate" rule's own "max-height: calc(100vh - 160px)"
+    // above -- if this reserves less than that CSS limit, the browser
+    // clips the height we set here without us knowing, the box's
+    // proportions drift away from the picture's, and the picture ends
+    // up "contained" with empty strips down the sides that the corner
+    // sign / link cards (positioned against the box, not the visible
+    // picture) can drift into. Keeping the two numbers equal keeps the
+    // box's shape identical to the picture's at every window size.
+    var availH = window.innerHeight - 160;
 
     var w = availW;
     var h = w * IMG_RATIO;
