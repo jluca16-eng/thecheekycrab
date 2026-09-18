@@ -397,15 +397,29 @@
   }
 
   // Sizes the picture, then pins the corner sign and the three link
-  // cards to the actual screen corners (not the picture), in
-  // proportions that scale gently with screen size via clamp().
+  // cards to the picture's own corners, clamped so they never drift
+  // off-screen. On a screen shaped like the artwork, the picture fills
+  // edge-to-edge and this is the same as pinning to the screen corners.
+  // On a screen shaped very differently (e.g. a tall phone with this
+  // landscape artwork), the picture is letterboxed with a strip of
+  // --paper showing above/below or left/right of it (see coverScale) —
+  // in that case these elements sit just inside the PICTURE's edge,
+  // not stranded out in the blank paper strip.
   function fit() {
     var W = document.documentElement.clientWidth;
     var H = document.documentElement.clientHeight;
     var s = coverScale(W, H);
 
-    plate.style.width  = Math.ceil(IMG_W * s) + 'px';
-    plate.style.height = Math.ceil(IMG_H * s) + 'px';
+    var plateW = Math.ceil(IMG_W * s);
+    var plateH = Math.ceil(IMG_H * s);
+    plate.style.width  = plateW + 'px';
+    plate.style.height = plateH + 'px';
+
+    // How far the picture's edge sits inside the screen's edge on each
+    // axis. Positive = letterboxed (a paper gap on that axis); zero or
+    // negative = the picture fills/overflows the screen on that axis.
+    var marginX = (W - plateW) / 2;
+    var marginY = (H - plateH) / 2;
 
     // EDIT: these clamp(min, preferred, max) values control the corner
     // sign and link-card sizing/spacing at every screen size.
@@ -414,20 +428,26 @@
     var linkW    = clamp(W * 0.09,  40, 56);
     var storiesW = clamp(W * 0.18,  80, 112);
 
-    sign.style.top   = pad + 'px';
-    sign.style.right = pad + 'px';
+    // Padding from the screen edge, pulled in further when there's a
+    // letterbox gap so these elements land on the picture, not on the
+    // blank paper beside/above/below it.
+    var padX = pad + Math.max(0, marginX);
+    var padY = pad + Math.max(0, marginY);
+
+    sign.style.top   = padY + 'px';
+    sign.style.right = padX + 'px';
     sign.style.width = signW + 'px';
 
-    crabbyLink.style.left   = pad + 'px';
-    crabbyLink.style.bottom = pad + 'px';
+    crabbyLink.style.left   = padX + 'px';
+    crabbyLink.style.bottom = padY + 'px';
     crabbyLink.style.width  = linkW + 'px';
 
-    sofiaLink.style.left   = (pad + linkW + 8) + 'px';
-    sofiaLink.style.bottom = pad + 'px';
+    sofiaLink.style.left   = (padX + linkW + 8) + 'px';
+    sofiaLink.style.bottom = padY + 'px';
     sofiaLink.style.width  = linkW + 'px';
 
-    storiesLink.style.right  = pad + 'px';
-    storiesLink.style.bottom = pad + 'px';
+    storiesLink.style.right  = padX + 'px';
+    storiesLink.style.bottom = padY + 'px';
     storiesLink.style.width  = storiesW + 'px';
   }
 
