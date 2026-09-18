@@ -119,13 +119,13 @@
 <meta property="og:url" content="https://thecheekycrab.com/">
 <meta property="og:image" content="https://thecheekycrab.com/images/mainpagebackground.webp">
 
-<!-- The lettering font: Alex Brush, a flowing brush-script face that
-     matches the illustration's hand-painted, storybook feel. If it
-     fails to load the page falls back to the system fonts listed in
-     the CSS and still works. -->
+<!-- The lettering font: Caveat, a bold handwritten script that reads
+     as playful and kid-friendly rather than formal. If it fails to
+     load the page falls back to the system fonts listed in the CSS
+     and still works. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
 
 <style>
   /* ==========================================================
@@ -198,8 +198,8 @@
   /* EDIT: the look of the lettering. Script fonts read best with NO
      extra letter-spacing — it breaks the joined-up cursive strokes. */
   .title-text {
-    font-family: "Alex Brush", "Segoe Script", "Brush Script MT", cursive;
-    font-weight: 400;
+    font-family: "Caveat", "Segoe Script", "Brush Script MT", cursive;
+    font-weight: 700;
     fill: var(--ink);       /* 'fill' is SVG's word for text colour */
   }
 
@@ -209,20 +209,20 @@
      the halo is — thicker reads more legibly but hugs the letterforms
      less closely. */
   .title-halo {
-    font-family: "Alex Brush", "Segoe Script", "Brush Script MT", cursive;
-    font-weight: 400;
+    font-family: "Caveat", "Segoe Script", "Brush Script MT", cursive;
+    font-weight: 700;
     fill: none;
     stroke: #fdf8e8;
-    stroke-width: 8px;
+    stroke-width: 11px;
     stroke-linejoin: round;
   }
 
   /* EDIT: font-size for each line, in the picture's own units — see
      "ABOUT THE TITLE LETTERING" up top. */
-  .line-the        { font-size: 44px;  }
-  .line-adventures { font-size: 93px; }
-  .line-of         { font-size: 44px;  }
-  .line-crabby     { font-size: 122px; }
+  .line-the        { font-size: 46px;  }
+  .line-adventures { font-size: 116px; }
+  .line-of         { font-size: 46px;  }
+  .line-crabby     { font-size: 152px; }
 
   /* EDIT: the hanging sign in the top-right corner — see "ABOUT THE
      CORNER SIGN" up top. Its top/right/width are set in pixels by the
@@ -297,28 +297,29 @@
       <svg viewBox="0 0 1152 922" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Adventures of Crabby">
         <defs>
           <!-- The gentle arc "Adventures" rides on. Bigger A-radius = flatter. -->
-          <path id="advArc" d="M 327 157 A 812 812 0 0 1 825 157" fill="none"></path>
+          <path id="advArc" d="M 260 195 A 1300 1300 0 0 1 892 195" fill="none"></path>
+          <path id="crabbyArc" d="M 300 300 A 1300 1300 0 0 0 852 300" fill="none"></path>
         </defs>
 
 
         <!-- Drawn twice per line: once as a thick pale outline (the
              halo), then the navy lettering on top. Keep the wording
              identical between the two groups. -->
-        <text class="title-halo line-the" x="576" y="70" text-anchor="middle">The</text>
+        <text class="title-halo line-the" x="576" y="60" text-anchor="middle">The</text>
         <text class="title-halo line-adventures">
           <textPath href="#advArc" startOffset="50%" text-anchor="middle">Adventures</textPath>
         </text>
-        <text class="title-halo line-of" x="576" y="174" text-anchor="middle">of</text>
-        <text class="title-halo line-crabby" x="576" y="273" text-anchor="middle">Crabby</text>
+        <text class="title-halo line-of" x="576" y="228" text-anchor="middle">of</text>
+        <text class="title-halo line-crabby"><textPath href="#crabbyArc" startOffset="50%" text-anchor="middle">Crabby</textPath></text>
 
         <!-- EDIT: the title wording. Change it in the halo group above
              too, or the halo won't match the letters. -->
-        <text class="title-text line-the" x="576" y="70" text-anchor="middle">The</text>
+        <text class="title-text line-the" x="576" y="60" text-anchor="middle">The</text>
         <text class="title-text line-adventures">
           <textPath href="#advArc" startOffset="50%" text-anchor="middle">Adventures</textPath>
         </text>
-        <text class="title-text line-of" x="576" y="174" text-anchor="middle">of</text>
-        <text class="title-text line-crabby" x="576" y="273" text-anchor="middle">Crabby</text>
+        <text class="title-text line-of" x="576" y="228" text-anchor="middle">of</text>
+        <text class="title-text line-crabby"><textPath href="#crabbyArc" startOffset="50%" text-anchor="middle">Crabby</textPath></text>
       </svg>
     </h1>
 
@@ -368,8 +369,8 @@
   // either number for a tighter, more edge-to-edge fill (more crop
   // risk); lower it to guarantee more of the picture always shows
   // (more page-background letterboxing on odd screen shapes).
-  var MAX_V_CROP = 0.03;
-  var MAX_H_CROP = 0.22;
+  var MAX_V_CROP = 0.02;
+  var MAX_H_CROP = 0.24;
 
   var plate = document.getElementById('plate');
   var sign  = document.querySelector('img.corner-sign');
