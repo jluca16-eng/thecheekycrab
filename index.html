@@ -110,6 +110,19 @@
   round buttons, rather than showing two or three of them and
   cutting the rest off mid-row.
 
+  EDIT (technical note): every time the fitting script runs, it first
+  clears any leftover pixel width/height it may have set on the
+  picture's box on a previous run, before deciding the box's size
+  again from scratch. This matters because some phones report a
+  slightly wrong screen size for an instant when the page first
+  loads, which can very briefly trip the script into the wide-screen
+  ("contain") sizing below and stamp a fixed pixel size onto the box
+  — and, without this reset, that fixed size would then stick even
+  after the script corrects itself a moment later to the phone-fill
+  mode, leaving a gap of paper-coloured background at the bottom of
+  the screen and throwing off the crop position. Leave this reset in
+  place if you ever edit this script.
+
   Because the buttons are hidden on a phone, their hotspots are
   hidden too, and a small round menu button appears in the
   top-right corner instead — tapping it drops down a plain list of
@@ -483,6 +496,21 @@
     if (!mobile) closeMenu();
 
     plate.classList.toggle('mode-mobile', mobile);
+
+    // Always clear any pixel width/height left over from the OTHER
+    // branch before applying this one. Without this, if the very
+    // first measurement on load is briefly wrong (some phones report
+    // an incorrect window size for an instant before settling), the
+    // desktop branch below could stamp a fixed pixel width/height
+    // onto the picture's box as an inline style — and an inline style
+    // always wins over the .mode-mobile CSS class's "fill the screen"
+    // width/height, even after this script correctly switches back to
+    // mobile mode a moment later. That produced exactly the bug the
+    // picture not filling the screen, with blank paper showing below
+    // it, and the crop maths (which assumes a full-width box) landing
+    // on the wrong part of the picture as a result.
+    plate.style.width = '';
+    plate.style.height = '';
 
     if (mobile) {
       // Fill the screen completely (photo "cover" fit using the
