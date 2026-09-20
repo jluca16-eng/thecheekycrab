@@ -9,6 +9,7 @@
       about/aboutcrabby.html              the "About Crabby" page
       about/aboutsofia.html               the "About Sofia" page
       stories/stories-index.html     the "Stories" list page (links to every story)
+      coming-soon.html                    placeholder for the not-yet-built pages
       images/mainpagebackground.webp      this page's illustration
       images/Crabby Image.png             the About Crabby thumbnail
       images/Sofia Image.png              the About Sofia thumbnail
@@ -17,7 +18,7 @@
       The stories themselves (crabby-and-the-mango-ice-cream.html and
       their pictures) live in stories/ and images/ too, but aren't
       linked directly from this page any more — see "ABOUT THE LINK
-      CARDS" below.
+      HOTSPOTS" below.
 
   HOW TO EDIT IT
   --------------
@@ -32,56 +33,69 @@
   To preview a change: save, then double-click index.html. It
   opens in your browser. Edit, save, refresh.
 
-  ABOUT THE TITLE AND THE WOODEN SIGN
+  ABOUT THE TITLE, BUTTONS AND WOODEN SIGN
   --------------------------------------
   The title ("The Adventures of Crabby"), the byline, the intro
-  sentence, and the hanging "Kind hearts..." wooden sign are all
-  now part of the illustration itself (images/mainpagebackground.webp)
-  — they're painted into the picture, not drawn separately by this
-  page. To change any of that wording, you need a new illustration
-  with the new text baked in; this file has no separate lettering
-  to edit.
+  sentence, and the five round buttons along the bottom (Crab
+  Stories / Meet the Crab / Crab Facts / Activity Corner /
+  Contact) are all part of the illustration itself
+  (images/mainpagebackground.webp) — they're painted into the
+  picture, not drawn separately by this page. To change any of
+  that wording or artwork, you need a new illustration with the
+  new text/buttons baked in; this file has no separate lettering
+  to edit for those. What this page DOES add on top is five
+  invisible clickable circles, positioned exactly on top of
+  those five painted buttons — see "ABOUT THE LINK HOTSPOTS"
+  below.
 
   ABOUT THE PICTURE FILLING THE SCREEN
   --------------------------------------
   The picture is sized by the script at the bottom of the page,
   not by CSS alone, because every visitor's screen is a different
-  shape from the artwork (1152 x 922) and the picture has to be
+  shape from the artwork (1968 x 1568) and the picture has to be
   shown in full, without ever stretching, distorting, or cropping
-  into the title lettering or the sign at the top.
+  into the title lettering, the sign, or the row of round buttons.
 
-  Because the title/sign/text stretch right across the top of the
-  artwork with almost no safe margin, the script fits the picture
-  like a photo "contain" fit: it grows the picture until it's as
-  large as possible while still fitting entirely inside the screen,
-  then centres it. On a screen shaped very differently from the
-  artwork (e.g. a tall phone), that leaves a thin strip of the page
+  Because the title/sign/buttons stretch right across the artwork
+  with almost no safe margin, the script fits the picture like a
+  photo "contain" fit: it grows the picture until it's as large as
+  possible while still fitting entirely inside the screen, then
+  centres it. On a screen shaped very differently from the artwork
+  (e.g. a tall phone), that leaves a thin strip of the page
   background (--paper) above/below or left/right of the picture,
   rather than ever cropping any of it away. The two numbers
   MAX_V_CROP and MAX_H_CROP near the top of the script allow a
   small amount of edge crop instead of letterboxing, if you ever
   want a more edge-to-edge look — raise them cautiously, since the
-  title and sign now run close to every edge.
+  title, sign and buttons now run close to every edge.
 
-  ABOUT THE LINK CARDS
+  ABOUT THE LINK HOTSPOTS
   ----------------------
-  Bottom-left of the screen are three plain text link buttons, all
-  the same size, sat in a row: "About Crabby" (/about/aboutcrabby),
-  "About Sofia" (/about/aboutsofia), and "Stories"
-  (/stories/stories-index — the page listing every story).
+  Five invisible, circular clickable areas sit right on top of the
+  five round buttons painted into the picture ("Crab Stories",
+  "Meet the Crab", "Crab Facts", "Activity Corner", "Contact").
+  Because they're positioned in PERCENTAGES of the picture's own
+  box (not fixed pixels), they land in exactly the right spot on
+  the buttons no matter how large or small the picture is drawn —
+  no JavaScript positioning math is needed for them.
 
-  They're pinned to the picture's own bottom-left corner by the
-  script at the bottom (falling back to the screen corner when the
-  picture fills the screen edge-to-edge), so they always stay fully
-  on-screen and tappable, even when the picture is letterboxed. They
-  share their look (size, rounded corners, shadow) from the
-  ".about-link" rule in the style section,
-  and their size/position/spacing/font-size in the script's fit()
-  function (the linkW / linkH / linkGap / linkFontSize lines). To
-  add another link here: copy one of the <a class="about-link ...">
-  lines in the BODY section, give it a new class name, add it to the
-  [crabbyLink, sofiaLink, storiesLink] list in fit(), and grab its
-  element with document.querySelector near the top of the script.
+  Each hotspot is a plain <a class="hotspot"> inside the .plate div
+  in the BODY section, with its own class (hotspot-1 .. hotspot-5)
+  giving it a left/top/width/height in the style section, all as
+  percentages. If you ever need to nudge one (say, a future
+  illustration shifts the buttons slightly), adjust that hotspot's
+  percentages in the "HOTSPOT POSITIONS" part of the style section
+  — open the picture at its native size, find the button's pixel
+  box, and convert to percent of 1968 (width) / 1568 (height).
+
+  Currently:
+    - "Crab Stories"    → /stories/stories-index (the page listing
+                           every story)
+    - "Meet the Crab"    → /about/aboutcrabby
+    - "Crab Facts", "Activity Corner" and "Contact" all →
+      coming-soon.html, a small placeholder page that just says
+      "Under Construction — check back soon" until those sections
+      are built.
   ============================================================
 --><html lang="en-AU"><head>
 <meta charset="UTF-8">
@@ -115,16 +129,16 @@
 
   body {
     background: var(--paper);
-    position: relative;   /* the link buttons are pinned to the
-                              picture's corner, with body as their
-                              anchor — see "ABOUT THE LINK CARDS" */
+    position: relative;
     overflow: hidden;      /* the picture is centred in the viewport,
                               so the page itself never scrolls */
   }
 
   /* The picture sits inside this box. Its width/height are set in
      pixels by the script at the bottom of the page — see "ABOUT THE
-     PICTURE FILLING THE SCREEN". */
+     PICTURE FILLING THE SCREEN". The five hotspot links below are
+     positioned in percentages of THIS box, so they track the
+     picture's five painted buttons automatically at any size. */
   .plate {
     position: absolute;
     top: 50%;
@@ -145,34 +159,35 @@
     object-fit: cover;
   }
 
-  /* EDIT: the "About Crabby" / "About Sofia" / "Stories" cards — see
-     "ABOUT THE LINK CARDS" up top. Their position/width are set in
-     pixels by the script at the bottom, not here — this rule only
-     holds their shared look. */
-  .about-link {
+  /* EDIT: the five invisible clickable circles sat on top of the
+     picture's own painted buttons — see "ABOUT THE LINK HOTSPOTS"
+     up top. They have no visible fill by default; a very soft
+     highlight appears on hover/focus so visitors can tell they're
+     clickable. */
+  .hotspot {
     position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    text-decoration: none;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, .88);
-    box-shadow: 0 4px 12px rgba(90, 66, 30, .25);
-    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
-    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
-                 "Helvetica Neue", Arial, sans-serif;
-    font-weight: 700;
-    color: var(--ink);
-    line-height: 1.15;
-    padding: 4px 6px;
+    border-radius: 50%;
+    display: block;
+    -webkit-tap-highlight-color: rgba(22, 58, 92, .15);
   }
 
-  .about-link:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(90, 66, 30, .32);
-    background: #fff;
+  .hotspot:hover,
+  .hotspot:focus-visible {
+    background: rgba(255, 255, 255, .18);
+    box-shadow: inset 0 0 0 4px rgba(255, 255, 255, .35);
   }
+
+  /* HOTSPOT POSITIONS — percentages of the picture's own box,
+     measured from the artwork at its native 1968 x 1568 size.
+     left/top is the circle's top-left corner; width/height is its
+     diameter. All five buttons sit at the same height and size, so
+     top/height match across all of them — only left differs. */
+  .hotspot { top: 77.87%; height: 17.86%; width: 14.23%; }
+  .hotspot-1 { left: 9.65%;  }  /* Crab Stories    */
+  .hotspot-2 { left: 26.27%; }  /* Meet the Crab   */
+  .hotspot-3 { left: 42.89%; }  /* Crab Facts      */
+  .hotspot-4 { left: 59.70%; }  /* Activity Corner */
+  .hotspot-5 { left: 76.42%; }  /* Contact         */
 
   /* Respects the visitor's "reduce motion" accessibility setting */
   @media (prefers-reduced-motion: reduce) {
@@ -187,38 +202,33 @@
 
     <!-- EDIT: to use a different picture, change the filename here
          AND the IMG_W / IMG_H lines in the script at the bottom. The
-         title, byline and wooden sign are painted into this picture —
-         see "ABOUT THE TITLE AND THE WOODEN SIGN" up top. -->
-    <img src="images/mainpagebackground.webp" alt="The Adventures of Crabby, by Kylie Luca and Sofia Kontorinis — a cheerful red crab on a rocky cove shoreline, with a lighthouse on a cliff, seagulls overhead, and fish swimming in the bay">
+         title, byline, wooden sign and five buttons are painted into
+         this picture — see "ABOUT THE TITLE, BUTTONS AND WOODEN
+         SIGN" up top. -->
+    <img src="images/mainpagebackground.webp" alt="The Adventures of Crabby, by Kylie Luca and Sofia Kontorinis — a cheerful red crab on a rocky cove shoreline, with a lighthouse, seagulls, fish, and five buttons: Crab Stories, Meet the Crab, Crab Facts, Activity Corner and Contact">
+
+    <!-- EDIT: the five link hotspots — see "ABOUT THE LINK
+         HOTSPOTS" up top. Change href to point one elsewhere. -->
+    <a class="hotspot hotspot-1" href="/stories/stories-index" aria-label="Crab Stories" title="Crab Stories"></a>
+    <a class="hotspot hotspot-2" href="/about/aboutcrabby" aria-label="Meet the Crab" title="Meet the Crab"></a>
+    <a class="hotspot hotspot-3" href="/coming-soon" aria-label="Crab Facts" title="Crab Facts"></a>
+    <a class="hotspot hotspot-4" href="/coming-soon" aria-label="Activity Corner" title="Activity Corner"></a>
+    <a class="hotspot hotspot-5" href="/coming-soon" aria-label="Contact" title="Contact"></a>
 
   </div>
-
-  <!-- EDIT: the "About Crabby" link — see "ABOUT THE LINK CARDS" up
-         top. Change href to point it elsewhere; change the words
-         inside the <a> for different link text. -->
-    <a class="about-link link-crabby" href="/about/aboutcrabby">About Crabby</a>
-
-    <!-- EDIT: the "About Sofia" link — same idea as the Crabby link
-         above, positioned by ".link-sofia" in the style section. -->
-    <a class="about-link link-sofia" href="/about/aboutsofia">About Sofia</a>
-
-    <!-- EDIT: the "Stories" link — leads to the page listing every
-         story. Positioned by ".link-stories" in the style section. -->
-    <a class="about-link link-stories" href="/stories/stories-index" title="All of Crabby's stories">Stories</a>
-
-  
 
 <script>
 (function () {
   // The picture's real pixel size. EDIT these two numbers if you swap
   // in a differently shaped image — everything else adapts
-  // automatically.
-  var IMG_W = 1152;
-  var IMG_H = 922;
+  // automatically (including the hotspot circles, since they're
+  // positioned in percentages of the picture's own box).
+  var IMG_W = 1968;
+  var IMG_H = 1568;
 
   // How much of the picture's edges we'll ever let a screen's shape
-  // crop away. The title, byline and sign are painted right across
-  // the top of this artwork with almost no safe margin, so these are
+  // crop away. The title, byline, sign and buttons are painted right
+  // across this artwork with almost no safe margin, so these are
   // kept tiny — the picture is shown almost exactly in full (a photo
   // "contain" fit) rather than cropped to fill the screen. Raise
   // these only a little, and only if you're sure the new artwork has
@@ -227,9 +237,6 @@
   var MAX_H_CROP = 0.01;
 
   var plate = document.getElementById('plate');
-  var crabbyLink  = document.querySelector('a.link-crabby');
-  var sofiaLink   = document.querySelector('a.link-sofia');
-  var storiesLink = document.querySelector('a.link-stories');
 
   function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
 
@@ -238,7 +245,7 @@
   // fit), capped so it can never crop more than the small limits
   // above — on a screen shaped very differently from the artwork,
   // that leaves a thin strip of the page background at an edge
-  // instead of ever cropping into the title or sign.
+  // instead of ever cropping into the title, sign or buttons.
   function coverScale(W, H) {
     var scaleW = W / IMG_W;
     var scaleH = H / IMG_H;
@@ -250,14 +257,6 @@
     return Math.max(scale, contain);
   }
 
-  // Sizes the picture, then pins the three link buttons to the
-  // picture's own bottom-left corner, clamped so they never drift
-  // off-screen. On a screen shaped very differently from the artwork
-  // (e.g. a tall phone with this landscape artwork), the picture is
-  // letterboxed with a strip of --paper showing above/below or
-  // left/right of it (see coverScale) — in that case the links sit
-  // just inside the PICTURE's edge, not stranded out in the blank
-  // paper strip.
   function fit() {
     var W = document.documentElement.clientWidth;
     var H = document.documentElement.clientHeight;
@@ -267,36 +266,6 @@
     var plateH = Math.ceil(IMG_H * s);
     plate.style.width  = plateW + 'px';
     plate.style.height = plateH + 'px';
-
-    // How far the picture's edge sits inside the screen's edge on each
-    // axis. Positive = letterboxed (a paper gap on that axis); zero or
-    // negative = the picture fills/overflows the screen on that axis.
-    var marginX = (W - plateW) / 2;
-    var marginY = (H - plateH) / 2;
-
-    // EDIT: these clamp(min, preferred, max) values control the link
-    // sizing/spacing at every screen size. The three links are plain
-    // text buttons, all the same width and height (linkW / linkH),
-    // sat in a row with linkGap between them.
-    var pad     = clamp(W * 0.025, 10, 40);
-    var linkW   = clamp(W * 0.15,  84, 128);
-    var linkH   = clamp(W * 0.045, 34, 46);
-    var linkGap = clamp(W * 0.015, 6, 14);
-    var linkFontSize = clamp(W * 0.017, 11, 15);
-
-    // Padding from the screen edge, pulled in further when there's a
-    // letterbox gap so the links land on the picture, not on the
-    // blank paper beside/below it.
-    var padX = pad + Math.max(0, marginX);
-    var padY = pad + Math.max(0, marginY);
-
-    [crabbyLink, sofiaLink, storiesLink].forEach(function (link, i) {
-      link.style.left       = (padX + i * (linkW + linkGap)) + 'px';
-      link.style.bottom     = padY + 'px';
-      link.style.width      = linkW + 'px';
-      link.style.height     = linkH + 'px';
-      link.style.fontSize   = linkFontSize + 'px';
-    });
   }
 
   fit();

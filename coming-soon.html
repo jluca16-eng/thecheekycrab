@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  thecheekycrab.com  —  Coming Soon
+  ============================================================
+
+  This is the placeholder page that "Crab Facts", "Activity
+  Corner" and "Contact" (three of the five round buttons painted
+  into the home page's illustration) all link to, until those
+  sections are actually built.
+
+  HOW TO EDIT IT
+  --------------
+  Open this file in a plain text editor (VS Code, Notepad — not
+  Microsoft Word). The heading and message are plain HTML in the
+  BODY section.
+
+  Once a real "Crab Facts" (or "Activity Corner" / "Contact")
+  page exists, update the matching hotspot's href in index.html
+  (see "ABOUT THE LINK HOTSPOTS" near the top of that file) to
+  point at the new page instead of this one.
+  ============================================================
+-->
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- EDIT: the text shown on the browser tab -->
+<title>Coming Soon — The Adventures of Crabby</title>
+
+<meta name="description" content="This page is under construction — check back soon.">
+<meta name="robots" content="noindex">
+
+<style>
+  :root {
+    --paper: #fbf4dd;   /* same page background as the home page */
+    --ink:   #163a5c;   /* same ink colour as the home page's title */
+    --text:  #2b2b2b;   /* body text — softer than pure black */
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body { height: 100%; }
+
+  body {
+    background: var(--paper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 24px;
+  }
+
+  .page {
+    max-width: 480px;
+  }
+
+  /* EDIT: the emoji/mark above the heading */
+  .mark {
+    font-size: 48px;
+    margin-bottom: 18px;
+  }
+
+  /* EDIT: the heading wording */
+  h1 {
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    font-weight: 700;
+    font-size: 30px;
+    color: var(--ink);
+    margin-bottom: 14px;
+    line-height: 1.25;
+  }
+
+  /* EDIT: the message wording */
+  p {
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--text);
+    margin-bottom: 28px;
+  }
+
+  .back {
+    display: inline-block;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 10px 22px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, .88);
+    box-shadow: 0 4px 12px rgba(90, 66, 30, .25);
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+
+  .back:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(90, 66, 30, .32);
+    background: #fff;
+  }
+</style>
+</head>
+
+<body>
+
+  <div class="page">
+    <div class="mark">🦀</div>
+    <h1>Under Construction</h1>
+    <p>Check back soon — Crabby's still busy putting this bit of the beach together.</p>
+    <a class="back" href="/">← Back to the beach</a>
+  </div>
+
+</body>
+</html>
