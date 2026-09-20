@@ -32,60 +32,36 @@
   To preview a change: save, then double-click index.html. It
   opens in your browser. Edit, save, refresh.
 
-  ABOUT THE TITLE LETTERING
-  --------------------------
-  The title is four lines of script lettering — "The",
-  "Adventures", "of", "Crabby" — stacked in the blank sky between
-  the little shell flourish near the top of the artwork and the
-  small diamond flourish lower down. It's plain SVG text, not a
-  curve: each line has its own x/y position and font-size in the
-  BODY section, in the SAME 1200 x 1498 units as the illustration,
-  so it lines up with the artwork at any screen size.
-
-  To nudge a line, change its "y" (smaller = higher up) or its
-  "x" (600 is dead-centre). To resize a line, change the
-  font-size for its class (.line-the / .line-adventures /
-  .line-of / .line-crabby) down in the style section. Each line
-  is drawn twice — once as a pale halo, once as navy lettering —
-  so keep both copies of a line's wording identical.
+  ABOUT THE TITLE AND THE WOODEN SIGN
+  --------------------------------------
+  The title ("The Adventures of Crabby"), the byline, the intro
+  sentence, and the hanging "Kind hearts..." wooden sign are all
+  now part of the illustration itself (images/mainpagebackground.webp)
+  — they're painted into the picture, not drawn separately by this
+  page. To change any of that wording, you need a new illustration
+  with the new text baked in; this file has no separate lettering
+  to edit.
 
   ABOUT THE PICTURE FILLING THE SCREEN
   --------------------------------------
   The picture is sized by the script at the bottom of the page,
   not by CSS alone, because every visitor's screen is a different
-  shape from the artwork (1200 x 1498, taller than it is wide) and
-  the picture has to fill the screen edge-to-edge on all of them
-  without ever stretching or distorting.
+  shape from the artwork (1152 x 922) and the picture has to be
+  shown in full, without ever stretching, distorting, or cropping
+  into the title lettering or the sign at the top.
 
-  It works like a photo "cover" fit: the script grows the picture
-  until it's at least as wide AND at least as tall as the screen,
-  then centres it, so any leftover hangs off the edges instead of
-  leaving empty page around it. The two numbers MAX_V_CROP and
-  MAX_H_CROP near the top of the script put a ceiling on how much
-  can ever hang off — enough that the title and the crab are never
-  cropped away, even on an unusually wide or unusually tall screen.
-  On a screen shaped very differently from the artwork, that
-  ceiling means a thin strip of the page background (--paper) may
-  show at an edge instead of cropping further — a small trade-off
-  for guaranteeing nothing important is ever cut off.
-
-  ABOUT THE CORNER SIGN
-  ----------------------
-  The little hanging wooden sign in the top-right corner is a
-  picture, but it is NOT a separate file — its data is baked
-  right into this document (the long line of letters/numbers
-  after "data:image/webp;base64," in the corner-sign img tag
-  below), so it doesn't need its own file in the images folder.
-
-  Because the picture behind it is cropped by different amounts on
-  different screens (see above), the sign is pinned to the actual
-  screen corner instead of a spot on the artwork — that way it's
-  always fully visible, on every device. Its position and size are
-  set in pixels by the script at the bottom (the "pad" and "signW"
-  lines); the ".corner-sign" rule in the style section only holds
-  its look (shadow), not its position. To replace the picture
-  itself, you'd need to re-generate that base64 text from a new
-  image file.
+  Because the title/sign/text stretch right across the top of the
+  artwork with almost no safe margin, the script fits the picture
+  like a photo "contain" fit: it grows the picture until it's as
+  large as possible while still fitting entirely inside the screen,
+  then centres it. On a screen shaped very differently from the
+  artwork (e.g. a tall phone), that leaves a thin strip of the page
+  background (--paper) above/below or left/right of the picture,
+  rather than ever cropping any of it away. The two numbers
+  MAX_V_CROP and MAX_H_CROP near the top of the script allow a
+  small amount of edge crop instead of letterboxing, if you ever
+  want a more edge-to-edge look — raise them cautiously, since the
+  title and sign now run close to every edge.
 
   ABOUT THE LINK CARDS
   ----------------------
@@ -94,10 +70,12 @@
   "About Sofia" (/about/aboutsofia), and "Stories"
   (/stories/stories-index — the page listing every story).
 
-  Like the corner sign, they're pinned to the screen's corner (not
-  the picture) by the script at the bottom, so they always stay
-  fully on-screen and tappable. They share their look (size, rounded
-  corners, shadow) from the ".about-link" rule in the style section,
+  They're pinned to the picture's own bottom-left corner by the
+  script at the bottom (falling back to the screen corner when the
+  picture fills the screen edge-to-edge), so they always stay fully
+  on-screen and tappable, even when the picture is letterboxed. They
+  share their look (size, rounded corners, shadow) from the
+  ".about-link" rule in the style section,
   and their size/position/spacing/font-size in the script's fit()
   function (the linkW / linkH / linkGap / linkFontSize lines). To
   add another link here: copy one of the <a class="about-link ...">
@@ -121,14 +99,6 @@
 <meta property="og:url" content="https://thecheekycrab.com/">
 <meta property="og:image" content="https://thecheekycrab.com/images/mainpagebackground.webp">
 
-<!-- The lettering font: Caveat, a bold handwritten script that reads
-     as playful and kid-friendly rather than formal. If it fails to
-     load the page falls back to the system fonts listed in the CSS
-     and still works. -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
-
 <style>
   /* ==========================================================
      COLOURS — sampled from the illustration so the page and the
@@ -145,17 +115,16 @@
 
   body {
     background: var(--paper);
-    position: relative;   /* the corner sign and link cards are pinned
-                              to the screen corners, with body as their
-                              anchor — see "ABOUT THE CORNER SIGN" */
-    overflow: hidden;      /* the picture fills the screen edge-to-edge,
+    position: relative;   /* the link buttons are pinned to the
+                              picture's corner, with body as their
+                              anchor — see "ABOUT THE LINK CARDS" */
+    overflow: hidden;      /* the picture is centred in the viewport,
                               so the page itself never scrolls */
   }
 
-  /* The picture and the lettering are locked together inside this box,
-     so the title sits in the same spot on the artwork at every screen
-     size. Its width/height are set in pixels by the script at the
-     bottom of the page — see "ABOUT THE PICTURE FILLING THE SCREEN". */
+  /* The picture sits inside this box. Its width/height are set in
+     pixels by the script at the bottom of the page — see "ABOUT THE
+     PICTURE FILLING THE SCREEN". */
   .plate {
     position: absolute;
     top: 50%;
@@ -174,65 +143,6 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-  }
-
-  /* The title sits in a transparent layer directly on top of the
-     picture. Because the SVG's viewBox matches the illustration's real
-     dimensions (1200 x 1498), every coordinate below lines up exactly
-     with the artwork, at any size. */
-  .title {
-    position: absolute;
-    inset: 0;              /* covers the whole picture */
-    margin: 0;
-    pointer-events: none;  /* clicks pass through to the page beneath */
-  }
-
-  .title svg {
-    width: 100%;
-    height: 100%;
-    display: block;
-    /* EDIT: a soft drop shadow behind the whole title, on top of the
-       pale halo below, for extra legibility over busy sky/cloud
-       detail. Remove this line for flatter, crisper lettering. */
-    filter: drop-shadow(0 2px 10px rgba(40, 30, 10, .22));
-  }
-
-  /* EDIT: the look of the lettering. Script fonts read best with NO
-     extra letter-spacing — it breaks the joined-up cursive strokes. */
-  .title-text {
-    font-family: "Caveat", "Segoe Script", "Brush Script MT", cursive;
-    font-weight: 700;
-    fill: var(--ink);       /* 'fill' is SVG's word for text colour */
-  }
-
-  /* A soft pale halo behind the letters, so they stay readable wherever
-     they cross a busier part of the sky. Remove this rule for crisp,
-     flat lettering with no glow. EDIT: stroke-width controls how thick
-     the halo is — thicker reads more legibly but hugs the letterforms
-     less closely. */
-  .title-halo {
-    font-family: "Caveat", "Segoe Script", "Brush Script MT", cursive;
-    font-weight: 700;
-    fill: none;
-    stroke: #fdf8e8;
-    stroke-width: 11px;
-    stroke-linejoin: round;
-  }
-
-  /* EDIT: font-size for each line, in the picture's own units — see
-     "ABOUT THE TITLE LETTERING" up top. */
-  .line-the        { font-size: 46px;  }
-  .line-adventures { font-size: 116px; }
-  .line-of         { font-size: 46px;  }
-  .line-crabby     { font-size: 152px; }
-
-  /* EDIT: the hanging sign in the top-right corner — see "ABOUT THE
-     CORNER SIGN" up top. Its top/right/width are set in pixels by the
-     script at the bottom, not here — this rule only holds its look. */
-  img.corner-sign {
-    position: absolute;
-    height: auto;
-    filter: drop-shadow(0 8px 14px rgba(90, 66, 30, .28));
   }
 
   /* EDIT: the "About Crabby" / "About Sofia" / "Stories" cards — see
@@ -276,43 +186,12 @@
   <div class="plate" id="plate">
 
     <!-- EDIT: to use a different picture, change the filename here
-         AND the IMG_W / IMG_H lines in the script at the bottom. -->
-    <img src="images/mainpagebackground.webp" alt="A cheerful red crab on a rocky cove shoreline, with a lighthouse on a cliff, seagulls overhead, and fish swimming in the bay">
-
-    <h1 class="title">
-      <svg viewBox="0 0 1152 922" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Adventures of Crabby">
-        <defs>
-          <!-- The gentle arc "Adventures" rides on. Bigger A-radius = flatter. -->
-          <path id="advArc" d="M 260 195 A 1300 1300 0 0 1 892 195" fill="none"></path>
-          <path id="crabbyArc" d="M 300 300 A 1300 1300 0 0 0 852 300" fill="none"></path>
-        </defs>
-
-
-        <!-- Drawn twice per line: once as a thick pale outline (the
-             halo), then the navy lettering on top. Keep the wording
-             identical between the two groups. -->
-        <text class="title-halo line-the" x="576" y="60" text-anchor="middle">The</text>
-        <text class="title-halo line-adventures">
-          <textPath href="#advArc" startOffset="50%" text-anchor="middle">Adventures</textPath>
-        </text>
-        <text class="title-halo line-of" x="576" y="228" text-anchor="middle">of</text>
-        <text class="title-halo line-crabby"><textPath href="#crabbyArc" startOffset="50%" text-anchor="middle">Crabby</textPath></text>
-
-        <!-- EDIT: the title wording. Change it in the halo group above
-             too, or the halo won't match the letters. -->
-        <text class="title-text line-the" x="576" y="60" text-anchor="middle">The</text>
-        <text class="title-text line-adventures">
-          <textPath href="#advArc" startOffset="50%" text-anchor="middle">Adventures</textPath>
-        </text>
-        <text class="title-text line-of" x="576" y="228" text-anchor="middle">of</text>
-        <text class="title-text line-crabby"><textPath href="#crabbyArc" startOffset="50%" text-anchor="middle">Crabby</textPath></text>
-      </svg>
-    </h1>
+         AND the IMG_W / IMG_H lines in the script at the bottom. The
+         title, byline and wooden sign are painted into this picture —
+         see "ABOUT THE TITLE AND THE WOODEN SIGN" up top. -->
+    <img src="images/mainpagebackground.webp" alt="The Adventures of Crabby, by Kylie Luca and Sofia Kontorinis — a cheerful red crab on a rocky cove shoreline, with a lighthouse on a cliff, seagulls overhead, and fish swimming in the bay">
 
   </div>
-
-  <!-- EDIT: see "ABOUT THE CORNER SIGN" up top -->
-    <img class="corner-sign" alt="Kind hearts. Curious minds. Brighter world." src="data:image/webp;base64,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">
 
   <!-- EDIT: the "About Crabby" link — see "ABOUT THE LINK CARDS" up
          top. Change href to point it elsewhere; change the words
@@ -331,36 +210,35 @@
 
 <script>
 (function () {
-  // The picture's real pixel size. The current illustration is
-  // 1200 x 1498. EDIT these two numbers if you swap in a differently
-  // shaped image — everything else adapts automatically.
+  // The picture's real pixel size. EDIT these two numbers if you swap
+  // in a differently shaped image — everything else adapts
+  // automatically.
   var IMG_W = 1152;
   var IMG_H = 922;
 
   // How much of the picture's edges we'll ever let a screen's shape
-  // crop away, so the fill never eats into the title or the sign-off
-  // in the corners. 0.07 = never crop more than 7% off the top or
-  // bottom; 0.18 = never crop more than 18% off left or right. Raise
-  // either number for a tighter, more edge-to-edge fill (more crop
-  // risk); lower it to guarantee more of the picture always shows
-  // (more page-background letterboxing on odd screen shapes).
-  var MAX_V_CROP = 0.02;
-  var MAX_H_CROP = 0.24;
+  // crop away. The title, byline and sign are painted right across
+  // the top of this artwork with almost no safe margin, so these are
+  // kept tiny — the picture is shown almost exactly in full (a photo
+  // "contain" fit) rather than cropped to fill the screen. Raise
+  // these only a little, and only if you're sure the new artwork has
+  // safe margin to spare.
+  var MAX_V_CROP = 0.01;
+  var MAX_H_CROP = 0.01;
 
   var plate = document.getElementById('plate');
-  var sign  = document.querySelector('img.corner-sign');
   var crabbyLink  = document.querySelector('a.link-crabby');
   var sofiaLink   = document.querySelector('a.link-sofia');
   var storiesLink = document.querySelector('a.link-stories');
 
   function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
 
-  // Picks the picture's on-screen size: big enough to always fill the
-  // screen in both directions (like a CSS "cover" background), but
-  // capped so it can never crop more than the limits above — on a
-  // screen shaped very differently from the artwork, that trades a
-  // thin strip of the page background showing at the edges for
-  // guaranteeing the title and corner sign are never cut off.
+  // Picks the picture's on-screen size: as large as possible while
+  // still fitting entirely inside the screen (like a photo "contain"
+  // fit), capped so it can never crop more than the small limits
+  // above — on a screen shaped very differently from the artwork,
+  // that leaves a thin strip of the page background at an edge
+  // instead of ever cropping into the title or sign.
   function coverScale(W, H) {
     var scaleW = W / IMG_W;
     var scaleH = H / IMG_H;
@@ -372,15 +250,14 @@
     return Math.max(scale, contain);
   }
 
-  // Sizes the picture, then pins the corner sign and the three link
-  // cards to the picture's own corners, clamped so they never drift
-  // off-screen. On a screen shaped like the artwork, the picture fills
-  // edge-to-edge and this is the same as pinning to the screen corners.
-  // On a screen shaped very differently (e.g. a tall phone with this
-  // landscape artwork), the picture is letterboxed with a strip of
-  // --paper showing above/below or left/right of it (see coverScale) —
-  // in that case these elements sit just inside the PICTURE's edge,
-  // not stranded out in the blank paper strip.
+  // Sizes the picture, then pins the three link buttons to the
+  // picture's own bottom-left corner, clamped so they never drift
+  // off-screen. On a screen shaped very differently from the artwork
+  // (e.g. a tall phone with this landscape artwork), the picture is
+  // letterboxed with a strip of --paper showing above/below or
+  // left/right of it (see coverScale) — in that case the links sit
+  // just inside the PICTURE's edge, not stranded out in the blank
+  // paper strip.
   function fit() {
     var W = document.documentElement.clientWidth;
     var H = document.documentElement.clientHeight;
@@ -397,26 +274,21 @@
     var marginX = (W - plateW) / 2;
     var marginY = (H - plateH) / 2;
 
-    // EDIT: these clamp(min, preferred, max) values control the corner
-    // sign and link sizing/spacing at every screen size. The three
-    // links are now plain text buttons, all the same width and
-    // height (linkW / linkH), sat in a row with linkGap between them.
+    // EDIT: these clamp(min, preferred, max) values control the link
+    // sizing/spacing at every screen size. The three links are plain
+    // text buttons, all the same width and height (linkW / linkH),
+    // sat in a row with linkGap between them.
     var pad     = clamp(W * 0.025, 10, 40);
-    var signW   = clamp(W * 0.16,  64, 130);
     var linkW   = clamp(W * 0.15,  84, 128);
     var linkH   = clamp(W * 0.045, 34, 46);
     var linkGap = clamp(W * 0.015, 6, 14);
     var linkFontSize = clamp(W * 0.017, 11, 15);
 
     // Padding from the screen edge, pulled in further when there's a
-    // letterbox gap so these elements land on the picture, not on the
-    // blank paper beside/above/below it.
+    // letterbox gap so the links land on the picture, not on the
+    // blank paper beside/below it.
     var padX = pad + Math.max(0, marginX);
     var padY = pad + Math.max(0, marginY);
-
-    sign.style.top   = padY + 'px';
-    sign.style.right = padX + 'px';
-    sign.style.width = signW + 'px';
 
     [crabbyLink, sofiaLink, storiesLink].forEach(function (link, i) {
       link.style.left       = (padX + i * (linkW + linkGap)) + 'px';
@@ -429,8 +301,6 @@
 
   fit();
   window.addEventListener('resize', fit);
-  // Re-fit once the lettering font has loaded, in case it shifts things
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
 })();
 </script>
 
