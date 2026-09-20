@@ -110,18 +110,21 @@
   round buttons, rather than showing two or three of them and
   cutting the rest off mid-row.
 
-  EDIT (technical note): every time the fitting script runs, it first
-  clears any leftover pixel width/height it may have set on the
-  picture's box on a previous run, before deciding the box's size
-  again from scratch. This matters because some phones report a
-  slightly wrong screen size for an instant when the page first
-  loads, which can very briefly trip the script into the wide-screen
-  ("contain") sizing below and stamp a fixed pixel size onto the box
-  — and, without this reset, that fixed size would then stick even
-  after the script corrects itself a moment later to the phone-fill
-  mode, leaving a gap of paper-coloured background at the bottom of
-  the screen and throwing off the crop position. Leave this reset in
-  place if you ever edit this script.
+  EDIT (technical note): on a phone, the picture's box is sized in
+  exact pixels taken from window.visualViewport (falling back to the
+  page's own width/height if a browser doesn't support that), rather
+  than trusting CSS alone to fill the screen. A phone's address bar
+  showing or hiding changes how much screen is actually visible, and
+  plain CSS percentage sizing can briefly disagree with what this
+  script measures when that happens — which is what caused the
+  picture to fall short of the bottom of the screen (leaving a gap of
+  plain page background) with the crop landing in the wrong spot. The
+  script re-measures and re-applies this on every signal a phone can
+  send that the visible area changed — resize, orientation change,
+  the visual viewport itself changing, and the page being shown again
+  from the browser's cache — so it self-corrects rather than getting
+  stuck. Leave these event listeners in place if you ever edit this
+  script.
 
   Because the buttons are hidden on a phone, their hotspots are
   hidden too, and a small round menu button appears in the
@@ -487,9 +490,24 @@
     menuBtn.setAttribute('aria-expanded', 'false');
   }
 
+  // The most reliable read of "how much screen is actually visible
+  // right now" on a phone. window.visualViewport tracks the space
+  // left once the browser's own address bar / toolbar are accounted
+  // for, and updates live as they show or hide — plain
+  // document.documentElement.clientWidth/Height can lag behind that
+  // on some mobile browsers, which is what let a phone's toolbar
+  // state leave a gap of page background below the picture.
+  function viewportSize() {
+    if (window.visualViewport) {
+      return { W: window.visualViewport.width, H: window.visualViewport.height };
+    }
+    return { W: document.documentElement.clientWidth, H: document.documentElement.clientHeight };
+  }
+
   function fit() {
-    var W = document.documentElement.clientWidth;
-    var H = document.documentElement.clientHeight;
+    var size = viewportSize();
+    var W = size.W;
+    var H = size.H;
     var mobile = H > W;   // portrait — see "ABOUT THE MOBILE (PORTRAIT) LAYOUT"
 
     document.body.classList.toggle('is-portrait', mobile);
@@ -497,25 +515,23 @@
 
     plate.classList.toggle('mode-mobile', mobile);
 
-    // Always clear any pixel width/height left over from the OTHER
-    // branch before applying this one. Without this, if the very
-    // first measurement on load is briefly wrong (some phones report
-    // an incorrect window size for an instant before settling), the
-    // desktop branch below could stamp a fixed pixel width/height
-    // onto the picture's box as an inline style — and an inline style
-    // always wins over the .mode-mobile CSS class's "fill the screen"
-    // width/height, even after this script correctly switches back to
-    // mobile mode a moment later. That produced exactly the bug the
-    // picture not filling the screen, with blank paper showing below
-    // it, and the crop maths (which assumes a full-width box) landing
-    // on the wrong part of the picture as a result.
-    plate.style.width = '';
-    plate.style.height = '';
-
     if (mobile) {
       // Fill the screen completely (photo "cover" fit using the
       // picture's real height, so nothing is cropped top-to-bottom)
       // and crop the sides only, keeping FOCUS_X centred.
+      //
+      // The box is sized here in exact pixels from the same W/H the
+      // crop math below uses, rather than leaning on the CSS class's
+      // width:100%/height:100% alone — a phone's address bar showing
+      // or hiding can otherwise leave the CSS-resolved size a little
+      // different from this script's own measurement, which is what
+      // caused the picture to fall short of the bottom of the screen
+      // (a gap of plain page background) and the crop to land in the
+      // wrong place. Setting explicit pixels keeps the two in sync no
+      // matter what the browser's toolbar is doing.
+      plate.style.width  = W + 'px';
+      plate.style.height = H + 'px';
+
       var scale = Math.max(W / IMG_W, H / IMG_H);
       var plateW = IMG_W * scale;
 
@@ -550,7 +566,22 @@
   });
 
   fit();
+
+  // Re-fit on every signal a phone can send that the visible area
+  // changed: a plain window resize, an orientation flip (with a
+  // short delay, since some phones briefly report the old size right
+  // as it happens), the visual viewport itself changing size (this
+  // is the one that actually fires when a phone's address bar shows
+  // or hides — plain window "resize" often does not), and the page
+  // being restored from the browser's back/forward cache (e.g. the
+  // visitor switches back to an already-open tab) rather than freshly
+  // loaded, in case the screen changed shape while it was hidden.
   window.addEventListener('resize', fit);
+  window.addEventListener('orientationchange', function () { setTimeout(fit, 150); });
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', fit);
+  }
+  window.addEventListener('pageshow', fit);
 })();
 </script>
 
