@@ -116,15 +116,23 @@
   than trusting CSS alone to fill the screen. A phone's address bar
   showing or hiding changes how much screen is actually visible, and
   plain CSS percentage sizing can briefly disagree with what this
-  script measures when that happens — which is what caused the
-  picture to fall short of the bottom of the screen (leaving a gap of
-  plain page background) with the crop landing in the wrong spot. The
-  script re-measures and re-applies this on every signal a phone can
-  send that the visible area changed — resize, orientation change,
-  the visual viewport itself changing, and the page being shown again
-  from the browser's cache — so it self-corrects rather than getting
-  stuck. Leave these event listeners in place if you ever edit this
-  script.
+  script measures when that happens. The script re-measures and
+  re-applies this on every signal a phone can send that the visible
+  area changed — resize, orientation change, the visual viewport
+  itself changing, and the page being shown again from the browser's
+  cache — so it self-corrects rather than getting stuck.
+
+  On top of that, the picture itself is drawn at an oversized pixel
+  width/height and nudged into place with plain top/left (inside a
+  box with overflow: hidden), rather than using the more modern
+  object-fit/object-position shortcut for the same "cover and crop"
+  effect. This page ran into a phone where object-fit didn't repaint
+  the picture at its new size after this script resized its box,
+  leaving the picture at an earlier, smaller size while the box
+  around it was correctly sized — visible as a gap of plain page
+  background below the picture, and the crop landing in the wrong
+  spot. Plain width/height/top/left avoids that entirely. Leave both
+  of these in place if you ever edit this script.
 
   Because the buttons are hidden on a phone, their hotspots are
   hidden too, and a small round menu button appears in the
@@ -137,13 +145,24 @@
 
   EDIT: FOCUS_X (in the script) is the horizontal point of the
   picture, in the artwork's own pixels (0-1968), that stays
-  centred on a phone screen — it's set to sit on the title/byline
-  text so they read in full on a phone. Move it left/right if a
-  future illustration repositions the title. The fade-mask height
-  is set by the "--mobile-mask-start" percentage in the style
-  section, which lines up with where the buttons start in this
-  particular artwork (68% down) — change it if a new illustration
-  moves the buttons.
+  centred on a phone screen — it's set to sit on the middle of the
+  widest line of the title ("Crabby", which runs from roughly x=500
+  to x=1400 in the artwork) so it reads in full on a phone. Move it
+  left/right if a future illustration repositions the title.
+
+  The fade-mask is set by the "--mobile-mask-start" percentage in the
+  style section (currently 73%) plus the gradient stop just below it
+  in the same rule (currently 15%) — together they say where the fade
+  begins and how quickly it reaches solid paper colour. These are set
+  so the mask stays fully clear of the ocean scene between the byline
+  and the buttons, and is only solid by around 77% down — right where
+  the row of round buttons starts in this particular artwork (their
+  top edge is at 77.87% down; see ".hotspot" in the style section).
+  Change these two numbers together if a new illustration moves the
+  buttons up or down: keep the mask reaching solid paper a percent or
+  two above the buttons' own top edge, not any earlier, or you lose
+  scenery for no reason; not any later, or a sliver of the buttons
+  peeks out underneath.
 
   Currently:
     - "Crab Stories"    → /stories/stories-index (the page listing
@@ -224,8 +243,31 @@
     left: 0;
     width: 100%;
     height: 100%;
+    overflow: hidden;   /* the picture itself is drawn oversized and
+                           nudged into place by the script below, so
+                           this clips it to the screen's edges rather
+                           than the page scrolling to show the excess */
     transform: none;
     animation: fade-in .6s ease both;
+  }
+
+  /* EDIT (technical note): on a portrait phone the picture is NOT
+     sized with object-fit/object-position — the script below instead
+     gives the <img> itself an explicit oversized pixel width/height
+     and nudges it into place with top/left, inside the overflow:
+     hidden box above. This is a deliberately old-fashioned, very
+     widely-supported way to do a "cover" crop: object-fit is the
+     modern shortcut for the same effect, but this page hit a phone
+     where object-fit didn't repaint correctly after the picture's
+     box was resized by script (the picture stayed at an earlier,
+     smaller size while its box was the right size, leaving a gap of
+     page background below it) — sizing the image itself in plain
+     pixels sidesteps that entirely. */
+  .plate.mode-mobile img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    object-fit: none;
   }
 
   @keyframes fade-in {
@@ -240,7 +282,7 @@
      the fade begins; it finishes solid a little further down. Only
      shown on a portrait phone (body.is-portrait). */
   :root {
-    --mobile-mask-start: 62%;
+    --mobile-mask-start: 73%;
   }
 
   .mobile-mask {
@@ -251,7 +293,7 @@
     bottom: 0;
     top: var(--mobile-mask-start);
     z-index: 5;
-    background: linear-gradient(to bottom, transparent 0%, var(--paper) 22%, var(--paper) 100%);
+    background: linear-gradient(to bottom, transparent 0%, var(--paper) 15%, var(--paper) 100%);
     pointer-events: none;
   }
 
@@ -454,11 +496,12 @@
   // On a portrait phone (see "ABOUT THE MOBILE (PORTRAIT) LAYOUT" up
   // top) the picture is zoomed to fill the screen and cropped at the
   // sides — FOCUS_X is which point of the artwork, in its own pixels
-  // (0-1968), stays centred on screen while that happens. It's set
-  // to sit on the middle of the title/byline text so they read in
-  // full on a phone (Crabby himself sits further left and mostly
-  // scrolls out of frame as a result).
-  var FOCUS_X = 930;
+  // (0-1968), stays centred on screen while that happens. It's set to
+  // the midpoint of "Crabby", the widest line of the title (measured
+  // at roughly x=500 to x=1400 in the artwork), so the whole word
+  // reads on a phone (Crabby the crab himself sits further left and
+  // mostly scrolls out of frame as a result).
+  var FOCUS_X = 950;
 
   var plate = document.getElementById('plate');
   var img = plate.querySelector('img');
@@ -532,19 +575,45 @@
       plate.style.width  = W + 'px';
       plate.style.height = H + 'px';
 
+      // The picture itself is drawn at this oversized pixel size —
+      // scaled up until it's at least as wide AND at least as tall as
+      // the screen — then nudged up/left with negative top/left so
+      // the right slice of it shows through the box above. See the
+      // technical note by ".plate.mode-mobile img" in the style
+      // section for why this is done with plain width/height/top/left
+      // instead of object-fit/object-position.
       var scale = Math.max(W / IMG_W, H / IMG_H);
-      var plateW = IMG_W * scale;
+      var scaledW = IMG_W * scale;
+      var scaledH = IMG_H * scale;
 
-      var offsetPx = FOCUS_X * scale - W / 2;
-      offsetPx = clamp(offsetPx, 0, Math.max(0, plateW - W));
-      var posFrac = (plateW - W) > 0 ? offsetPx / (plateW - W) : 0.5;
-      img.style.objectPosition = (posFrac * 100) + '% 50%';
+      var offsetX = FOCUS_X * scale - W / 2;
+      offsetX = clamp(offsetX, 0, Math.max(0, scaledW - W));
+
+      // Vertical crop is normally zero (FOCUS_X only ever shifts the
+      // picture sideways), but this keeps the picture centred
+      // top-to-bottom instead of pinned to the top on the rare screen
+      // shape where the width, not the height, ends up driving the
+      // scale above.
+      var offsetY = clamp((scaledH - H) / 2, 0, Math.max(0, scaledH - H));
+
+      img.style.width  = scaledW + 'px';
+      img.style.height = scaledH + 'px';
+      img.style.top  = (-offsetY) + 'px';
+      img.style.left = (-offsetX) + 'px';
     } else {
       var s = containScale(W, H);
       var plateW2 = Math.ceil(IMG_W * s);
       var plateH2 = Math.ceil(IMG_H * s);
       plate.style.width  = plateW2 + 'px';
       plate.style.height = plateH2 + 'px';
+
+      // Reset the mobile-mode pixel sizing above back to the plain
+      // CSS width:100%/height:100%/object-fit:cover this picture uses
+      // on a wide screen (see ".plate img" in the style section).
+      img.style.width = '';
+      img.style.height = '';
+      img.style.top = '';
+      img.style.left = '';
       img.style.objectPosition = '50% 50%';
     }
   }
