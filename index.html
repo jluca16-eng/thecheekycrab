@@ -101,23 +101,33 @@
   or cropping its sides. This page chooses to crop: on any screen
   taller than it is wide, the script at the bottom switches to a
   different mode that zooms the picture in to fill the entire
-  screen top-to-bottom, keeping Crabby himself in view, and simply
-  accepts that the far left/right edges of the artwork (and
-  therefore some of the five round buttons) get cropped off.
+  screen top-to-bottom, keeping the title and byline in view, and
+  simply accepts that the far left/right edges of the artwork get
+  cropped off — including, on most phones, Crabby himself (he
+  sits to the left of the title, so usually only a sliver of him,
+  if any, stays in view). A soft paper-coloured fade is also drawn
+  over the bottom of the screen to fully hide the row of five
+  round buttons, rather than showing two or three of them and
+  cutting the rest off mid-row.
 
-  Because the buttons may be partly or fully cropped on a phone,
-  their hotspots are hidden in this mode, and a small round menu
-  button appears in the top-right corner instead — tapping it
-  drops down a plain list of the same five links. That menu's HTML
-  is the <nav class="mobile-nav"> block in the BODY section, right
-  after the .plate div; its five links are a second, independent
-  copy of the hotspot links above, so if you change a destination
-  in one place, change it in the other too.
+  Because the buttons are hidden on a phone, their hotspots are
+  hidden too, and a small round menu button appears in the
+  top-right corner instead — tapping it drops down a plain list of
+  the same five links. That menu's HTML is the
+  <nav class="mobile-nav"> block in the BODY section, right after
+  the .plate div; its five links are a second, independent copy of
+  the hotspot links above, so if you change a destination in one
+  place, change it in the other too.
 
   EDIT: FOCUS_X (in the script) is the horizontal point of the
   picture, in the artwork's own pixels (0-1968), that stays
-  centred on a phone screen — it's set to sit on Crabby. Move it
-  left/right if a future illustration repositions him.
+  centred on a phone screen — it's set to sit on the title/byline
+  text so they read in full on a phone. Move it left/right if a
+  future illustration repositions the title. The fade-mask height
+  is set by the "--mobile-mask-start" percentage in the style
+  section, which lines up with where the buttons start in this
+  particular artwork (68% down) — change it if a new illustration
+  moves the buttons.
 
   Currently:
     - "Crab Stories"    → /stories/stories-index (the page listing
@@ -206,6 +216,30 @@
     from { opacity: 0; }
     to   { opacity: 1; }
   }
+
+  /* EDIT: on a portrait phone this covers the row of five round
+     buttons painted near the bottom of the artwork, so it's never
+     shown half-cut-off — see "ABOUT THE MOBILE (PORTRAIT) LAYOUT"
+     up top. --mobile-mask-start is where (as a % down the screen)
+     the fade begins; it finishes solid a little further down. Only
+     shown on a portrait phone (body.is-portrait). */
+  :root {
+    --mobile-mask-start: 62%;
+  }
+
+  .mobile-mask {
+    display: none;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: var(--mobile-mask-start);
+    z-index: 5;
+    background: linear-gradient(to bottom, transparent 0%, var(--paper) 22%, var(--paper) 100%);
+    pointer-events: none;
+  }
+
+  body.is-portrait .mobile-mask { display: block; }
 
   .plate img {
     display: block;
@@ -361,6 +395,11 @@
 
   </div>
 
+  <!-- EDIT: the paper-coloured fade that hides the row of five
+       round buttons on a portrait phone — see "ABOUT THE MOBILE
+       (PORTRAIT) LAYOUT" up top. Only visible on a portrait phone. -->
+  <div class="mobile-mask"></div>
+
   <!-- EDIT: the mobile menu button + dropdown — see "ABOUT THE
        MOBILE (PORTRAIT) LAYOUT" up top. Only visible on a portrait
        phone; hidden entirely otherwise. Its five links are a second
@@ -400,8 +439,10 @@
   // top) the picture is zoomed to fill the screen and cropped at the
   // sides — FOCUS_X is which point of the artwork, in its own pixels
   // (0-1968), stays centred on screen while that happens. It's set
-  // to sit right on Crabby himself.
-  var FOCUS_X = 480;
+  // to sit on the middle of the title/byline text so they read in
+  // full on a phone (Crabby himself sits further left and mostly
+  // scrolls out of frame as a result).
+  var FOCUS_X = 930;
 
   var plate = document.getElementById('plate');
   var img = plate.querySelector('img');
