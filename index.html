@@ -11,14 +11,15 @@
       stories/stories-index.html     the "Stories" list page (links to every story)
       activity-corner.html                the "Activity Corner" page (games based on the stories)
       coming-soon.html                    placeholder for the not-yet-built pages
-      images/mainpagebackground.webp      this page's illustration
+      images/mainpagebackground.webp      this page's illustration (wide screens)
+      images/mainpagebackground-mobile.webp  this page's illustration (portrait phones)
       images/Crabby Image.png             the About Crabby thumbnail
       images/Sofia Image.png              the About Sofia thumbnail
       images/Mango Ice Cream Stall.png    the Stories link's thumbnail
 
       The stories themselves (crabby-and-the-mango-ice-cream.html and
       their pictures) live in stories/ and images/ too, but aren't
-      linked directly from this page any more — see "ABOUT THE LINK
+      linked directly from this page any more — see "ABOUT THE LINK,
       HOTSPOTS" below.
 
   HOW TO EDIT IT
@@ -49,7 +50,7 @@
   those five painted buttons — see "ABOUT THE LINK HOTSPOTS"
   below.
 
-  ABOUT THE PICTURE FILLING THE SCREEN
+  ABOUT THE PICTURE FILLING THE SCREEN (wide/landscape screens)
   --------------------------------------
   The picture is sized by the script at the bottom of the page,
   not by CSS alone, because every visitor's screen is a different
@@ -70,10 +71,14 @@
   want a more edge-to-edge look — raise them cautiously, since the
   title, sign and buttons now run close to every edge.
 
+  This "contain" approach is only used on wide/landscape screens.
+  A portrait phone uses a completely different picture — see
+  "ABOUT THE MOBILE (PORTRAIT) LAYOUT" below.
+
   ABOUT THE LINK HOTSPOTS
   ----------------------
   Five invisible, circular clickable areas sit right on top of the
-  five round buttons painted into the picture ("Crab Stories",
+  five round buttons painted into the picture ("Crab StoriesI",
   "Meet the Crab", "Crab Facts", "Activity Corner", "Contact").
   Because they're positioned in PERCENTAGES of the picture's own
   box (not fixed pixels), they land in exactly the right spot on
@@ -89,26 +94,50 @@
   — open the picture at its native size, find the button's pixel
   box, and convert to percent of 1968 (width) / 1568 (height).
 
-  These hotspots only apply on wide/landscape screens — see "ABOUT
-  THE MOBILE (PORTRAIT) LAYOUT" below for what happens on a phone.
+  These hotspots only apply on wide/landscape screens — a portrait
+  phone uses the pull-down menu instead (see below), because the
+  phone picture doesn't have the buttons painted into it at all.
 
   ABOUT THE MOBILE (PORTRAIT) LAYOUT
   --------------------------------------
-  This illustration is landscape-shaped (wider than tall), but a
-  phone held upright is the opposite — so there's no way to show
-  the whole picture edge-to-edge on a portrait phone without either
-  shrinking it small (leaving big blank paper bars top and bottom)
-  or cropping its sides. This page chooses to crop: on any screen
-  taller than it is wide, the script at the bottom switches to a
-  different mode that zooms the picture in to fill the entire
-  screen top-to-bottom, keeping the title and byline in view, and
-  simply accepts that the far left/right edges of the artwork get
-  cropped off — including, on most phones, Crabby himself (he
-  sits to the left of the title, so usually only a sliver of him,
-  if any, stays in view). A soft paper-coloured fade is also drawn
-  over the bottom of the screen to fully hide the row of five
-  round buttons, rather than showing two or three of them and
-  cutting the rest off mid-row.
+  A portrait phone does NOT reuse the wide illustration above.
+  images/mainpagebackground-mobile.webp is a second, separate
+  picture — built specifically for phones — that restacks pieces
+  of the same illustration into a taller, portrait-shaped image:
+  the title/byline banner on top, and a close-up of Crabby on his
+  rocky cove underneath. It deliberately leaves out the row of
+  five round buttons entirely (there's no room for them on a
+  phone, and they'd be too small to tap), which is also why this
+  page adds the pull-down menu button instead — see below.
+
+  EDIT: to redo this picture (say, once a new illustration exists),
+  open images/mainpagebackground.webp at full size, and:
+    1. crop the title + byline banner as one horizontal strip
+       (keep a good margin either side of the lettering, not a
+       tight crop right up against it — this page zooms in and
+       crops the sides a little on narrow phones, and lettering
+       right at the edge of the strip risks being cut off).
+    2. crop Crabby himself as a second horizontal strip lower down
+       (again with margin around him, avoiding the row of buttons
+       painted at the very bottom).
+    3. scale both strips to the same width and stack the title
+       strip directly above the Crabby strip, and save the result
+       as images/mainpagebackground-mobile.webp.
+  Then update MOBILE_IMG_W / MOBILE_IMG_H in the script below to
+  match the new file's exact pixel size (its width and height —
+  check the file's properties, or open it in any image editor).
+
+  Because this picture is much taller relative to its width than
+  the wide illustration, this page can show the *entire* title AND
+  the *entire* crab on a phone screen, one above the other, rather
+  than the impossible choice of cropping into one or the other on
+  a wide picture. On the narrowest phones the script below still
+  crops a little off the left/right edges to fill the screen
+  edge-to-edge (rather than leaving blank paper-coloured strips) —
+  MOBILE_FOCUS_X (also in the script) is the horizontal centre-line
+  both strips were built around, so that small edge crop trims
+  roughly equal margin from both sides rather than cutting into the
+  lettering or Crabby himself.
 
   EDIT (technical note): on a phone, the picture's box is sized in
   exact pixels taken from window.visualViewport (falling back to the
@@ -124,45 +153,20 @@
 
   On top of that, the picture itself is drawn at an oversized pixel
   width/height and nudged into place with plain top/left (inside a
-  box with overflow: hidden), rather than using the more modern
-  object-fit/object-position shortcut for the same "cover and crop"
-  effect. This page ran into a phone where object-fit didn't repaint
-  the picture at its new size after this script resized its box,
-  leaving the picture at an earlier, smaller size while the box
-  around it was correctly sized — visible as a gap of plain page
-  background below the picture, and the crop landing in the wrong
-  spot. Plain width/height/top/left avoids that entirely. Leave both
-  of these in place if you ever edit this script.
+  box with overflow: hidden), with object-fit deliberately left
+  unset — see the technical note by ".plate.mode-mobile img" in the
+  style section for the two different problems this page ran into
+  with object-fit: none and object-fit: cover there instead. Leave
+  both of these in place if you ever edit this script.
 
-  Because the buttons are hidden on a phone, their hotspots are
-  hidden too, and a small round menu button appears in the
-  top-right corner instead — tapping it drops down a plain list of
+  Because there are no buttons painted into the phone picture, a
+  small round menu button appears in the top-right corner on a
+  portrait phone instead — tapping it drops down a plain list of
   the same five links. That menu's HTML is the
   <nav class="mobile-nav"> block in the BODY section, right after
   the .plate div; its five links are a second, independent copy of
-  the hotspot links above, so if you change a destination in one
-  place, change it in the other too.
-
-  EDIT: FOCUS_X (in the script) is the horizontal point of the
-  picture, in the artwork's own pixels (0-1968), that stays
-  centred on a phone screen — it's set to sit on the middle of the
-  widest line of the title ("Crabby", which runs from roughly x=500
-  to x=1400 in the artwork) so it reads in full on a phone. Move it
-  left/right if a future illustration repositions the title.
-
-  The fade-mask is set by the "--mobile-mask-start" percentage in the
-  style section (currently 73%) plus the gradient stop just below it
-  in the same rule (currently 15%) — together they say where the fade
-  begins and how quickly it reaches solid paper colour. These are set
-  so the mask stays fully clear of the ocean scene between the byline
-  and the buttons, and is only solid by around 77% down — right where
-  the row of round buttons starts in this particular artwork (their
-  top edge is at 77.87% down; see ".hotspot" in the style section).
-  Change these two numbers together if a new illustration moves the
-  buttons up or down: keep the mask reaching solid paper a percent or
-  two above the buttons' own top edge, not any earlier, or you lose
-  scenery for no reason; not any later, or a sliver of the buttons
-  peeks out underneath.
+  the hotspot links used on wide screens, so if you change a
+  destination in one place, change it in the other too.
 
   Currently:
     - "Crab Stories"    → /stories/stories-index (the page listing
@@ -210,7 +214,7 @@
     background: var(--paper);
     position: relative;
     overflow: hidden;      /* the picture is centred in the viewport,
-                              so the page itself never scrolls */
+                            so the page itself never scrolls */
   }
 
   /* The picture sits inside this box. Its width/height are set in
@@ -253,21 +257,29 @@
 
   /* EDIT (technical note): on a portrait phone the picture is NOT
      sized with object-fit/object-position — the script below instead
-     gives the <img> itself an explicit oversized pixel width/height
-     and nudges it into place with top/left, inside the overflow:
-     hidden box above. This is a deliberately old-fashioned, very
-     widely-supported way to do a "cover" crop: object-fit is the
-     modern shortcut for the same effect, but this page hit a phone
-     where object-fit didn't repaint correctly after the picture's
-     box was resized by script (the picture stayed at an earlier,
-     smaller size while its box was the right size, leaving a gap of
-     page background below it) — sizing the image itself in plain
-     pixels sidesteps that entirely. */
+     gives the visible <img> itself an explicit oversized pixel
+     width/height (which a plain <img>, left at its default object-fit,
+     simply stretches to fill — harmless here since the script always
+     computes that width/height in the picture's own proportions, so
+     "stretching" to them never distorts it) and nudges it into place
+     with top/left, inside the overflow: hidden box above. This is a
+     deliberately old-fashioned, very widely-supported way to do a
+     "cover" crop. Earlier versions of this page tried object-fit:
+     none/cover here instead and hit two different problems: with
+     none, the picture ignores this width/height entirely and always
+     draws at its own native pixel size, so the "crop" the script
+     computed was never actually applied — the picture just appeared
+     zoomed in at whatever size the file happens to be; with cover,
+     one phone didn't repaint the picture at its new size after the
+     script resized its box, leaving it at an earlier, smaller size
+     while the box around it was correctly sized (a gap of plain page
+     background below the picture, with the crop landing in the wrong
+     spot). Leaving object-fit unset and driving both dimensions from
+     the script avoids both. */
   .plate.mode-mobile img {
     position: absolute;
     top: 0;
     left: 0;
-    object-fit: none;
   }
 
   @keyframes fade-in {
@@ -275,36 +287,22 @@
     to   { opacity: 1; }
   }
 
-  /* EDIT: on a portrait phone this covers the row of five round
-     buttons painted near the bottom of the artwork, so it's never
-     shown half-cut-off — see "ABOUT THE MOBILE (PORTRAIT) LAYOUT"
-     up top. --mobile-mask-start is where (as a % down the screen)
-     the fade begins; it finishes solid a little further down. Only
-     shown on a portrait phone (body.is-portrait). */
-  :root {
-    --mobile-mask-start: 73%;
-  }
-
-  .mobile-mask {
-    display: none;
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: var(--mobile-mask-start);
-    z-index: 5;
-    background: linear-gradient(to bottom, transparent 0%, var(--paper) 15%, var(--paper) 100%);
-    pointer-events: none;
-  }
-
-  body.is-portrait .mobile-mask { display: block; }
-
   .plate img {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
+
+  /* EDIT: the phone-only picture (see "ABOUT THE MOBILE (PORTRAIT)
+     LAYOUT" up top) is a completely different image file from the
+     wide-screen one, so only one of the two <img> elements inside
+     .plate is ever shown at a time — this swaps between them based
+     on body.is-portrait, which the script sets. */
+  .mobile-img { display: none; }
+
+  body.is-portrait .desktop-img { display: none; }
+  body.is-portrait .mobile-img  { display: block; }
 
   /* ===================== MOBILE MENU ===================== */
   /* EDIT: the round menu button, top-right corner — only shown on
@@ -419,9 +417,8 @@
   .hotspot-4 { left: 59.70%; }  /* Activity Corner */
   .hotspot-5 { left: 76.42%; }  /* Contact         */
 
-  /* On a portrait phone the picture is zoomed/cropped (see "ABOUT
-     THE MOBILE (PORTRAIT) LAYOUT" up top) so these circles would no
-     longer land on the painted buttons — the menu button takes over
+  /* On a portrait phone the phone-only picture doesn't have these
+     buttons painted into it at all — the menu button takes over
      navigation instead, so the hotspots are simply hidden. */
   body.is-portrait .hotspot { display: none; }
 
@@ -436,15 +433,23 @@
 
   <div class="plate" id="plate">
 
-    <!-- EDIT: to use a different picture, change the filename here
-         AND the IMG_W / IMG_H lines in the script at the bottom. The
-         title, byline, wooden sign and five buttons are painted into
-         this picture — see "ABOUT THE TITLE, BUTTONS AND WOODEN
-         SIGN" up top. -->
-    <img src="images/mainpagebackground.webp" alt="The Adventures of Crabby, by Kylie Luca and Sofia Kontorinis — a cheerful red crab on a rocky cove shoreline, with a lighthouse, seagulls, fish, and five buttons: Crab Stories, Meet the Crab, Crab Facts, Activity Corner and Contact">
+    <!-- EDIT: the wide-screen picture — see "ABOUT THE PICTURE
+         FILLING THE SCREEN" up top. To use a different picture,
+         change the filename here AND the IMG_W / IMG_H lines in the
+         script at the bottom. The title, byline, wooden sign and
+         five buttons are painted into this picture — see "ABOUT THE
+         TITLE, BUTTONS AND WOODEN SIGN" up top. -->
+    <img class="desktop-img" src="images/mainpagebackground.webp" alt="The Adventures of Crabby, by Kylie Luca and Sofia Kontorinis — a cheerful red crab on a rocky cove shoreline, with a lighthouse, seagulls, fish, and five buttons: Crab Stories, Meet the Crab, Crab Facts, Activity Corner and Contact">
+
+    <!-- EDIT: the portrait-phone-only picture — see "ABOUT THE
+         MOBILE (PORTRAIT) LAYOUT" up top. Change MOBILE_IMG_W /
+         MOBILE_IMG_H in the script below to match if you replace
+         this file. -->
+    <img class="mobile-img" src="images/mainpagebackground-mobile.webp" alt="The Adventures of Crabby, by Kylie Luca and Sofia Kontorinis — Crabby the cheerful red crab on his rocky cove">
 
     <!-- EDIT: the five link hotspots — see "ABOUT THE LINK
-         HOTSPOTS" up top. Change href to point one elsewhere. -->
+         HOTSPOTS" up top. Change href to point one elsewhere. Only
+         shown on wide/landscape screens. -->
     <a class="hotspot hotspot-1" href="/stories/stories-index" aria-label="Crab Stories" title="Crab Stories"></a>
     <a class="hotspot hotspot-2" href="/about/aboutcrabby" aria-label="Meet the Crab" title="Meet the Crab"></a>
     <a class="hotspot hotspot-3" href="/coming-soon" aria-label="Crab Facts" title="Crab Facts"></a>
@@ -452,11 +457,6 @@
     <a class="hotspot hotspot-5" href="/coming-soon" aria-label="Contact" title="Contact"></a>
 
   </div>
-
-  <!-- EDIT: the paper-coloured fade that hides the row of five
-       round buttons on a portrait phone — see "ABOUT THE MOBILE
-       (PORTRAIT) LAYOUT" up top. Only visible on a portrait phone. -->
-  <div class="mobile-mask"></div>
 
   <!-- EDIT: the mobile menu button + dropdown — see "ABOUT THE
        MOBILE (PORTRAIT) LAYOUT" up top. Only visible on a portrait
@@ -476,35 +476,40 @@
 
 <script>
 (function () {
-  // The picture's real pixel size. EDIT these two numbers if you swap
-  // in a differently shaped image — everything else adapts
-  // automatically (including the hotspot circles, since they're
-  // positioned in percentages of the picture's own box).
+  // The wide-screen picture's real pixel size. EDIT these two
+  // numbers if you swap in a differently shaped image — everything
+  // else adapts automatically (including the hotspot circles, since
+  // they're positioned in percentages of the picture's own box).
   var IMG_W = 1968;
   var IMG_H = 1568;
 
-  // How much of the picture's edges we'll ever let a screen's shape
-  // crop away. The title, byline, sign and buttons are painted right
-  // across this artwork with almost no safe margin, so these are
-  // kept tiny — the picture is shown almost exactly in full (a photo
-  // "contain" fit) rather than cropped to fill the screen. Raise
-  // these only a little, and only if you're sure the new artwork has
-  // safe margin to spare.
+  // How much of the wide-screen picture's edges we'll ever let a
+  // screen's shape crop away. The title, byline, sign and buttons
+  // are painted right across this artwork with almost no safe
+  // margin, so these are kept tiny — the picture is shown almost
+  // exactly in full (a photo "contain" fit) rather than cropped to
+  // fill the screen. Raise these only a little, and only if you're
+  // sure the new artwork has safe margin to spare.
   var MAX_V_CROP = 0.01;
   var MAX_H_CROP = 0.01;
 
-  // On a portrait phone (see "ABOUT THE MOBILE (PORTRAIT) LAYOUT" up
-  // top) the picture is zoomed to fill the screen and cropped at the
-  // sides — FOCUS_X is which point of the artwork, in its own pixels
-  // (0-1968), stays centred on screen while that happens. It's set to
-  // the midpoint of "Crabby", the widest line of the title (measured
-  // at roughly x=500 to x=1400 in the artwork), so the whole word
-  // reads on a phone (Crabby the crab himself sits further left and
-  // mostly scrolls out of frame as a result).
-  var FOCUS_X = 950;
+  // The portrait-phone-only picture's real pixel size — see "ABOUT
+  // THE MOBILE (PORTRAIT) LAYOUT" up top. EDIT these two numbers to
+  // match if you ever replace images/mainpagebackground-mobile.webp.
+  var MOBILE_IMG_W = 1200;
+  var MOBILE_IMG_H = 1550;
+
+  // Which point of the phone-only picture, in its own pixels
+  // (0-MOBILE_IMG_W), stays centred on screen when a narrow phone
+  // needs a little edge crop to fill the screen exactly. Both the
+  // title strip and the Crabby strip in that picture were built
+  // centred on this same line, so a small crop here trims roughly
+  // equal margin from both sides rather than cutting into either.
+  var MOBILE_FOCUS_X = MOBILE_IMG_W / 2;
 
   var plate = document.getElementById('plate');
-  var img = plate.querySelector('img');
+  var desktopImg = plate.querySelector('.desktop-img');
+  var mobileImg  = plate.querySelector('.mobile-img');
   var menuBtn = document.getElementById('menu-btn');
   var mobileNav = document.getElementById('mobile-nav');
 
@@ -533,6 +538,40 @@
     menuBtn.setAttribute('aria-expanded', 'false');
   }
 
+  // Sizes and positions one <img> to fill W x H completely (a photo
+  // "cover" fit), scaling up until it's at least as wide AND at
+  // least as tall as the box, then nudging it with negative top/left
+  // so the slice centred on focusX shows through. Shared by the
+  // mobile picture (see "ABOUT THE MOBILE (PORTRAIT) LAYOUT" up top
+  // for why plain width/height/top/left is used instead of
+  // object-fit/object-position).
+  function coverFit(imgEl, W, H, srcW, srcH, focusX) {
+    var scale = Math.max(W / srcW, H / srcH);
+    var scaledW = srcW * scale;
+    var scaledH = srcH * scale;
+
+    var offsetX = focusX * scale - W / 2;
+    offsetX = clamp(offsetX, 0, Math.max(0, scaledW - W));
+
+    // Vertical crop only matters on the rare screen shape where
+    // width, not height, ends up driving the scale above — this
+    // keeps the picture centred top-to-bottom rather than pinned to
+    // the top in that case.
+    var offsetY = clamp((scaledH - H) / 2, 0, Math.max(0, scaledH - H));
+
+    imgEl.style.width  = scaledW + 'px';
+    imgEl.style.height = scaledH + 'px';
+    imgEl.style.top  = (-offsetY) + 'px';
+    imgEl.style.left = (-offsetX) + 'px';
+  }
+
+  function resetImg(imgEl) {
+    imgEl.style.width = '';
+    imgEl.style.height = '';
+    imgEl.style.top = '';
+    imgEl.style.left = '';
+  }
+
   // The most reliable read of "how much screen is actually visible
   // right now" on a phone. window.visualViewport tracks the space
   // left once the browser's own address bar / toolbar are accounted
@@ -559,47 +598,17 @@
     plate.classList.toggle('mode-mobile', mobile);
 
     if (mobile) {
-      // Fill the screen completely (photo "cover" fit using the
-      // picture's real height, so nothing is cropped top-to-bottom)
-      // and crop the sides only, keeping FOCUS_X centred.
-      //
-      // The box is sized here in exact pixels from the same W/H the
-      // crop math below uses, rather than leaning on the CSS class's
-      // width:100%/height:100% alone — a phone's address bar showing
-      // or hiding can otherwise leave the CSS-resolved size a little
-      // different from this script's own measurement, which is what
-      // caused the picture to fall short of the bottom of the screen
-      // (a gap of plain page background) and the crop to land in the
-      // wrong place. Setting explicit pixels keeps the two in sync no
-      // matter what the browser's toolbar is doing.
+      // Fill the screen completely with the phone-only picture (see
+      // "ABOUT THE MOBILE (PORTRAIT) LAYOUT" up top) — the box is
+      // sized here in exact pixels from the same W/H the crop math
+      // uses, rather than leaning on the CSS class's width:100%/
+      // height:100% alone, for the reasons explained by the
+      // ".plate.mode-mobile img" technical note in the style
+      // section.
       plate.style.width  = W + 'px';
       plate.style.height = H + 'px';
-
-      // The picture itself is drawn at this oversized pixel size —
-      // scaled up until it's at least as wide AND at least as tall as
-      // the screen — then nudged up/left with negative top/left so
-      // the right slice of it shows through the box above. See the
-      // technical note by ".plate.mode-mobile img" in the style
-      // section for why this is done with plain width/height/top/left
-      // instead of object-fit/object-position.
-      var scale = Math.max(W / IMG_W, H / IMG_H);
-      var scaledW = IMG_W * scale;
-      var scaledH = IMG_H * scale;
-
-      var offsetX = FOCUS_X * scale - W / 2;
-      offsetX = clamp(offsetX, 0, Math.max(0, scaledW - W));
-
-      // Vertical crop is normally zero (FOCUS_X only ever shifts the
-      // picture sideways), but this keeps the picture centred
-      // top-to-bottom instead of pinned to the top on the rare screen
-      // shape where the width, not the height, ends up driving the
-      // scale above.
-      var offsetY = clamp((scaledH - H) / 2, 0, Math.max(0, scaledH - H));
-
-      img.style.width  = scaledW + 'px';
-      img.style.height = scaledH + 'px';
-      img.style.top  = (-offsetY) + 'px';
-      img.style.left = (-offsetX) + 'px';
+      coverFit(mobileImg, W, H, MOBILE_IMG_W, MOBILE_IMG_H, MOBILE_FOCUS_X);
+      resetImg(desktopImg);
     } else {
       var s = containScale(W, H);
       var plateW2 = Math.ceil(IMG_W * s);
@@ -608,13 +617,12 @@
       plate.style.height = plateH2 + 'px';
 
       // Reset the mobile-mode pixel sizing above back to the plain
-      // CSS width:100%/height:100%/object-fit:cover this picture uses
-      // on a wide screen (see ".plate img" in the style section).
-      img.style.width = '';
-      img.style.height = '';
-      img.style.top = '';
-      img.style.left = '';
-      img.style.objectPosition = '50% 50%';
+      // CSS width:100%/height:100%/object-fit:cover the desktop
+      // picture uses on a wide screen (see ".plate img" in the style
+      // section).
+      resetImg(desktopImg);
+      desktopImg.style.objectPosition = '50% 50%';
+      resetImg(mobileImg);
     }
   }
 
