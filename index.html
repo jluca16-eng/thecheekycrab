@@ -89,6 +89,36 @@
   — open the picture at its native size, find the button's pixel
   box, and convert to percent of 1968 (width) / 1568 (height).
 
+  These hotspots only apply on wide/landscape screens — see "ABOUT
+  THE MOBILE (PORTRAIT) LAYOUT" below for what happens on a phone.
+
+  ABOUT THE MOBILE (PORTRAIT) LAYOUT
+  --------------------------------------
+  This illustration is landscape-shaped (wider than tall), but a
+  phone held upright is the opposite — so there's no way to show
+  the whole picture edge-to-edge on a portrait phone without either
+  shrinking it small (leaving big blank paper bars top and bottom)
+  or cropping its sides. This page chooses to crop: on any screen
+  taller than it is wide, the script at the bottom switches to a
+  different mode that zooms the picture in to fill the entire
+  screen top-to-bottom, keeping Crabby himself in view, and simply
+  accepts that the far left/right edges of the artwork (and
+  therefore some of the five round buttons) get cropped off.
+
+  Because the buttons may be partly or fully cropped on a phone,
+  their hotspots are hidden in this mode, and a small round menu
+  button appears in the top-right corner instead — tapping it
+  drops down a plain list of the same five links. That menu's HTML
+  is the <nav class="mobile-nav"> block in the BODY section, right
+  after the .plate div; its five links are a second, independent
+  copy of the hotspot links above, so if you change a destination
+  in one place, change it in the other too.
+
+  EDIT: FOCUS_X (in the script) is the horizontal point of the
+  picture, in the artwork's own pixels (0-1968), that stays
+  centred on a phone screen — it's set to sit on Crabby. Move it
+  left/right if a future illustration repositions him.
+
   Currently:
     - "Crab Stories"    → /stories/stories-index (the page listing
                            every story)
@@ -156,12 +186,116 @@
     to   { opacity: 1; transform: translate(-50%, -50%);              }
   }
 
+  /* EDIT: on a portrait phone the script (see "ABOUT THE MOBILE
+     (PORTRAIT) LAYOUT" up top) adds this class instead of sizing
+     the plate to the picture's own shape — it makes the plate fill
+     the whole screen edge-to-edge so the picture can be zoomed in
+     and cropped to fit, rather than letterboxed. */
+  .plate.mode-mobile {
+    position: fixed;
+    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: none;
+    animation: fade-in .6s ease both;
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
   .plate img {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
+
+  /* ===================== MOBILE MENU ===================== */
+  /* EDIT: the round menu button, top-right corner — only shown on
+     portrait phones (see "ABOUT THE MOBILE (PORTRAIT) LAYOUT" up
+     top). Hidden entirely otherwise. */
+  .menu-btn {
+    display: none;
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 20;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, .92);
+    box-shadow: 0 4px 14px rgba(90, 66, 30, .35);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+  }
+
+  .menu-btn span {
+    display: block;
+    width: 24px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--ink);
+    transition: transform .2s ease, opacity .2s ease;
+  }
+
+  body.is-portrait .menu-btn { display: flex; }
+
+  /* the "X" cross the menu button turns into once the menu is open */
+  body.menu-open .menu-btn span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+  body.menu-open .menu-btn span:nth-child(2) { opacity: 0; }
+  body.menu-open .menu-btn span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+  /* EDIT: the dropdown list of links itself. Hidden by default;
+     "menu-open" on <body> (toggled by the button's click handler
+     in the script) slides it into view. */
+  .mobile-nav {
+    position: fixed;
+    top: 78px;
+    right: 18px;
+    z-index: 19;
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    background: rgba(255, 255, 255, .96);
+    border-radius: 14px;
+    box-shadow: 0 8px 24px rgba(90, 66, 30, .35);
+    padding: 14px;
+    min-width: 190px;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity .18s ease, transform .18s ease;
+  }
+
+  body.is-portrait .mobile-nav { display: flex; }
+
+  body.is-portrait.menu-open .mobile-nav {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .mobile-nav a {
+    display: block;
+    padding: 10px 14px;
+    border-radius: 9px;
+    background: #f4ecd8;
+    color: var(--ink);
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+    text-align: center;
+  }
+
+  .mobile-nav a:active { background: #ecdfc0; }
 
   /* EDIT: the five invisible clickable circles sat on top of the
      picture's own painted buttons — see "ABOUT THE LINK HOTSPOTS"
@@ -193,6 +327,12 @@
   .hotspot-4 { left: 59.70%; }  /* Activity Corner */
   .hotspot-5 { left: 76.42%; }  /* Contact         */
 
+  /* On a portrait phone the picture is zoomed/cropped (see "ABOUT
+     THE MOBILE (PORTRAIT) LAYOUT" up top) so these circles would no
+     longer land on the painted buttons — the menu button takes over
+     navigation instead, so the hotspots are simply hidden. */
+  body.is-portrait .hotspot { display: none; }
+
   /* Respects the visitor's "reduce motion" accessibility setting */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; }
@@ -221,6 +361,22 @@
 
   </div>
 
+  <!-- EDIT: the mobile menu button + dropdown — see "ABOUT THE
+       MOBILE (PORTRAIT) LAYOUT" up top. Only visible on a portrait
+       phone; hidden entirely otherwise. Its five links are a second
+       copy of the hotspot links above — keep both in sync. -->
+  <button class="menu-btn" id="menu-btn" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+
+  <nav class="mobile-nav" id="mobile-nav">
+    <a href="/stories/stories-index">Crab Stories</a>
+    <a href="/about/aboutcrabby">Meet the Crab</a>
+    <a href="/coming-soon">Crab Facts</a>
+    <a href="/activity-corner">Activity Corner</a>
+    <a href="/coming-soon">Contact</a>
+  </nav>
+
 <script>
 (function () {
   // The picture's real pixel size. EDIT these two numbers if you swap
@@ -240,17 +396,28 @@
   var MAX_V_CROP = 0.01;
   var MAX_H_CROP = 0.01;
 
+  // On a portrait phone (see "ABOUT THE MOBILE (PORTRAIT) LAYOUT" up
+  // top) the picture is zoomed to fill the screen and cropped at the
+  // sides — FOCUS_X is which point of the artwork, in its own pixels
+  // (0-1968), stays centred on screen while that happens. It's set
+  // to sit right on Crabby himself.
+  var FOCUS_X = 480;
+
   var plate = document.getElementById('plate');
+  var img = plate.querySelector('img');
+  var menuBtn = document.getElementById('menu-btn');
+  var mobileNav = document.getElementById('mobile-nav');
 
   function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
 
-  // Picks the picture's on-screen size: as large as possible while
-  // still fitting entirely inside the screen (like a photo "contain"
-  // fit), capped so it can never crop more than the small limits
-  // above — on a screen shaped very differently from the artwork,
-  // that leaves a thin strip of the page background at an edge
-  // instead of ever cropping into the title, sign or buttons.
-  function coverScale(W, H) {
+  // Picks the picture's on-screen size for wide/landscape screens:
+  // as large as possible while still fitting entirely inside the
+  // screen (like a photo "contain" fit), capped so it can never crop
+  // more than the small limits above — on a screen shaped a little
+  // differently from the artwork, that leaves a thin strip of the
+  // page background at an edge instead of ever cropping into the
+  // title, sign or buttons.
+  function containScale(W, H) {
     var scaleW = W / IMG_W;
     var scaleH = H / IMG_H;
     var contain = Math.min(scaleW, scaleH);
@@ -261,16 +428,57 @@
     return Math.max(scale, contain);
   }
 
+  function closeMenu() {
+    document.body.classList.remove('menu-open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+  }
+
   function fit() {
     var W = document.documentElement.clientWidth;
     var H = document.documentElement.clientHeight;
-    var s = coverScale(W, H);
+    var mobile = H > W;   // portrait — see "ABOUT THE MOBILE (PORTRAIT) LAYOUT"
 
-    var plateW = Math.ceil(IMG_W * s);
-    var plateH = Math.ceil(IMG_H * s);
-    plate.style.width  = plateW + 'px';
-    plate.style.height = plateH + 'px';
+    document.body.classList.toggle('is-portrait', mobile);
+    if (!mobile) closeMenu();
+
+    plate.classList.toggle('mode-mobile', mobile);
+
+    if (mobile) {
+      // Fill the screen completely (photo "cover" fit using the
+      // picture's real height, so nothing is cropped top-to-bottom)
+      // and crop the sides only, keeping FOCUS_X centred.
+      var scale = Math.max(W / IMG_W, H / IMG_H);
+      var plateW = IMG_W * scale;
+
+      var offsetPx = FOCUS_X * scale - W / 2;
+      offsetPx = clamp(offsetPx, 0, Math.max(0, plateW - W));
+      var posFrac = (plateW - W) > 0 ? offsetPx / (plateW - W) : 0.5;
+      img.style.objectPosition = (posFrac * 100) + '% 50%';
+    } else {
+      var s = containScale(W, H);
+      var plateW2 = Math.ceil(IMG_W * s);
+      var plateH2 = Math.ceil(IMG_H * s);
+      plate.style.width  = plateW2 + 'px';
+      plate.style.height = plateH2 + 'px';
+      img.style.objectPosition = '50% 50%';
+    }
   }
+
+  menuBtn.addEventListener('click', function () {
+    var open = document.body.classList.toggle('menu-open');
+    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+
+  // tapping a menu link, or tapping anywhere outside the open menu,
+  // closes it again
+  mobileNav.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A') closeMenu();
+  });
+  document.addEventListener('click', function (e) {
+    if (!document.body.classList.contains('menu-open')) return;
+    if (mobileNav.contains(e.target) || menuBtn.contains(e.target)) return;
+    closeMenu();
+  });
 
   fit();
   window.addEventListener('resize', fit);
