@@ -309,26 +309,33 @@
      "ABOUT THE MOBILE (PORTRAIT) LAYOUT" up top). Hidden entirely
      otherwise.
 
-     It sits over open water beside Crabby rather than in the
-     top-right corner, because the picture's title ("...of Crabby")
-     runs right across the top of the portrait picture — a
-     top-right-corner button always ended up sitting on the "f" of
-     "of". top/right are PERCENTAGES of the screen, not pixels,
-     because a portrait phone always shows the picture's full height
-     (see coverFit's notes up top) — so a height-percentage lines up
-     with the same clear patch of water on every phone, tall or
-     short. If you ever redo the portrait picture, re-check this
-     still lands on open water (open the picture at its native
-     1200x1550 size — see MOBILE_IMG_W/H below — the clear patch
-     next to Crabby's shell is roughly x 750-950, y 545-650). */
+     It sits just to the right of the "f" in "...of Crabby", instead
+     of a fixed corner, because a plain top/right percentage can't do
+     that safely: the "f" 's ink ends at x=937 in the picture's own
+     1200x1550 pixels, and on the narrower common phones the visible
+     slice of the picture only reaches about x=948 before running off
+     the edge of the screen — there's only a few pixels of picture
+     left over for the button, not fifty. So this button isn't placed
+     with CSS top/right at all: left/top are set in the script below
+     (search MENU_BTN_IMG_X), which works out exactly where that same
+     picture point (x=970, y=80 — just past the "f", vertically
+     centred on it) lands on THIS phone's screen, the same way the
+     picture itself is kept centred, and gently slides the button
+     back onto the screen if a phone is too narrow to show that point
+     with the full button beside it. left/top/transform below are
+     just placeholder values for the instant before the script first
+     runs. If you ever redo the portrait picture or its title, re-open
+     it at native size and update MENU_BTN_IMG_X/Y in the script to
+     the new "just past the last letter" spot. */
   .menu-btn {
     display: none;
     position: fixed;
-    top: 36%;
-    right: 12%;
+    left: 50%;
+    top: 80px;
+    transform: translate(-50%, -50%);
     z-index: 20;
-    width: 50px;
-    height: 50px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     border: none;
     background: rgba(255, 255, 255, .92);
@@ -336,7 +343,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: 5px;
+    gap: 4px;
     cursor: pointer;
   }
 
@@ -358,13 +365,19 @@
 
   /* EDIT: the dropdown list of links itself. Hidden by default;
      "menu-open" on <body> (toggled by the button's click handler
-     in the script) slides it into view. Positioned just below the
-     button above (same right offset, top = button's top + its own
-     height + a small gap) so it always opens directly under it. */
+     in the script) slides it into view. Its left/top (the true
+     left edge and top edge, in pixels) are set in the script right
+     alongside the button's — search MENU_BTN_IMG_X — so it always
+     opens directly under wherever the button ended up; the left/top
+     below are just placeholder values for the instant before the
+     script first runs. The transition/transform here only ever
+     handles the vertical open/close slide — never the left/right
+     placement, which is the script's job alone. */
   .mobile-nav {
     position: fixed;
-    top: calc(36% + 60px);
-    right: 12%;
+    left: calc(50% - 95px);
+    top: 110px;
+    transform: translateY(-8px);
     z-index: 19;
     display: none;
     flex-direction: column;
@@ -375,7 +388,6 @@
     padding: 14px;
     min-width: 190px;
     opacity: 0;
-    transform: translateY(-8px);
     transition: opacity .18s ease, transform .18s ease;
   }
 
@@ -522,6 +534,20 @@
   // equal margin from both sides rather than cutting into either.
   var MOBILE_FOCUS_X = MOBILE_IMG_W / 2;
 
+  // Where the round menu button sits, as a point in the phone-only
+  // picture's own pixels (same 1200x1550 space as MOBILE_IMG_W/H
+  // above) — just past the "f" of "...of Crabby", vertically
+  // centred on that word. The "f" 's ink ends at x=937, so 970
+  // clears it with a little breathing room. positionMenuBtn() below
+  // works out where this point actually lands on each phone's own
+  // screen (the same way coverFit works out where to show the
+  // picture itself) and nudges the button back onto the screen if a
+  // phone is too narrow to show this point with the whole button
+  // beside it. EDIT these two numbers if you ever redo the portrait
+  // picture's title.
+  var MENU_BTN_IMG_X = 970;
+  var MENU_BTN_IMG_Y = 80;
+
   var plate = document.getElementById('plate');
   var desktopImg = plate.querySelector('.desktop-img');
   var mobileImg  = plate.querySelector('.mobile-img');
@@ -587,6 +613,37 @@
     imgEl.style.left = '';
   }
 
+  // Works out where MENU_BTN_IMG_X/Y (a fixed point in the phone
+  // picture's own pixels) lands on THIS phone's screen — the exact
+  // same scale/offset coverFit() just used to place the picture
+  // itself — then puts the button there, sliding it back onto the
+  // screen (never off the edge) if a phone is too narrow to show
+  // that point with the whole button still on-screen. The dropdown
+  // list is placed right under wherever the button ended up.
+  function positionMenuBtn(W, H) {
+    var scale = Math.max(W / MOBILE_IMG_W, H / MOBILE_IMG_H);
+    var scaledW = MOBILE_IMG_W * scale;
+    var scaledH = MOBILE_IMG_H * scale;
+    var offsetX = clamp(MOBILE_FOCUS_X * scale - W / 2, 0, Math.max(0, scaledW - W));
+    var offsetY = clamp((scaledH - H) / 2, 0, Math.max(0, scaledH - H));
+
+    var btnX = MENU_BTN_IMG_X * scale - offsetX;
+    var btnY = MENU_BTN_IMG_Y * scale - offsetY;
+
+    var half = (menuBtn.offsetWidth || 44) / 2;
+    var margin = 8;
+    btnX = clamp(btnX, half + margin, W - half - margin);
+    btnY = clamp(btnY, half + margin, H - half - margin);
+
+    menuBtn.style.left = btnX + 'px';
+    menuBtn.style.top  = btnY + 'px';
+
+    var navWidth = mobileNav.offsetWidth || 190;
+    var navLeft = clamp(btnX - navWidth / 2, margin, W - navWidth - margin);
+    mobileNav.style.left = navLeft + 'px';
+    mobileNav.style.top  = (btnY + half + 10) + 'px';
+  }
+
   // The most reliable read of "how much screen is actually visible
   // right now" on a phone. window.visualViewport tracks the space
   // left once the browser's own address bar / toolbar are accounted
@@ -623,6 +680,7 @@
       plate.style.width  = W + 'px';
       plate.style.height = H + 'px';
       coverFit(mobileImg, W, H, MOBILE_IMG_W, MOBILE_IMG_H, MOBILE_FOCUS_X);
+      positionMenuBtn(W, H);
       resetImg(desktopImg);
     } else {
       var s = containScale(W, H);
