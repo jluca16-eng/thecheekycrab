@@ -305,14 +305,27 @@
   body.is-portrait .mobile-img  { display: block; }
 
   /* ===================== MOBILE MENU ===================== */
-  /* EDIT: the round menu button, top-right corner — only shown on
-     portrait phones (see "ABOUT THE MOBILE (PORTRAIT) LAYOUT" up
-     top). Hidden entirely otherwise. */
+  /* EDIT: the round menu button — only shown on portrait phones (see
+     "ABOUT THE MOBILE (PORTRAIT) LAYOUT" up top). Hidden entirely
+     otherwise.
+
+     It sits over open water beside Crabby rather than in the
+     top-right corner, because the picture's title ("...of Crabby")
+     runs right across the top of the portrait picture — a
+     top-right-corner button always ended up sitting on the "f" of
+     "of". top/right are PERCENTAGES of the screen, not pixels,
+     because a portrait phone always shows the picture's full height
+     (see coverFit's notes up top) — so a height-percentage lines up
+     with the same clear patch of water on every phone, tall or
+     short. If you ever redo the portrait picture, re-check this
+     still lands on open water (open the picture at its native
+     1200x1550 size — see MOBILE_IMG_W/H below — the clear patch
+     next to Crabby's shell is roughly x 750-950, y 545-650). */
   .menu-btn {
     display: none;
     position: fixed;
-    top: 18px;
-    right: 18px;
+    top: 36%;
+    right: 12%;
     z-index: 20;
     width: 50px;
     height: 50px;
@@ -345,11 +358,13 @@
 
   /* EDIT: the dropdown list of links itself. Hidden by default;
      "menu-open" on <body> (toggled by the button's click handler
-     in the script) slides it into view. */
+     in the script) slides it into view. Positioned just below the
+     button above (same right offset, top = button's top + its own
+     height + a small gap) so it always opens directly under it. */
   .mobile-nav {
     position: fixed;
-    top: 78px;
-    right: 18px;
+    top: calc(36% + 60px);
+    right: 12%;
     z-index: 19;
     display: none;
     flex-direction: column;
