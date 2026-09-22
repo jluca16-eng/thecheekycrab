@@ -1,186 +1,6 @@
-<!--
-  ============================================================
-  thecheekycrab.com  —  The Adventures of Crabby
-  ============================================================
-
-  This is the site's home page. The whole site is:
-
-      index.html                          this file — the home page
-      about/aboutcrabby.html              the "About Crabby" page
-      about/aboutsofia.html               the "About Sofia" page
-      stories/stories-index.html     the "Stories" list page (links to every story)
-      activity-corner.html                the "Activity Corner" page (games based on the stories)
-      coming-soon.html                    placeholder for the not-yet-built pages
-      images/mainpagebackground.webp      this page's illustration (wide screens)
-      images/mainpagebackground-mobile.webp  this page's illustration (portrait phones)
-      images/Crabby Image.png             the About Crabby thumbnail
-      images/Sofia Image.png              the About Sofia thumbnail
-      images/Mango Ice Cream Stall.png    the Stories link's thumbnail
-
-      The stories themselves (crabby-and-the-mango-ice-cream.html and
-      their pictures) live in stories/ and images/ too, but aren't
-      linked directly from this page any more — see "ABOUT THE LINK
-      HOTSPOTS" below.
-
-  HOW TO EDIT IT
-  --------------
-  Open this file in a plain text editor. VS Code is free and
-  ideal; Notepad works. Do NOT open or save it in Microsoft
-  Word — Word rewrites it into broken markup.
-
-  Everything you're likely to change is marked with a comment
-  beginning "EDIT:". The colours live together in the :root
-  block near the top of the style section.
-
-  To preview a change: save, then double-click index.html. It
-  opens in your browser. Edit, save, refresh.
-
-  ABOUT THE TITLE, BUTTONS AND WOODEN SIGN
-  --------------------------------------
-  The title ("The Adventures of Crabby"), the byline, the intro
-  sentence, and the five round buttons along the bottom (Crab
-  Stories / Meet the Crab / Crab Facts / Activity Corner /
-  Contact) are all part of the illustration itself
-  (images/mainpagebackground.webp) — they're painted into the
-  picture, not drawn separately by this page. To change any of
-  that wording or artwork, you need a new illustration with the
-  new text/buttons baked in; this file has no separate lettering
-  to edit for those. What this page DOES add on top is five
-  invisible clickable circles, positioned exactly on top of
-  those five painted buttons — see "ABOUT THE LINK HOTSPOTS"
-  below.
-
-  ABOUT THE PICTURE FILLING THE SCREEN (wide/landscape screens)
-  --------------------------------------
-  The picture is sized by the script at the bottom of the page,
-  not by CSS alone, because every visitor's screen is a different
-  shape from the artwork (1968 x 1568) and the picture has to be
-  shown in full, without ever stretching, distorting, or cropping
-  into the title lettering, the sign, or the row of round buttons.
-
-  Because the title/sign/buttons stretch right across the artwork
-  with almost no safe margin, the script fits the picture like a
-  photo "contain" fit: it grows the picture until it's as large as
-  possible while still fitting entirely inside the screen, then
-  centres it. On a screen shaped very differently from the artwork
-  (e.g. a tall phone), that leaves a thin strip of the page
-  background (--paper) above/below or left/right of the picture,
-  rather than ever cropping any of it away. The two numbers
-  MAX_V_CROP and MAX_H_CROP near the top of the script allow a
-  small amount of edge crop instead of letterboxing, if you ever
-  want a more edge-to-edge look — raise them cautiously, since the
-  title, sign and buttons now run close to every edge.
-
-  This "contain" approach is only used on wide/landscape screens.
-  A portrait phone uses a completely different picture — see
-  "ABOUT THE MOBILE (PORTRAIT) LAYOUT" below.
-
-  ABOUT THE LINK HOTSPOTS
-  ----------------------
-  Five invisible, circular clickable areas sit right on top of the
-  five round buttons painted into the picture ("Crab Stories",
-  "Meet the Crab", "Crab Facts", "Activity Corner", "Contact").
-  Because they're positioned in PERCENTAGES of the picture's own
-  box (not fixed pixels), they land in exactly the right spot on
-  the buttons no matter how large or small the picture is drawn —
-  no JavaScript positioning math is needed for them.
-
-  Each hotspot is a plain <a class="hotspot"> inside the .plate div
-  in the BODY section, with its own class (hotspot-1 .. hotspot-5)
-  giving it a left/top/width/height in the style section, all as
-  percentages. If you ever need to nudge one (say, a future
-  illustration shifts the buttons slightly), adjust that hotspot's
-  percentages in the "HOTSPOT POSITIONS" part of the style section
-  — open the picture at its native size, find the button's pixel
-  box, and convert to percent of 1968 (width) / 1568 (height).
-
-  These hotspots only apply on wide/landscape screens — a portrait
-  phone uses the pull-down menu instead (see below), because the
-  phone picture doesn't have the buttons painted into it at all.
-
-  ABOUT THE MOBILE (PORTRAIT) LAYOUT
-  --------------------------------------
-  A portrait phone does NOT reuse the wide illustration above.
-  images/mainpagebackground-mobile.webp is a second, separate
-  picture — built specifically for phones — that restacks pieces
-  of the same illustration into a taller, portrait-shaped image:
-  the title/byline banner on top, and a close-up of Crabby on his
-  rocky cove underneath. It deliberately leaves out the row of
-  five round buttons entirely (there's no room for them on a
-  phone, and they'd be too small to tap), which is also why this
-  page adds the pull-down menu button instead — see below.
-
-  EDIT: to redo this picture (say, once a new illustration exists),
-  open images/mainpagebackground.webp at full size, and:
-    1. crop the title + byline banner as one horizontal strip
-       (keep a good margin either side of the lettering, not a
-       tight crop right up against it — this page zooms in and
-       crops the sides a little on narrow phones, and lettering
-       right at the edge of the strip risks being cut off).
-    2. crop Crabby himself as a second horizontal strip lower down
-       (again with margin around him, avoiding the row of buttons
-       painted at the very bottom).
-    3. scale both strips to the same width and stack the title
-       strip directly above the Crabby strip, and save the result
-       as images/mainpagebackground-mobile.webp.
-  Then update MOBILE_IMG_W / MOBILE_IMG_H in the script below to
-  match the new file's exact pixel size (its width and height —
-  check the file's properties, or open it in any image editor).
-
-  Because this picture is much taller relative to its width than
-  the wide illustration, this page can show the *entire* title AND
-  the *entire* crab on a phone screen, one above the other, rather
-  than the impossible choice of cropping into one or the other on
-  a wide picture. On the narrowest phones the script below still
-  crops a little off the left/right edges to fill the screen
-  edge-to-edge (rather than leaving blank paper-coloured strips) —
-  MOBILE_FOCUS_X (also in the script) is the horizontal centre-line
-  both strips were built around, so that small edge crop trims
-  roughly equal margin from both sides rather than cutting into the
-  lettering or Crabby himself.
-
-  EDIT (technical note): on a phone, the picture's box is sized in
-  exact pixels taken from window.visualViewport (falling back to the
-  page's own width/height if a browser doesn't support that), rather
-  than trusting CSS alone to fill the screen. A phone's address bar
-  showing or hiding changes how much screen is actually visible, and
-  plain CSS percentage sizing can briefly disagree with what this
-  script measures when that happens. The script re-measures and
-  re-applies this on every signal a phone can send that the visible
-  area changed — resize, orientation change, the visual viewport
-  itself changing, and the page being shown again from the browser's
-  cache — so it self-corrects rather than getting stuck.
-
-  On top of that, the picture itself is drawn at an oversized pixel
-  width/height and nudged into place with plain top/left (inside a
-  box with overflow: hidden), with object-fit deliberately left
-  unset — see the technical note by ".plate.mode-mobile img" in the
-  style section for the two different problems this page ran into
-  with object-fit: none and object-fit: cover there instead. Leave
-  both of these in place if you ever edit this script.
-
-  Because there are no buttons painted into the phone picture, a
-  small round menu button appears in the top-right corner on a
-  portrait phone instead — tapping it drops down a plain list of
-  the same five links. That menu's HTML is the
-  <nav class="mobile-nav"> block in the BODY section, right after
-  the .plate div; its five links are a second, independent copy of
-  the hotspot links used on wide screens, so if you change a
-  destination in one place, change it in the other too.
-
-  Currently:
-    - "Crab Stories"    → /stories/stories-index (the page listing
-                           every story)
-    - "Meet the Crab"    → /about/aboutcrabby
-    - "Activity Corner"  → /activity-corner (word search, quiz,
-                           story-ordering game, colouring page and
-                           a writing space, all based on the two
-                           stories so far)
-    - "Crab Facts" and "Contact" both → coming-soon.html, a small
-      placeholder page that just says "Under Construction — check
-      back soon" until those sections are built.
-  ============================================================
---><html lang="en-AU"><head>
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -299,7 +119,7 @@
      wide-screen one, so only one of the two <img> elements inside
      .plate is ever shown at a time — this swaps between them based
      on body.is-portrait, which the script sets. */
-  .mobile-img { display: none; }
+  .mobile-img { display: none !important; }
 
   body.is-portrait .desktop-img { display: none; }
   body.is-portrait .mobile-img  { display: block; }
@@ -458,7 +278,7 @@
 
 <body>
 
-  <div class="plate" id="plate">
+  <div class="plate" id="plate" style="width: 0px; height: 0px;">
 
     <!-- EDIT: the wide-screen picture — see "ABOUT THE PICTURE
          FILLING THE SCREEN" up top. To use a different picture,
@@ -466,7 +286,7 @@
          script at the bottom. The title, byline, wooden sign and
          five buttons are painted into this picture — see "ABOUT THE
          TITLE, BUTTONS AND WOODEN SIGN" up top. -->
-    <img class="desktop-img" src="images/mainpagebackground.webp" alt="The Adventures of Crabby, by Kylie Luca and Sofia Kontorinis — a cheerful red crab on a rocky cove shoreline, with a lighthouse, seagulls, fish, and five buttons: Crab Stories, Meet the Crab, Crab Facts, Activity Corner and Contact">
+    <img class="desktop-img" src="images/mainpagebackground.webp" alt="The Adventures of Crabby, by Kylie Luca and Sofia Kontorinis — a cheerful red crab on a rocky cove shoreline, with a lighthouse, seagulls, fish, and five buttons: Crab Stories, Meet the Crab, Crab Facts, Activity Corner and Contact" style="object-position: 50% 50%;">
 
     <!-- EDIT: the portrait-phone-only picture — see "ABOUT THE
          MOBILE (PORTRAIT) LAYOUT" up top. Change MOBILE_IMG_W /
@@ -734,5 +554,6 @@
   window.addEventListener('pageshow', fit);
 })();
 </script>
+
 
 </body></html>
