@@ -408,41 +408,41 @@
     </div>
 
     <!-- EDIT: activity 4 — printable colouring page. The picture is
-         a simple original line drawing of Crabby, drawn directly in
-         SVG code right here (not a separate image file), so there's
-         nothing else to upload for it. -->
+         a simple original line drawing of Crabby peeking out of
+         Sofia's ponytail, drawn directly in SVG code right here (not
+         a separate image file), so there's nothing else to upload
+         for it. -->
     <div class="card print-target">
       <h2>4. Colour In Crabby</h2>
-      <p class="sub">Print this page (or just this picture) and colour Crabby in however you like — he's not always red!</p>
+      <p class="sub">Print this page (or just this picture) and colour in Crabby peeking out of Sofia's ponytail — he's not always red!</p>
       <div class="colour-wrap">
         <svg id="crab-svg" viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg" stroke="#163a5c" stroke-width="6" fill="none" stroke-linejoin="round" stroke-linecap="round">
-          <path d="M120 150 C120 100, 160 70, 200 70 C240 70, 280 100, 280 150 C280 195, 245 220, 200 220 C155 220, 120 195, 120 150 Z"></path>
-          <circle cx="170" cy="130" r="6"></circle>
-          <circle cx="200" cy="118" r="6"></circle>
-          <circle cx="230" cy="130" r="6"></circle>
-          <circle cx="185" cy="150" r="6"></circle>
-          <circle cx="215" cy="150" r="6"></circle>
-          <path d="M172 90 C168 65, 165 50, 160 38"></path>
-          <path d="M228 90 C232 65, 235 50, 240 38"></path>
-          <circle cx="158" cy="28" r="14"></circle>
-          <circle cx="242" cy="28" r="14"></circle>
-          <circle cx="155" cy="25" r="3" fill="#163a5c"></circle>
-          <circle cx="245" cy="25" r="3" fill="#163a5c"></circle>
-          <path d="M178 175 Q200 190 222 175"></path>
-          <path d="M130 140 C90 130, 65 110, 55 85"></path>
-          <path d="M55 85 C40 78, 28 82, 22 95"></path>
-          <path d="M55 85 C48 68, 55 55, 70 52"></path>
-          <path d="M22 95 C28 100, 40 100, 48 92"></path>
-          <path d="M270 140 C310 130, 335 110, 345 85"></path>
-          <path d="M345 85 C360 78, 372 82, 378 95"></path>
-          <path d="M345 85 C352 68, 345 55, 330 52"></path>
-          <path d="M378 95 C372 100, 360 100, 352 92"></path>
-          <path d="M130 175 C100 185, 78 195, 62 210"></path>
-          <path d="M128 195 C100 210, 82 225, 68 245"></path>
-          <path d="M135 212 C112 232, 98 250, 88 272"></path>
-          <path d="M270 175 C300 185, 322 195, 338 210"></path>
-          <path d="M272 195 C300 210, 318 225, 332 245"></path>
-          <path d="M265 212 C288 232, 302 250, 312 272"></path>
+          <!-- the hair tie -->
+          <ellipse cx="200" cy="55" rx="38" ry="14"></ellipse>
+          <path d="M175 60 L165 78"></path>
+          <path d="M225 60 L235 78"></path>
+          <!-- the ponytail's outline -->
+          <path d="M165 60 C140 110, 130 170, 140 230 C145 250, 155 265, 150 285"></path>
+          <path d="M235 60 C260 110, 270 170, 260 230 C255 250, 245 265, 250 285"></path>
+          <path d="M150 285 C160 300, 175 305, 185 295"></path>
+          <path d="M185 295 C195 305, 205 305, 215 295"></path>
+          <path d="M215 295 C225 305, 240 300, 250 285"></path>
+          <!-- a little hair texture -->
+          <path d="M185 65 C170 120, 165 180, 175 240"></path>
+          <path d="M200 65 C195 130, 195 190, 200 245"></path>
+          <path d="M215 65 C230 120, 235 180, 225 240"></path>
+          <!-- Crabby, tucked in and peeking out -->
+          <path d="M255 160 C270 140, 295 140, 305 160 C310 175, 300 185, 280 185 C265 185, 252 175, 255 160 Z"></path>
+          <path d="M270 140 C268 130, 266 122, 264 115"></path>
+          <circle cx="262" cy="110" r="8"></circle>
+          <circle cx="260" cy="108" r="2" fill="#163a5c"></circle>
+          <path d="M290 140 C292 130, 294 122, 296 115"></path>
+          <circle cx="298" cy="110" r="8"></circle>
+          <circle cx="300" cy="108" r="2" fill="#163a5c"></circle>
+          <path d="M270 178 Q280 184 290 178"></path>
+          <path d="M255 165 C240 160, 228 165, 220 178"></path>
+          <path d="M220 178 C215 185, 210 185, 206 180"></path>
+          <path d="M220 178 C218 190, 222 196, 230 198"></path>
         </svg>
         <br>
         <button class="btn" onclick="window.print()">Print this picture</button>
