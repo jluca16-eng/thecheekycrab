@@ -23,6 +23,19 @@
   <a class="story-row"> block down in the BODY section below, and
   change its href, picture and title to the new story's. New lines
   just stack below the existing ones — no layout changes needed.
+
+  FONTS (Sep 2026)
+  --------------------------
+  The heading ("Stories") and each story's name now use two custom
+  font files instead of the Google-hosted "Alex Brush" script font:
+
+    - Marelle Bâton   → heading only
+    - Gill Sans MT Pro → story names only
+
+  Both font files live in a "fonts" folder at the top of the repo,
+  next to "images" (i.e. thecheekycrab/fonts/...). They're loaded
+  below via @font-face. If a font file ever gets renamed or moved,
+  update the matching url(...) path in the @font-face block.
   ============================================================
 -->
 <html lang="en-AU">
@@ -35,12 +48,40 @@
 
 <meta name="description" content="All the stories from The Adventures of Crabby.">
 
-<!-- Same lettering font as the rest of the site, for the heading here. -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
-
 <style>
+  /* Custom fonts — files live in /fonts at the repo root. */
+  @font-face {
+    font-family: "Marelle Baton";
+    src: url("../fonts/MarelleBaton-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Gill Sans MT Pro";
+    src: url("../fonts/Gill_Sans_MT_Pro_Book.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Gill Sans MT Pro";
+    src: url("../fonts/Gill_Sans_MT_Pro_Book_Italic.otf") format("opentype");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Gill Sans MT Pro";
+    src: url("../fonts/Gill_Sans_MT_Pro_Bold_Italic.otf") format("opentype");
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+  }
+
   :root {
     --paper: #fbf4dd;   /* same page background as the rest of the site */
     --ink:   #163a5c;   /* same ink colour as the home page's title */
@@ -73,7 +114,7 @@
 
   /* EDIT: the heading wording */
   h1 {
-    font-family: "Alex Brush", "Segoe Script", "Brush Script MT", cursive;
+    font-family: "Marelle Baton", cursive;
     font-weight: 400;
     font-size: 56px;
     color: var(--ink);
@@ -117,7 +158,8 @@
 
   /* EDIT: the story's name next to its picture */
   .story-row span {
-    font-family: "Alex Brush", "Segoe Script", "Brush Script MT", cursive;
+    font-family: "Gill Sans MT Pro", "Gill Sans MT", "Gill Sans", Calibri,
+                 "Segoe UI", Arial, sans-serif;
     font-weight: 400;
     font-size: 30px;
     line-height: 1.15;
