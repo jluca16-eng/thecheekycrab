@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  thecheekycrab.com  —  Activity Corner (index)
+  ============================================================
+
+  Landing page for Activity Corner. Each story now has its own
+  activity page (word search, quiz, order-the-story, colouring
+  page, writing prompt) — this page just lists the stories and
+  links to each one's activity page, the same way
+  stories/stories-index.html lists the stories themselves.
+
+  ADDING A NEW STORY'S ACTIVITY LINE
+  --------------------------
+  Once a new story has its own activity page in this folder, copy
+  one whole <a class="story-row"> block below and change its href,
+  picture and title to the new one.
+  ============================================================
+-->
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Activity Corner — The Adventures of Crabby</title>
+
+<meta name="description" content="Pick a story to find its word search, quiz, story-ordering game, colouring page and writing space.">
+
+<style>
+  /* Custom fonts — files live in /fonts at the repo root. */
+  @font-face {
+    font-family: "Marelle Baton";
+    src: url("../fonts/MarelleBaton-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Gill Sans MT Pro";
+    src: url("../fonts/Gill_Sans_MT_Pro_Book.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Gill Sans MT Pro";
+    src: url("../fonts/Gill_Sans_MT_Pro_Book_Italic.otf") format("opentype");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Gill Sans MT Pro";
+    src: url("../fonts/Gill_Sans_MT_Pro_Bold_Italic.otf") format("opentype");
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  :root {
+    --paper: #fbf4dd;
+    --ink:   #163a5c;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    padding: 50px 20px 90px;
+  }
+
+  .page {
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  .back {
+    display: inline-block;
+    margin-bottom: 24px;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    color: var(--ink);
+    text-decoration: none;
+    opacity: .75;
+  }
+
+  .back:hover { opacity: 1; }
+
+  h1 {
+    font-family: "Marelle Baton", cursive;
+    font-weight: 400;
+    font-size: 56px;
+    color: var(--ink);
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .intro {
+    text-align: center;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink);
+    opacity: .8;
+    margin-bottom: 30px;
+  }
+
+  .story-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .story-row {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 14px 6px;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(22, 58, 92, .12);
+    transition: transform .15s ease, opacity .15s ease;
+  }
+
+  .story-list a.story-row:first-child { border-top: 1px solid rgba(22, 58, 92, .12); }
+
+  .story-row:hover {
+    transform: translateX(4px);
+    opacity: .85;
+  }
+
+  .story-row img {
+    display: block;
+    width: 46px;
+    height: auto;
+    flex-shrink: 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(90, 66, 30, .25);
+  }
+
+  .story-row span {
+    font-family: "Gill Sans MT Pro", "Gill Sans MT", "Gill Sans", Calibri,
+                 "Segoe UI", Arial, sans-serif;
+    font-weight: 400;
+    font-size: 26px;
+    line-height: 1.15;
+    color: var(--ink);
+  }
+</style>
+</head>
+
+<body>
+
+  <div class="page">
+
+    <a class="back" href="/">&larr; Back</a>
+
+    <h1>Activity Corner</h1>
+    <p class="intro">Pick a story below to find its own word search, quiz, story-ordering game, colouring page and writing space.</p>
+
+    <div class="story-list">
+
+      <!-- EDIT: one line per story's activity page. Copy this whole block for a new one. -->
+      <a class="story-row" href="crabby-and-the-mango-ice-cream">
+        <img src="../images/Crabby%20Mango%20Ice%20Cream.png" alt="Crabby the Lego crab triumphantly holding a mango ice cream cone">
+        <span>Crabby and the Mango Ice Cream</span>
+      </a>
+
+      <a class="story-row" href="crabby-and-the-perfect-hiding-place">
+        <img src="../images/Crabby%20and%20Sofia%20Windowsill.jpg" alt="Crabby the Lego crab watching Sofia brush her hair">
+        <span>Crabby and the Perfect Hiding Place</span>
+      </a>
+
+    </div>
+
+  </div>
+
+</body>
+</html>
