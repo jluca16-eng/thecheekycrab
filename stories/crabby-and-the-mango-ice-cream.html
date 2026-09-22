@@ -1,42 +1,4 @@
 <!DOCTYPE html>
-<!--
-  ============================================================
-  thecheekycrab.com  —  Crabby and the Mango Ice Cream
-  ============================================================
-
-  A story page, living in the "stories" folder. It follows the
-  same look as about/aboutcrabby.html — same paper background,
-  same ink colour, same fonts — so it feels like part of the same
-  site.
-
-  HOW TO EDIT IT
-  --------------
-  Open this file in a plain text editor (VS Code, Notepad — not
-  Microsoft Word). The title and the story text are plain HTML in
-  the BODY section — edit the words there directly. Its two
-  pictures live in the site's shared images folder (see "ABOUT
-  THE PICTURES" below) — the same folder index.html and the about
-  pages already use.
-
-  ADDING MORE STORIES
-  --------------------
-  Copy this whole file, rename the copy (e.g.
-  stories/crabby-and-the-lost-shell.html), swap in the new title
-  and text, and point its <img> tags at that story's own pictures
-  (add those to the images folder too). Then add a new link card
-  for it on the home page the same way "About Sofia" was added
-  next to "About Crabby" — see the "ABOUT THE LINK CARDS" note in
-  index.html.
-
-  ABOUT THE PICTURES
-  --------------------
-  Both pictures below are ordinary files in the images folder one
-  level up (../images/), not baked into this document — that
-  keeps this file small and easy to open in a text editor. To
-  swap a picture, replace its file (keeping the same name) or
-  change the "src" to point at a new file.
-  ============================================================
--->
 <html lang="en-AU">
 <head>
 <meta charset="UTF-8">
@@ -49,8 +11,8 @@
 
 <!-- Same lettering font as the home page's title, for the heading here. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&amp;display=swap" rel="stylesheet">
 
 <style>
   :root {
@@ -136,6 +98,29 @@
     color: var(--ink);
     margin-top: 26px;
   }
+
+  /* EDIT: the link to this story's activity page, shown after The End */
+  .activity-link {
+    display: block;
+    text-align: center;
+    margin-top: 34px;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+  }
+
+  .activity-link a {
+    display: inline-block;
+    padding: 10px 22px;
+    border-radius: 10px;
+    background: var(--ink);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    transition: transform .15s ease, opacity .15s ease;
+  }
+
+  .activity-link a:hover { transform: translateY(-2px); opacity: .92; }
 </style>
 </head>
 
@@ -143,12 +128,11 @@
 
   <div class="page">
 
-    <a class="back" href="../index.html">&larr; Back</a>
+    <a class="back" href="/">← Back</a>
 
     <h1>Crabby and the Mango Ice Cream</h1>
 
-    <img class="hero-picture" src="../images/Mango%20Ice%20Cream%20Stall.png"
-         alt="Crabby the Lego crab approaching a beach ice cream stall, run by a Lego man, with a sign reading MANGO">
+    <img class="hero-picture" src="../images/Mango%20Ice%20Cream%20Stall.png" alt="Crabby the Lego crab approaching a beach ice cream stall, run by a Lego man, with a sign reading MANGO">
 
     <p>Crabby was not your average crab. For one thing he was made entirely of bright red Lego plastic. For another, he lived not in the ocean, but in a little crevice on the Lego Friends Beach Club of his human, Sofia Kontorinis. He had two claws, six little legs, and absolutely no adventures to his name.</p>
 
@@ -168,8 +152,7 @@
 
     <p>For one glorious second, Crabby stood there holding it, triumphant, a mango ice cream almost as big as his entire body raised over his head like a trophy.</p>
 
-    <img class="story-picture" src="../images/Crabby%20Mango%20Ice%20Cream.png"
-         alt="Crabby the Lego crab triumphantly holding a mango ice cream cone above his head on the beach">
+    <img class="story-picture" src="../images/Crabby%20Mango%20Ice%20Cream.png" alt="Crabby the Lego crab triumphantly holding a mango ice cream cone above his head on the beach">
 
     <p>Then suddenly he heard the ice cream man's voice, shouting "catch that crab! It's stolen my icecream!" Oh no, thought Crabby, RUN!</p>
 
@@ -185,7 +168,11 @@
 
     <p class="the-end">The End</p>
 
+    <p class="activity-link">
+      <a href="../activity-corner/mango-ice-cream-activity">🦀 Try this story's activity →</a>
+    </p>
+
   </div>
 
-</body>
-</html>
+
+</body></html>

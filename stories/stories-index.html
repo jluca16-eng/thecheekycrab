@@ -1,43 +1,4 @@
 <!DOCTYPE html>
-<!--
-  ============================================================
-  thecheekycrab.com  —  Stories
-  ============================================================
-
-  The stories landing page — this is where the big "Stories" link
-  on the home page leads. It lists every story as one line each: a
-  small picture (the same size as the About Crabby / About Sofia
-  links on the home page) plus the story's name beside it. The
-  whole line is one link, leading to that story's own page sitting
-  right next to this file in the "stories" folder.
-
-  HOW TO EDIT IT
-  --------------
-  Open this file in a plain text editor (VS Code, Notepad — not
-  Microsoft Word).
-
-  ADDING A NEW STORY LINE
-  --------------------------
-  Once a new story page exists (see the "ADDING MORE STORIES" note
-  in crabby-and-the-mango-ice-cream.html), copy one whole
-  <a class="story-row"> block down in the BODY section below, and
-  change its href, picture and title to the new story's. New lines
-  just stack below the existing ones — no layout changes needed.
-
-  FONTS (Sep 2026)
-  --------------------------
-  The heading ("Stories") and each story's name now use two custom
-  font files instead of the Google-hosted "Alex Brush" script font:
-
-    - Marelle Bâton   → heading only
-    - Gill Sans MT Pro → story names only
-
-  Both font files live in a "fonts" folder at the top of the repo,
-  next to "images" (i.e. thecheekycrab/fonts/...). They're loaded
-  below via @font-face. If a font file ever gets renamed or moved,
-  update the matching url(...) path in the @font-face block.
-  ============================================================
--->
 <html lang="en-AU">
 <head>
 <meta charset="UTF-8">
@@ -128,21 +89,57 @@
     flex-direction: column;
   }
 
+  /* EDIT: each story now sits in a row that holds two links side by
+     side — the story itself, and a small button to that story's own
+     activity page (in the activity-corner folder). */
+  .story-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 6px;
+    border-bottom: 1px solid rgba(22, 58, 92, .12);
+  }
+
+  .story-list .story-line:first-child { border-top: 1px solid rgba(22, 58, 92, .12); }
+
   .story-row {
+    flex: 1;
     display: flex;
     align-items: center;
     gap: 18px;
-    padding: 14px 6px;
+    min-width: 0;
     text-decoration: none;
-    border-bottom: 1px solid rgba(22, 58, 92, .12);
     transition: transform .15s ease, opacity .15s ease;
   }
-
-  .story-list a.story-row:first-child { border-top: 1px solid rgba(22, 58, 92, .12); }
 
   .story-row:hover {
     transform: translateX(4px);
     opacity: .85;
+  }
+
+  /* EDIT: the small "Activity" button linking to that story's own
+     activity-corner page. */
+  .activity-btn {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: #fff;
+    text-decoration: none;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    white-space: nowrap;
+    transition: transform .15s ease, opacity .15s ease;
+  }
+
+  .activity-btn:hover {
+    transform: translateY(-2px);
+    opacity: .9;
   }
 
   /* EDIT: the link picture — same width (46px) as the About Crabby /
@@ -172,26 +169,32 @@
 
   <div class="page">
 
-    <a class="back" href="../index.html">&larr; Back</a>
+    <a class="back" href="/">← Back</a>
 
     <h1>Stories</h1>
 
     <div class="story-list">
 
       <!-- EDIT: one line per story. Copy this whole block for a new one. -->
-      <a class="story-row" href="crabby-and-the-mango-ice-cream.html">
-        <img src="../images/Crabby%20Mango%20Ice%20Cream.png" alt="Crabby the Lego crab triumphantly holding a mango ice cream cone">
-        <span>Crabby and the Mango Ice Cream</span>
-      </a>
+      <div class="story-line">
+        <a class="story-row" href="/stories/crabby-and-the-mango-ice-cream">
+          <img src="../images/Crabby%20Mango%20Ice%20Cream.png" alt="Crabby the Lego crab triumphantly holding a mango ice cream cone">
+          <span>Crabby and the Mango Ice Cream</span>
+        </a>
+        <a class="activity-btn" href="/activity-corner/mango-ice-cream-activity" title="Try this story's activity">🦀 Activity</a>
+      </div>
 
-      <a class="story-row" href="crabby-and-the-perfect-hiding-place.html">
-        <img src="../images/Crabby%20and%20Sofia%20Windowsill.jpg" alt="Crabby the Lego crab watching Sofia brush her hair">
-        <span>Crabby and the Perfect Hiding Place</span>
-      </a>
+      <div class="story-line">
+        <a class="story-row" href="/stories/crabby-and-the-perfect-hiding-place">
+          <img src="../images/Crabby%20and%20Sofia%20Windowsill.jpg" alt="Crabby the Lego crab watching Sofia brush her hair">
+          <span>Crabby and the Perfect Hiding Place</span>
+        </a>
+        <a class="activity-btn" href="/activity-corner/perfect-hiding-place-activity" title="Try this story's activity">🦀 Activity</a>
+      </div>
 
     </div>
 
   </div>
 
-</body>
-</html>
+
+</body></html>

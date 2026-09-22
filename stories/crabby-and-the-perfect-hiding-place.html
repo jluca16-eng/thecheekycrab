@@ -1,30 +1,4 @@
 <!DOCTYPE html>
-<!--
-  ============================================================
-  thecheekycrab.com  —  Crabby and the Perfect Hiding Place
-  ============================================================
-
-  A story page, living in the "stories" folder. It follows the
-  same look as the other story pages — same paper background,
-  same ink colour, same fonts.
-
-  HOW TO EDIT IT
-  --------------
-  Open this file in a plain text editor (VS Code, Notepad — not
-  Microsoft Word). The title and the story text are plain HTML in
-  the BODY section — edit the words there directly. Its two
-  pictures live in the site's shared images folder (../images/),
-  the same folder every other page uses.
-
-  A NOTE ON THIS STORY'S PICTURES
-  ----------------------------------
-  Unlike the Mango Ice Cream story's pictures (tall and narrow),
-  this story's two pictures are wide and short (1024 x 677) — so
-  the .hero-picture and .story-picture sizes below are set wider
-  than on that page to suit. If a future story's pictures are a
-  different shape again, adjust the max-width values to taste.
-  ============================================================
--->
 <html lang="en-AU">
 <head>
 <meta charset="UTF-8">
@@ -124,6 +98,29 @@
     color: var(--ink);
     margin-top: 26px;
   }
+
+  /* EDIT: the link to this story's activity page, shown after The End */
+  .activity-link {
+    display: block;
+    text-align: center;
+    margin-top: 34px;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+  }
+
+  .activity-link a {
+    display: inline-block;
+    padding: 10px 22px;
+    border-radius: 10px;
+    background: var(--ink);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    transition: transform .15s ease, opacity .15s ease;
+  }
+
+  .activity-link a:hover { transform: translateY(-2px); opacity: .92; }
 </style>
 </head>
 
@@ -131,12 +128,11 @@
 
   <div class="page">
 
-    <a class="back" href="../index.html">&larr; Back</a>
+    <a class="back" href="/">← Back</a>
 
     <h1>Crabby and the Perfect Hiding Place</h1>
 
-    <img class="hero-picture" src="../images/Crabby%20and%20Sofia%20Windowsill.jpg"
-         alt="Crabby the Lego crab watching from a windowsill as Sofia brushes her hair before school">
+    <img class="hero-picture" src="../images/Crabby%20and%20Sofia%20Windowsill.jpg" alt="Crabby the Lego crab watching from a windowsill as Sofia brushes her hair before school">
 
     <p>Crabby was bored. He was lurking in his usual crevice in the Beach Club Lego, trying to solve a very important problem. I need, Crabby thought, tapping one claw thoughtfully, a secret hiding place to follow Sofia on her adventures.</p>
 
@@ -152,8 +148,7 @@
 
     <p>Crabby waited until Sofia bent down to tie her shoelace, and then made his move — three quick scuttling steps and a determined leap. He caught the very end of the ponytail, missed his footing, and spent one heart-stopping second dangling by a single claw before hauling himself up, claw over claw, into the thick of it.</p>
 
-    <img class="story-picture" src="../images/Crabby%20in%20the%20Ponytail.jpg"
-         alt="Crabby the Lego crab nestled snugly inside Sofia's tied-up ponytail">
+    <img class="story-picture" src="../images/Crabby%20in%20the%20Ponytail.jpg" alt="Crabby the Lego crab nestled snugly inside Sofia's tied-up ponytail">
 
     <p>Made it, he thought, breathless, wedging himself into a snug little pocket near the hair tie. Excellent landing. Nobody saw a thing.</p>
 
@@ -168,6 +163,10 @@
     <p>And from that day on, it was.</p>
 
     <p class="the-end">The End</p>
+
+    <p class="activity-link">
+      <a href="../activity-corner/perfect-hiding-place-activity">🦀 Try this story's activity →</a>
+    </p>
 
   </div>
 
