@@ -272,7 +272,34 @@
     gap: 10px;
   }
 
-  .order-item .handle { opacity: .5; font-size: 18px; }
+  .order-item .handle {
+    opacity: .5;
+    font-size: 22px;
+    padding: 4px 6px;
+    cursor: grab;
+    touch-action: none;
+  }
+
+  .order-item .order-text { flex: 1; }
+
+  .order-item { user-select: none; -webkit-user-select: none; }
+
+  .order-moves { display: flex; flex-direction: column; gap: 4px; }
+
+  .move-btn {
+    font: inherit;
+    font-size: 14px;
+    line-height: 1;
+    width: 36px;
+    height: 30px;
+    border-radius: 8px;
+    border: 2px solid var(--ink);
+    background: #fff;
+    color: var(--ink);
+    cursor: pointer;
+  }
+
+  .move-btn:active { background: #e8dcbf; }
 
   .order-item.dragging { opacity: .4; }
 
@@ -398,7 +425,7 @@
          ORDER_SET constant near the bottom. -->
     <div class="card">
       <h2>3. Put It In Order</h2>
-      <p class="sub">Drag these moments from <em>Crabby and the Perfect Hiding Place</em> into the order they happened in the story.</p>
+      <p class="sub">Drag (using the &#9776; handle) or tap the arrows to move these moments from <em>Crabby and the Perfect Hiding Place</em> into the order they happened in the story.</p>
       <ul class="order-list" id="order-list"></ul>
       <div class="order-actions">
         <button class="btn" id="order-check">Check my order</button>
@@ -732,27 +759,66 @@
     shuffled.forEach(function (text) {
       var li = document.createElement('li');
       li.className = 'order-item';
-      li.draggable = true;
       li.dataset.text = text;
-      li.innerHTML = '<span class="handle">&#9776;</span><span>' + text + '</span>';
+      li.innerHTML =
+        '<span class="handle" aria-hidden="true">&#9776;</span>' +
+        '<span class="order-text">' + text + '</span>' +
+        '<span class="order-moves">' +
+          '<button type="button" class="move-btn" data-dir="-1" aria-label="Move up">&#9650;</button>' +
+          '<button type="button" class="move-btn" data-dir="1" aria-label="Move down">&#9660;</button>' +
+        '</span>';
 
-      li.addEventListener('dragstart', function () {
+      // Up / down buttons — easiest option on phones
+      Array.prototype.forEach.call(li.querySelectorAll('.move-btn'), function (btn) {
+        btn.addEventListener('click', function () {
+          clearMarks();
+          if (btn.dataset.dir === '-1' && li.previousElementSibling) {
+            orderListEl.insertBefore(li, li.previousElementSibling);
+          } else if (btn.dataset.dir === '1' && li.nextElementSibling) {
+            orderListEl.insertBefore(li.nextElementSibling, li);
+          }
+        });
+      });
+
+      // Drag — works with mouse, finger and pen (pointer events)
+      li.addEventListener('pointerdown', function (e) {
+        if (e.target.closest('.move-btn')) return;
+        // On touch screens, drag from the ☰ handle so the page can still scroll
+        if (e.pointerType !== 'mouse' && !e.target.closest('.handle')) return;
+        e.preventDefault();
         orderDragEl = li;
         li.classList.add('dragging');
+        clearMarks();
       });
-      li.addEventListener('dragend', function () {
-        li.classList.remove('dragging');
-      });
-      li.addEventListener('dragover', function (e) {
-        e.preventDefault();
-        var after = getDragAfterElement(orderListEl, e.clientY);
-        if (after == null) {
-          orderListEl.appendChild(orderDragEl);
-        } else {
-          orderListEl.insertBefore(orderDragEl, after);
-        }
-      });
+
       orderListEl.appendChild(li);
+    });
+  }
+
+  // Drag tracking lives on the document, because moving an item in the
+  // list would otherwise cancel the finger/mouse "grab" part-way through.
+  document.addEventListener('pointermove', function (e) {
+    if (!orderDragEl) return;
+    e.preventDefault();
+    var after = getDragAfterElement(orderListEl, e.clientY);
+    if (after == null) {
+      if (orderListEl.lastElementChild !== orderDragEl) orderListEl.appendChild(orderDragEl);
+    } else if (after !== orderDragEl.nextElementSibling) {
+      orderListEl.insertBefore(orderDragEl, after);
+    }
+  }, { passive: false });
+  function endOrderDrag() {
+    if (!orderDragEl) return;
+    orderDragEl.classList.remove('dragging');
+    orderDragEl = null;
+  }
+  document.addEventListener('pointerup', endOrderDrag);
+  document.addEventListener('pointercancel', endOrderDrag);
+
+  function clearMarks() {
+    orderFeedbackEl.classList.remove('show');
+    Array.prototype.forEach.call(orderListEl.children, function (el) {
+      el.classList.remove('correct-spot');
     });
   }
 
