@@ -121,6 +121,36 @@
   }
 
   .activity-link a:hover { transform: translateY(-2px); opacity: .92; }
+
+  /* Language buttons at the top of the story */
+  .lang-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin: 0 auto 26px;
+  }
+  .lang-bar button {
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 2px solid var(--ink);
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .lang-bar button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+  /* The title lettering font has no Greek letters, so Greek uses this */
+  html[lang="el"] h1,
+  html[lang="el"] .the-end {
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+  }
+  html[lang="el"] h1 { font-size: 40px; }
+  html[lang="el"] .the-end { font-size: 28px; }
 </style>
 </head>
 
@@ -129,6 +159,15 @@
   <div class="page">
 
     <a class="back" href="/">← Back</a>
+
+    <!-- Language buttons — the translations are in the script at the bottom of this page -->
+    <div class="lang-bar" role="group" aria-label="Language">
+      <button type="button" data-lang="en" lang="en">English</button>
+      <button type="button" data-lang="el" lang="el">Ελληνικά</button>
+      <button type="button" data-lang="it" lang="it">Italiano</button>
+      <button type="button" data-lang="fr" lang="fr">Français</button>
+      <button type="button" data-lang="es" lang="es">Español</button>
+    </div>
 
     <h1>Crabby and the Mango Ice Cream</h1>
 
@@ -175,4 +214,172 @@
   </div>
 
 
+
+<!-- EDIT: story translations. Each language has the title, the two picture
+     descriptions, and the story paragraphs in the same order as the English
+     above (one line per paragraph). The English is read straight from the page. -->
+<script>
+(function () {
+  var TRANSLATIONS = {
+  "el": {
+    "title": "Ο Κράμπι και το παγωτό μάνγκο",
+    "alts": [
+      "Ο Κράμπι, ο κάβουρας από Lego, πλησιάζει έναν πάγκο με παγωτά στην παραλία, με έναν παγωτατζή Lego και μια πινακίδα που γράφει MANGO",
+      "Ο Κράμπι, ο κάβουρας από Lego, κρατά θριαμβευτικά ένα παγωτό μάνγκο πάνω από το κεφάλι του στην παραλία"
+    ],
+    "p": [
+      "Ο Κράμπι δεν ήταν ένας συνηθισμένος κάβουρας. Πρώτα απ' όλα, ήταν φτιαγμένος ολόκληρος από κατακόκκινο πλαστικό Lego. Κι έπειτα, δεν ζούσε στον ωκεανό, αλλά σε μια μικρή σχισμή στο Lego Friends Beach Club του ανθρώπου του, της Σοφίας Κοντορίνη. Είχε δύο δαγκάνες, έξι ποδαράκια και καμία απολύτως περιπέτεια στο ενεργητικό του.",
+      "Αυτό είναι απαράδεκτο, σκέφτηκε ο Κράμπι, κοιτάζοντας τον κόσμο του Lego να περνάει. Έτσι, μια μέρα σαν όλες τις άλλες, ο Κράμπι πήρε μια απόφαση. Θα έβγαινε για περιπέτεια. Δεν ήξερε ακριβώς τι ήταν μια περιπέτεια. Ήταν όμως σχεδόν σίγουρος ότι έπρεπε να φύγει από τον βράχο του, και απόλυτα σίγουρος ότι δεν χρειαζόταν να ζητήσει την άδεια κανενός.",
+      "Μικρά βήματα, είπε στον εαυτό του, κι έκανε ένα. Μετά κι άλλο ένα. Οκτώ ποδαράκια Lego δεν είναι ο πιο γρήγορος τρόπος να ταξιδεύεις, είναι όμως, όπως ανακάλυψε ο Κράμπι, ένας πολύ αποφασιστικός τρόπος.",
+      "Ο δρόμος μέσα από το Beach Club ήταν πιο μακρύς απ' ό,τι φαινόταν. Πέρασε δίπλα από την ξαπλώστρα, όπου μια κυρία Lego με γυαλιά ηλίου χαλάρωνε. Πέρασε δίπλα από έναν μικρό φοίνικα και εξέτασε προσεκτικά το μοναδικό του φύλλο, μήπως έκρυβε κάτι ενδιαφέρον. Δεν έκρυβε.",
+      "Και τότε, επιτέλους, έφτασε στον πάγκο με τα παγωτά. Ήταν, χωρίς καμία υπερβολή, το πιο υπέροχο πράγμα που είχε δει ποτέ ο Κράμπι. Μικρές πλαστικές μπάλες παγωτού στέκονταν στη σειρά πάνω στον πάγκο — ροζ, άσπρες, καφέ, κι εκεί, ακριβώς στην άκρη, ένα λαμπερό, μεγαλειώδες πορτοκαλί.",
+      "Μάνγκο, σκέφτηκε ο Κράμπι, και κάτι μέσα στο μικρό πλαστικό του στήθος σφίχτηκε από λαχτάρα. Δεν ξέρω τι είναι το μάνγκο. Ξέρω μόνο ότι το χρειάζομαι αμέσως.",
+      "Υπήρχε, βέβαια, ένα μικρό πρόβλημα. Το παγωτό μάνγκο ανήκε στον πάγκο. Κι ο πάγκος ανήκε στον παγωτατζή Lego, που στεκόταν πίσω του με ένα χαρούμενο χαμόγελο.",
+      "Χωρίς να πτοηθεί, ο Κράμπι σκαρφάλωσε αθόρυβα στον πάγκο, έσφιξε γρήγορα τη δαγκάνα του γύρω από τη μπάλα μάνγκο και τράβηξε. Ξεκόλλησε με ένα μικρό, ικανοποιητικό «κλικ».",
+      "Για ένα ένδοξο δευτερόλεπτο, ο Κράμπι στάθηκε εκεί θριαμβευτής, κρατώντας ψηλά πάνω από το κεφάλι του σαν τρόπαιο ένα παγωτό μάνγκο σχεδόν όσο μεγάλο ήταν κι ο ίδιος.",
+      "Ξαφνικά όμως άκουσε τη φωνή του παγωτατζή: «Πιάστε αυτόν τον κάβουρα! Μου έκλεψε το παγωτό!» Ωχ όχι, σκέφτηκε ο Κράμπι, ΤΡΕΞΕ!",
+      "Κι έτσι ξεκίνησε το πρώτο μεγάλο κυνηγητό του Κράμπι.",
+      "Μισοτρέχοντας, μισοκουτρουβαλώντας, έπεσε από τον πάγκο, με το παγωτό μάνγκο ακόμα σφιγμένο στη δαγκάνα του. Πέρασε σαν σφαίρα δίπλα από τη σανίδα του σέρφινγκ, κάτω από την ξαπλώστρα και κατευθείαν στη σκιά του φοίνικα, όπου κόλλησε πάνω στον μικρό πλαστικό κορμό και κράτησε την ανάσα του.",
+      "Ο παγωτατζής έτρεχε από πίσω. Φώναζε θυμωμένος στον κάβουρα, αλλά μέσα στο κυνηγητό τον έχασε από τα μάτια του. Εξαντλημένος, ο Κράμπι έμεινε ακίνητος για πάρα πολλή ώρα. Κρατούσε ακόμα το παγωτό. Δάγκωσε μια μπουκιά κι αποφάσισε ότι ήταν ίσως ό,τι πιο νόστιμο είχε δοκιμάσει ποτέ.",
+      "Ο Κράμπι δεν γύρισε στη συνηθισμένη του θέση στο Beach Club εκείνη τη μέρα. Βρήκε μια καινούργια — ακριβώς πίσω από τον πάγκο με τα παγωτά, κοντά στην τουαλέτα. Από εκεί μπορούσε να έχει τον νου του στον πάγκο, για την περίπτωση που θα παρουσιαζόταν ξανά κάποια ευκαιρία.",
+      "Ήταν η πρώτη από πολλές περιπέτειες. Ο Κράμπι δεν είχε την παραμικρή ιδέα πόσο μακριά επρόκειτο να τον πάνε τα ποδαράκια του."
+    ],
+    "back": "← Πίσω",
+    "end": "Τέλος",
+    "activity": "🦀 Δοκίμασε τη δραστηριότητα της ιστορίας →"
+  },
+  "it": {
+    "title": "Crabby e il gelato al mango",
+    "alts": [
+      "Crabby, il granchio Lego, si avvicina a un chiosco di gelati sulla spiaggia gestito da un omino Lego, con un cartello che dice MANGO",
+      "Crabby, il granchio Lego, tiene trionfante un cono gelato al mango sopra la testa sulla spiaggia"
+    ],
+    "p": [
+      "Crabby non era un granchio qualunque. Tanto per cominciare, era fatto interamente di plastica Lego rosso vivo. E poi non viveva nell'oceano, ma in una piccola fessura del Beach Club Lego Friends della sua umana, Sofia Kontorinis. Aveva due chele, sei zampette e nemmeno un'avventura a suo nome.",
+      "Questo è inaccettabile, pensò Crabby, guardando passare il mondo Lego. Così, in un giorno come tanti, Crabby prese una decisione. Sarebbe partito per un'avventura. Non sapeva esattamente cosa fosse un'avventura. Ma era abbastanza sicuro che significasse lasciare lo scoglio, ed era sicurissimo che significasse non chiedere il permesso a nessuno.",
+      "Un passetto alla volta, si disse, e ne fece uno. Poi un altro. Otto zampette Lego non sono un modo veloce di viaggiare, ma sono, scoprì Crabby, un modo molto determinato.",
+      "Il sentiero attraverso il Beach Club Lego era più lungo di quanto sembrasse. Passò accanto al lettino, dove una signora Lego con gli occhiali da sole si rilassava. Passò accanto a una piccola palma, e ne esaminò con attenzione l'unica fronda, nel caso nascondesse qualcosa di interessante. Non nascondeva niente.",
+      "E poi, finalmente, arrivò al chiosco dei gelati. Era, senza alcuna esagerazione, la cosa più meravigliosa che Crabby avesse mai visto. File di palline di plastica erano allineate sul bancone — rosa, bianche, marroni e lì, proprio in fondo, un arancione brillante e glorioso.",
+      "Mango, pensò Crabby, e qualcosa nel suo piccolo petto di plastica si strinse dal desiderio. Non so cosa sia il mango. So soltanto che ne ho bisogno subito.",
+      "C'era, naturalmente, un piccolo problema. Il gelato al mango apparteneva al chiosco. E il chiosco apparteneva al gelataio Lego, che stava dietro al bancone con il suo sorriso allegro.",
+      "Per niente scoraggiato, Crabby salì di soppiatto sul bancone, strinse rapido una chela attorno alla pallina di mango e tirò. Si staccò con un piccolo, soddisfacente clic.",
+      "Per un glorioso secondo, Crabby restò lì, trionfante, con un gelato al mango grande quasi quanto tutto il suo corpo sollevato sopra la testa come un trofeo.",
+      "Poi all'improvviso sentì la voce del gelataio che gridava: «Prendete quel granchio! Mi ha rubato il gelato!» Oh no, pensò Crabby, CORRI!",
+      "E così cominciò il primo grande inseguimento di Crabby.",
+      "Un po' zampettando e un po' capitombolando, scese dal bancone, con il gelato al mango ancora stretto in una chela. Sfrecciò accanto alla tavola da surf, sotto il lettino e dritto all'ombra della palma, dove si appiattì contro il piccolo tronco di plastica e trattenne il respiro.",
+      "Il gelataio arrivò di corsa, subito dietro di lui. Gridava arrabbiato contro il granchio, ma durante l'inseguimento lo perse di vista. Sfinito, Crabby non si mosse per moltissimo tempo. Aveva ancora in mano il gelato. Ne diede un morso e decise che era forse la cosa più buona che avesse mai assaggiato.",
+      "Quel giorno Crabby non tornò al suo solito posto nel Beach Club. Ne trovò uno nuovo — proprio dietro il chiosco dei gelati, vicino al bagno. Da lì poteva tenere d'occhio il bancone, nel caso si presentasse di nuovo un'occasione.",
+      "Era la prima di tante avventure. Crabby non aveva la minima idea di quanto lontano stessero per portarlo le sue piccole zampe."
+    ],
+    "back": "← Indietro",
+    "end": "Fine",
+    "activity": "🦀 Prova l'attività di questa storia →"
+  },
+  "fr": {
+    "title": "Crabby et la glace à la mangue",
+    "alts": [
+      "Crabby, le crabe en Lego, s'approche d'un stand de glaces sur la plage tenu par un bonhomme Lego, avec un panneau où l'on lit MANGO",
+      "Crabby, le crabe en Lego, brandit fièrement une glace à la mangue au-dessus de sa tête sur la plage"
+    ],
+    "p": [
+      "Crabby n'était pas un crabe comme les autres. D'abord, il était entièrement fait de plastique Lego rouge vif. Ensuite, il ne vivait pas dans l'océan, mais dans une petite crevasse du Beach Club Lego Friends de son humaine, Sofia Kontorinis. Il avait deux pinces, six petites pattes, et absolument aucune aventure à son actif.",
+      "C'est inacceptable, pensa Crabby en regardant passer le monde Lego. Alors, un jour comme les autres, Crabby prit une décision. Il allait partir à l'aventure. Il ne savait pas exactement ce qu'était une aventure. Mais il était à peu près sûr qu'il fallait quitter son rocher, et tout à fait sûr qu'il ne fallait demander la permission à personne.",
+      "Petit à petit, se dit-il, et il fit un pas. Puis un autre. Huit petites pattes Lego, ce n'est pas une façon rapide de voyager, mais c'est, découvrit Crabby, une façon très déterminée.",
+      "Le chemin à travers le Beach Club Lego était plus long qu'il n'y paraissait. Il passa devant le transat, où une dame Lego en lunettes de soleil se prélassait. Il passa devant un petit palmier, dont il inspecta de près l'unique feuille, au cas où elle cacherait quelque chose d'intéressant. Ce n'était pas le cas.",
+      "Et puis, enfin, il arriva devant le stand de glaces. C'était, sans la moindre exagération, la plus belle chose que Crabby ait jamais vue. Des rangées de petites boules en plastique étaient alignées sur le comptoir — roses, blanches, marron, et là, tout au bout, un orange vif et glorieux.",
+      "Mangue, pensa Crabby, et quelque chose se serra d'envie dans sa petite poitrine en plastique. Je ne sais pas ce qu'est la mangue. Je sais seulement qu'il me la faut tout de suite.",
+      "Il y avait, bien sûr, un petit problème. La glace à la mangue appartenait au stand. Et le stand appartenait au marchand de glaces Lego, qui se tenait derrière le comptoir avec son sourire jovial.",
+      "Sans se décourager, Crabby grimpa discrètement sur le comptoir, referma vite une pince sur la boule de mangue et tira. Elle se détacha avec un petit clic très satisfaisant.",
+      "Pendant une glorieuse seconde, Crabby resta là, triomphant, brandissant au-dessus de sa tête comme un trophée une glace à la mangue presque aussi grande que lui.",
+      "Puis soudain, il entendit la voix du marchand de glaces qui criait : « Attrapez ce crabe ! Il m'a volé ma glace ! » Oh non, pensa Crabby, COURS !",
+      "Et c'est ainsi que commença la première grande course-poursuite de Crabby.",
+      "Moitié trottinant, moitié dégringolant, il descendit du comptoir, la glace à la mangue toujours serrée dans une pince. Il fila devant la planche de surf, sous le transat et droit dans l'ombre du palmier, où il se plaqua contre le petit tronc en plastique en retenant son souffle.",
+      "Le marchand de glaces arrivait en courant juste derrière. Il criait après le crabe avec colère, mais il le perdit de vue pendant la poursuite. Épuisé, Crabby ne bougea pas pendant très, très longtemps. Il tenait toujours la glace. Il en prit une bouchée et décida que c'était peut-être la meilleure chose qu'il ait jamais goûtée.",
+      "Ce jour-là, Crabby ne retourna pas à sa place habituelle au Beach Club. Il en trouva une nouvelle — juste derrière le stand de glaces, près des toilettes. De là, il pouvait garder un œil sur le comptoir, au cas où une occasion se présenterait de nouveau.",
+      "C'était la première d'une longue série d'aventures. Crabby n'avait pas la moindre idée du chemin que ses petites pattes allaient bientôt lui faire parcourir."
+    ],
+    "back": "← Retour",
+    "end": "Fin",
+    "activity": "🦀 Essaie l'activité de cette histoire →"
+  },
+  "es": {
+    "title": "Crabby y el helado de mango",
+    "alts": [
+      "Crabby, el cangrejo de Lego, se acerca a un puesto de helados en la playa atendido por un hombrecito de Lego, con un cartel que dice MANGO",
+      "Crabby, el cangrejo de Lego, sostiene triunfante un cucurucho de helado de mango sobre su cabeza en la playa"
+    ],
+    "p": [
+      "Crabby no era un cangrejo cualquiera. Para empezar, estaba hecho completamente de plástico Lego rojo brillante. Y además, no vivía en el océano, sino en una pequeña grieta del Beach Club de Lego Friends de su humana, Sofia Kontorinis. Tenía dos pinzas, seis patitas y absolutamente ninguna aventura en su haber.",
+      "Esto es inaceptable, pensó Crabby, mirando pasar el mundo Lego. Así que, un día como cualquier otro, Crabby tomó una decisión. Iba a vivir una aventura. No sabía exactamente qué era una aventura. Pero estaba bastante seguro de que había que dejar la roca, y segurísimo de que no había que pedirle permiso a nadie.",
+      "Pasito a pasito, se dijo, y dio uno. Luego otro. Ocho patitas de Lego no son una forma rápida de viajar, pero son, descubrió Crabby, una forma muy decidida.",
+      "El camino a través del Beach Club de Lego era más largo de lo que parecía. Pasó junto a la tumbona, donde una señora Lego con gafas de sol descansaba tan tranquila. Pasó junto a una pequeña palmera, cuya única hoja examinó de cerca por si escondía algo interesante. No escondía nada.",
+      "Y entonces, por fin, llegó al puesto de helados. Era, sin exagerar ni un poquito, lo más maravilloso que Crabby había visto jamás. Filas de bolitas de plástico se alineaban sobre el mostrador — rosas, blancas, marrones y allí, justo al final, un naranja brillante y glorioso.",
+      "Mango, pensó Crabby, y algo en su pequeño pecho de plástico se encogió de ganas. No sé qué es el mango. Solo sé que lo necesito inmediatamente.",
+      "Había, claro, un pequeño problema. El helado de mango pertenecía al puesto. Y el puesto pertenecía al heladero de Lego, que estaba detrás del mostrador con su sonrisa alegre.",
+      "Sin desanimarse, Crabby trepó sigilosamente al mostrador, cerró rápido una pinza alrededor de la bola de mango y tiró. Se soltó con un pequeño y satisfactorio clic.",
+      "Durante un glorioso segundo, Crabby se quedó allí, triunfante, sosteniendo sobre su cabeza como un trofeo un helado de mango casi tan grande como todo su cuerpo.",
+      "De repente, oyó la voz del heladero que gritaba: «¡Atrapen a ese cangrejo! ¡Me ha robado el helado!» Oh, no, pensó Crabby, ¡CORRE!",
+      "Y así empezó la primera gran persecución de Crabby.",
+      "Medio correteando, medio rodando, bajó del mostrador con el helado de mango todavía bien agarrado en una pinza. Pasó como un rayo junto a la tabla de surf, por debajo de la tumbona y directo a la sombra de la palmera, donde se pegó al pequeño tronco de plástico y contuvo la respiración.",
+      "El heladero llegó corriendo justo detrás. Le gritaba enfadado al cangrejo, pero lo perdió de vista durante la persecución. Agotado, Crabby no se movió durante muchísimo tiempo. Todavía tenía el helado. Le dio un mordisco y decidió que era posiblemente lo más rico que había probado nunca.",
+      "Ese día Crabby no volvió a su sitio de siempre en el Beach Club. Encontró uno nuevo — justo detrás del puesto de helados, cerca del baño. Desde allí podía vigilar el mostrador con disimulo, por si volvía a presentarse una oportunidad.",
+      "Fue la primera de muchas aventuras. Crabby no tenía ni idea de lo lejos que estaban a punto de llevarlo sus patitas."
+    ],
+    "back": "← Volver",
+    "end": "Fin",
+    "activity": "🦀 Prueba la actividad de este cuento →"
+  }
+};
+
+  var paras = Array.prototype.slice.call(
+    document.querySelectorAll('.page > p:not(.the-end):not(.activity-link)'));
+  var h1 = document.querySelector('h1');
+  var imgs = Array.prototype.slice.call(document.querySelectorAll('.page img'));
+  var back = document.querySelector('.back');
+  var theEnd = document.querySelector('.the-end');
+  var activity = document.querySelector('.activity-link a');
+  var buttons = Array.prototype.slice.call(document.querySelectorAll('.lang-bar button'));
+
+  // Keep the English exactly as written on the page
+  TRANSLATIONS.en = {
+    title: h1.textContent,
+    alts: imgs.map(function (i) { return i.alt; }),
+    p: paras.map(function (p) { return p.innerHTML; }),
+    back: back.textContent,
+    end: theEnd.textContent,
+    activity: activity.textContent
+  };
+  var htmlLang = { en: 'en-AU', el: 'el', it: 'it', fr: 'fr', es: 'es' };
+
+  function setLang(code) {
+    var t = TRANSLATIONS[code] || TRANSLATIONS.en;
+    if (!TRANSLATIONS[code]) code = 'en';
+    document.documentElement.lang = htmlLang[code];
+    h1.textContent = t.title;
+    document.title = t.title;
+    imgs.forEach(function (img, i) { if (t.alts[i]) img.alt = t.alts[i]; });
+    paras.forEach(function (p, i) {
+      if (code === 'en') p.innerHTML = t.p[i]; else p.textContent = t.p[i];
+    });
+    back.textContent = t.back;
+    theEnd.textContent = t.end;
+    activity.textContent = t.activity;
+    buttons.forEach(function (b) {
+      b.setAttribute('aria-pressed', b.dataset.lang === code ? 'true' : 'false');
+    });
+    try { localStorage.setItem('crabby-lang', code); } catch (e) {}
+  }
+
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () { setLang(b.dataset.lang); });
+  });
+
+  // Start in ?lang=xx from the link, else the reader's last choice, else English
+  var start = 'en';
+  var m = location.search.match(/[?&]lang=(en|el|it|fr|es)/);
+  if (m) start = m[1];
+  else { try { start = localStorage.getItem('crabby-lang') || 'en'; } catch (e) {} }
+  setLang(start);
+})();
+</script>
 </body></html>

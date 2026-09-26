@@ -121,6 +121,36 @@
   }
 
   .activity-link a:hover { transform: translateY(-2px); opacity: .92; }
+
+  /* Language buttons at the top of the story */
+  .lang-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin: 0 auto 26px;
+  }
+  .lang-bar button {
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 2px solid var(--ink);
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .lang-bar button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+  /* The title lettering font has no Greek letters, so Greek uses this */
+  html[lang="el"] h1,
+  html[lang="el"] .the-end {
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+  }
+  html[lang="el"] h1 { font-size: 40px; }
+  html[lang="el"] .the-end { font-size: 28px; }
 </style>
 </head>
 
@@ -129,6 +159,15 @@
   <div class="page">
 
     <a class="back" href="/">← Back</a>
+
+    <!-- Language buttons — the translations are in the script at the bottom of this page -->
+    <div class="lang-bar" role="group" aria-label="Language">
+      <button type="button" data-lang="en" lang="en">English</button>
+      <button type="button" data-lang="el" lang="el">Ελληνικά</button>
+      <button type="button" data-lang="it" lang="it">Italiano</button>
+      <button type="button" data-lang="fr" lang="fr">Français</button>
+      <button type="button" data-lang="es" lang="es">Español</button>
+    </div>
 
     <h1>Crabby and the Perfect Hiding Place</h1>
 
@@ -170,5 +209,165 @@
 
   </div>
 
+
+<!-- EDIT: story translations. Each language has the title, the two picture
+     descriptions, and the story paragraphs in the same order as the English
+     above (one line per paragraph). The English is read straight from the page. -->
+<script>
+(function () {
+  var TRANSLATIONS = {
+  "el": {
+    "title": "Ο Κράμπι και η τέλεια κρυψώνα",
+    "alts": [
+      "Ο Κράμπι, ο κάβουρας από Lego, παρακολουθεί από το περβάζι τη Σοφία να χτενίζει τα μαλλιά της πριν το σχολείο",
+      "Ο Κράμπι, ο κάβουρας από Lego, χωμένος άνετα μέσα στη δεμένη αλογοουρά της Σοφίας"
+    ],
+    "p": [
+      "Ο Κράμπι βαριόταν. Καθόταν κρυμμένος στη συνηθισμένη του σχισμή στο Beach Club της Lego, προσπαθώντας να λύσει ένα πολύ σημαντικό πρόβλημα. Χρειάζομαι, σκέφτηκε ο Κράμπι χτυπώντας σκεφτικός τη δαγκάνα του, μια μυστική κρυψώνα για να ακολουθώ τη Σοφία στις περιπέτειές της.",
+      "Κάπου πρέπει να υπάρχει, σκέφτηκε. Κάπου κοντά στη Σοφία. Κάπου με ασφάλεια. Κάπου που να κινείται όταν κινείται εκείνη, για να μη μένω ποτέ πίσω.",
+      "Ακόμα σκεφτόταν το πρόβλημα όταν η Σοφία κάθισε στο μικρό της γραφείο να χτενίσει τα μαλλιά της πριν το σχολείο, και τα μάζεψε όλα σε μια αλογοουρά. Ο Κράμπι κοίταζε με μάτια ορθάνοιχτα.",
+      "Για δες, σκέφτηκε αργά, προχωρώντας πλάγια πιο κοντά πάνω στο περβάζι για να δει καλύτερα. Για δες, για δες.",
+      "Ήταν, κατάλαβε, εξετάζοντάς την από κάθε γωνία, πραγματικά εντυπωσιακή. Πυκνή. Αναπηδούσε. Μαζεμένη όμορφα και σφιχτά, με ένα σωρό υποσχόμενα κενά και τούνελ κοντά στη βάση, όπου ένας μικρός κάβουρας θα μπορούσε να χωθεί και να περάσει εντελώς απαρατήρητος. Κινούνταν όπου κινούνταν η Σοφία. Πήγαινε όπου πήγαινε η Σοφία. Και το καλύτερο απ' όλα — σε κανέναν δεν περνάει από το μυαλό να ψάξει για κάβουρα μέσα στα μαλλιά κάποιου.",
+      "Αυτό, ανακοίνωσε ο Κράμπι σε κανέναν συγκεκριμένα, είναι ιδιοφυές. Είναι ίσως η μεγαλύτερη ανακάλυψή μου από τότε που ανακάλυψα το παγωτό. Υπήρχε, φυσικά, μόνο ένας τρόπος να δοκιμαστεί μια τέτοια θεωρία, και αυτός ήταν αμέσως.",
+      "Ο Κράμπι περίμενε μέχρι να σκύψει η Σοφία να δέσει το κορδόνι της, και τότε έκανε την κίνησή του — τρία γρήγορα βηματάκια κι ένα αποφασιστικό πήδημα. Έπιασε την άκρη-άκρη της αλογοουράς, γλίστρησε, και για ένα δευτερόλεπτο που του κόπηκε η ανάσα κρεμόταν από μία μόνο δαγκάνα, ώσπου σκαρφάλωσε, δαγκάνα-δαγκάνα, ως τα πυκνά μαλλιά.",
+      "Τα κατάφερα, σκέφτηκε λαχανιασμένος, χώνοντας τον εαυτό του σε μια ζεστή μικρή κουφάλα κοντά στο λαστιχάκι. Εξαιρετική προσγείωση. Κανείς δεν είδε τίποτα.",
+      "Η Σοφία ίσιωσε το κορμί της, χωρίς να έχει ιδέα ότι τώρα είχε έναν επιβάτη, και πήγε να βρει τα παπούτσια της.",
+      "Ο Κράμπι χρειάστηκε λίγη ώρα για να συνηθίσει το πέρα-δώθε κούνημα — πολύ πιο χοροπηδηχτό από το Lego, με απότομες αλλαγές κατεύθυνσης κάθε φορά που η Σοφία γύριζε το κεφάλι της. Ανακάλυψε όμως, προς μεγάλη του έκπληξη, ότι του άρεσε. Από εκεί ψηλά έβλεπε τα πάντα: την κουζίνα, τον διάδρομο, τον κόσμο που περνούσε έξω από το παράθυρο του αυτοκινήτου. Όλα αυτά χωρίς να κουνήσει δαγκάνα, και χωρίς να μαντέψει ποτέ κανείς ότι ήταν εκεί.",
+      "Καθώς η Σοφία άρπαξε την τσάντα της και βγήκε από την πόρτα, με την αλογοουρά της να κουνιέται χαρούμενα σε κάθε βήμα, ο Κράμπι βολεύτηκε ακόμα πιο βαθιά στη νέα του κρυψώνα.",
+      "Τέλος το να μένω πίσω. Όπου πάει η Σοφία, πάω κι εγώ. Αυτό είναι. Αυτό είναι το μέρος.",
+      "Κι από εκείνη τη μέρα και μετά, έτσι ήταν."
+    ],
+    "back": "← Πίσω",
+    "end": "Τέλος",
+    "activity": "🦀 Δοκίμασε τη δραστηριότητα της ιστορίας →"
+  },
+  "it": {
+    "title": "Crabby e il nascondiglio perfetto",
+    "alts": [
+      "Crabby, il granchio Lego, osserva dal davanzale Sofia che si spazzola i capelli prima della scuola",
+      "Crabby, il granchio Lego, sistemato comodo dentro la coda di cavallo di Sofia"
+    ],
+    "p": [
+      "Crabby si annoiava. Se ne stava acquattato nella sua solita fessura del Beach Club Lego, cercando di risolvere un problema molto importante. Mi serve, pensò Crabby, tamburellando pensieroso con una chela, un nascondiglio segreto per seguire Sofia nelle sue avventure.",
+      "Da qualche parte deve pur esserci, pensò. Da qualche parte vicino a Sofia. Da qualche parte al sicuro. Da qualche parte che si muova quando si muove lei, così non resterò mai indietro.",
+      "Ci stava ancora rimuginando sopra quando Sofia si sedette alla sua scrivania per spazzolarsi i capelli prima della scuola, e li raccolse tutti in una coda di cavallo. Crabby rimase a fissarla.",
+      "Bene, pensò lentamente, zampettando più vicino lungo il davanzale per guardare meglio. Bene, bene, bene.",
+      "Era, si rese conto esaminandola da ogni angolazione, davvero notevole. Folta. Rimbalzante. Raccolta bella stretta, con ogni sorta di promettenti spazi e cunicoli vicino alla base, dove un piccolo granchio poteva infilarsi e passare del tutto inosservato. Si muoveva ovunque si muovesse Sofia. Andava ovunque andasse Sofia. E la cosa migliore di tutte — a nessuno viene in mente di cercare un granchio tra i capelli di qualcuno.",
+      "Questo, annunciò Crabby a nessuno in particolare, è geniale. È forse la mia più grande scoperta da quando ho scoperto il gelato. C'era, naturalmente, un solo modo per mettere alla prova una teoria del genere: subito.",
+      "Crabby aspettò che Sofia si chinasse ad allacciarsi una scarpa, e poi passò all'azione — tre rapidi passetti e un salto deciso. Afferrò la punta della coda, mise male una zampa e passò un secondo da batticuore appeso a una sola chela, prima di tirarsi su, chela dopo chela, fin nel folto dei capelli.",
+      "Ce l'ho fatta, pensò senza fiato, incastrandosi in una piccola tasca comoda vicino all'elastico. Atterraggio eccellente. Nessuno ha visto niente.",
+      "Sofia si raddrizzò, del tutto ignara di avere ora un passeggero, e andò a cercare le scarpe.",
+      "A Crabby servì un momento per abituarsi a quel dondolio — molto più saltellante del Lego, e con improvvisi cambi di direzione ogni volta che Sofia girava la testa. Ma scoprì, con sua grande sorpresa, che gli piaceva. Da lassù vedeva tutto: la cucina, il corridoio, il mondo che scorreva fuori dal finestrino della macchina. Tutto senza muovere una chela, e senza che nessuno immaginasse mai che lui fosse lì.",
+      "Mentre Sofia prendeva lo zaino e usciva dalla porta, con la coda di cavallo che dondolava allegra a ogni passo, Crabby si sistemò ancora più a fondo nel suo nuovo nascondiglio.",
+      "Mai più lasciato indietro. Dovunque va Sofia, vado anch'io. Ecco. È questo il posto giusto.",
+      "E da quel giorno in poi, fu proprio così."
+    ],
+    "back": "← Indietro",
+    "end": "Fine",
+    "activity": "🦀 Prova l'attività di questa storia →"
+  },
+  "fr": {
+    "title": "Crabby et la cachette parfaite",
+    "alts": [
+      "Crabby, le crabe en Lego, regarde depuis le rebord de la fenêtre Sofia qui se brosse les cheveux avant l'école",
+      "Crabby, le crabe en Lego, bien installé dans la queue de cheval de Sofia"
+    ],
+    "p": [
+      "Crabby s'ennuyait. Il était tapi dans sa crevasse habituelle du Beach Club Lego, à essayer de résoudre un problème très important. Il me faut, pensa Crabby en tapotant pensivement d'une pince, une cachette secrète pour suivre Sofia dans ses aventures.",
+      "Il doit bien y avoir un endroit, pensa-t-il. Un endroit près de Sofia. Un endroit sûr. Un endroit qui bouge quand elle bouge, pour que je ne reste jamais en arrière.",
+      "Il retournait encore le problème dans sa tête quand Sofia s'assit à son petit bureau pour se brosser les cheveux avant l'école, et les rassembla tous en une queue de cheval. Crabby la fixa des yeux.",
+      "Tiens, tiens, pensa-t-il lentement, en s'approchant de côté le long du rebord de la fenêtre pour mieux voir. Tiens, tiens, tiens.",
+      "C'était, comprit-il en l'examinant sous tous les angles, vraiment tout à fait remarquable. Épaisse. Rebondissante. Bien serrée et douillette, avec toutes sortes de creux et de tunnels prometteurs près de la base, où un petit crabe pourrait se glisser et passer complètement inaperçu. Elle bougeait partout où Sofia bougeait. Elle allait partout où Sofia allait. Et le meilleur de tout — personne ne pense à chercher un crabe dans les cheveux de quelqu'un.",
+      "Ceci, annonça Crabby à personne en particulier, est génial. C'est peut-être ma plus grande découverte depuis que j'ai découvert la glace. Il n'y avait, bien sûr, qu'une seule façon de tester une théorie pareille, et c'était tout de suite.",
+      "Crabby attendit que Sofia se penche pour lacer sa chaussure, puis il passa à l'action — trois petits pas rapides et un bond décidé. Il attrapa tout le bout de la queue de cheval, rata son appui et resta une seconde terrible suspendu par une seule pince, avant de se hisser, pince après pince, au plus épais des cheveux.",
+      "J'ai réussi, pensa-t-il, à bout de souffle, en se calant dans un petit creux douillet près de l'élastique. Atterrissage parfait. Personne n'a rien vu.",
+      "Sofia se redressa, sans se douter le moins du monde qu'elle avait maintenant un passager, et alla chercher ses chaussures.",
+      "Il fallut un moment à Crabby pour s'habituer au balancement — bien plus rebondissant que le Lego, avec de brusques changements de direction chaque fois que Sofia tournait la tête. Mais il découvrit, à sa grande surprise, qu'il aimait ça. De là-haut, il voyait tout : la cuisine, le couloir, le monde qui défilait derrière la vitre de la voiture. Tout cela sans lever une pince, et sans que personne ne devine jamais qu'il était là.",
+      "Tandis que Sofia attrapait son sac et sortait par la porte, sa queue de cheval se balançant gaiement à chaque pas, Crabby s'installa encore plus profondément dans sa nouvelle cachette.",
+      "Fini de rester en arrière. Partout où va Sofia, je vais aussi. Ça y est. C'est ici, ma place.",
+      "Et à partir de ce jour-là, ce fut le cas."
+    ],
+    "back": "← Retour",
+    "end": "Fin",
+    "activity": "🦀 Essaie l'activité de cette histoire →"
+  },
+  "es": {
+    "title": "Crabby y el escondite perfecto",
+    "alts": [
+      "Crabby, el cangrejo de Lego, mira desde el alféizar cómo Sofia se cepilla el pelo antes del colegio",
+      "Crabby, el cangrejo de Lego, acurrucado dentro de la coleta de Sofia"
+    ],
+    "p": [
+      "Crabby estaba aburrido. Estaba agazapado en su grieta de siempre del Beach Club de Lego, intentando resolver un problema muy importante. Necesito, pensó Crabby, dando golpecitos pensativos con una pinza, un escondite secreto para seguir a Sofia en sus aventuras.",
+      "Tiene que haber algún sitio, pensó. Algún sitio cerca de Sofia. Algún sitio seguro. Algún sitio que se mueva cuando ella se mueva, para no quedarme nunca atrás.",
+      "Todavía le estaba dando vueltas al problema cuando Sofia se sentó en su escritorio para cepillarse el pelo antes del colegio, y se lo recogió todo en una coleta. Crabby se quedó mirando.",
+      "Vaya, pensó despacio, acercándose de lado por el alféizar de la ventana para ver mejor. Vaya, vaya, vaya.",
+      "Era, se dio cuenta examinándola desde todos los ángulos, realmente extraordinaria. Espesa. Saltarina. Bien recogida y apretadita, con toda clase de huecos y túneles prometedores cerca de la base, donde un cangrejo pequeño podría acurrucarse y pasar totalmente desapercibido. Se movía adondequiera que se moviera Sofia. Iba adondequiera que fuera Sofia. Y lo mejor de todo — a nadie se le ocurre buscar un cangrejo en el pelo de alguien.",
+      "Esto, anunció Crabby a nadie en particular, es genial. Es posiblemente mi mayor descubrimiento desde que descubrí el helado. Había, por supuesto, una sola manera de poner a prueba una teoría así, y era inmediatamente.",
+      "Crabby esperó a que Sofia se agachara para atarse el cordón del zapato, y entonces hizo su jugada — tres pasitos rápidos y un salto decidido. Atrapó la puntita de la coleta, perdió pie y pasó un segundo de infarto colgando de una sola pinza antes de trepar, pinza tras pinza, hasta lo más espeso del pelo.",
+      "Lo logré, pensó sin aliento, encajándose en un huequito acogedor cerca de la goma del pelo. Aterrizaje excelente. Nadie ha visto nada.",
+      "Sofia se enderezó, sin tener ni idea de que ahora llevaba un pasajero, y fue a buscar sus zapatos.",
+      "A Crabby le costó un momento acostumbrarse al vaivén — mucho más saltarín que el Lego, y con cambios de dirección repentinos cada vez que Sofia giraba la cabeza. Pero descubrió, para su propia sorpresa, que le gustaba. Desde allí arriba lo veía todo: la cocina, el pasillo, el mundo pasando por la ventanilla del coche. Todo sin mover una pinza, y sin que nadie adivinara nunca que estaba allí.",
+      "Mientras Sofia agarraba su mochila y salía por la puerta, con la coleta balanceándose alegremente a cada paso, Crabby se acomodó aún más adentro de su nuevo escondite.",
+      "Se acabó quedarme atrás. Adondequiera que vaya Sofia, voy yo. Esto es. Este es el lugar.",
+      "Y desde aquel día, así fue."
+    ],
+    "back": "← Volver",
+    "end": "Fin",
+    "activity": "🦀 Prueba la actividad de este cuento →"
+  }
+};
+
+  var paras = Array.prototype.slice.call(
+    document.querySelectorAll('.page > p:not(.the-end):not(.activity-link)'));
+  var h1 = document.querySelector('h1');
+  var imgs = Array.prototype.slice.call(document.querySelectorAll('.page img'));
+  var back = document.querySelector('.back');
+  var theEnd = document.querySelector('.the-end');
+  var activity = document.querySelector('.activity-link a');
+  var buttons = Array.prototype.slice.call(document.querySelectorAll('.lang-bar button'));
+
+  // Keep the English exactly as written on the page
+  TRANSLATIONS.en = {
+    title: h1.textContent,
+    alts: imgs.map(function (i) { return i.alt; }),
+    p: paras.map(function (p) { return p.innerHTML; }),
+    back: back.textContent,
+    end: theEnd.textContent,
+    activity: activity.textContent
+  };
+  var htmlLang = { en: 'en-AU', el: 'el', it: 'it', fr: 'fr', es: 'es' };
+
+  function setLang(code) {
+    var t = TRANSLATIONS[code] || TRANSLATIONS.en;
+    if (!TRANSLATIONS[code]) code = 'en';
+    document.documentElement.lang = htmlLang[code];
+    h1.textContent = t.title;
+    document.title = t.title;
+    imgs.forEach(function (img, i) { if (t.alts[i]) img.alt = t.alts[i]; });
+    paras.forEach(function (p, i) {
+      if (code === 'en') p.innerHTML = t.p[i]; else p.textContent = t.p[i];
+    });
+    back.textContent = t.back;
+    theEnd.textContent = t.end;
+    activity.textContent = t.activity;
+    buttons.forEach(function (b) {
+      b.setAttribute('aria-pressed', b.dataset.lang === code ? 'true' : 'false');
+    });
+    try { localStorage.setItem('crabby-lang', code); } catch (e) {}
+  }
+
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () { setLang(b.dataset.lang); });
+  });
+
+  // Start in ?lang=xx from the link, else the reader's last choice, else English
+  var start = 'en';
+  var m = location.search.match(/[?&]lang=(en|el|it|fr|es)/);
+  if (m) start = m[1];
+  else { try { start = localStorage.getItem('crabby-lang') || 'en'; } catch (e) {} }
+  setLang(start);
+})();
+</script>
 </body>
 </html>
