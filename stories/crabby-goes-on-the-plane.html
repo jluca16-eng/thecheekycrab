@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- EDIT: the text shown on the browser tab -->
+<title>Crabby goes on the Plane</title>
+
+<meta name="description" content="Crabby goes on the Plane — a story from The Adventures of Crabby.">
+
+<!-- Same lettering font as the rest of the site, for the heading here. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper: #fbf4dd;   /* same page background as the rest of the site */
+    --ink:   #163a5c;   /* same ink colour as the home page's title */
+    --text:  #2b2b2b;   /* body text — softer than pure black */
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    padding: 50px 20px 90px;
+  }
+
+  .page {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .back {
+    display: inline-block;
+    margin-bottom: 24px;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    color: var(--ink);
+    text-decoration: none;
+    opacity: .75;
+  }
+
+  .back:hover { opacity: 1; }
+
+  /* EDIT: the title wording */
+  h1 {
+    font-family: "Alex Brush", "Segoe Script", "Brush Script MT", cursive;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 1.15;
+    color: var(--ink);
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  /* EDIT: the wide picture below the title. width resizes it; it
+     always keeps its own proportions and stays centred. */
+  .hero-picture {
+    display: block;
+    width: 100%;
+    max-width: 640px;
+    height: auto;
+    margin: 0 auto 34px;
+    border-radius: 10px;
+    box-shadow: 0 10px 28px rgba(90, 66, 30, .22);
+  }
+
+  /* EDIT: the story text */
+  p {
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--text);
+    text-align: justify;
+    margin-bottom: 20px;
+  }
+
+  /* The second picture, set into the text partway through the story. */
+  .story-picture {
+    display: block;
+    width: 100%;
+    max-width: 460px;
+    height: auto;
+    margin: 8px auto 28px;
+    border-radius: 10px;
+    box-shadow: 0 8px 22px rgba(90, 66, 30, .22);
+  }
+
+  /* Portrait-shaped pictures are shown narrower, so they aren't huge */
+  .hero-picture.tall { max-width: 360px; }
+  .story-picture.tall { width: 60%; max-width: 280px; }
+
+  .the-end {
+    text-align: center;
+    font-family: "Alex Brush", "Segoe Script", "Brush Script MT", cursive;
+    font-size: 34px;
+    color: var(--ink);
+    margin-top: 26px;
+  }
+
+  /* EDIT: the link to this story's activity page, shown after The End */
+  .activity-link {
+    display: block;
+    text-align: center;
+    margin-top: 34px;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+  }
+
+  .activity-link a {
+    display: inline-block;
+    padding: 10px 22px;
+    border-radius: 10px;
+    background: var(--ink);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    transition: transform .15s ease, opacity .15s ease;
+  }
+
+  .activity-link a:hover { transform: translateY(-2px); opacity: .92; }
+
+  /* The title lettering font has no Greek letters, so Greek uses this */
+  html[lang="el"] h1,
+  html[lang="el"] .the-end {
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+  }
+  html[lang="el"] h1 { font-size: 40px; }
+  html[lang="el"] .the-end { font-size: 28px; }
+</style>
+<!-- Site-wide language switching (see lang/i18n.js) -->
+<script src="../lang/i18n.js"></script>
+</head>
+
+<body>
+
+  <div class="page">
+
+    <a class="back" href="/stories/stories-index">← All stories</a>
+
+    <h1>Crabby goes on the Plane</h1>
+
+    <img class="hero-picture" src="../images/Sofia%20Asleep%20on%20the%20Plane.jpg" alt="Sofia asleep by the plane window, with Crabby peeking out of her ponytail">
+
+    <p>Sofia's ponytail bounced through Perth Airport, and hidden deep inside it, eight little legs gripped tight. <em>This is not stowing away,</em> Crabby thought, as Sofia's Baba wheeled the suitcase past security. <em>This is a strategic accompaniment. Someone has to keep an eye on Sofia for fourteen hours. It might as well be me.</em> He'd snuck in that morning, right after Sofia tied her hair up, and now there was no going back – not that he wanted to. Crabby had never been on a plane. He fully intended to enjoy every second of it, sideways and undetected, as always.</p>
+
+    <p>The trouble started somewhere over the Indian Ocean. Sofia had fallen asleep against the window, and Crabby, bored and restless, decided a quick mission down the aisle was in order. He slipped out of her ponytail, scuttled along the headrest, and dropped onto the little tray table of the man in 34C – who was mid sip of his juice. "What in the –" the man spluttered, staring at his lap, then at the empty tray, utterly unable to explain where the small red visitor had gone, because Crabby was already gone, flattened against the underside of the seat in front.</p>
+
+    <p><em>That could have gone better</em>, Crabby admitted. Emboldened, Crabby's next stop was the food cart, parked innocently in the aisle while the flight attendant helped someone with a bag. He found the little foil lids on the dessert cups irresistible, and to his delight, he opened one to find chocolate mousse inside. One clawful of chocolate mousse later, he was sporting a fine brown moustache and left several tiny footprints across the cart's top shelf. "Did someone get into the mousse?" the flight attendant asked her colleague, frowning at the smudges. "Maybe turbulence" said the other, unconvinced.</p>
+
+    <img class="story-picture" src="../images/Crabby%20Chocolate%20Mousse.png" alt="Crabby on a plane tray table, helping himself to a chocolate mousse">
+
+    <p>Crabby was already halfway back down the aisle, sliding under seat 36A just as Sofia stirred and reached up to touch her ponytail. He made it back with seconds to spare, tucking himself in just as Sofia yawned and asked her Baba how much longer until London. He stayed still for almost a whole hour, which for Crabby was practically a personal best.</p>
+
+    <p>But when the in flight movie started, and someone three rows up had the volume too loud, Crabby simply had to investigate. Again, he climbed down the seat, across a sleeping stranger's blanket, and pressed himself against the chair, marvelling at the movie being shown from the little screen.</p>
+
+    <p>That's when the seatbelt light dinged on, and the pilot's voice crackled overhead "cabin crew, please prepare for a little turbulence." The plane gave a gentle shudder. Crabby, caught mid scuttle, was flung sideways into someones dropped boarding pass, wrapping himself in it before rolling to a stop against a shoe. The shoe's owner looked down. Blinked. Looked again. <em>Nothing to see here,</em> Crabby thought desperately, holding very, very still. <em>Just a boarding pass. A completely ordinary non crab shaped boarding pass.</em></p>
+
+    <p>When the turbulence finally passed, Crabby unrolled himself and bolted back down the aisle. He arrived at Sofia's ponytail breathless, mousse still faintly visible on one claw.</p>
+
+    <p>Sofia woke properly this time, and peered out the window at the lights appearing below. "Baba look – its London!" Tucked deep inside her ponytail, exhausted from his adventures, one small red crab peeked out just far enough to see the city lights twinkling below. <em>A successful mission</em>, he thought, as his eyes closed. <em>No one saw anything. Nothing happened. And that mousse, for the record, was excellent.</em></p>
+
+    <p class="the-end">The End</p>
+
+    <p class="activity-link">
+      <a href="/stories/stories-index">🦀 More Crabby stories →</a>
+    </p>
+
+  </div>
+
+
+<!-- EDIT: story translations. Each language has the title, the two picture
+     descriptions, and the story paragraphs in the same order as the English
+     above (one line per paragraph; <em> marks Crabby's thoughts in italics).
+     The English is read straight from the page. The language picker itself
+     comes from lang/i18n.js. -->
+<script>
+(function () {
+  var TRANSLATIONS = {
+  "el": {
+    "title": "Ο Κράμπι ταξιδεύει με αεροπλάνο",
+    "alts": [
+      "Η Σοφία κοιμάται δίπλα στο παράθυρο του αεροπλάνου, κι ο Κράμπι κρυφοκοιτάζει από την αλογοουρά της",
+      "Ο Κράμπι πάνω σε ένα τραπεζάκι αεροπλάνου, σερβίρεται μόνος του μους σοκολάτας"
+    ],
+    "p": [
+      "Η αλογοουρά της Σοφίας χοροπηδούσε μέσα στο αεροδρόμιο του Περθ, και κρυμμένα βαθιά μέσα της, οκτώ ποδαράκια κρατιόντουσαν σφιχτά. <em>Αυτό δεν είναι λαθρεπιβίβαση,</em> σκέφτηκε ο Κράμπι, καθώς ο μπαμπάς της Σοφίας περνούσε τη βαλίτσα από τον έλεγχο ασφαλείας. <em>Αυτό είναι στρατηγική συνοδεία. Κάποιος πρέπει να προσέχει τη Σοφία για δεκατέσσερις ώρες. Ας είμαι εγώ.</em> Είχε τρυπώσει εκείνο το πρωί, αμέσως μόλις η Σοφία έδεσε τα μαλλιά της, και τώρα δεν υπήρχε γυρισμός — όχι ότι ήθελε να γυρίσει. Ο Κράμπι δεν είχε μπει ποτέ σε αεροπλάνο. Σκόπευε να απολαύσει κάθε δευτερόλεπτο, πλαγιαστά κι απαρατήρητα, όπως πάντα.",
+      "Ο μπελάς ξεκίνησε κάπου πάνω από τον Ινδικό Ωκεανό. Η Σοφία είχε αποκοιμηθεί ακουμπισμένη στο παράθυρο, κι ο Κράμπι, βαριεστημένος κι ανήσυχος, αποφάσισε ότι χρειαζόταν μια γρήγορη αποστολή στον διάδρομο. Γλίστρησε από την αλογοουρά της, προχώρησε πλάγια κατά μήκος του προσκέφαλου και προσγειώθηκε στο τραπεζάκι του κυρίου στη θέση 34C — που εκείνη τη στιγμή έπινε μια γουλιά από τον χυμό του. «Τι στο…» ψέλλισε ο κύριος, κοιτάζοντας τα γόνατά του κι ύστερα το άδειο τραπεζάκι, εντελώς ανίκανος να εξηγήσει πού είχε πάει ο μικρός κόκκινος επισκέπτης, γιατί ο Κράμπι είχε ήδη εξαφανιστεί, κολλημένος στο κάτω μέρος του μπροστινού καθίσματος.",
+      "<em>Θα μπορούσε να είχε πάει καλύτερα</em>, παραδέχτηκε ο Κράμπι. Με περισσότερο θάρρος πια, επόμενος σταθμός του ήταν το καροτσάκι με το φαγητό, παρκαρισμένο αθώα στον διάδρομο, ενώ η αεροσυνοδός βοηθούσε κάποιον με μια τσάντα. Τα μικρά αλουμινένια καπάκια στα κυπελλάκια με το επιδόρπιο του φάνηκαν ακαταμάχητα, και προς μεγάλη του χαρά, άνοιξε ένα και βρήκε μέσα μους σοκολάτας. Μια δαγκανιά μους αργότερα, είχε αποκτήσει ένα ωραιότατο καφέ μουστάκι κι είχε αφήσει μερικά μικροσκοπικά πατήματα στο πάνω ράφι του καροτσιού. «Έφαγε κανείς από τη μους;» ρώτησε η αεροσυνοδός τη συνάδελφό της, συνοφρυωμένη μπροστά στις μουτζούρες. «Ίσως οι αναταράξεις», είπε η άλλη, χωρίς να πείθεται.",
+      "Ο Κράμπι είχε ήδη διανύσει τον μισό δρόμο πίσω στον διάδρομο, γλιστρώντας κάτω από τη θέση 36A, τη στιγμή που η Σοφία σάλεψε κι άπλωσε το χέρι να αγγίξει την αλογοουρά της. Πρόλαβε να γυρίσει με δευτερόλεπτα περιθώριο και χώθηκε στη θέση του τη στιγμή που η Σοφία χασμουρήθηκε και ρώτησε τον μπαμπά της πόσο έμενε ακόμα ως το Λονδίνο. Έμεινε ακίνητος σχεδόν μια ολόκληρη ώρα, κάτι που για τον Κράμπι ήταν σχεδόν προσωπικό ρεκόρ.",
+      "Όταν όμως άρχισε η ταινία της πτήσης, και κάποιος τρεις σειρές πιο μπροστά είχε την ένταση πολύ δυνατά, ο Κράμπι απλώς έπρεπε να ερευνήσει. Ξανά κατέβηκε από το κάθισμα, πέρασε πάνω από την κουβέρτα ενός κοιμισμένου αγνώστου και κόλλησε πάνω στο κάθισμα, θαυμάζοντας την ταινία που έπαιζε στη μικρή οθόνη.",
+      "Τότε ακριβώς άναψε με ένα «ντινγκ» η ένδειξη για τις ζώνες, κι η φωνή του πιλότου ακούστηκε από τα μεγάφωνα: «Πλήρωμα καμπίνας, παρακαλώ ετοιμαστείτε για λίγες αναταράξεις.» Το αεροπλάνο τραντάχτηκε απαλά. Ο Κράμπι, πιασμένος στη μέση του τρεχαλητού του, εκσφενδονίστηκε στο πλάι πάνω στην κάρτα επιβίβασης που είχε πέσει σε κάποιον, τυλίχτηκε μέσα της και κύλησε μέχρι να σταματήσει πάνω σε ένα παπούτσι. Ο κάτοχος του παπουτσιού κοίταξε κάτω. Ανοιγόκλεισε τα μάτια. Ξανακοίταξε. <em>Τίποτα να δείτε εδώ,</em> σκέφτηκε ο Κράμπι απεγνωσμένα, μένοντας πολύ, πάρα πολύ ακίνητος. <em>Μόνο μια κάρτα επιβίβασης. Μια εντελώς συνηθισμένη κάρτα επιβίβασης, καθόλου σε σχήμα κάβουρα.</em>",
+      "Όταν επιτέλους πέρασαν οι αναταράξεις, ο Κράμπι ξετυλίχτηκε κι έτρεξε σαν σφαίρα πίσω στον διάδρομο. Έφτασε στην αλογοουρά της Σοφίας λαχανιασμένος, με ίχνη μους ακόμα ορατά στη μια του δαγκάνα.",
+      "Αυτή τη φορά η Σοφία ξύπνησε για τα καλά και κοίταξε έξω από το παράθυρο τα φώτα που εμφανίζονταν από κάτω. «Μπαμπά, κοίτα — το Λονδίνο!» Χωμένος βαθιά στην αλογοουρά της, εξαντλημένος από τις περιπέτειές του, ένας μικρός κόκκινος κάβουρας κρυφοκοίταξε όσο χρειαζόταν για να δει τα φώτα της πόλης να λαμπυρίζουν από κάτω. <em>Επιτυχημένη αποστολή</em>, σκέφτηκε, καθώς έκλειναν τα μάτια του. <em>Κανείς δεν είδε τίποτα. Τίποτα δεν έγινε. Κι εκείνη η μους, για να ξέρετε, ήταν εξαιρετική.</em>"
+    ],
+    "back": "← Όλες οι ιστορίες",
+    "end": "Τέλος",
+    "more": "🦀 Κι άλλες ιστορίες του Κράμπι →"
+  },
+  "it": {
+    "title": "Crabby prende l'aereo",
+    "alts": [
+      "Sofia addormentata vicino al finestrino dell'aereo, con Crabby che sbircia dalla sua coda di cavallo",
+      "Crabby sul tavolino di un aereo, mentre si serve da solo una mousse al cioccolato"
+    ],
+    "p": [
+      "La coda di cavallo di Sofia saltellava per l'aeroporto di Perth, e nascoste lì dentro, in profondità, otto zampette si tenevano ben strette. <em>Questo non è viaggiare di nascosto,</em> pensò Crabby, mentre Baba, il papà di Sofia, spingeva la valigia oltre i controlli di sicurezza. <em>Questo è un accompagnamento strategico. Qualcuno deve tenere d'occhio Sofia per quattordici ore. Tanto vale che sia io.</em> Si era intrufolato quella mattina, subito dopo che Sofia si era legata i capelli, e ora non si poteva più tornare indietro — non che lo volesse. Crabby non era mai stato su un aereo. Aveva tutta l'intenzione di godersi ogni secondo, di lato e senza farsi scoprire, come sempre.",
+      "I guai cominciarono da qualche parte sopra l'Oceano Indiano. Sofia si era addormentata contro il finestrino, e Crabby, annoiato e irrequieto, decise che era il momento di una rapida missione lungo il corridoio. Sgusciò fuori dalla coda di cavallo, zampettò lungo il poggiatesta e atterrò sul tavolino del signore del posto 34C, che stava bevendo un sorso di succo. «Ma che diav…» farfugliò l'uomo, fissandosi le ginocchia e poi il tavolino vuoto, del tutto incapace di spiegare dove fosse finito il piccolo visitatore rosso, perché Crabby era già sparito, schiacciato contro la parte inferiore del sedile davanti.",
+      "<em>Poteva andare meglio</em>, ammise Crabby. Preso coraggio, la tappa successiva di Crabby fu il carrello del cibo, parcheggiato innocentemente nel corridoio mentre l'assistente di volo aiutava qualcuno con una borsa. Trovò irresistibili i coperchietti di alluminio sulle coppette del dolce e, con sua grande gioia, ne aprì uno e ci trovò dentro della mousse al cioccolato. Una chelata di mousse più tardi, sfoggiava dei bei baffi marroni e aveva lasciato una serie di minuscole impronte sul ripiano più alto del carrello. «Qualcuno ha toccato la mousse?» chiese l'assistente di volo alla collega, aggrottando la fronte davanti alle macchie. «Sarà stata la turbolenza», disse l'altra, poco convinta.",
+      "Crabby era già a metà strada nel corridoio, e scivolava sotto il sedile 36A proprio mentre Sofia si muoveva e alzava la mano per toccarsi la coda di cavallo. Ce la fece per un pelo, rintanandosi al suo posto proprio mentre Sofia sbadigliava e chiedeva a Baba quanto mancasse a Londra. Rimase immobile per quasi un'ora intera, che per Crabby era praticamente un record personale.",
+      "Ma quando cominciò il film di bordo, e qualcuno tre file più avanti teneva il volume troppo alto, Crabby dovette per forza indagare. Di nuovo scese dal sedile, attraversò la coperta di uno sconosciuto addormentato e si appiattì contro lo schienale, a bocca aperta davanti al film sul piccolo schermo.",
+      "Fu allora che la spia delle cinture si accese con un «din», e la voce del pilota gracchiò dall'altoparlante: «Equipaggio di cabina, prepararsi per un po' di turbolenza.» L'aereo ebbe un leggero sussulto. Crabby, colto a metà zampettata, venne scaraventato di lato sulla carta d'imbarco caduta a qualcuno, ci si arrotolò dentro e rotolò fino a fermarsi contro una scarpa. Il proprietario della scarpa guardò giù. Sbatté le palpebre. Guardò di nuovo. <em>Niente da vedere qui,</em> pensò Crabby disperato, restando immobile, immobilissimo. <em>Solo una carta d'imbarco. Una carta d'imbarco assolutamente normale, per niente a forma di granchio.</em>",
+      "Quando finalmente la turbolenza passò, Crabby si srotolò e sfrecciò di nuovo lungo il corridoio. Arrivò alla coda di cavallo di Sofia senza fiato, con un po' di mousse ancora visibile su una chela.",
+      "Questa volta Sofia si svegliò davvero, e guardò fuori dal finestrino le luci che comparivano là sotto. «Baba, guarda — è Londra!» Rintanato in fondo alla sua coda di cavallo, sfinito dalle sue avventure, un piccolo granchio rosso sbirciò fuori quel tanto che bastava per vedere le luci della città scintillare là sotto. <em>Missione compiuta</em>, pensò, mentre gli si chiudevano gli occhi. <em>Nessuno ha visto niente. Non è successo niente. E quella mousse, per la cronaca, era eccellente.</em>"
+    ],
+    "back": "← Tutte le storie",
+    "end": "Fine",
+    "more": "🦀 Altre storie di Crabby →"
+  },
+  "fr": {
+    "title": "Crabby prend l'avion",
+    "alts": [
+      "Sofia endormie près du hublot de l'avion, avec Crabby qui pointe le bout de son nez hors de sa queue de cheval",
+      "Crabby sur une tablette d'avion, en train de se servir une mousse au chocolat"
+    ],
+    "p": [
+      "La queue de cheval de Sofia rebondissait à travers l'aéroport de Perth, et, cachées tout au fond, huit petites pattes s'agrippaient fermement. <em>Ce n'est pas voyager clandestinement,</em> pensa Crabby, tandis que Baba, le papa de Sofia, faisait passer la valise au contrôle de sécurité. <em>C'est un accompagnement stratégique. Quelqu'un doit garder un œil sur Sofia pendant quatorze heures. Autant que ce soit moi.</em> Il s'était faufilé là le matin même, juste après que Sofia s'était attaché les cheveux, et maintenant il n'y avait plus moyen de faire marche arrière — non pas qu'il le voulait. Crabby n'avait jamais pris l'avion. Il comptait bien en savourer chaque seconde, de côté et sans se faire repérer, comme toujours.",
+      "Les ennuis commencèrent quelque part au-dessus de l'océan Indien. Sofia s'était endormie contre le hublot, et Crabby, qui s'ennuyait et ne tenait plus en place, décida qu'une petite mission dans l'allée s'imposait. Il se glissa hors de sa queue de cheval, trottina le long de l'appui-tête et se laissa tomber sur la tablette du monsieur du siège 34C — qui était en train de boire une gorgée de jus. « Mais qu'est-ce que… » bafouilla l'homme en fixant ses genoux, puis la tablette vide, totalement incapable d'expliquer où était passé le petit visiteur rouge, car Crabby avait déjà disparu, plaqué sous le siège de devant.",
+      "<em>Ça aurait pu mieux se passer</em>, reconnut Crabby. Enhardi, Crabby fit ensuite escale au chariot-repas, garé innocemment dans l'allée pendant que l'hôtesse aidait quelqu'un avec un sac. Il trouva les petits couvercles en aluminium des pots de dessert irrésistibles et, à sa grande joie, en ouvrit un et découvrit de la mousse au chocolat à l'intérieur. Une pincée de mousse au chocolat plus tard, il arborait une belle moustache marron et avait laissé plusieurs minuscules empreintes sur l'étagère du haut du chariot. « Quelqu'un a touché à la mousse ? » demanda l'hôtesse à sa collègue en fronçant les sourcils devant les traces. « Peut-être les turbulences », répondit l'autre, pas convaincue.",
+      "Crabby était déjà à mi-chemin dans l'allée, en train de se glisser sous le siège 36A, au moment où Sofia remua et leva la main pour toucher sa queue de cheval. Il revint à quelques secondes près, se nichant à sa place juste au moment où Sofia bâillait et demandait à Baba combien de temps il restait avant Londres. Il resta immobile presque une heure entière, ce qui, pour Crabby, était pratiquement un record personnel.",
+      "Mais quand le film à bord commença, et que quelqu'un trois rangs plus loin mit le son trop fort, Crabby ne put tout simplement pas s'empêcher d'aller voir. De nouveau, il descendit du siège, traversa la couverture d'un inconnu endormi et se colla contre le fauteuil, émerveillé par le film qui passait sur le petit écran.",
+      "C'est à ce moment-là que le voyant des ceintures s'alluma avec un « ding », et que la voix du pilote grésilla dans les haut-parleurs : « Personnel de cabine, veuillez vous préparer à quelques turbulences. » L'avion eut un léger soubresaut. Crabby, surpris en pleine course, fut projeté de côté sur la carte d'embarquement que quelqu'un avait fait tomber, s'enroula dedans et roula jusqu'à s'arrêter contre une chaussure. Le propriétaire de la chaussure baissa les yeux. Cligna des yeux. Regarda de nouveau. <em>Rien à voir ici,</em> pensa Crabby désespérément, sans bouger d'un poil. <em>Juste une carte d'embarquement. Une carte d'embarquement tout à fait ordinaire, qui n'a pas du tout la forme d'un crabe.</em>",
+      "Quand les turbulences furent enfin passées, Crabby se déroula et fila à toute allure dans l'allée. Il arriva à la queue de cheval de Sofia hors d'haleine, avec encore un peu de mousse visible sur une pince.",
+      "Cette fois, Sofia se réveilla pour de bon et regarda par le hublot les lumières qui apparaissaient en bas. « Baba, regarde — c'est Londres ! » Blotti au fond de sa queue de cheval, épuisé par ses aventures, un petit crabe rouge pointa le bout de son nez juste assez pour voir les lumières de la ville scintiller en contrebas. <em>Mission accomplie</em>, pensa-t-il tandis que ses yeux se fermaient. <em>Personne n'a rien vu. Il ne s'est rien passé. Et cette mousse, soit dit en passant, était excellente.</em>"
+    ],
+    "back": "← Toutes les histoires",
+    "end": "Fin",
+    "more": "🦀 D'autres histoires de Crabby →"
+  },
+  "es": {
+    "title": "Crabby viaja en avión",
+    "alts": [
+      "Sofia dormida junto a la ventanilla del avión, con Crabby asomándose por su coleta",
+      "Crabby en la bandeja de un avión, sirviéndose una mousse de chocolate"
+    ],
+    "p": [
+      "La coleta de Sofia botaba por el aeropuerto de Perth y, escondidas en lo más hondo, ocho patitas se agarraban con fuerza. <em>Esto no es viajar de polizón,</em> pensó Crabby, mientras Baba, el padre de Sofia, pasaba la maleta por el control de seguridad. <em>Esto es un acompañamiento estratégico. Alguien tiene que vigilar a Sofia durante catorce horas. Qué mejor que yo.</em> Se había colado esa misma mañana, justo después de que Sofia se recogiera el pelo, y ya no había vuelta atrás; tampoco es que la quisiera. Crabby nunca había subido a un avión. Pensaba disfrutar de cada segundo, de lado y sin que nadie lo descubriera, como siempre.",
+      "Los problemas empezaron en algún lugar sobre el océano Índico. Sofia se había quedado dormida apoyada en la ventanilla, y Crabby, aburrido e inquieto, decidió que tocaba una misión rápida por el pasillo. Se escurrió fuera de su coleta, correteó por el reposacabezas y se dejó caer sobre la bandeja del señor del asiento 34C, que estaba dando un sorbo a su zumo. «Pero qué dem…», farfulló el hombre, mirándose el regazo y luego la bandeja vacía, totalmente incapaz de explicar adónde había ido el pequeño visitante rojo, porque Crabby ya no estaba: se había pegado a la parte de abajo del asiento de delante.",
+      "<em>Podría haber salido mejor</em>, admitió Crabby. Envalentonado, la siguiente parada de Crabby fue el carrito de la comida, aparcado inocentemente en el pasillo mientras la azafata ayudaba a alguien con una bolsa. Las tapitas de aluminio de los vasitos de postre le parecieron irresistibles y, para su alegría, abrió una y encontró mousse de chocolate dentro. Una pinzada de mousse después, lucía un bonito bigote marrón y había dejado varias huellas diminutas en la bandeja de arriba del carrito. «¿Alguien ha tocado la mousse?», le preguntó la azafata a su compañera, frunciendo el ceño ante las manchas. «Serán las turbulencias», dijo la otra, nada convencida.",
+      "Crabby ya iba por la mitad del pasillo, deslizándose bajo el asiento 36A, justo cuando Sofia se movió y levantó la mano para tocarse la coleta. Llegó con apenas unos segundos de margen y se metió en su sitio justo cuando Sofia bostezaba y le preguntaba a Baba cuánto faltaba para Londres. Se quedó quieto casi una hora entera, lo cual, para Crabby, era prácticamente un récord personal.",
+      "Pero cuando empezó la película del avión, y alguien tres filas más adelante tenía el volumen demasiado alto, Crabby no tuvo más remedio que investigar. Otra vez bajó del asiento, cruzó por encima de la manta de un desconocido dormido y se pegó al respaldo, maravillado con la película que salía en la pantallita.",
+      "Justo entonces se encendió con un «din» la señal de los cinturones, y la voz del piloto crepitó por los altavoces: «Tripulación de cabina, prepárense para unas ligeras turbulencias.» El avión dio una sacudida suave. Crabby, pillado a media carrera, salió despedido de lado contra la tarjeta de embarque que se le había caído a alguien, se envolvió en ella y rodó hasta detenerse contra un zapato. El dueño del zapato miró hacia abajo. Parpadeó. Volvió a mirar. <em>Aquí no hay nada que ver,</em> pensó Crabby, desesperado, quedándose muy, muy quieto. <em>Solo una tarjeta de embarque. Una tarjeta de embarque de lo más normal, que no tiene forma de cangrejo.</em>",
+      "Cuando por fin pasaron las turbulencias, Crabby se desenrolló y volvió disparado por el pasillo. Llegó a la coleta de Sofia sin aliento, con restos de mousse todavía visibles en una pinza.",
+      "Esta vez Sofia se despertó del todo y miró por la ventanilla las luces que iban apareciendo abajo. «Baba, mira, ¡es Londres!» Escondido en lo más hondo de su coleta, agotado por sus aventuras, un pequeño cangrejo rojo se asomó lo justo para ver las luces de la ciudad centelleando allá abajo. <em>Misión cumplida</em>, pensó, mientras se le cerraban los ojos. <em>Nadie ha visto nada. No ha pasado nada. Y esa mousse, que conste, estaba buenísima.</em>"
+    ],
+    "back": "← Todos los cuentos",
+    "end": "Fin",
+    "more": "🦀 Más cuentos de Crabby →"
+  }
+};
+
+  var paras = Array.prototype.slice.call(
+    document.querySelectorAll('.page > p:not(.the-end):not(.activity-link)'));
+  var h1 = document.querySelector('h1');
+  var imgs = Array.prototype.slice.call(document.querySelectorAll('.page img'));
+  var back = document.querySelector('.back');
+  var theEnd = document.querySelector('.the-end');
+  var more = document.querySelector('.activity-link a');
+
+  // Keep the English exactly as written on the page
+  TRANSLATIONS.en = {
+    title: h1.textContent,
+    alts: imgs.map(function (i) { return i.alt; }),
+    p: paras.map(function (p) { return p.innerHTML; }),
+    back: back.textContent,
+    end: theEnd.textContent,
+    more: more.textContent
+  };
+
+  // Redraw the story whenever the site-wide language changes
+  CrabbyLang.onChange(function (code) {
+    var t = TRANSLATIONS[code] || TRANSLATIONS.en;
+    h1.textContent = t.title;
+    document.title = t.title;
+    imgs.forEach(function (img, i) { if (t.alts[i]) img.alt = t.alts[i]; });
+    paras.forEach(function (p, i) { p.innerHTML = t.p[i]; });
+    back.textContent = t.back;
+    theEnd.textContent = t.end;
+    more.textContent = t.more;
+  });
+})();
+</script>
+</body>
+</html>

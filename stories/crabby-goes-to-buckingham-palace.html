@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- EDIT: the text shown on the browser tab -->
+<title>Crabby goes to Buckingham Palace</title>
+
+<meta name="description" content="Crabby goes to Buckingham Palace — a story from The Adventures of Crabby.">
+
+<!-- Same lettering font as the rest of the site, for the heading here. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper: #fbf4dd;   /* same page background as the rest of the site */
+    --ink:   #163a5c;   /* same ink colour as the home page's title */
+    --text:  #2b2b2b;   /* body text — softer than pure black */
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    padding: 50px 20px 90px;
+  }
+
+  .page {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .back {
+    display: inline-block;
+    margin-bottom: 24px;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    color: var(--ink);
+    text-decoration: none;
+    opacity: .75;
+  }
+
+  .back:hover { opacity: 1; }
+
+  /* EDIT: the title wording */
+  h1 {
+    font-family: "Alex Brush", "Segoe Script", "Brush Script MT", cursive;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 1.15;
+    color: var(--ink);
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  /* EDIT: the wide picture below the title. width resizes it; it
+     always keeps its own proportions and stays centred. */
+  .hero-picture {
+    display: block;
+    width: 100%;
+    max-width: 640px;
+    height: auto;
+    margin: 0 auto 34px;
+    border-radius: 10px;
+    box-shadow: 0 10px 28px rgba(90, 66, 30, .22);
+  }
+
+  /* EDIT: the story text */
+  p {
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--text);
+    text-align: justify;
+    margin-bottom: 20px;
+  }
+
+  /* The second picture, set into the text partway through the story. */
+  .story-picture {
+    display: block;
+    width: 100%;
+    max-width: 460px;
+    height: auto;
+    margin: 8px auto 28px;
+    border-radius: 10px;
+    box-shadow: 0 8px 22px rgba(90, 66, 30, .22);
+  }
+
+  /* Portrait-shaped pictures are shown narrower, so they aren't huge */
+  .hero-picture.tall { max-width: 360px; }
+  .story-picture.tall { width: 60%; max-width: 280px; }
+
+  .the-end {
+    text-align: center;
+    font-family: "Alex Brush", "Segoe Script", "Brush Script MT", cursive;
+    font-size: 34px;
+    color: var(--ink);
+    margin-top: 26px;
+  }
+
+  /* EDIT: the link to this story's activity page, shown after The End */
+  .activity-link {
+    display: block;
+    text-align: center;
+    margin-top: 34px;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+  }
+
+  .activity-link a {
+    display: inline-block;
+    padding: 10px 22px;
+    border-radius: 10px;
+    background: var(--ink);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    transition: transform .15s ease, opacity .15s ease;
+  }
+
+  .activity-link a:hover { transform: translateY(-2px); opacity: .92; }
+
+  /* The title lettering font has no Greek letters, so Greek uses this */
+  html[lang="el"] h1,
+  html[lang="el"] .the-end {
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+  }
+  html[lang="el"] h1 { font-size: 40px; }
+  html[lang="el"] .the-end { font-size: 28px; }
+</style>
+<!-- Site-wide language switching (see lang/i18n.js) -->
+<script src="../lang/i18n.js"></script>
+</head>
+
+<body>
+
+  <div class="page">
+
+    <a class="back" href="/stories/stories-index">← All stories</a>
+
+    <h1>Crabby goes to Buckingham Palace</h1>
+
+    <img class="hero-picture" src="../images/Sofia%20at%20Buckingham%20Palace.jpg" alt="Sofia outside Buckingham Palace with the guards in red coats and tall black hats, Crabby in her ponytail">
+
+    <p>London was hot and sticky. <em>It's way too hot to be outside</em>, thought Crabby, peering out from Sofia's ponytail as she joined the crowd gathering outside Buckingham Palace's tall black gates. Sofia was buzzing with excitement, pointing up at the gold tipped railings, the red brick facade, and the flag snapping in the wind. But Crabby only had eyes for one thing: the guards. Enormous men in bright red coats and towering black furry hats, standing so still they barely seemed to be breathing.</p>
+
+    <p><em>Impressive</em>, Crabby thought, sizing them up from his hiding spot. <em>But I can be stiller. Watch this!</em> This, of course, was a terrible idea, but Crabby did it anyway. While Sofia was busy taking photos, Crabby slipped down from the ponytail, scuttled across the pavement and positioned himself directly behind the nearest guard's polished black boot, holding himself as rigid as a statue.</p>
+
+    <p>The guard, trained to ignore pigeons, tourists and the occasional dropped ice-cream, fortunately did not glance down at the small red crab. Crabby held his position proudly for almost thirty whole seconds, before a gust of wind sent a chip packet tumbling past. Instinct took over and he lunged for it. The chip packet, as it turned out, was still half full, and exploded in a small salty shower directly onto the guard's boot. The guard's eye twitched. Just once.</p>
+
+    <img class="story-picture tall" src="../images/Crabby%20and%20the%20Guard%20Boot.png" alt="Crabby beside a guard&#x27;s shiny black boot, with salty chips spilled everywhere">
+
+    <p><em>Time to retreat,</em> Crabby decided, and bolted back across the pavement, dodging a pigeon, a pram wheel, and Sofia's foot, before diving back into the ponytail. Sofia asked if they could see inside the palace, but they couldn't on that day. They could, however, walk to the edge of the gardens, and Sofia pressed her face to the railings to peer at the palace windows, wondering if the king was home.</p>
+
+    <p>Later, in the gift shop, disaster nearly struck again. A display of small toy corgis, the Queen's famous dogs, sat in a great pyramid near the till. Crabby, catching sight of them from Sofia's shoulder, was convinced one of them had moved. I must investigate, he thought. He was one claw away from launching himself at the pyramid when Sofia reached up to adjust her ponytail. Crabby had to freeze completely still, clinging on for dear life, while the corgis remained exactly as they'd always been. Just toys. Not moving at all. “Fine”, he grumbled silently. <em>I'll stay put in Sofia's ponytail</em>, thinking that another adventure could end in disaster.</p>
+
+    <p>By the time they left the palace behind, Sofia was full of stories to tell about the guards, the gold gates, the gardens, and had no idea that her ponytail had its own small collection of adventures to match, salty chip crumbs and all.</p>
+
+    <p class="the-end">The End</p>
+
+    <p class="activity-link">
+      <a href="/stories/stories-index">🦀 More Crabby stories →</a>
+    </p>
+
+  </div>
+
+
+<!-- EDIT: story translations. Each language has the title, the two picture
+     descriptions, and the story paragraphs in the same order as the English
+     above (one line per paragraph; <em> marks Crabby's thoughts in italics).
+     The English is read straight from the page. The language picker itself
+     comes from lang/i18n.js. -->
+<script>
+(function () {
+  var TRANSLATIONS = {
+  "el": {
+    "title": "Ο Κράμπι πάει στο Παλάτι του Μπάκιγχαμ",
+    "alts": [
+      "Η Σοφία έξω από το Παλάτι του Μπάκιγχαμ με τους φρουρούς με τα κόκκινα σακάκια και τα ψηλά μαύρα καπέλα, κι ο Κράμπι στην αλογοουρά της",
+      "Ο Κράμπι δίπλα στη γυαλιστερή μαύρη μπότα ενός φρουρού, με πατατάκια σκορπισμένα παντού"
+    ],
+    "p": [
+      "Το Λονδίνο ήταν ζεστό και κολλώδες. <em>Κάνει πάρα πολλή ζέστη για να είμαστε έξω</em>, σκέφτηκε ο Κράμπι, κρυφοκοιτάζοντας από την αλογοουρά της Σοφίας, καθώς εκείνη ανακατευόταν με το πλήθος που μαζευόταν έξω από τις ψηλές μαύρες πύλες του Παλατιού του Μπάκιγχαμ. Η Σοφία ήταν γεμάτη ενθουσιασμό κι έδειχνε τα κάγκελα με τις χρυσές μύτες, την πρόσοψη από κόκκινα τούβλα και τη σημαία που ανέμιζε στον αέρα. Ο Κράμπι όμως είχε μάτια μόνο για ένα πράγμα: τους φρουρούς. Τεράστιοι άντρες με κατακόκκινα σακάκια και ψηλά μαύρα γούνινα καπέλα, που στέκονταν τόσο ακίνητοι που μόλις και μετά βίας φαίνονταν να αναπνέουν.",
+      "<em>Εντυπωσιακό</em>, σκέφτηκε ο Κράμπι, μετρώντας τους με το βλέμμα από την κρυψώνα του. <em>Εγώ όμως μπορώ να μείνω ακόμα πιο ακίνητος. Για δείτε!</em> Αυτή ήταν, φυσικά, μια φριχτή ιδέα, αλλά ο Κράμπι την έκανε έτσι κι αλλιώς. Ενώ η Σοφία ήταν απασχολημένη με τις φωτογραφίες, ο Κράμπι γλίστρησε από την αλογοουρά, διέσχισε πλάγια το πεζοδρόμιο και στήθηκε ακριβώς πίσω από τη γυαλισμένη μαύρη μπότα του πιο κοντινού φρουρού, ακίνητος σαν άγαλμα.",
+      "Ο φρουρός, εκπαιδευμένος να αγνοεί περιστέρια, τουρίστες και κανένα πεσμένο παγωτό πού και πού, ευτυχώς δεν έριξε ούτε μια ματιά στον μικρό κόκκινο κάβουρα. Ο Κράμπι κράτησε περήφανα τη θέση του για σχεδόν τριάντα ολόκληρα δευτερόλεπτα, μέχρι που μια ριπή αέρα έφερε ένα σακουλάκι πατατάκια να κυλάει δίπλα του. Το ένστικτο πήρε τον έλεγχο κι όρμησε πάνω του. Το σακουλάκι, όπως αποδείχτηκε, ήταν ακόμα μισογεμάτο, κι έσκασε σε μια μικρή αλμυρή βροχή κατευθείαν πάνω στην μπότα του φρουρού. Το μάτι του φρουρού σπαρτάρισε. Μόνο μία φορά.",
+      "<em>Ώρα για υποχώρηση,</em> αποφάσισε ο Κράμπι, κι έτρεξε σαν σφαίρα πίσω στο πεζοδρόμιο, αποφεύγοντας ένα περιστέρι, μια ρόδα από καρότσι μωρού και το πόδι της Σοφίας, πριν βουτήξει ξανά στην αλογοουρά. Η Σοφία ρώτησε αν μπορούσαν να δουν το εσωτερικό του παλατιού, αλλά εκείνη τη μέρα δεν γινόταν. Μπορούσαν όμως να περπατήσουν ως την άκρη των κήπων, κι η Σοφία κόλλησε το πρόσωπό της στα κάγκελα για να κοιτάξει τα παράθυρα του παλατιού, αναρωτώμενη αν ο βασιλιάς ήταν στο σπίτι.",
+      "Αργότερα, στο κατάστημα με τα σουβενίρ, λίγο έλειψε να γίνει πάλι καταστροφή. Μια έκθεση από μικρά παιχνίδια-κόργκι, τα διάσημα σκυλιά της Βασίλισσας, ήταν στημένη σε μια μεγάλη πυραμίδα κοντά στο ταμείο. Ο Κράμπι, που τα είδε από τον ώμο της Σοφίας, ήταν σίγουρος ότι ένα από αυτά είχε κουνηθεί. Πρέπει να το ερευνήσω, σκέφτηκε. Ήταν μια δαγκάνα μακριά από το να εκτοξευτεί στην πυραμίδα, όταν η Σοφία σήκωσε το χέρι να φτιάξει την αλογοουρά της. Ο Κράμπι έπρεπε να παγώσει εντελώς, κρατώντας σφιχτά για να σωθεί, ενώ τα κόργκι έμεναν ακριβώς όπως ήταν πάντα. Απλά παιχνίδια. Καθόλου δεν κουνιόντουσαν. «Καλά», μουρμούρισε σιωπηλά. <em>Θα μείνω στη θέση μου, στην αλογοουρά της Σοφίας</em>, σκέφτηκε, αφού μια ακόμα περιπέτεια μπορεί να κατέληγε σε καταστροφή.",
+      "Μέχρι να αφήσουν πίσω τους το παλάτι, η Σοφία είχε ένα σωρό ιστορίες να διηγηθεί για τους φρουρούς, τις χρυσές πύλες, τους κήπους, και δεν είχε ιδέα ότι η αλογοουρά της είχε τη δική της μικρή συλλογή από περιπέτειες — μαζί με αλμυρά ψίχουλα από πατατάκια."
+    ],
+    "back": "← Όλες οι ιστορίες",
+    "end": "Τέλος",
+    "more": "🦀 Κι άλλες ιστορίες του Κράμπι →"
+  },
+  "it": {
+    "title": "Crabby va a Buckingham Palace",
+    "alts": [
+      "Sofia davanti a Buckingham Palace con le guardie in giacca rossa e alto colbacco nero, e Crabby nella sua coda di cavallo",
+      "Crabby accanto al lucido stivale nero di una guardia, con patatine salate sparse dappertutto"
+    ],
+    "p": [
+      "A Londra faceva caldo e c'era un'afa appiccicosa. <em>Fa decisamente troppo caldo per stare fuori</em>, pensò Crabby, sbirciando dalla coda di cavallo di Sofia mentre lei si univa alla folla radunata davanti agli alti cancelli neri di Buckingham Palace. Sofia fremeva di entusiasmo, indicando le cancellate con le punte dorate, la facciata di mattoni rossi e la bandiera che schioccava al vento. Ma Crabby aveva occhi solo per una cosa: le guardie. Omoni enormi con giacche rosso acceso e altissimi colbacchi neri di pelo, così immobili che sembrava quasi non respirassero.",
+      "<em>Notevole</em>, pensò Crabby, studiandoli dal suo nascondiglio. <em>Ma io so stare ancora più fermo. Guardate qua!</em> Questa, naturalmente, era un'idea terribile, ma Crabby la mise in pratica lo stesso. Mentre Sofia era occupata a scattare foto, Crabby scivolò giù dalla coda di cavallo, attraversò di lato il marciapiede e si piazzò proprio dietro il lucido stivale nero della guardia più vicina, rigido come una statua.",
+      "La guardia, addestrata a ignorare piccioni, turisti e qualche gelato caduto di tanto in tanto, per fortuna non abbassò lo sguardo sul piccolo granchio rosso. Crabby mantenne fiero la posizione per quasi trenta secondi interi, finché una folata di vento non fece rotolare lì accanto un sacchetto di patatine. L'istinto prese il sopravvento e ci si lanciò sopra. Il sacchetto, come si scoprì, era ancora mezzo pieno, ed esplose in una piccola pioggia salata dritta sullo stivale della guardia. L'occhio della guardia ebbe un tic. Uno solo.",
+      "<em>È ora di ritirarsi,</em> decise Crabby, e sfrecciò di nuovo attraverso il marciapiede, schivando un piccione, la ruota di una carrozzina e il piede di Sofia, prima di tuffarsi di nuovo nella coda di cavallo. Sofia chiese se potevano visitare l'interno del palazzo, ma quel giorno non si poteva. Però potevano passeggiare fino al limite dei giardini, e Sofia appoggiò il viso alla cancellata per sbirciare le finestre del palazzo, chiedendosi se il re fosse in casa.",
+      "Più tardi, nel negozio di souvenir, per poco non ci scappò un altro disastro. Un'esposizione di piccoli corgi giocattolo, i famosi cani della Regina, formava una grande piramide vicino alla cassa. Crabby, che li vide dalla spalla di Sofia, era convinto che uno di loro si fosse mosso. Devo indagare, pensò. Era a una chela dal lanciarsi sulla piramide quando Sofia alzò la mano per sistemarsi la coda di cavallo. Crabby dovette immobilizzarsi del tutto, aggrappato con tutte le sue forze, mentre i corgi restavano esattamente com'erano sempre stati. Solo giocattoli. Del tutto immobili. «Va bene», brontolò in silenzio. <em>Resto fermo nella coda di cavallo di Sofia</em>, pensò, perché un'altra avventura sarebbe potuta finire in un disastro.",
+      "Quando si lasciarono il palazzo alle spalle, Sofia aveva un sacco di storie da raccontare sulle guardie, i cancelli dorati, i giardini, e non aveva idea che la sua coda di cavallo avesse una sua piccola collezione di avventure, briciole salate di patatine comprese."
+    ],
+    "back": "← Tutte le storie",
+    "end": "Fine",
+    "more": "🦀 Altre storie di Crabby →"
+  },
+  "fr": {
+    "title": "Crabby va au palais de Buckingham",
+    "alts": [
+      "Sofia devant le palais de Buckingham avec les gardes en tunique rouge et haut bonnet noir, Crabby dans sa queue de cheval",
+      "Crabby à côté de la botte noire et brillante d'un garde, avec des chips salées éparpillées partout"
+    ],
+    "p": [
+      "Il faisait chaud et lourd à Londres. <em>Il fait bien trop chaud pour être dehors</em>, pensa Crabby en jetant un œil depuis la queue de cheval de Sofia, tandis qu'elle rejoignait la foule rassemblée devant les hautes grilles noires du palais de Buckingham. Sofia était surexcitée et montrait du doigt les grilles aux pointes dorées, la façade de briques rouges et le drapeau qui claquait au vent. Mais Crabby n'avait d'yeux que pour une chose : les gardes. D'immenses messieurs en tunique rouge vif, coiffés de hauts bonnets noirs en fourrure, si immobiles qu'ils semblaient à peine respirer.",
+      "<em>Impressionnant</em>, pensa Crabby en les jaugeant depuis sa cachette. <em>Mais moi, je peux être encore plus immobile. Regardez-moi ça !</em> C'était, bien sûr, une idée épouvantable, mais Crabby le fit quand même. Pendant que Sofia était occupée à prendre des photos, Crabby descendit de la queue de cheval, traversa le trottoir de côté et se posta juste derrière la botte noire bien cirée du garde le plus proche, raide comme une statue.",
+      "Le garde, entraîné à ignorer les pigeons, les touristes et, de temps en temps, une glace tombée par terre, ne baissa heureusement pas les yeux vers le petit crabe rouge. Crabby tint fièrement la pose pendant presque trente secondes entières, jusqu'à ce qu'un coup de vent fasse rouler un paquet de chips à côté de lui. L'instinct prit le dessus et il se jeta dessus. Le paquet de chips, il s'avéra, était encore à moitié plein, et explosa en une petite pluie salée directement sur la botte du garde. L'œil du garde tressaillit. Une seule fois.",
+      "<em>L'heure de la retraite a sonné,</em> décida Crabby, et il retraversa le trottoir à toute vitesse, esquivant un pigeon, une roue de poussette et le pied de Sofia, avant de replonger dans la queue de cheval. Sofia demanda s'ils pouvaient visiter l'intérieur du palais, mais ce n'était pas possible ce jour-là. Ils purent en revanche marcher jusqu'au bord des jardins, et Sofia colla son visage contre les grilles pour regarder les fenêtres du palais, en se demandant si le roi était à la maison.",
+      "Plus tard, dans la boutique de souvenirs, la catastrophe faillit encore arriver. De petits corgis jouets, les célèbres chiens de la Reine, étaient empilés en une grande pyramide près de la caisse. Crabby, qui les aperçut depuis l'épaule de Sofia, était persuadé que l'un d'eux avait bougé. Je dois enquêter, pensa-t-il. Il était à une pince de se jeter sur la pyramide quand Sofia leva la main pour arranger sa queue de cheval. Crabby dut se figer complètement, cramponné de toutes ses forces, pendant que les corgis restaient exactement comme ils l'avaient toujours été. De simples jouets. Parfaitement immobiles. « Bon, d'accord », grommela-t-il en silence. <em>Je reste bien sagement dans la queue de cheval de Sofia</em>, se dit-il, en pensant qu'une autre aventure pourrait mal finir.",
+      "Quand ils quittèrent le palais, Sofia avait plein d'histoires à raconter sur les gardes, les grilles dorées, les jardins, et n'avait aucune idée que sa queue de cheval avait sa propre petite collection d'aventures, miettes de chips salées comprises."
+    ],
+    "back": "← Toutes les histoires",
+    "end": "Fin",
+    "more": "🦀 D'autres histoires de Crabby →"
+  },
+  "es": {
+    "title": "Crabby va al Palacio de Buckingham",
+    "alts": [
+      "Sofia delante del Palacio de Buckingham con los guardias de casaca roja y alto gorro negro, y Crabby en su coleta",
+      "Crabby junto a la brillante bota negra de un guardia, con patatas fritas esparcidas por todas partes"
+    ],
+    "p": [
+      "En Londres hacía un calor pegajoso. <em>Hace demasiado calor para estar en la calle</em>, pensó Crabby, asomándose desde la coleta de Sofia mientras ella se unía a la multitud reunida delante de las altas verjas negras del Palacio de Buckingham. Sofia estaba emocionadísima y señalaba las rejas con puntas doradas, la fachada de ladrillo rojo y la bandera que ondeaba al viento. Pero Crabby solo tenía ojos para una cosa: los guardias. Hombres enormes con casacas de un rojo intenso y altísimos gorros negros de pelo, tan quietos que apenas parecían respirar.",
+      "<em>Impresionante</em>, pensó Crabby, observándolos con atención desde su escondite. <em>Pero yo puedo estar todavía más quieto. ¡Mirad esto!</em> Aquello, por supuesto, era una idea malísima, pero Crabby lo hizo de todas formas. Mientras Sofia estaba ocupada haciendo fotos, Crabby bajó de la coleta, cruzó la acera de lado y se colocó justo detrás de la reluciente bota negra del guardia más cercano, tieso como una estatua.",
+      "El guardia, entrenado para ignorar palomas, turistas y algún que otro helado caído, por suerte no bajó la vista hacia el pequeño cangrejo rojo. Crabby mantuvo orgulloso su posición durante casi treinta segundos enteros, hasta que una ráfaga de viento hizo pasar rodando una bolsa de patatas fritas. El instinto tomó el control y se lanzó a por ella. La bolsa, al final, estaba todavía medio llena, y estalló en una pequeña lluvia salada directamente sobre la bota del guardia. Al guardia le tembló un ojo. Solo una vez.",
+      "<em>Hora de batirse en retirada,</em> decidió Crabby, y cruzó de nuevo la acera a toda velocidad, esquivando una paloma, la rueda de un cochecito y el pie de Sofia, antes de zambullirse otra vez en la coleta. Sofia preguntó si podían ver el interior del palacio, pero ese día no se podía. Lo que sí podían hacer era caminar hasta el borde de los jardines, y Sofia apretó la cara contra la verja para mirar las ventanas del palacio, preguntándose si el rey estaría en casa.",
+      "Más tarde, en la tienda de regalos, casi ocurre otro desastre. Una colección de pequeños corgis de juguete, los famosos perros de la Reina, formaba una gran pirámide junto a la caja. Crabby, que los vio desde el hombro de Sofia, estaba convencido de que uno de ellos se había movido. Tengo que investigar, pensó. Estaba a una pinza de lanzarse sobre la pirámide cuando Sofia levantó la mano para arreglarse la coleta. Crabby tuvo que quedarse completamente inmóvil, agarrado con todas sus fuerzas, mientras los corgis seguían exactamente igual que siempre. Solo juguetes. Sin moverse en absoluto. «Vale», refunfuñó en silencio. <em>Me quedo quietecito en la coleta de Sofia</em>, pensó, porque otra aventura podría acabar en desastre.",
+      "Cuando dejaron atrás el palacio, Sofia tenía un montón de historias que contar sobre los guardias, las verjas doradas y los jardines, y no tenía ni idea de que su coleta tenía su propia pequeña colección de aventuras, con migas saladas de patatas fritas y todo."
+    ],
+    "back": "← Todos los cuentos",
+    "end": "Fin",
+    "more": "🦀 Más cuentos de Crabby →"
+  }
+};
+
+  var paras = Array.prototype.slice.call(
+    document.querySelectorAll('.page > p:not(.the-end):not(.activity-link)'));
+  var h1 = document.querySelector('h1');
+  var imgs = Array.prototype.slice.call(document.querySelectorAll('.page img'));
+  var back = document.querySelector('.back');
+  var theEnd = document.querySelector('.the-end');
+  var more = document.querySelector('.activity-link a');
+
+  // Keep the English exactly as written on the page
+  TRANSLATIONS.en = {
+    title: h1.textContent,
+    alts: imgs.map(function (i) { return i.alt; }),
+    p: paras.map(function (p) { return p.innerHTML; }),
+    back: back.textContent,
+    end: theEnd.textContent,
+    more: more.textContent
+  };
+
+  // Redraw the story whenever the site-wide language changes
+  CrabbyLang.onChange(function (code) {
+    var t = TRANSLATIONS[code] || TRANSLATIONS.en;
+    h1.textContent = t.title;
+    document.title = t.title;
+    imgs.forEach(function (img, i) { if (t.alts[i]) img.alt = t.alts[i]; });
+    paras.forEach(function (p, i) { p.innerHTML = t.p[i]; });
+    back.textContent = t.back;
+    theEnd.textContent = t.end;
+    more.textContent = t.more;
+  });
+})();
+</script>
+</body>
+</html>

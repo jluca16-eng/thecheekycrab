@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- EDIT: the text shown on the browser tab -->
+<title>Crabby goes to Gardening Club</title>
+
+<meta name="description" content="Crabby goes to Gardening Club — a story from The Adventures of Crabby.">
+
+<!-- Same lettering font as the rest of the site, for the heading here. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper: #fbf4dd;   /* same page background as the rest of the site */
+    --ink:   #163a5c;   /* same ink colour as the home page's title */
+    --text:  #2b2b2b;   /* body text — softer than pure black */
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    padding: 50px 20px 90px;
+  }
+
+  .page {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .back {
+    display: inline-block;
+    margin-bottom: 24px;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    color: var(--ink);
+    text-decoration: none;
+    opacity: .75;
+  }
+
+  .back:hover { opacity: 1; }
+
+  /* EDIT: the title wording */
+  h1 {
+    font-family: "Alex Brush", "Segoe Script", "Brush Script MT", cursive;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 1.15;
+    color: var(--ink);
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  /* EDIT: the wide picture below the title. width resizes it; it
+     always keeps its own proportions and stays centred. */
+  .hero-picture {
+    display: block;
+    width: 100%;
+    max-width: 640px;
+    height: auto;
+    margin: 0 auto 34px;
+    border-radius: 10px;
+    box-shadow: 0 10px 28px rgba(90, 66, 30, .22);
+  }
+
+  /* EDIT: the story text */
+  p {
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--text);
+    text-align: justify;
+    margin-bottom: 20px;
+  }
+
+  /* The second picture, set into the text partway through the story. */
+  .story-picture {
+    display: block;
+    width: 100%;
+    max-width: 460px;
+    height: auto;
+    margin: 8px auto 28px;
+    border-radius: 10px;
+    box-shadow: 0 8px 22px rgba(90, 66, 30, .22);
+  }
+
+  /* Portrait-shaped pictures are shown narrower, so they aren't huge */
+  .hero-picture.tall { max-width: 360px; }
+  .story-picture.tall { width: 60%; max-width: 280px; }
+
+  .the-end {
+    text-align: center;
+    font-family: "Alex Brush", "Segoe Script", "Brush Script MT", cursive;
+    font-size: 34px;
+    color: var(--ink);
+    margin-top: 26px;
+  }
+
+  /* EDIT: the link to this story's activity page, shown after The End */
+  .activity-link {
+    display: block;
+    text-align: center;
+    margin-top: 34px;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+  }
+
+  .activity-link a {
+    display: inline-block;
+    padding: 10px 22px;
+    border-radius: 10px;
+    background: var(--ink);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    transition: transform .15s ease, opacity .15s ease;
+  }
+
+  .activity-link a:hover { transform: translateY(-2px); opacity: .92; }
+
+  /* The title lettering font has no Greek letters, so Greek uses this */
+  html[lang="el"] h1,
+  html[lang="el"] .the-end {
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+  }
+  html[lang="el"] h1 { font-size: 40px; }
+  html[lang="el"] .the-end { font-size: 28px; }
+</style>
+<!-- Site-wide language switching (see lang/i18n.js) -->
+<script src="../lang/i18n.js"></script>
+</head>
+
+<body>
+
+  <div class="page">
+
+    <a class="back" href="/stories/stories-index">← All stories</a>
+
+    <h1>Crabby goes to Gardening Club</h1>
+
+    <img class="hero-picture tall" src="../images/Sofia%20and%20Emma%20Gardening.png" alt="Sofia and Emma kneeling in the school garden, weeding beside the tomato plants">
+
+    <p>Crabby was bored. He was watching Sofia get ready for school when he suddenly had an idea. <em>I’m going to Freshwater Bay Primary School,</em> he thought, creeping into Sofia’s ponytail. Crabby was bubbling with excitement as he enjoyed a short car ride to the school from the safety of Sofia's hair.</p>
+
+    <p>First up was Spelling Mastery. This went smoothly enough, though Crabby privately felt the word “crustacean” ought to have come up at least once. Music class was trickier — every time the class sang, Sofia’s ponytail swished in time, and Crabby had to grip on with all eight legs, muttering to himself about the injustice. Maths class was, in Crabby’s expert opinion, the most sensible lesson of the day, mostly because nobody moved very much and he could have a bit of a rest.</p>
+
+    <p>By lunchtime, Crabby was rather looking forward to a quiet snooze. Sofia, however, had other plans. She grabbed her hat, met her best friend Emma by the door, and the two of them dashed off to Gardening Club.</p>
+
+    <p>“We’re on weeding duty today,” Emma announced, far too cheerfully for Crabby’s liking.</p>
+
+    <p><em>Weeding</em>, thought Crabby, as Sofia knelt down by a row of tomato plants and started pulling at the dandelions. <em>Marvellous. An entire lunchtime dedicated to yanking things out of the dirt. Truly the pinnacle of school life.</em></p>
+
+    <p>Bored, and fairly sure nobody would notice, Crabby slipped quietly out of the ponytail and down into the garden bed for a proper look around. That was when he spotted her: a plump, cheerful green caterpillar named Wiggles, munching happily away on a tomato leaf.</p>
+
+    <img class="story-picture tall" src="../images/Crabby%20and%20Wiggles.png" alt="Crabby the Lego crab in the garden bed, meeting Wiggles the green caterpillar under the tomato plants">
+
+    <p>“Oi,” said Crabby, sidling up. “That’s not weeds, that’s tomato.”</p>
+
+    <p>The caterpillar looked up, mid-chew, entirely unbothered. “It’s delicious, though.”</p>
+
+    <p>“That’s not the point!” said Crabby. “Sofia and her friend are trying to grow tomatoes — real ones, red and juicy — and you’re eating the plant before it’s even had a chance.”</p>
+
+    <p>Wiggles considered this, chewing thoughtfully. “I didn’t think about it like that. I just eat what’s green and nearby.”</p>
+
+    <p>“Well, there’s plenty green and nearby that isn’t tomato,” said Crabby, waving a claw at the dandelions Sofia and Emma were busily pulling up. “Those weeds, for instance. Nobody wants those. You’d be doing everybody a favour.”</p>
+
+    <p>The caterpillar crawled over, sampled a dandelion leaf, and her whole face lit up. “Oh, that’s much better. Crunchier, too.”</p>
+
+    <p>“There you go,” said Crabby, quite pleased with himself. “Weeds for you, tomatoes for them. Everybody’s happy.” “I’ve got friends who’d love this,” said Wiggles, already turning to go. “I’ll tell them all to come and eat the weeds instead!”</p>
+
+    <p>And off she went, wriggling away through the garden bed to spread the word, leaving Crabby alone with the tomato plants and a rare feeling of having done something rather good.</p>
+
+    <p>He scrambled back up into the ponytail just as Sofia stood up, dusting the dirt off her knees. “Emma, look!” she said, pointing at the tomato plant. “This one’s got heaps of leaves still. Maybe it’ll actually grow properly this time!” “Lucky one,” said Emma.</p>
+
+    <p><em>Not luck</em>, thought Crabby smugly, settling back into his hiding spot as the bell rang for the end of lunch. <em>Diplomacy. Very possibly the greatest diplomatic achievement of my career. Someone really ought to give me a medal.</em></p>
+
+    <p><strong><em>Nonna’s note:</em></strong> Crabby has a small chat in a garden, and everybody gets what they need — tomatoes for the girls, weeds for the caterpillars. That’s the best kind of clever, little one.</p>
+
+    <p><strong><em>Nonno’s note:</em></strong> In my day we didn’t negotiate with caterpillars, we simply squashed them! But I admit, Crabby’s way probably works better for the tomatoes.</p>
+
+    <p><strong><em>Ari’s note:</em></strong> WOOF. Nobody invited me to Garden Club. I would have eaten the weeds AND the caterpillar.</p>
+
+    <p class="the-end">The End</p>
+
+    <p class="activity-link">
+      <a href="/stories/stories-index">🦀 More Crabby stories →</a>
+    </p>
+
+  </div>
+
+
+<!-- EDIT: story translations. Each language has the title, the two picture
+     descriptions, and the story paragraphs in the same order as the English
+     above (one line per paragraph; <em> marks Crabby's thoughts in italics).
+     The English is read straight from the page. The language picker itself
+     comes from lang/i18n.js. -->
+<script>
+(function () {
+  var TRANSLATIONS = {
+  "el": {
+    "title": "Ο Κράμπι πάει στον Όμιλο Κηπουρικής",
+    "alts": [
+      "Η Σοφία και η Έμμα γονατιστές στον κήπο του σχολείου, βγάζουν αγριόχορτα δίπλα στις ντοματιές",
+      "Ο Κράμπι, ο κάβουρας από Lego, στο παρτέρι, γνωρίζει τη Γουίγκλς, την πράσινη κάμπια, κάτω από τις ντοματιές"
+    ],
+    "p": [
+      "Ο Κράμπι βαριόταν. Κοίταζε τη Σοφία να ετοιμάζεται για το σχολείο, όταν ξαφνικά του ήρθε μια ιδέα. <em>Πάω στο Δημοτικό Σχολείο του Freshwater Bay,</em> σκέφτηκε, και χώθηκε σιγά σιγά στην αλογοουρά της Σοφίας. Ο Κράμπι έβραζε από ενθουσιασμό καθώς απολάμβανε τη σύντομη διαδρομή με το αυτοκίνητο μέχρι το σχολείο, ασφαλής μέσα στα μαλλιά της Σοφίας.",
+      "Πρώτο μάθημα ήταν η ορθογραφία. Πήγε αρκετά καλά, αν και ο Κράμπι πίστευε μέσα του ότι η λέξη «οστρακόδερμο» έπρεπε να είχε εμφανιστεί τουλάχιστον μία φορά. Η μουσική ήταν πιο δύσκολη — κάθε φορά που η τάξη τραγουδούσε, η αλογοουρά της Σοφίας κουνιόταν στον ρυθμό, κι ο Κράμπι έπρεπε να κρατιέται και με τα οκτώ του πόδια, μουρμουρίζοντας για την αδικία. Τα μαθηματικά ήταν, κατά την ειδική γνώμη του Κράμπι, το πιο λογικό μάθημα της μέρας, κυρίως επειδή κανείς δεν κουνιόταν πολύ κι εκείνος μπορούσε να ξεκουραστεί λίγο.",
+      "Μέχρι το μεσημεριανό διάλειμμα, ο Κράμπι ανυπομονούσε για έναν ήσυχο υπνάκο. Η Σοφία όμως είχε άλλα σχέδια. Άρπαξε το καπέλο της, βρήκε την καλύτερή της φίλη, την Έμμα, στην πόρτα, και οι δυο τους έτρεξαν στον Όμιλο Κηπουρικής.",
+      "«Σήμερα έχουμε βοτάνισμα», ανακοίνωσε η Έμμα, υπερβολικά χαρούμενα για τα γούστα του Κράμπι.",
+      "<em>Βοτάνισμα</em>, σκέφτηκε ο Κράμπι, καθώς η Σοφία γονάτιζε δίπλα σε μια σειρά ντοματιές κι άρχιζε να ξεριζώνει πικραλίδες. <em>Υπέροχα. Ένα ολόκληρο διάλειμμα αφιερωμένο στο να τραβάμε πράγματα από το χώμα. Πραγματικά, η κορυφή της σχολικής ζωής.</em>",
+      "Βαριεστημένος, και σχεδόν σίγουρος ότι κανείς δεν θα το πρόσεχε, ο Κράμπι γλίστρησε αθόρυβα από την αλογοουρά και κατέβηκε στο παρτέρι για να ρίξει μια καλή ματιά τριγύρω. Τότε ακριβώς την εντόπισε: μια παχουλή, χαρούμενη πράσινη κάμπια που τη λέγανε Γουίγκλς, να μασουλάει ευτυχισμένη ένα φύλλο ντοματιάς.",
+      "«Ε, εσύ», είπε ο Κράμπι, πλησιάζοντας πλάγια. «Αυτό δεν είναι αγριόχορτο, είναι ντομάτα.»",
+      "Η κάμπια σήκωσε το κεφάλι, με την μπουκιά στο στόμα, εντελώς ατάραχη. «Είναι όμως πεντανόστιμο.»",
+      "«Δεν είναι αυτό το θέμα!» είπε ο Κράμπι. «Η Σοφία και η φίλη της προσπαθούν να μεγαλώσουν ντομάτες — αληθινές, κόκκινες και ζουμερές — κι εσύ τρως το φυτό πριν καν προλάβει.»",
+      "Η Γουίγκλς το σκέφτηκε, μασουλώντας συλλογισμένη. «Δεν το είχα σκεφτεί έτσι. Εγώ απλώς τρώω ό,τι είναι πράσινο και κοντά μου.»",
+      "«Ε, υπάρχουν πολλά πράσινα και κοντινά που δεν είναι ντομάτα», είπε ο Κράμπι, δείχνοντας με τη δαγκάνα του τις πικραλίδες που ξερίζωναν πρόθυμα η Σοφία κι η Έμμα. «Εκείνα τα αγριόχορτα, για παράδειγμα. Δεν τα θέλει κανείς. Θα έκανες χάρη σε όλους.»",
+      "Η κάμπια σύρθηκε ως εκεί, δοκίμασε ένα φύλλο πικραλίδας, κι όλο της το πρόσωπο φωτίστηκε. «Ω, αυτό είναι πολύ καλύτερο. Και πιο τραγανό.»",
+      "«Ορίστε», είπε ο Κράμπι, αρκετά ικανοποιημένος με τον εαυτό του. «Αγριόχορτα για σένα, ντομάτες γι' αυτές. Όλοι ευχαριστημένοι.» «Έχω φίλους που θα το λατρέψουν αυτό», είπε η Γουίγκλς, ενώ ήδη έφευγε. «Θα τους πω σε όλους να έρθουν να φάνε τα αγριόχορτα!»",
+      "Κι έφυγε, στριφογυρίζοντας μέσα στο παρτέρι για να διαδώσει τα νέα, αφήνοντας τον Κράμπι μόνο με τις ντοματιές και με ένα σπάνιο συναίσθημα ότι είχε κάνει κάτι πραγματικά καλό.",
+      "Σκαρφάλωσε βιαστικά πίσω στην αλογοουρά τη στιγμή ακριβώς που η Σοφία σηκωνόταν, τινάζοντας το χώμα από τα γόνατά της. «Έμμα, κοίτα!» είπε, δείχνοντας την ντοματιά. «Αυτή έχει ακόμα ένα σωρό φύλλα. Ίσως αυτή τη φορά μεγαλώσει κανονικά!» «Τυχερή», είπε η Έμμα.",
+      "<em>Όχι τύχη</em>, σκέφτηκε ο Κράμπι καμαρωτά, βολεύοντας ξανά στην κρυψώνα του καθώς χτυπούσε το κουδούνι για το τέλος του διαλείμματος. <em>Διπλωματία. Ίσως το μεγαλύτερο διπλωματικό επίτευγμα της καριέρας μου. Κάποιος πραγματικά θα έπρεπε να μου δώσει ένα μετάλλιο.</em>",
+      "<strong><em>Σημείωση της Νόνας:</em></strong> Ο Κράμπι κάνει μια μικρή κουβεντούλα σε έναν κήπο, κι όλοι παίρνουν αυτό που χρειάζονται — ντομάτες για τα κορίτσια, αγριόχορτα για τις κάμπιες. Αυτό είναι το καλύτερο είδος εξυπνάδας, μικρή μου.",
+      "<strong><em>Σημείωση του Νόνο:</em></strong> Στην εποχή μου δεν διαπραγματευόμασταν με τις κάμπιες, απλώς τις πατούσαμε! Αλλά το παραδέχομαι, ο τρόπος του Κράμπι μάλλον είναι καλύτερος για τις ντομάτες.",
+      "<strong><em>Σημείωση του Άρι:</em></strong> ΓΑΒ. Κανείς δεν με κάλεσε στον Όμιλο Κηπουρικής. Εγώ θα είχα φάει και τα αγριόχορτα ΚΑΙ την κάμπια."
+    ],
+    "back": "← Όλες οι ιστορίες",
+    "end": "Τέλος",
+    "more": "🦀 Κι άλλες ιστορίες του Κράμπι →"
+  },
+  "it": {
+    "title": "Crabby va al Club di giardinaggio",
+    "alts": [
+      "Sofia ed Emma inginocchiate nell'orto della scuola, a strappare erbacce accanto alle piante di pomodoro",
+      "Crabby, il granchio Lego, nell'aiuola incontra Wiggles, il bruco verde, sotto le piante di pomodoro"
+    ],
+    "p": [
+      "Crabby si annoiava. Stava guardando Sofia prepararsi per la scuola quando all'improvviso gli venne un'idea. <em>Vado alla Freshwater Bay Primary School,</em> pensò, infilandosi di soppiatto nella coda di cavallo di Sofia. Crabby ribolliva di entusiasmo mentre si godeva il breve tragitto in macchina fino a scuola, al sicuro tra i capelli di Sofia.",
+      "La prima lezione era ortografia. Andò abbastanza liscia, anche se Crabby pensava tra sé che la parola «crostaceo» sarebbe dovuta uscire almeno una volta. La lezione di musica fu più complicata: ogni volta che la classe cantava, la coda di cavallo di Sofia ondeggiava a tempo, e Crabby doveva tenersi stretto con tutte e otto le zampe, borbottando contro l'ingiustizia. Matematica fu, secondo l'esperta opinione di Crabby, la lezione più sensata della giornata, soprattutto perché nessuno si muoveva granché e lui poteva riposarsi un po'.",
+      "All'ora di pranzo, Crabby non vedeva l'ora di farsi un bel pisolino tranquillo. Sofia, però, aveva altri piani. Prese il cappello, incontrò la sua migliore amica Emma sulla porta, e le due corsero al Club di giardinaggio.",
+      "«Oggi tocca a noi strappare le erbacce», annunciò Emma, fin troppo allegramente per i gusti di Crabby.",
+      "<em>Erbacce</em>, pensò Crabby, mentre Sofia si inginocchiava accanto a una fila di piante di pomodoro e cominciava a strappare i denti di leone. <em>Magnifico. Un'intera pausa pranzo dedicata a strappare roba dalla terra. Davvero il massimo della vita scolastica.</em>",
+      "Annoiato, e abbastanza sicuro che nessuno se ne sarebbe accorto, Crabby scivolò zitto zitto fuori dalla coda di cavallo e scese nell'aiuola per dare una bella occhiata in giro. Fu allora che la vide: un bruco verde, paffuto e allegro, di nome Wiggles, che sgranocchiava beato una foglia di pomodoro.",
+      "«Ehi», disse Crabby, avvicinandosi di lato. «Quelle non sono erbacce, è pomodoro.»",
+      "Il bruco alzò lo sguardo, a metà boccone, per nulla turbato. «Però è buonissimo.»",
+      "«Non è questo il punto!» disse Crabby. «Sofia e la sua amica stanno cercando di coltivare pomodori — veri, rossi e succosi — e tu ti mangi la pianta prima che abbia anche solo una possibilità.»",
+      "Wiggles ci rifletté, masticando pensierosa. «Non ci avevo mai pensato. Io mangio semplicemente quello che è verde e a portata di mano.»",
+      "«Be', c'è un sacco di roba verde e a portata di mano che non è pomodoro», disse Crabby, agitando una chela verso i denti di leone che Sofia ed Emma stavano strappando di buona lena. «Quelle erbacce, per esempio. Non le vuole nessuno. Faresti un favore a tutti.»",
+      "Il bruco strisciò fin lì, assaggiò una foglia di dente di leone e tutta la sua faccia si illuminò. «Oh, questo è molto meglio. E pure più croccante.»",
+      "«Ecco fatto», disse Crabby, piuttosto soddisfatto di sé. «Erbacce per te, pomodori per loro. Tutti contenti.» «Ho degli amici a cui piacerà tantissimo», disse Wiggles, già pronta ad andarsene. «Dirò a tutti di venire a mangiare le erbacce!»",
+      "E se ne andò, sgusciando via tra le aiuole per spargere la voce, lasciando Crabby da solo con le piante di pomodoro e con la rara sensazione di aver fatto qualcosa di davvero buono.",
+      "Si arrampicò di corsa nella coda di cavallo proprio mentre Sofia si alzava, spazzolandosi la terra dalle ginocchia. «Emma, guarda!» disse, indicando la pianta di pomodoro. «Questa ha ancora un sacco di foglie. Forse stavolta crescerà davvero come si deve!» «Che fortuna», disse Emma.",
+      "<em>Non fortuna</em>, pensò Crabby tutto compiaciuto, risistemandosi nel suo nascondiglio mentre suonava la campanella di fine pausa. <em>Diplomazia. Molto probabilmente il più grande successo diplomatico della mia carriera. Qualcuno dovrebbe proprio darmi una medaglia.</em>",
+      "<strong><em>La nota di Nonna:</em></strong> Crabby fa una chiacchieratina in un orto, e tutti ottengono quello che gli serve — pomodori per le bambine, erbacce per i bruchi. Questa è la furbizia migliore che ci sia, piccola mia.",
+      "<strong><em>La nota di Nonno:</em></strong> Ai miei tempi con i bruchi non si trattava, li schiacciavamo e basta! Però lo ammetto, il metodo di Crabby probabilmente funziona meglio per i pomodori.",
+      "<strong><em>La nota di Ari:</em></strong> BAU. Nessuno mi ha invitato al Club di giardinaggio. Io mi sarei mangiato le erbacce E il bruco."
+    ],
+    "back": "← Tutte le storie",
+    "end": "Fine",
+    "more": "🦀 Altre storie di Crabby →"
+  },
+  "fr": {
+    "title": "Crabby va au club de jardinage",
+    "alts": [
+      "Sofia et Emma à genoux dans le potager de l'école, en train de désherber à côté des plants de tomates",
+      "Crabby, le crabe en Lego, dans le potager, rencontre Wiggles la chenille verte sous les plants de tomates"
+    ],
+    "p": [
+      "Crabby s'ennuyait. Il regardait Sofia se préparer pour l'école quand, soudain, il eut une idée. <em>Je vais à l'école primaire de Freshwater Bay,</em> pensa-t-il en se glissant dans la queue de cheval de Sofia. Crabby bouillonnait d'excitation tandis qu'il profitait du court trajet en voiture jusqu'à l'école, bien à l'abri dans les cheveux de Sofia.",
+      "Pour commencer, il y eut l'orthographe. Tout se passa plutôt bien, même si Crabby trouvait, en son for intérieur, que le mot « crustacé » aurait dû tomber au moins une fois. Le cours de musique fut plus compliqué — chaque fois que la classe chantait, la queue de cheval de Sofia se balançait en rythme, et Crabby devait s'agripper de ses huit pattes en marmonnant contre cette injustice. Les maths furent, selon l'avis expert de Crabby, le cours le plus raisonnable de la journée, surtout parce que personne ne bougeait beaucoup et qu'il pouvait se reposer un peu.",
+      "À l'heure du déjeuner, Crabby se réjouissait déjà à l'idée d'une petite sieste tranquille. Mais Sofia avait d'autres projets. Elle attrapa son chapeau, retrouva sa meilleure amie Emma près de la porte, et toutes les deux filèrent au club de jardinage.",
+      "« Aujourd'hui, on est de corvée de désherbage », annonça Emma, bien trop joyeusement au goût de Crabby.",
+      "<em>Du désherbage</em>, pensa Crabby, tandis que Sofia s'agenouillait près d'une rangée de plants de tomates et commençait à arracher les pissenlits. <em>Merveilleux. Toute une pause déjeuner consacrée à arracher des choses de la terre. Vraiment le summum de la vie scolaire.</em>",
+      "S'ennuyant, et à peu près certain que personne ne le remarquerait, Crabby se glissa discrètement hors de la queue de cheval et descendit dans le potager pour bien jeter un œil. C'est alors qu'il la repéra : une chenille verte, dodue et joyeuse, nommée Wiggles, qui grignotait avec bonheur une feuille de tomate.",
+      "« Hé ! » dit Crabby en s'approchant de côté. « Ce n'est pas de la mauvaise herbe, ça, c'est de la tomate. »",
+      "La chenille leva la tête, la bouche pleine, pas du tout troublée. « C'est délicieux, pourtant. »",
+      "« Là n'est pas la question ! » dit Crabby. « Sofia et son amie essaient de faire pousser des tomates — des vraies, rouges et juteuses — et toi, tu manges la plante avant même qu'elle ait eu sa chance. »",
+      "Wiggles réfléchit, tout en mâchonnant pensivement. « Je n'avais pas vu les choses comme ça. Moi, je mange juste ce qui est vert et tout près. »",
+      "« Eh bien, il y a plein de choses vertes et tout près qui ne sont pas des tomates », dit Crabby en agitant une pince vers les pissenlits que Sofia et Emma arrachaient avec ardeur. « Ces mauvaises herbes, par exemple. Personne n'en veut. Tu rendrais service à tout le monde. »",
+      "La chenille rampa jusque-là, goûta une feuille de pissenlit, et tout son visage s'illumina. « Oh, c'est bien meilleur. Et plus croquant, en plus. »",
+      "« Et voilà », dit Crabby, assez content de lui. « Les mauvaises herbes pour toi, les tomates pour elles. Tout le monde est content. » « J'ai des amis qui vont adorer ça », dit Wiggles, déjà sur le départ. « Je vais leur dire à tous de venir manger les mauvaises herbes à la place ! »",
+      "Et la voilà partie, se tortillant à travers le potager pour faire passer le mot, laissant Crabby seul avec les plants de tomates et le sentiment rare d'avoir fait quelque chose de plutôt bien.",
+      "Il remonta en vitesse dans la queue de cheval juste au moment où Sofia se relevait en époussetant la terre de ses genoux. « Emma, regarde ! » dit-elle en montrant le plant de tomates. « Celui-là a encore plein de feuilles. Peut-être qu'il va vraiment bien pousser, cette fois ! » « Coup de chance », dit Emma.",
+      "<em>Pas de la chance</em>, pensa Crabby, très fier de lui, en se réinstallant dans sa cachette tandis que la cloche sonnait la fin du déjeuner. <em>De la diplomatie. Très probablement la plus grande réussite diplomatique de ma carrière. Quelqu'un devrait vraiment me donner une médaille.</em>",
+      "<strong><em>Le mot de Nonna :</em></strong> Crabby fait un petit brin de causette dans un jardin, et chacun obtient ce dont il a besoin — des tomates pour les filles, des mauvaises herbes pour les chenilles. C'est la meilleure des intelligences, ma petite.",
+      "<strong><em>Le mot de Nonno :</em></strong> De mon temps, on ne négociait pas avec les chenilles, on les écrasait, tout simplement ! Mais je l'admets, la méthode de Crabby marche sans doute mieux pour les tomates.",
+      "<strong><em>Le mot d'Ari :</em></strong> OUAF. Personne ne m'a invité au club de jardinage. Moi, j'aurais mangé les mauvaises herbes ET la chenille."
+    ],
+    "back": "← Toutes les histoires",
+    "end": "Fin",
+    "more": "🦀 D'autres histoires de Crabby →"
+  },
+  "es": {
+    "title": "Crabby va al club de jardinería",
+    "alts": [
+      "Sofia y Emma arrodilladas en el huerto del colegio, quitando malas hierbas junto a las tomateras",
+      "Crabby, el cangrejo de Lego, en el huerto, conoce a Wiggles, la oruga verde, bajo las tomateras"
+    ],
+    "p": [
+      "Crabby estaba aburrido. Estaba mirando a Sofia prepararse para el colegio cuando, de repente, se le ocurrió una idea. <em>Me voy a la escuela primaria de Freshwater Bay,</em> pensó, colándose en la coleta de Sofia. Crabby burbujeaba de emoción mientras disfrutaba del corto viaje en coche hasta el colegio, a salvo en el pelo de Sofia.",
+      "Lo primero fue ortografía. Fue bastante bien, aunque Crabby pensaba para sus adentros que la palabra «crustáceo» debería haber salido al menos una vez. La clase de música fue más complicada: cada vez que la clase cantaba, la coleta de Sofia se balanceaba al ritmo, y Crabby tenía que agarrarse con sus ocho patas, refunfuñando sobre semejante injusticia. Matemáticas fue, en opinión experta de Crabby, la clase más sensata del día, sobre todo porque nadie se movía mucho y él podía descansar un poco.",
+      "A la hora de comer, Crabby tenía muchas ganas de echarse una siestecita tranquila. Pero Sofia tenía otros planes. Cogió su sombrero, se encontró con su mejor amiga Emma en la puerta y las dos salieron corriendo al club de jardinería.",
+      "«Hoy nos toca quitar malas hierbas», anunció Emma, con demasiada alegría para el gusto de Crabby.",
+      "<em>Malas hierbas</em>, pensó Crabby, mientras Sofia se arrodillaba junto a una fila de tomateras y empezaba a arrancar dientes de león. <em>Maravilloso. Toda la hora de comer dedicada a arrancar cosas de la tierra. Sin duda, la cumbre de la vida escolar.</em>",
+      "Aburrido, y bastante seguro de que nadie se daría cuenta, Crabby se deslizó en silencio fuera de la coleta y bajó al huerto para echar un buen vistazo. Fue entonces cuando la vio: una oruga verde, regordeta y alegre, llamada Wiggles, que mordisqueaba feliz una hoja de tomatera.",
+      "«¡Eh!», dijo Crabby, acercándose de lado. «Eso no es mala hierba, es tomate.»",
+      "La oruga levantó la vista, a medio masticar, sin inmutarse lo más mínimo. «Pues está buenísimo.»",
+      "«¡Esa no es la cuestión!», dijo Crabby. «Sofia y su amiga intentan cultivar tomates —de verdad, rojos y jugosos— y tú te estás comiendo la planta antes de que tenga siquiera una oportunidad.»",
+      "Wiggles se lo pensó, masticando con aire pensativo. «No lo había visto así. Yo solo como lo que es verde y está cerca.»",
+      "«Pues hay mucho verde y cerca que no es tomate», dijo Crabby, señalando con una pinza los dientes de león que Sofia y Emma arrancaban muy afanadas. «Esas malas hierbas, por ejemplo. Nadie las quiere. Le harías un favor a todo el mundo.»",
+      "La oruga se arrastró hasta allí, probó una hoja de diente de león y se le iluminó toda la cara. «Oh, esto está mucho mejor. Y además es más crujiente.»",
+      "«Ahí lo tienes», dijo Crabby, bastante satisfecho de sí mismo. «Malas hierbas para ti, tomates para ellas. Todos contentos.» «Tengo amigos a los que les va a encantar», dijo Wiggles, dándose ya la vuelta para irse. «¡Les diré a todos que vengan a comerse las malas hierbas!»",
+      "Y allá que se fue, serpenteando por el huerto para correr la voz, dejando a Crabby solo con las tomateras y con la rara sensación de haber hecho algo bastante bueno.",
+      "Trepó a toda prisa de vuelta a la coleta justo cuando Sofia se levantaba, sacudiéndose la tierra de las rodillas. «¡Emma, mira!», dijo, señalando la tomatera. «Esta todavía tiene un montón de hojas. ¡A lo mejor esta vez crece bien de verdad!» «Qué suerte», dijo Emma.",
+      "<em>No es suerte</em>, pensó Crabby, muy ufano, acomodándose de nuevo en su escondite mientras sonaba el timbre del final del recreo. <em>Es diplomacia. Muy posiblemente el mayor logro diplomático de mi carrera. Alguien debería darme una medalla.</em>",
+      "<strong><em>La nota de Nonna:</em></strong> Crabby charla un ratito en un huerto y todos consiguen lo que necesitan: tomates para las niñas, malas hierbas para las orugas. Esa es la mejor clase de listeza, pequeña.",
+      "<strong><em>La nota de Nonno:</em></strong> ¡En mis tiempos no negociábamos con las orugas, simplemente las aplastábamos! Pero lo admito, el método de Crabby probablemente funciona mejor para los tomates.",
+      "<strong><em>La nota de Ari:</em></strong> ¡GUAU! Nadie me invitó al club de jardinería. Yo me habría comido las malas hierbas Y la oruga."
+    ],
+    "back": "← Todos los cuentos",
+    "end": "Fin",
+    "more": "🦀 Más cuentos de Crabby →"
+  }
+};
+
+  var paras = Array.prototype.slice.call(
+    document.querySelectorAll('.page > p:not(.the-end):not(.activity-link)'));
+  var h1 = document.querySelector('h1');
+  var imgs = Array.prototype.slice.call(document.querySelectorAll('.page img'));
+  var back = document.querySelector('.back');
+  var theEnd = document.querySelector('.the-end');
+  var more = document.querySelector('.activity-link a');
+
+  // Keep the English exactly as written on the page
+  TRANSLATIONS.en = {
+    title: h1.textContent,
+    alts: imgs.map(function (i) { return i.alt; }),
+    p: paras.map(function (p) { return p.innerHTML; }),
+    back: back.textContent,
+    end: theEnd.textContent,
+    more: more.textContent
+  };
+
+  // Redraw the story whenever the site-wide language changes
+  CrabbyLang.onChange(function (code) {
+    var t = TRANSLATIONS[code] || TRANSLATIONS.en;
+    h1.textContent = t.title;
+    document.title = t.title;
+    imgs.forEach(function (img, i) { if (t.alts[i]) img.alt = t.alts[i]; });
+    paras.forEach(function (p, i) { p.innerHTML = t.p[i]; });
+    back.textContent = t.back;
+    theEnd.textContent = t.end;
+    more.textContent = t.more;
+  });
+})();
+</script>
+</body>
+</html>

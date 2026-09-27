@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- EDIT: the text shown on the browser tab -->
+<title>Crabby goes to the London Science Museum</title>
+
+<meta name="description" content="Crabby goes to the London Science Museum — a story from The Adventures of Crabby.">
+
+<!-- Same lettering font as the rest of the site, for the heading here. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper: #fbf4dd;   /* same page background as the rest of the site */
+    --ink:   #163a5c;   /* same ink colour as the home page's title */
+    --text:  #2b2b2b;   /* body text — softer than pure black */
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    padding: 50px 20px 90px;
+  }
+
+  .page {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .back {
+    display: inline-block;
+    margin-bottom: 24px;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    color: var(--ink);
+    text-decoration: none;
+    opacity: .75;
+  }
+
+  .back:hover { opacity: 1; }
+
+  /* EDIT: the title wording */
+  h1 {
+    font-family: "Alex Brush", "Segoe Script", "Brush Script MT", cursive;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 1.15;
+    color: var(--ink);
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  /* EDIT: the wide picture below the title. width resizes it; it
+     always keeps its own proportions and stays centred. */
+  .hero-picture {
+    display: block;
+    width: 100%;
+    max-width: 640px;
+    height: auto;
+    margin: 0 auto 34px;
+    border-radius: 10px;
+    box-shadow: 0 10px 28px rgba(90, 66, 30, .22);
+  }
+
+  /* EDIT: the story text */
+  p {
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--text);
+    text-align: justify;
+    margin-bottom: 20px;
+  }
+
+  /* The second picture, set into the text partway through the story. */
+  .story-picture {
+    display: block;
+    width: 100%;
+    max-width: 460px;
+    height: auto;
+    margin: 8px auto 28px;
+    border-radius: 10px;
+    box-shadow: 0 8px 22px rgba(90, 66, 30, .22);
+  }
+
+  /* Portrait-shaped pictures are shown narrower, so they aren't huge */
+  .hero-picture.tall { max-width: 360px; }
+  .story-picture.tall { width: 60%; max-width: 280px; }
+
+  .the-end {
+    text-align: center;
+    font-family: "Alex Brush", "Segoe Script", "Brush Script MT", cursive;
+    font-size: 34px;
+    color: var(--ink);
+    margin-top: 26px;
+  }
+
+  /* EDIT: the link to this story's activity page, shown after The End */
+  .activity-link {
+    display: block;
+    text-align: center;
+    margin-top: 34px;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+  }
+
+  .activity-link a {
+    display: inline-block;
+    padding: 10px 22px;
+    border-radius: 10px;
+    background: var(--ink);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    transition: transform .15s ease, opacity .15s ease;
+  }
+
+  .activity-link a:hover { transform: translateY(-2px); opacity: .92; }
+
+  /* The title lettering font has no Greek letters, so Greek uses this */
+  html[lang="el"] h1,
+  html[lang="el"] .the-end {
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+  }
+  html[lang="el"] h1 { font-size: 40px; }
+  html[lang="el"] .the-end { font-size: 28px; }
+</style>
+<!-- Site-wide language switching (see lang/i18n.js) -->
+<script src="../lang/i18n.js"></script>
+</head>
+
+<body>
+
+  <div class="page">
+
+    <a class="back" href="/stories/stories-index">← All stories</a>
+
+    <h1>Crabby goes to the London Science Museum</h1>
+
+    <img class="hero-picture" src="../images/Sofia%20Science%20Museum%20Space.jpg" alt="Sofia in the Exploring Space gallery at the London Science Museum, with Crabby in her ponytail">
+
+    <p>The Science Museum was enormous, all glass and steel and buzzing with excited kids, and Crabby, tucked in Sofia's ponytail, had never seen so many buttons to press in his entire life. <em>This</em>, he thought, eyes wide, <em>is the greatest place ever!</em></p>
+
+    <p>Sofia raced straight for the Exploring Space gallery, where a real rocket engine hung from the ceiling, and Crabby bent his neck so far out of her ponytail that he nearly lost his grip entirely. <em>A rocket. An actual rocket. Sofia do you understand what this means? We could go to the moon!</em> Sofia of course understood nothing of the sort, since Crabby's thoughts were entirely his own secret, but she did tug her Baba toward the moon landing display.</p>
+
+    <p>It was in the Pattern Pod, a gallery full of buttons, levers and spinning gadgets for little hands, that things began to go sideways, quite literally. While Sofia was reading a plaque about symmetry, Crabby spotted a big red button at floor level, clearly meant for children to press. It was, in his professional opinion, exactly his size. So he slipped down from the ponytail, scuttled between a dozen pairs of sneakers, and threw himself claw first onto the button. A giant mechanical arm overhead whirred to life, sweeping a pattern of coloured lights across the ceiling to gasps from nearby children, all who assumed some clever engineer was responsible.</p>
+
+    <p><em>You're welcome,</em> thought Crabby, before a small boys shoe nearly flattened him mid celebration, sending him scrambling under a display case in a most undignified panic. He made it back to Sofia just as she moved on to the Wonderlab, where a demonstration was underway involving a Van de Graaf generator - a big silver ball that made volunteers hair stand on end. Sofia watched, delighted, as a girls ponytail rose straight up like a startled octopus.</p>
+
+    <p>Crabby, still hidden in Sofia's ponytail, eyed the silver ball with deep suspicion. <em>Absolutely not,</em> he thought. <em>I have heard of static electricity. I do not trust it. It sounds like something invented specifically to embarrass crabs.</em> He needn't have worried. Sofia wasn't picked as a volunteer, but the close call was enough to keep him lying low for a solid twenty minutes, right up until they reached the Making the Modern World gallery. This was home to Stephenson's Rocket, an actual steam train from 1829. Crabby climbed down for a better look.</p>
+
+    <img class="story-picture" src="../images/Sofia%20Science%20Museum%20Train.jpg" alt="Sofia looking at Stephenson&#x27;s Rocket steam train, while Crabby scuttles near the exhibit sign">
+
+    <p>Here disaster struck in the form of a pencil. A little boy nearby had dropped his, and it rolled directly under the trains display barrier, right into Crabby's path as he attempted a quiet scuttle back toward Sofia's shoe. Unable to resist a mystery object, Crabby seized it in both claws and attempted to drag it free, only for the pencil to jam sideways against the barrier's metal foot. For one heart stopping second, Crabby was stuck fast, pencil wedged, claws straining, in full view of anyone who happened to look down.</p>
+
+    <p>Nobody did. A tour guide chose that exact moment to loudly announce the top speed of the Rocket in 1829, and every head turned toward the train instead, giving Crabby just enough time to abandon the pencil entirely and fling himself back into the safety of Sofia's ponytail, heart pounding, utterly rattled. By the time they left, Sofia had a bag full of postcards and a head full of facts about rockets and steam engines, completely unaware that her ponytail had provided front-row seats to several small scientific catastrophes of its own.</p>
+
+    <p class="the-end">The End</p>
+
+    <p class="activity-link">
+      <a href="/stories/stories-index">🦀 More Crabby stories →</a>
+    </p>
+
+  </div>
+
+
+<!-- EDIT: story translations. Each language has the title, the two picture
+     descriptions, and the story paragraphs in the same order as the English
+     above (one line per paragraph; <em> marks Crabby's thoughts in italics).
+     The English is read straight from the page. The language picker itself
+     comes from lang/i18n.js. -->
+<script>
+(function () {
+  var TRANSLATIONS = {
+  "el": {
+    "title": "Ο Κράμπι πάει στο Μουσείο Επιστημών του Λονδίνου",
+    "alts": [
+      "Η Σοφία στην αίθουσα για το διάστημα στο Μουσείο Επιστημών του Λονδίνου, με τον Κράμπι στην αλογοουρά της",
+      "Η Σοφία κοιτάζει την ατμομηχανή «Rocket» του Στίβενσον, ενώ ο Κράμπι τρέχει πλάγια κοντά στην πινακίδα της έκθεσης"
+    ],
+    "p": [
+      "Το Μουσείο Επιστημών ήταν τεράστιο, όλο γυαλί κι ατσάλι, και βούιζε από ενθουσιασμένα παιδιά, κι ο Κράμπι, χωμένος στην αλογοουρά της Σοφίας, δεν είχε δει ποτέ στη ζωή του τόσα πολλά κουμπιά για να πατήσει. <em>Αυτό</em>, σκέφτηκε με ορθάνοιχτα μάτια, <em>είναι το καλύτερο μέρος του κόσμου!</em>",
+      "Η Σοφία έτρεξε κατευθείαν στην αίθουσα Exploring Space, όπου μια αληθινή μηχανή πυραύλου κρεμόταν από το ταβάνι, κι ο Κράμπι τέντωσε τον λαιμό του τόσο πολύ έξω από την αλογοουρά της που λίγο έλειψε να ξεκρατηθεί εντελώς. <em>Ένας πύραυλος. Ένας αληθινός πύραυλος. Σοφία, καταλαβαίνεις τι σημαίνει αυτό; Μπορούμε να πάμε στο φεγγάρι!</em> Η Σοφία, φυσικά, δεν καταλάβαινε τίποτα τέτοιο, αφού οι σκέψεις του Κράμπι ήταν εντελώς δικό του μυστικό, τράβηξε όμως τον μπαμπά της προς την έκθεση για την προσσελήνωση.",
+      "Στο Pattern Pod, μια αίθουσα γεμάτη κουμπιά, μοχλούς και περιστρεφόμενα μαραφέτια για μικρά χεράκια, ήταν που τα πράγματα άρχισαν να στραβώνουν — και μάλιστα κυριολεκτικά, πλαγίως. Ενώ η Σοφία διάβαζε μια πινακίδα για τη συμμετρία, ο Κράμπι εντόπισε ένα μεγάλο κόκκινο κουμπί στο ύψος του πατώματος, φτιαγμένο προφανώς για να το πατάνε τα παιδιά. Ήταν, κατά την επαγγελματική του γνώμη, ακριβώς στο μέγεθός του. Έτσι γλίστρησε από την αλογοουρά, πέρασε πλάγια ανάμεσα από καμιά δωδεκαριά ζευγάρια αθλητικά παπούτσια κι έπεσε με τις δαγκάνες μπροστά πάνω στο κουμπί. Ένας γιγάντιος μηχανικός βραχίονας από πάνω ζωντάνεψε βουίζοντας και σκόρπισε ένα σχέδιο από χρωματιστά φώτα στο ταβάνι, προκαλώντας επιφωνήματα θαυμασμού στα παιδιά γύρω, που όλα υπέθεσαν ότι κάποιος έξυπνος μηχανικός ήταν ο υπεύθυνος.",
+      "<em>Παρακαλώ, τίποτα,</em> σκέφτηκε ο Κράμπι, πριν το παπούτσι ενός μικρού αγοριού παραλίγο να τον λιώσει στη μέση του πανηγυρισμού, στέλνοντάς τον να τρέχει κάτω από μια βιτρίνα σε έναν καθόλου αξιοπρεπή πανικό. Πρόλαβε να γυρίσει στη Σοφία τη στιγμή που εκείνη προχωρούσε στο Wonderlab, όπου γινόταν μια επίδειξη με μια γεννήτρια Van de Graaff — μια μεγάλη ασημένια μπάλα που έκανε τα μαλλιά των εθελοντών να σηκώνονται όρθια. Η Σοφία κοίταζε ενθουσιασμένη την αλογοουρά ενός κοριτσιού να σηκώνεται ίσια προς τα πάνω σαν ξαφνιασμένο χταπόδι.",
+      "Ο Κράμπι, ακόμα κρυμμένος στην αλογοουρά της Σοφίας, κοίταζε την ασημένια μπάλα με βαθιά καχυποψία. <em>Σε καμία περίπτωση,</em> σκέφτηκε. <em>Έχω ακούσει για τον στατικό ηλεκτρισμό. Δεν τον εμπιστεύομαι. Μου ακούγεται σαν κάτι που εφευρέθηκε ειδικά για να ντροπιάζει τους κάβουρες.</em> Δεν χρειαζόταν να ανησυχεί. Η Σοφία δεν επιλέχθηκε για εθελόντρια, αλλά ο κίνδυνος που πέρασε ξυστά ήταν αρκετός για να τον κρατήσει χαμηλά για είκοσι ολόκληρα λεπτά, μέχρι που έφτασαν στην αίθουσα Making the Modern World. Εκεί βρισκόταν ο «Πύραυλος» του Στίβενσον, μια αληθινή ατμομηχανή του 1829. Ο Κράμπι κατέβηκε για να δει καλύτερα.",
+      "Εκεί η καταστροφή χτύπησε με τη μορφή ενός μολυβιού. Ένα αγοράκι εκεί κοντά είχε ρίξει το δικό του, κι αυτό κύλησε ακριβώς κάτω από το προστατευτικό της έκθεσης του τρένου, καταμεσής στον δρόμο του Κράμπι, την ώρα που εκείνος προσπαθούσε να επιστρέψει αθόρυβα προς το παπούτσι της Σοφίας. Ανίκανος να αντισταθεί σε ένα μυστηριώδες αντικείμενο, ο Κράμπι το άρπαξε και με τις δυο δαγκάνες και προσπάθησε να το τραβήξει έξω, αλλά το μολύβι σφήνωσε πλάγια στο μεταλλικό πόδι του προστατευτικού. Για ένα δευτερόλεπτο που του κόπηκε η ανάσα, ο Κράμπι είχε κολλήσει για τα καλά, με το μολύβι σφηνωμένο και τις δαγκάνες τεντωμένες, σε κοινή θέα για όποιον τύχαινε να κοιτάξει κάτω.",
+      "Κανείς δεν κοίταξε. Ένας ξεναγός διάλεξε ακριβώς εκείνη τη στιγμή για να ανακοινώσει δυνατά την τελική ταχύτητα του «Πυραύλου» το 1829, κι όλα τα κεφάλια γύρισαν προς το τρένο, δίνοντας στον Κράμπι ακριβώς τον χρόνο που χρειαζόταν για να παρατήσει εντελώς το μολύβι και να εκτοξευτεί πίσω στην ασφάλεια της αλογοουράς της Σοφίας, με την καρδιά να χτυπάει δυνατά, εντελώς ταραγμένος. Μέχρι να φύγουν, η Σοφία είχε μια σακούλα γεμάτη καρτ-ποστάλ κι ένα κεφάλι γεμάτο πληροφορίες για πυραύλους και ατμομηχανές, χωρίς να έχει ιδέα ότι η αλογοουρά της είχε εξασφαλίσει θέσεις πρώτης σειράς σε μερικές μικρές επιστημονικές καταστροφές δικής της παραγωγής."
+    ],
+    "back": "← Όλες οι ιστορίες",
+    "end": "Τέλος",
+    "more": "🦀 Κι άλλες ιστορίες του Κράμπι →"
+  },
+  "it": {
+    "title": "Crabby va al Museo della Scienza di Londra",
+    "alts": [
+      "Sofia nella galleria dello spazio al Museo della Scienza di Londra, con Crabby nella coda di cavallo",
+      "Sofia guarda la locomotiva a vapore Rocket di Stephenson, mentre Crabby zampetta vicino al cartello dell'esposizione"
+    ],
+    "p": [
+      "Il Museo della Scienza era enorme, tutto vetro e acciaio e brulicante di bambini entusiasti, e Crabby, rintanato nella coda di cavallo di Sofia, non aveva mai visto così tanti pulsanti da premere in tutta la sua vita. <em>Questo</em>, pensò con gli occhi sgranati, <em>è il posto più bello del mondo!</em>",
+      "Sofia corse dritta alla galleria Exploring Space, dove dal soffitto pendeva un vero motore di razzo, e Crabby si sporse così tanto fuori dalla coda di cavallo che per poco non perse del tutto la presa. <em>Un razzo. Un razzo vero. Sofia, ti rendi conto di cosa significa? Potremmo andare sulla luna!</em> Sofia, naturalmente, non si rendeva conto di niente del genere, visto che i pensieri di Crabby erano tutti un suo segreto, però trascinò Baba verso l'esposizione sullo sbarco sulla luna.",
+      "Fu nel Pattern Pod, una galleria piena di pulsanti, leve e aggeggi rotanti per manine curiose, che le cose cominciarono ad andare storte — anzi, di lato, letteralmente. Mentre Sofia leggeva un cartello sulla simmetria, Crabby notò un grosso pulsante rosso all'altezza del pavimento, chiaramente fatto per essere premuto dai bambini. Era, secondo la sua opinione professionale, esattamente della sua misura. Così scivolò giù dalla coda di cavallo, zampettò tra una dozzina di paia di scarpe da ginnastica e si lanciò chele in avanti sul pulsante. Un gigantesco braccio meccanico sopra di lui si mise in moto ronzando, facendo scorrere un motivo di luci colorate sul soffitto tra gli «oooh» dei bambini lì vicino, che pensarono tutti che il merito fosse di qualche ingegnere geniale.",
+      "<em>Prego, non c'è di che,</em> pensò Crabby, prima che la scarpa di un bambino per poco non lo schiacciasse nel bel mezzo dei festeggiamenti, facendolo scappare sotto una vetrina in preda a un panico per nulla dignitoso. Riuscì a tornare da Sofia proprio mentre lei passava al Wonderlab, dove era in corso una dimostrazione con un generatore di Van de Graaff: una grande sfera argentata che faceva rizzare i capelli ai volontari. Sofia guardò, divertitissima, la coda di cavallo di una bambina alzarsi dritta verso l'alto come un polpo spaventato.",
+      "Crabby, ancora nascosto nella coda di cavallo di Sofia, guardava la sfera argentata con profondo sospetto. <em>Assolutamente no,</em> pensò. <em>Ho sentito parlare dell'elettricità statica. Non mi fido. Sembra una cosa inventata apposta per mettere in imbarazzo i granchi.</em> Non c'era bisogno di preoccuparsi. Sofia non fu scelta come volontaria, ma lo spavento bastò a farlo stare nascosto per venti minuti buoni, fino a quando arrivarono alla galleria Making the Modern World. Lì c'era la Rocket di Stephenson, una vera locomotiva a vapore del 1829. Crabby scese giù per guardarla meglio.",
+      "Qui il disastro arrivò sotto forma di matita. Un bambino lì vicino aveva fatto cadere la sua, che rotolò proprio sotto la barriera dell'esposizione del treno, dritta sulla strada di Crabby mentre lui tentava di tornare zitto zitto verso la scarpa di Sofia. Incapace di resistere a un oggetto misterioso, Crabby la afferrò con tutte e due le chele e cercò di tirarla fuori, ma la matita si incastrò di traverso contro il piede metallico della barriera. Per un secondo da infarto, Crabby rimase bloccato, matita incastrata e chele tese, in piena vista di chiunque avesse guardato in basso.",
+      "Nessuno lo fece. Una guida turistica scelse proprio quel momento per annunciare a gran voce la velocità massima della Rocket nel 1829, e tutte le teste si girarono verso il treno, dando a Crabby il tempo appena sufficiente per abbandonare del tutto la matita e lanciarsi di nuovo al sicuro nella coda di cavallo di Sofia, con il cuore in gola, completamente scosso. Quando se ne andarono, Sofia aveva una borsa piena di cartoline e una testa piena di nozioni su razzi e motori a vapore, del tutto ignara che la sua coda di cavallo avesse offerto posti in prima fila a diverse piccole catastrofi scientifiche tutte sue."
+    ],
+    "back": "← Tutte le storie",
+    "end": "Fine",
+    "more": "🦀 Altre storie di Crabby →"
+  },
+  "fr": {
+    "title": "Crabby va au musée des Sciences de Londres",
+    "alts": [
+      "Sofia dans la galerie de l'espace au musée des Sciences de Londres, avec Crabby dans sa queue de cheval",
+      "Sofia regarde la locomotive à vapeur Rocket de Stephenson, pendant que Crabby trottine près du panneau de l'exposition"
+    ],
+    "p": [
+      "Le musée des Sciences était immense, tout en verre et en acier, et bourdonnait d'enfants surexcités. Crabby, niché dans la queue de cheval de Sofia, n'avait jamais vu autant de boutons sur lesquels appuyer de toute sa vie. <em>Ceci</em>, pensa-t-il, les yeux écarquillés, <em>est le meilleur endroit du monde !</em>",
+      "Sofia fonça droit vers la galerie Exploring Space, où un véritable moteur de fusée était suspendu au plafond, et Crabby tendit le cou si loin hors de sa queue de cheval qu'il faillit lâcher prise complètement. <em>Une fusée. Une vraie fusée. Sofia, tu comprends ce que ça veut dire ? On pourrait aller sur la Lune !</em> Sofia, bien sûr, ne comprenait rien de tel, puisque les pensées de Crabby étaient son secret à lui, mais elle entraîna bien Baba vers l'exposition sur les premiers pas sur la Lune.",
+      "C'est dans le Pattern Pod, une galerie pleine de boutons, de leviers et de gadgets qui tournent pour les petites mains, que les choses commencèrent à partir de travers — et même de côté, au sens propre. Pendant que Sofia lisait un panneau sur la symétrie, Crabby repéra un gros bouton rouge au ras du sol, visiblement fait pour que les enfants appuient dessus. Il était, selon son avis de professionnel, exactement à sa taille. Il se laissa donc glisser de la queue de cheval, trottina entre une douzaine de paires de baskets et se jeta pinces en avant sur le bouton. Au-dessus de lui, un bras mécanique géant se mit à vrombir, balayant le plafond d'un motif de lumières colorées sous les « oh ! » des enfants autour, qui supposèrent tous qu'un ingénieur très malin en était responsable.",
+      "<em>De rien,</em> pensa Crabby, avant que la chaussure d'un petit garçon manque de l'aplatir en pleine célébration, l'envoyant se réfugier sous une vitrine dans une panique fort peu digne. Il rejoignit Sofia juste au moment où elle passait au Wonderlab, où avait lieu une démonstration avec un générateur de Van de Graaff — une grosse boule argentée qui faisait se dresser les cheveux des volontaires. Sofia regarda, ravie, la queue de cheval d'une fillette se dresser tout droit comme une pieuvre effrayée.",
+      "Crabby, toujours caché dans la queue de cheval de Sofia, observait la boule argentée avec une profonde méfiance. <em>Hors de question,</em> pensa-t-il. <em>J'ai entendu parler de l'électricité statique. Je ne lui fais pas confiance. Ça a l'air d'un truc inventé exprès pour ridiculiser les crabes.</em> Il n'avait pas de souci à se faire. Sofia ne fut pas choisie comme volontaire, mais la frayeur suffit à le faire se tenir tranquille pendant vingt bonnes minutes, jusqu'à ce qu'ils arrivent à la galerie Making the Modern World. C'est là que se trouvait la Rocket de Stephenson, une vraie locomotive à vapeur de 1829. Crabby descendit pour mieux voir.",
+      "C'est là que la catastrophe frappa, sous la forme d'un crayon. Un petit garçon, tout près, avait laissé tomber le sien, qui roula juste sous la barrière de l'exposition du train, pile sur le chemin de Crabby alors qu'il tentait de retourner discrètement vers la chaussure de Sofia. Incapable de résister à un objet mystère, Crabby l'attrapa à deux pinces et essaya de le dégager, mais le crayon se coinça de travers contre le pied métallique de la barrière. Pendant une seconde à couper le souffle, Crabby resta bloqué, crayon coincé, pinces tendues, à la vue de quiconque aurait baissé les yeux.",
+      "Personne ne le fit. Un guide choisit précisément ce moment pour annoncer haut et fort la vitesse maximale de la Rocket en 1829, et toutes les têtes se tournèrent vers le train, laissant à Crabby juste le temps d'abandonner complètement le crayon et de se jeter de nouveau à l'abri dans la queue de cheval de Sofia, le cœur battant, totalement secoué. Quand ils repartirent, Sofia avait un sac plein de cartes postales et la tête pleine d'anecdotes sur les fusées et les machines à vapeur, sans se douter le moins du monde que sa queue de cheval avait offert des places au premier rang pour plusieurs petites catastrophes scientifiques bien à elle."
+    ],
+    "back": "← Toutes les histoires",
+    "end": "Fin",
+    "more": "🦀 D'autres histoires de Crabby →"
+  },
+  "es": {
+    "title": "Crabby va al Museo de Ciencias de Londres",
+    "alts": [
+      "Sofia en la galería del espacio del Museo de Ciencias de Londres, con Crabby en su coleta",
+      "Sofia mira la locomotora de vapor Rocket de Stephenson, mientras Crabby corretea cerca del cartel de la exposición"
+    ],
+    "p": [
+      "El Museo de Ciencias era enorme, todo cristal y acero y lleno del bullicio de niños emocionados, y Crabby, escondido en la coleta de Sofia, no había visto tantos botones para pulsar en toda su vida. <em>Este</em>, pensó con los ojos como platos, <em>¡es el mejor sitio del mundo!</em>",
+      "Sofia fue corriendo directa a la galería Exploring Space, donde colgaba del techo un motor de cohete de verdad, y Crabby estiró tanto el cuello fuera de su coleta que casi se suelta del todo. <em>Un cohete. Un cohete de verdad. Sofia, ¿entiendes lo que significa esto? ¡Podríamos ir a la luna!</em> Sofia, por supuesto, no entendía nada de eso, porque los pensamientos de Crabby eran un secreto solo suyo, pero sí que tiró de Baba hacia la exposición de la llegada a la luna.",
+      "Fue en el Pattern Pod, una galería llena de botones, palancas y cacharros que giran para manos pequeñas, donde las cosas empezaron a torcerse… de lado, literalmente. Mientras Sofia leía un cartel sobre la simetría, Crabby vio un gran botón rojo a ras de suelo, claramente pensado para que lo pulsaran los niños. Era, en su opinión profesional, exactamente de su tamaño. Así que bajó de la coleta, correteó entre una docena de pares de zapatillas y se lanzó con las pinzas por delante sobre el botón. Un brazo mecánico gigante se puso en marcha zumbando por encima, proyectando un dibujo de luces de colores por el techo entre los «¡oooh!» de los niños de alrededor, que dieron por hecho que era obra de algún ingeniero muy listo.",
+      "<em>De nada,</em> pensó Crabby, justo antes de que el zapato de un niño pequeño casi lo aplastara en plena celebración, haciéndolo huir bajo una vitrina presa de un pánico nada digno. Consiguió volver con Sofia justo cuando ella pasaba al Wonderlab, donde había una demostración con un generador de Van de Graaff: una gran bola plateada que ponía de punta el pelo de los voluntarios. Sofia miró encantada cómo la coleta de una niña se levantaba hacia arriba como un pulpo asustado.",
+      "Crabby, todavía escondido en la coleta de Sofia, miraba la bola plateada con profunda desconfianza. <em>Ni hablar,</em> pensó. <em>He oído hablar de la electricidad estática. No me fío de ella. Parece algo inventado a propósito para dejar en ridículo a los cangrejos.</em> No tenía por qué preocuparse. A Sofia no la eligieron como voluntaria, pero el susto bastó para que se quedara escondido veinte minutos largos, hasta que llegaron a la galería Making the Modern World. Allí estaba la Rocket de Stephenson, una locomotora de vapor de verdad de 1829. Crabby bajó para verla mejor.",
+      "Aquí el desastre llegó en forma de lápiz. A un niño pequeño que estaba cerca se le había caído el suyo, que rodó justo por debajo de la barrera de la exposición del tren, directo al camino de Crabby mientras intentaba volver sigilosamente hacia el zapato de Sofia. Incapaz de resistirse a un objeto misterioso, Crabby lo agarró con las dos pinzas e intentó sacarlo, pero el lápiz se atascó de lado contra el pie metálico de la barrera. Durante un segundo en el que se le paró el corazón, Crabby se quedó atrapado, con el lápiz encajado y las pinzas en tensión, a la vista de cualquiera que mirase hacia abajo.",
+      "Nadie lo hizo. Un guía eligió justo ese momento para anunciar en voz alta la velocidad máxima de la Rocket en 1829, y todas las cabezas se volvieron hacia el tren, dándole a Crabby el tiempo justo para abandonar el lápiz por completo y lanzarse de vuelta a la seguridad de la coleta de Sofia, con el corazón a mil, completamente alterado. Cuando se marcharon, Sofia llevaba una bolsa llena de postales y la cabeza llena de datos sobre cohetes y máquinas de vapor, sin sospechar en absoluto que su coleta había tenido asientos de primera fila para varias pequeñas catástrofes científicas propias."
+    ],
+    "back": "← Todos los cuentos",
+    "end": "Fin",
+    "more": "🦀 Más cuentos de Crabby →"
+  }
+};
+
+  var paras = Array.prototype.slice.call(
+    document.querySelectorAll('.page > p:not(.the-end):not(.activity-link)'));
+  var h1 = document.querySelector('h1');
+  var imgs = Array.prototype.slice.call(document.querySelectorAll('.page img'));
+  var back = document.querySelector('.back');
+  var theEnd = document.querySelector('.the-end');
+  var more = document.querySelector('.activity-link a');
+
+  // Keep the English exactly as written on the page
+  TRANSLATIONS.en = {
+    title: h1.textContent,
+    alts: imgs.map(function (i) { return i.alt; }),
+    p: paras.map(function (p) { return p.innerHTML; }),
+    back: back.textContent,
+    end: theEnd.textContent,
+    more: more.textContent
+  };
+
+  // Redraw the story whenever the site-wide language changes
+  CrabbyLang.onChange(function (code) {
+    var t = TRANSLATIONS[code] || TRANSLATIONS.en;
+    h1.textContent = t.title;
+    document.title = t.title;
+    imgs.forEach(function (img, i) { if (t.alts[i]) img.alt = t.alts[i]; });
+    paras.forEach(function (p, i) { p.innerHTML = t.p[i]; });
+    back.textContent = t.back;
+    theEnd.textContent = t.end;
+    more.textContent = t.more;
+  });
+})();
+</script>
+</body>
+</html>
