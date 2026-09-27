@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- EDIT: the text shown on the browser tab -->
+<title data-i18n="pageTitle">Activity Corner — Crabby goes to the London Science Museum</title>
+
+<meta name="description" content="Word search, quiz, story-ordering game, colouring page and a writing space for Crabby goes to the London Science Museum.">
+
+<style>
+  /* Custom fonts — files live in /fonts at the repo root. */
+  @font-face {
+    font-family: "Marelle Baton";
+    src: url("../fonts/MarelleBaton-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Gill Sans MT Pro";
+    src: url("../fonts/Gill_Sans_MT_Pro_Book.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Gill Sans MT Pro";
+    src: url("../fonts/Gill_Sans_MT_Pro_Book_Italic.otf") format("opentype");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Gill Sans MT Pro";
+    src: url("../fonts/Gill_Sans_MT_Pro_Bold_Italic.otf") format("opentype");
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  :root {
+    --paper: #fbf4dd;
+    --ink:   #163a5c;
+    --text:  #2b2b2b;
+    --accent: #d64545;
+    --good:  #2e7d32;
+    --bad:   #c62828;
+    --card:  #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    padding: 50px 20px 90px;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    color: var(--text);
+  }
+
+  .page {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .back {
+    display: inline-block;
+    margin-bottom: 24px;
+    font-size: 16px;
+    color: var(--ink);
+    text-decoration: none;
+    opacity: .75;
+  }
+
+  .back:hover { opacity: 1; }
+
+  /* EDIT: the page heading */
+  h1 {
+    font-family: "Marelle Baton", cursive;
+    font-weight: 400;
+    font-size: 58px;
+    color: var(--ink);
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .story-tag {
+    text-align: center;
+    font-family: "Gill Sans MT Pro", "Gill Sans MT", "Gill Sans", Calibri,
+                 "Segoe UI", Arial, sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 18px;
+  }
+
+  .intro {
+    text-align: center;
+    font-size: 17px;
+    line-height: 1.6;
+    max-width: 560px;
+    margin: 0 auto 44px;
+  }
+
+  .intro a { color: var(--ink); }
+
+  .card {
+    background: var(--card);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(90, 66, 30, .14);
+    padding: 30px 26px;
+    margin-bottom: 36px;
+  }
+
+  .card h2 {
+    font-family: "Gill Sans MT Pro", "Gill Sans MT", "Gill Sans", Calibri,
+                 "Segoe UI", Arial, sans-serif;
+    font-weight: 400;
+    font-size: 36px;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .card .sub {
+    font-size: 15px;
+    color: var(--text);
+    opacity: .75;
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  /* ===================== 1. WORD SEARCH ===================== */
+  .ws-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    align-items: flex-start;
+  }
+
+  #ws-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 2px;
+    max-width: 420px;
+    width: 100%;
+    user-select: none;
+    touch-action: none;
+  }
+
+  .ws-cell {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f4ecd8;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: clamp(11px, 2.6vw, 15px);
+    color: var(--ink);
+    cursor: pointer;
+  }
+
+  .ws-cell.selected { background: #ffe08a; }
+  .ws-cell.found { background: #b7e4c7; color: #1b4332; }
+
+  .ws-words {
+    flex: 1;
+    min-width: 160px;
+    list-style: none;
+    font-size: 16px;
+    line-height: 2;
+  }
+
+  .ws-words li {
+    font-weight: 700;
+    color: var(--ink);
+    opacity: .55;
+  }
+
+  .ws-words li.found {
+    opacity: 1;
+    color: var(--good);
+    text-decoration: line-through;
+  }
+
+  .ws-status {
+    margin-top: 14px;
+    font-weight: 700;
+    color: var(--good);
+    display: none;
+  }
+
+  .ws-status.show { display: block; }
+
+  /* ===================== 2. TRUE OR FALSE QUIZ ===================== */
+  .quiz-q {
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid rgba(22, 58, 92, .1);
+  }
+
+  .quiz-q:last-of-type { border-bottom: none; }
+
+  .quiz-q p.q-text {
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+
+  .quiz-btns { display: flex; gap: 10px; }
+
+  .quiz-btn {
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 8px 20px;
+    border-radius: 8px;
+    border: 2px solid var(--ink);
+    background: #fff;
+    color: var(--ink);
+    cursor: pointer;
+    transition: background .15s ease, color .15s ease;
+  }
+
+  .quiz-btn:hover { background: #fbf4dd; }
+
+  .quiz-btn.correct { background: var(--good); border-color: var(--good); color: #fff; }
+  .quiz-btn.wrong { background: var(--bad); border-color: var(--bad); color: #fff; }
+  .quiz-btn[disabled] { cursor: default; }
+
+  .quiz-feedback {
+    margin-top: 8px;
+    font-size: 14px;
+    font-style: italic;
+    opacity: .85;
+    display: none;
+  }
+
+  .quiz-feedback.show { display: block; }
+
+  .quiz-score {
+    margin-top: 8px;
+    font-weight: 700;
+    color: var(--ink);
+    font-size: 17px;
+  }
+
+  /* ===================== 3. ORDER THE STORY ===================== */
+  .order-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .order-item {
+    background: #f4ecd8;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 15px;
+    color: var(--ink);
+    cursor: grab;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .order-item .handle {
+    opacity: .5;
+    font-size: 22px;
+    padding: 4px 6px;
+    cursor: grab;
+    touch-action: none;
+  }
+
+  .order-item .order-text { flex: 1; }
+
+  .order-item { user-select: none; -webkit-user-select: none; }
+
+  .order-moves { display: flex; flex-direction: column; gap: 4px; }
+
+  .move-btn {
+    font: inherit;
+    font-size: 14px;
+    line-height: 1;
+    width: 36px;
+    height: 30px;
+    border-radius: 8px;
+    border: 2px solid var(--ink);
+    background: #fff;
+    color: var(--ink);
+    cursor: pointer;
+  }
+
+  .move-btn:active { background: #e8dcbf; }
+
+  .order-item.dragging { opacity: .4; }
+
+  .order-item.correct-spot { background: #b7e4c7; }
+
+  .order-actions {
+    margin-top: 18px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  /* ===================== shared buttons ===================== */
+  .btn {
+    display: inline-block;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 10px 22px;
+    border-radius: 10px;
+    border: none;
+    background: var(--ink);
+    color: #fff;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform .15s ease, opacity .15s ease;
+  }
+
+  .btn:hover { transform: translateY(-2px); opacity: .92; }
+  .btn.secondary { background: transparent; border: 2px solid var(--ink); color: var(--ink); }
+
+  .order-feedback {
+    margin-top: 10px;
+    font-weight: 700;
+    color: var(--good);
+    display: none;
+  }
+
+  .order-feedback.show { display: block; }
+
+  /* ===================== 4. COLOURING PAGE ===================== */
+  .colour-wrap { text-align: center; }
+
+  #crab-svg {
+    width: 100%;
+    max-width: 360px;
+    height: auto;
+    margin: 0 auto 18px;
+  }
+
+  /* ===================== 5. YOUR TURN (writing) ===================== */
+  textarea#your-turn {
+    width: 100%;
+    min-height: 160px;
+    font-family: inherit;
+    font-size: 16px;
+    line-height: 1.6;
+    padding: 14px;
+    border-radius: 10px;
+    border: 2px solid rgba(22, 58, 92, .25);
+    background: #fffdf6;
+    color: var(--text);
+    resize: vertical;
+  }
+
+  textarea#your-turn:focus {
+    outline: none;
+    border-color: var(--ink);
+  }
+
+  .your-turn-actions {
+    margin-top: 14px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  @media print {
+    .back, .card:not(.print-target), .your-turn-actions, .order-actions,
+    .ws-wrap, .quiz-q { display: none !important; }
+    body { padding: 20px; }
+  }
+</style>
+<!-- Site-wide language switching (see lang/i18n.js) -->
+<script src="../lang/i18n.js"></script>
+</head>
+
+<body>
+
+  <div class="page">
+
+    <a class="back" href="/activity-corner/activity-corner-index" data-i18n="allActivities">&larr; All Activities</a>
+
+    <h1 data-i18n="navActivity">Activity Corner</h1>
+    <p class="story-tag" data-i18n="titleScience">Crabby goes to the London Science Museum</p>
+    <p class="intro" data-i18n="intro">
+      Five things to do after reading <a href="../stories/crabby-goes-to-the-london-science-museum">Crabby goes to the London Science Museum</a>. Scroll down and give them a try!
+    </p>
+
+    <!-- EDIT: activity 1 — word search. Grid data (WS_GRID / WS_WORDS)
+         is in the script near the bottom. -->
+    <div class="card">
+      <h2 data-i18n="wsHeading">1. Crabby's Word Search</h2>
+      <p class="sub" data-i18n="wsSub">Click a letter, then click the last letter of a word to select the whole line. Find all 10 words hiding in the grid.</p>
+      <div class="ws-wrap">
+        <div id="ws-grid"></div>
+        <ul class="ws-words" id="ws-word-list"></ul>
+      </div>
+      <p class="ws-status" id="ws-status" data-i18n="wsDone">You found them all! Great eyes. 🦀</p>
+    </div>
+
+    <!-- EDIT: activity 2 — true/false quiz. Questions are in the
+         QUIZ constant near the bottom. -->
+    <div class="card">
+      <h2 data-i18n="quizHeading">2. True or False?</h2>
+      <p class="sub" data-i18n="quizSub">Read each sentence about the story and pick True or False.</p>
+      <div id="quiz-body"></div>
+      <p class="quiz-score" id="quiz-score"></p>
+    </div>
+
+    <!-- EDIT: activity 3 — order the story. Correct order is in the
+         ORDER_SET constant near the bottom. -->
+    <div class="card">
+      <h2 data-i18n="orderHeading">3. Put It In Order</h2>
+      <p class="sub" data-i18n="orderSub">Drag (using the &#9776; handle) or tap the arrows to move these moments from <em>Crabby goes to the London Science Museum</em> into the order they happened in the story.</p>
+      <ul class="order-list" id="order-list"></ul>
+      <div class="order-actions">
+        <button class="btn" id="order-check" data-i18n="orderCheck">Check my order</button>
+        <button class="btn secondary" id="order-shuffle" data-i18n="orderShuffle">Shuffle again</button>
+      </div>
+      <p class="order-feedback" id="order-feedback" data-i18n="orderDone">That's the right order — well done! 🦀</p>
+    </div>
+
+    <!-- EDIT: activity 4 — printable colouring page. The picture is
+         a simple original line drawing, drawn directly in SVG code
+         right here (not a separate image file), so there's nothing
+         else to upload for it. -->
+    <div class="card print-target">
+      <h2 data-i18n="colourHeading">4. Colour In Crabby</h2>
+      <p class="sub" data-i18n="colourSub">Print this page (or just this picture) and colour in Crabby waving at a rocket blasting off to the moon — he's not always red!</p>
+      <div class="colour-wrap">
+        <svg id="crab-svg" viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg" stroke="#163a5c" stroke-width="6" fill="none" stroke-linejoin="round" stroke-linecap="round">
+          <!-- Crabby, drawn a little smaller to make room -->
+          <g transform="translate(-10 78) scale(0.72)">
+            <!-- Crabby's body -->
+            <path d="M120 150 C120 100, 160 70, 200 70 C240 70, 280 100, 280 150 C280 195, 245 220, 200 220 C155 220, 120 195, 120 150 Z"></path>
+            <circle cx="170" cy="130" r="6"></circle>
+            <circle cx="200" cy="118" r="6"></circle>
+            <circle cx="230" cy="130" r="6"></circle>
+            <circle cx="185" cy="150" r="6"></circle>
+            <circle cx="215" cy="150" r="6"></circle>
+            <path d="M172 90 C168 65, 165 50, 160 38"></path>
+            <path d="M228 90 C232 65, 235 50, 240 38"></path>
+            <circle cx="158" cy="28" r="14"></circle>
+            <circle cx="242" cy="28" r="14"></circle>
+            <circle cx="155" cy="25" r="3" fill="#163a5c"></circle>
+            <circle cx="245" cy="25" r="3" fill="#163a5c"></circle>
+            <path d="M178 175 Q200 190 222 175"></path>
+            <!-- left claw and legs -->
+            <path d="M130 140 C90 130, 65 110, 55 85"></path>
+            <path d="M55 85 C40 78, 28 82, 22 95"></path>
+            <path d="M55 85 C48 68, 55 55, 70 52"></path>
+            <path d="M132 158 C102 164, 78 174, 58 188"></path>
+            <path d="M130 175 C100 185, 78 195, 62 210"></path>
+            <path d="M128 195 C100 210, 82 225, 68 245"></path>
+            <path d="M135 212 C112 232, 98 250, 88 272"></path>
+            <!-- right legs -->
+            <path d="M268 158 C298 164, 322 174, 342 188"></path>
+            <path d="M270 175 C300 185, 322 195, 338 210"></path>
+            <path d="M272 195 C300 210, 318 225, 332 245"></path>
+            <path d="M265 212 C288 232, 302 250, 312 272"></path>
+            <!-- raised right claw, waving -->
+            <path d="M270 140 C300 110, 308 75, 305 45"></path>
+            <path d="M305 45 C318 40, 330 44, 336 56"></path>
+            <path d="M305 45 C310 30, 303 18, 289 14"></path>
+          </g>
+          <!-- the rocket, blasting off -->
+          <g transform="rotate(18 330 150)">
+            <path d="M330 20 C352 44, 360 80, 360 130 L360 220 L300 220 L300 130 C300 80, 308 44, 330 20 Z"></path>
+            <path d="M304 70 L356 70"></path>
+            <circle cx="330" cy="120" r="17"></circle>
+            <circle cx="330" cy="120" r="9"></circle>
+            <path d="M300 170 L274 212 L274 240 L300 220"></path>
+            <path d="M360 170 L386 212 L386 240 L360 220"></path>
+            <path d="M318 220 L318 242 L342 242 L342 220"></path>
+            <path d="M318 246 C312 262, 316 278, 330 298 C344 278, 348 262, 342 246 Z"></path>
+          </g>
+          <!-- stars -->
+          <path d="M226 36 L230 48 L242 50 L232 58 L236 70 L226 62 L216 70 L220 58 L210 50 L222 48 Z"></path>
+          <path d="M392 262 L394 270 L401 271 L395 276 L397 283 L392 279 L387 283 L389 276 L383 271 L390 270 Z"></path>
+          <circle cx="270" cy="30" r="4"></circle>
+          <circle cx="210" cy="104" r="3"></circle>
+        </svg>
+        <br>
+        <button class="btn" onclick="window.print()" data-i18n="printPicture">Print this picture</button>
+      </div>
+    </div>
+
+    <!-- EDIT: activity 5 — creative writing prompt -->
+    <div class="card">
+      <h2 data-i18n="yourTurnHeading">5. Your Turn!</h2>
+      <p class="sub" data-i18n="yourTurnSub">Crabby dreamed of going to the moon! If Crabby really did blast off into space, what do you think would happen? Write (or dictate to a grown-up) your own Crabby story idea below, then print it out to keep.</p>
+      <textarea id="your-turn" data-i18n-placeholder="yourTurnPlaceholder" placeholder="One day, Crabby decided to..."></textarea>
+      <div class="your-turn-actions">
+        <button class="btn" onclick="window.print()" data-i18n="printStory">Print my story</button>
+        <button class="btn secondary" id="your-turn-clear" data-i18n="clear">Clear</button>
+      </div>
+    </div>
+
+  </div>
+
+<!-- EDIT: translations for this page.
+     1. CrabbyLang.add(...) holds the fixed text that is only on this page
+        (text shared by all the activity pages is in lang/i18n.js).
+     2. ACTIVITY_LANGS holds each language's own word search (grid + where
+        each word sits, as [row, column] from the top-left, counting from 0),
+        quiz sentences (same order and answers as the English) and the
+        story moments in their correct order. -->
+<script>
+CrabbyLang.add({
+  "el": {
+    "pageTitle": "Γωνιά δραστηριοτήτων — Ο Κράμπι πάει στο Μουσείο Επιστημών του Λονδίνου",
+    "intro": "Πέντε πράγματα να κάνεις αφού διαβάσεις την ιστορία <a href=\"../stories/crabby-goes-to-the-london-science-museum\">«Ο Κράμπι πάει στο Μουσείο Επιστημών του Λονδίνου»</a>. Κατέβα πιο κάτω και δοκίμασέ τα!",
+    "orderSub": "Σύρε (από τη λαβή &#9776;) ή πάτα τα βελάκια για να βάλεις αυτές τις στιγμές από την ιστορία <em>«Ο Κράμπι πάει στο Μουσείο Επιστημών του Λονδίνου»</em> στη σειρά που έγιναν.",
+    "colourSub": "Εκτύπωσε αυτή τη σελίδα (ή μόνο τη ζωγραφιά) και ζωγράφισε τον Κράμπι να χαιρετάει έναν πύραυλο που εκτοξεύεται για το φεγγάρι — δεν είναι πάντα κόκκινος!",
+    "yourTurnSub": "Ο Κράμπι ονειρευόταν να πάει στο φεγγάρι! Αν ο Κράμπι εκτοξευόταν στ' αλήθεια στο διάστημα, τι λες να γινόταν; Γράψε (ή πες σε έναν μεγάλο να γράψει) τη δική σου ιδέα για μια ιστορία του Κράμπι παρακάτω και μετά εκτύπωσέ την για να την κρατήσεις."
+  },
+  "it": {
+    "pageTitle": "Angolo delle attività — Crabby va al Museo della Scienza di Londra",
+    "intro": "Cinque cose da fare dopo aver letto <a href=\"../stories/crabby-goes-to-the-london-science-museum\">Crabby va al Museo della Scienza di Londra</a>. Scorri in basso e provale!",
+    "orderSub": "Trascina (usando la maniglia &#9776;) o tocca le frecce per mettere questi momenti di <em>Crabby va al Museo della Scienza di Londra</em> nell'ordine in cui sono successi nella storia.",
+    "colourSub": "Stampa questa pagina (o solo il disegno) e colora Crabby che saluta un razzo in partenza per la luna — non deve per forza essere rosso!",
+    "yourTurnSub": "Crabby sognava di andare sulla luna! Se Crabby partisse davvero per lo spazio, cosa pensi che succederebbe? Scrivi (o detta a un adulto) la tua idea per una storia di Crabby qui sotto, poi stampala per conservarla."
+  },
+  "fr": {
+    "pageTitle": "Coin des activités — Crabby va au musée des Sciences de Londres",
+    "intro": "Cinq choses à faire après avoir lu <a href=\"../stories/crabby-goes-to-the-london-science-museum\">Crabby va au musée des Sciences de Londres</a>. Descends et essaie-les !",
+    "orderSub": "Fais glisser (avec la poignée &#9776;) ou touche les flèches pour remettre ces moments de <em>Crabby va au musée des Sciences de Londres</em> dans l'ordre où ils se sont passés dans l'histoire.",
+    "colourSub": "Imprime cette page (ou juste le dessin) et colorie Crabby qui fait coucou à une fusée qui décolle vers la Lune — il n'est pas obligé d'être rouge !",
+    "yourTurnSub": "Crabby rêvait d'aller sur la Lune ! Si Crabby décollait vraiment pour l'espace, que se passerait-il, à ton avis ? Écris (ou dicte à un adulte) ta propre idée d'histoire de Crabby ci-dessous, puis imprime-la pour la garder."
+  },
+  "es": {
+    "pageTitle": "Rincón de actividades — Crabby va al Museo de Ciencias de Londres",
+    "intro": "Cinco cosas para hacer después de leer <a href=\"../stories/crabby-goes-to-the-london-science-museum\">Crabby va al Museo de Ciencias de Londres</a>. ¡Baja y pruébalas!",
+    "orderSub": "Arrastra (con el asa &#9776;) o toca las flechas para poner estos momentos de <em>Crabby va al Museo de Ciencias de Londres</em> en el orden en que pasaron en el cuento.",
+    "colourSub": "Imprime esta página (o solo el dibujo) y colorea a Crabby saludando a un cohete que despega hacia la luna. ¡No tiene por qué ser rojo!",
+    "yourTurnSub": "¡Crabby soñaba con ir a la luna! Si Crabby despegara de verdad hacia el espacio, ¿qué crees que pasaría? Escribe (o díctale a un adulto) tu propia idea para un cuento de Crabby aquí abajo y luego imprímela para guardarla."
+  }
+});
+
+window.ACTIVITY_LANGS = {
+  el: {
+    grid: [
+      ["Σ", "Ο", "Ζ", "Α", "Κ", "Ε", "Ξ", "Σ", "Φ", "Ω", "Τ", "Α"],
+      ["Α", "Μ", "Η", "Τ", "Σ", "Α", "Ι", "Δ", "Θ", "Ψ", "Α", "Ι"],
+      ["Ξ", "Μ", "Ο", "Λ", "Υ", "Β", "Ι", "Κ", "Ρ", "Ο", "Τ", "Ξ"],
+      ["Μ", "Φ", "Π", "Υ", "Ρ", "Α", "Υ", "Λ", "Ο", "Σ", "Μ", "Σ"],
+      ["Ε", "Γ", "Τ", "Ρ", "Ε", "Ν", "Ο", "Ο", "Τ", "Δ", "Ο", "Α"],
+      ["Ι", "Π", "Ι", "Υ", "Δ", "Ε", "Ξ", "Ε", "Ρ", "Ψ", "Σ", "Ο"],
+      ["Β", "Π", "Ι", "Ρ", "Ρ", "Ο", "Ι", "Ε", "Σ", "Υ", "Ο", "Μ"],
+      ["Ε", "Κ", "Μ", "Σ", "Ω", "Δ", "Η", "Φ", "Τ", "Κ", "Μ", "Ρ"],
+      ["Ξ", "Δ", "Ε", "Υ", "Τ", "Φ", "Ε", "Γ", "Γ", "Α", "Ρ", "Ι"],
+      ["Η", "Ο", "Ζ", "Κ", "Ο", "Η", "Μ", "Γ", "Ο", "Ρ", "Υ", "Δ"],
+      ["Ν", "Ν", "Θ", "Ο", "Μ", "Κ", "Μ", "Φ", "Ζ", "Λ", "Ν", "Ρ"],
+      ["Μ", "Ω", "Χ", "Ο", "Ρ", "Κ", "Ν", "Η", "Α", "Σ", "Π", "Τ"]
+    ],
+    words: {
+      "ΜΟΥΣΕΙΟ": [[6, 11], [6, 10], [6, 9], [6, 8], [6, 7], [6, 6], [6, 5]],
+      "ΠΥΡΑΥΛΟΣ": [[3, 2], [3, 3], [3, 4], [3, 5], [3, 6], [3, 7], [3, 8], [3, 9]],
+      "ΚΟΥΜΠΙ": [[10, 5], [9, 4], [8, 3], [7, 2], [6, 1], [5, 0]],
+      "ΦΕΓΓΑΡΙ": [[8, 5], [8, 6], [8, 7], [8, 8], [8, 9], [8, 10], [8, 11]],
+      "ΤΡΕΝΟ": [[4, 2], [4, 3], [4, 4], [4, 5], [4, 6]],
+      "ΜΟΛΥΒΙ": [[2, 1], [2, 2], [2, 3], [2, 4], [2, 5], [2, 6]],
+      "ΕΠΙΣΤΗΜΗ": [[4, 0], [5, 1], [6, 2], [7, 3], [8, 4], [9, 5], [10, 6], [11, 7]],
+      "ΑΤΜΟΣ": [[1, 10], [2, 10], [3, 10], [4, 10], [5, 10]],
+      "ΔΙΑΣΤΗΜΑ": [[1, 7], [1, 6], [1, 5], [1, 4], [1, 3], [1, 2], [1, 1], [1, 0]],
+      "ΦΩΤΑ": [[0, 8], [0, 9], [0, 10], [0, 11]]
+    },
+    quiz: [
+      { q: "Ο Κράμπι πιστεύει ότι το Μουσείο Επιστημών είναι το καλύτερο μέρος του κόσμου.", answer: true },
+      { q: "Στην αίθουσα Exploring Space, μια αληθινή μηχανή πυραύλου κρέμεται από το ταβάνι.", answer: true },
+      { q: "Ο Κράμπι πατάει ένα μεγάλο μπλε κουμπί με τη δαγκάνα του.", answer: false },
+      { q: "Όταν ο Κράμπι πατάει το κουμπί, χρωματιστά φώτα γεμίζουν το ταβάνι.", answer: true },
+      { q: "Η Σοφία επιλέγεται για εθελόντρια στη γεννήτρια Van de Graaff.", answer: false },
+      { q: "Ο Κράμπι εμπιστεύεται τον στατικό ηλεκτρισμό.", answer: false },
+      { q: "Ο «Πύραυλος» του Στίβενσον είναι μια ατμομηχανή του 1829.", answer: true },
+      { q: "Ο Κράμπι κολλάει με ένα μολύβι κάτω από το προστατευτικό της έκθεσης του τρένου.", answer: true }
+    ],
+    order: [
+      "Η Σοφία τρέχει στην αίθουσα Exploring Space για να δει μια αληθινή μηχανή πυραύλου.",
+      "Ο Κράμπι πατάει ένα μεγάλο κόκκινο κουμπί και φώτα γεμίζουν το ταβάνι.",
+      "Ο Κράμπι κρύβεται κάτω από μια βιτρίνα, αφού παραλίγο να τον πατήσουν.",
+      "Η αλογοουρά ενός κοριτσιού σηκώνεται όρθια στη γεννήτρια Van de Graaff.",
+      "Ο Κράμπι κατεβαίνει για να δει τον «Πύραυλο» του Στίβενσον.",
+      "Ο Κράμπι κολλάει με ένα μολύβι και μετά γλιτώνει και γυρίζει στη Σοφία."
+    ]
+  },
+  it: {
+    grid: [
+      ["T", "H", "W", "E", "W", "Q", "P", "K", "A", "F", "O", "K"],
+      ["V", "J", "E", "R", "O", "P", "A", "V", "H", "Y", "D", "X"],
+      ["T", "U", "M", "A", "G", "U", "C", "Y", "A", "B", "O", "T"],
+      ["K", "K", "V", "O", "B", "L", "W", "O", "N", "J", "I", "R"],
+      ["O", "X", "D", "H", "R", "S", "J", "M", "U", "T", "Z", "P"],
+      ["R", "G", "B", "A", "A", "A", "P", "H", "L", "W", "A", "O"],
+      ["O", "M", "N", "Z", "I", "N", "M", "R", "C", "A", "P", "J"],
+      ["Z", "A", "Q", "N", "C", "T", "Q", "X", "K", "I", "S", "J"],
+      ["Z", "T", "P", "E", "U", "E", "M", "B", "M", "K", "N", "P"],
+      ["A", "I", "M", "I", "L", "O", "N", "E", "R", "T", "D", "V"],
+      ["R", "T", "I", "C", "S", "K", "Z", "T", "U", "J", "C", "G"],
+      ["Q", "A", "G", "S", "J", "M", "U", "S", "E", "O", "C", "X"]
+    ],
+    words: {
+      "MUSEO": [[11, 5], [11, 6], [11, 7], [11, 8], [11, 9]],
+      "RAZZO": [[10, 0], [9, 0], [8, 0], [7, 0], [6, 0]],
+      "PULSANTE": [[1, 5], [2, 5], [3, 5], [4, 5], [5, 5], [6, 5], [7, 5], [8, 5]],
+      "LUNA": [[5, 8], [4, 8], [3, 8], [2, 8]],
+      "TRENO": [[9, 9], [9, 8], [9, 7], [9, 6], [9, 5]],
+      "MATITA": [[6, 1], [7, 1], [8, 1], [9, 1], [10, 1], [11, 1]],
+      "SCIENZA": [[11, 3], [10, 3], [9, 3], [8, 3], [7, 3], [6, 3], [5, 3]],
+      "VAPORE": [[1, 7], [1, 6], [1, 5], [1, 4], [1, 3], [1, 2]],
+      "SPAZIO": [[7, 10], [6, 10], [5, 10], [4, 10], [3, 10], [2, 10]],
+      "LUCI": [[9, 4], [8, 4], [7, 4], [6, 4]]
+    },
+    quiz: [
+      { q: "Crabby pensa che il Museo della Scienza sia il posto più bello del mondo.", answer: true },
+      { q: "Nella galleria Exploring Space, dal soffitto pende un vero motore di razzo.", answer: true },
+      { q: "Crabby preme un grosso pulsante blu con la chela.", answer: false },
+      { q: "Quando Crabby preme il pulsante, delle luci colorate scorrono sul soffitto.", answer: true },
+      { q: "Sofia viene scelta come volontaria per il generatore di Van de Graaff.", answer: false },
+      { q: "Crabby si fida dell'elettricità statica.", answer: false },
+      { q: "La Rocket di Stephenson è una locomotiva a vapore del 1829.", answer: true },
+      { q: "Crabby resta bloccato con una matita sotto la barriera dell'esposizione del treno.", answer: true }
+    ],
+    order: [
+      "Sofia corre alla galleria Exploring Space per vedere un vero motore di razzo.",
+      "Crabby preme un grosso pulsante rosso e delle luci scorrono sul soffitto.",
+      "Crabby si nasconde sotto una vetrina dopo che per poco non lo calpestano.",
+      "La coda di cavallo di una bambina si rizza al generatore di Van de Graaff.",
+      "Crabby scende a guardare la Rocket di Stephenson.",
+      "Crabby resta bloccato con una matita, poi scappa di nuovo da Sofia."
+    ]
+  },
+  fr: {
+    grid: [
+      ["F", "Y", "T", "R", "A", "I", "N", "W", "E", "N", "U", "L"],
+      ["C", "R", "A", "Y", "O", "N", "F", "N", "O", "F", "X", "R"],
+      ["U", "H", "M", "E", "E", "U", "G", "T", "E", "R", "U", "Y"],
+      ["R", "L", "P", "Z", "S", "E", "U", "M", "A", "E", "A", "E"],
+      ["P", "Z", "U", "E", "M", "O", "U", "W", "P", "C", "Y", "H"],
+      ["K", "Z", "E", "M", "B", "L", "B", "A", "E", "E", "O", "Y"],
+      ["D", "P", "C", "W", "I", "Q", "V", "G", "I", "S", "L", "U"],
+      ["A", "E", "U", "Y", "H", "E", "K", "D", "X", "P", "I", "U"],
+      ["K", "K", "E", "R", "S", "O", "R", "T", "V", "A", "F", "M"],
+      ["P", "D", "O", "S", "S", "C", "I", "E", "N", "C", "E", "B"],
+      ["N", "T", "V", "Y", "U", "J", "A", "W", "S", "E", "U", "P"],
+      ["G", "E", "O", "E", "G", "M", "U", "H", "P", "C", "Q", "Z"]
+    ],
+    words: {
+      "MUSEE": [[11, 5], [10, 4], [9, 3], [8, 2], [7, 1]],
+      "FUSEE": [[1, 6], [2, 5], [3, 4], [4, 3], [5, 2]],
+      "BOUTON": [[5, 4], [4, 5], [3, 6], [2, 7], [1, 8], [0, 9]],
+      "LUNE": [[0, 11], [0, 10], [0, 9], [0, 8]],
+      "TRAIN": [[0, 2], [0, 3], [0, 4], [0, 5], [0, 6]],
+      "CRAYON": [[1, 0], [1, 1], [1, 2], [1, 3], [1, 4], [1, 5]],
+      "SCIENCE": [[9, 4], [9, 5], [9, 6], [9, 7], [9, 8], [9, 9], [9, 10]],
+      "VAPEUR": [[6, 6], [5, 7], [4, 8], [3, 9], [2, 10], [1, 11]],
+      "ESPACE": [[5, 9], [6, 9], [7, 9], [8, 9], [9, 9], [10, 9]],
+      "LUMIERES": [[3, 1], [4, 2], [5, 3], [6, 4], [7, 5], [8, 6], [9, 7], [10, 8]]
+    },
+    quiz: [
+      { q: "Crabby trouve que le musée des Sciences est le meilleur endroit du monde.", answer: true },
+      { q: "Dans la galerie Exploring Space, un vrai moteur de fusée est suspendu au plafond.", answer: true },
+      { q: "Crabby appuie sur un gros bouton bleu avec sa pince.", answer: false },
+      { q: "Quand Crabby appuie sur le bouton, des lumières colorées balaient le plafond.", answer: true },
+      { q: "Sofia est choisie comme volontaire pour le générateur de Van de Graaff.", answer: false },
+      { q: "Crabby fait confiance à l'électricité statique.", answer: false },
+      { q: "La Rocket de Stephenson est une locomotive à vapeur de 1829.", answer: true },
+      { q: "Crabby reste coincé avec un crayon sous la barrière de l'exposition du train.", answer: true }
+    ],
+    order: [
+      "Sofia fonce vers la galerie Exploring Space pour voir un vrai moteur de fusée.",
+      "Crabby appuie sur un gros bouton rouge et des lumières balaient le plafond.",
+      "Crabby se cache sous une vitrine après avoir failli se faire écraser.",
+      "La queue de cheval d'une fillette se dresse au générateur de Van de Graaff.",
+      "Crabby descend pour regarder la Rocket de Stephenson.",
+      "Crabby reste coincé avec un crayon, puis retourne auprès de Sofia."
+    ]
+  },
+  es: {
+    grid: [
+      ["B", "W", "H", "A", "R", "Z", "P", "F", "P", "E", "L", "Y"],
+      ["A", "O", "O", "Z", "I", "P", "A", "L", "T", "U", "T", "F"],
+      ["Q", "R", "T", "L", "H", "R", "G", "E", "C", "T", "J", "M"],
+      ["A", "I", "M", "O", "K", "W", "H", "E", "M", "R", "L", "I"],
+      ["U", "R", "L", "P", "N", "O", "S", "T", "Z", "E", "U", "D"],
+      ["R", "O", "S", "Q", "C", "B", "J", "Y", "O", "N", "X", "W"],
+      ["G", "P", "A", "I", "C", "N", "E", "I", "C", "B", "F", "B"],
+      ["Z", "A", "J", "E", "S", "P", "A", "C", "I", "O", "L", "W"],
+      ["I", "V", "B", "L", "S", "U", "U", "T", "A", "S", "O", "I"],
+      ["S", "K", "R", "E", "Z", "P", "E", "U", "E", "R", "V", "H"],
+      ["Y", "F", "J", "A", "N", "U", "L", "B", "V", "C", "X", "J"],
+      ["M", "U", "S", "E", "O", "M", "S", "C", "Q", "D", "M", "E"]
+    ],
+    words: {
+      "MUSEO": [[11, 0], [11, 1], [11, 2], [11, 3], [11, 4]],
+      "COHETE": [[5, 4], [4, 5], [3, 6], [2, 7], [1, 8], [0, 9]],
+      "BOTON": [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4]],
+      "LUNA": [[10, 6], [10, 5], [10, 4], [10, 3]],
+      "TREN": [[2, 9], [3, 9], [4, 9], [5, 9]],
+      "LAPIZ": [[1, 7], [1, 6], [1, 5], [1, 4], [1, 3]],
+      "CIENCIA": [[6, 8], [6, 7], [6, 6], [6, 5], [6, 4], [6, 3], [6, 2]],
+      "VAPOR": [[8, 1], [7, 1], [6, 1], [5, 1], [4, 1]],
+      "ESPACIO": [[7, 3], [7, 4], [7, 5], [7, 6], [7, 7], [7, 8], [7, 9]],
+      "LUCES": [[0, 10], [1, 9], [2, 8], [3, 7], [4, 6]]
+    },
+    quiz: [
+      { q: "Crabby cree que el Museo de Ciencias es el mejor sitio del mundo.", answer: true },
+      { q: "En la galería Exploring Space cuelga del techo un motor de cohete de verdad.", answer: true },
+      { q: "Crabby pulsa un gran botón azul con su pinza.", answer: false },
+      { q: "Cuando Crabby pulsa el botón, unas luces de colores recorren el techo.", answer: true },
+      { q: "A Sofia la eligen como voluntaria para el generador de Van de Graaff.", answer: false },
+      { q: "Crabby se fía de la electricidad estática.", answer: false },
+      { q: "La Rocket de Stephenson es una locomotora de vapor de 1829.", answer: true },
+      { q: "Crabby se queda atrapado con un lápiz bajo la barrera de la exposición del tren.", answer: true }
+    ],
+    order: [
+      "Sofia va corriendo a la galería Exploring Space para ver un motor de cohete de verdad.",
+      "Crabby pulsa un gran botón rojo y unas luces recorren el techo.",
+      "Crabby se esconde bajo una vitrina después de que casi lo pisen.",
+      "La coleta de una niña se pone de punta con el generador de Van de Graaff.",
+      "Crabby baja para ver la Rocket de Stephenson.",
+      "Crabby se queda atrapado con un lápiz y luego vuelve corriendo con Sofia."
+    ]
+  }
+};
+</script>
+
+<script>
+(function () {
+
+  /* ===================== 1. WORD SEARCH ===================== */
+  var WS_GRID = [
+    ['Q','T','Z','S','R','Z','B','U','T','T','O','N'],
+    ['J','D','K','V','B','Z','T','E','K','C','O','R'],
+    ['H','N','E','C','A','P','S','J','Q','E','F','D'],
+    ['N','D','B','E','C','N','E','I','C','S','X','S'],
+    ['M','O','Y','J','L','I','G','H','T','S','C','T'],
+    ['U','V','X','F','A','G','B','Q','C','I','D','E'],
+    ['E','M','P','O','F','T','M','X','U','D','T','A'],
+    ['S','I','E','V','X','R','N','O','D','U','X','M'],
+    ['U','I','N','W','H','A','O','O','V','J','T','K'],
+    ['M','P','C','U','D','I','O','Z','K','W','I','W'],
+    ['O','G','I','N','N','N','M','G','Q','L','U','E'],
+    ['O','J','L','Y','R','G','C','D','Q','L','Q','R']
+  ];
+
+  var WS_WORDS = {
+    "MUSEUM": [[9,0],[8,0],[7,0],[6,0],[5,0],[4,0]],
+    "ROCKET": [[1,11],[1,10],[1,9],[1,8],[1,7],[1,6]],
+    "BUTTON": [[0,6],[0,7],[0,8],[0,9],[0,10],[0,11]],
+    "MOON": [[10,6],[9,6],[8,6],[7,6]],
+    "TRAIN": [[6,5],[7,5],[8,5],[9,5],[10,5]],
+    "PENCIL": [[6,2],[7,2],[8,2],[9,2],[10,2],[11,2]],
+    "SCIENCE": [[3,9],[3,8],[3,7],[3,6],[3,5],[3,4],[3,3]],
+    "STEAM": [[3,11],[4,11],[5,11],[6,11],[7,11]],
+    "SPACE": [[2,6],[2,5],[2,4],[2,3],[2,2]],
+    "LIGHTS": [[4,4],[4,5],[4,6],[4,7],[4,8],[4,9]]
+  };
+
+  var wsGridEl = document.getElementById('ws-grid');
+  var wsWordListEl = document.getElementById('ws-word-list');
+  var wsStatusEl = document.getElementById('ws-status');
+  var wsFoundWords = {};
+  var wsCellEls = {};
+  var wsSelecting = false;
+  var wsStart = null;
+
+  // Draws the grid and word list for the current language (see ACTIVITY_LANGS)
+  function buildWordSearch() {
+    wsGridEl.innerHTML = '';
+    wsWordListEl.innerHTML = '';
+    wsStatusEl.classList.remove('show');
+    wsFoundWords = {};
+    wsCellEls = {};
+    wsSelecting = false;
+
+    WS_GRID.forEach(function (row, r) {
+      row.forEach(function (letter, c) {
+        var cell = document.createElement('div');
+        cell.className = 'ws-cell';
+        cell.textContent = letter;
+        cell.dataset.r = r;
+        cell.dataset.c = c;
+        wsGridEl.appendChild(cell);
+        wsCellEls[r + ',' + c] = cell;
+      });
+    });
+
+    Object.keys(WS_WORDS).forEach(function (word) {
+      var li = document.createElement('li');
+      li.textContent = word;
+      li.id = 'ws-li-' + word;
+      wsWordListEl.appendChild(li);
+    });
+  }
+
+  function cellsBetween(r1, c1, r2, c2) {
+    var dr = r2 - r1, dc = c2 - c1;
+    var steps = Math.max(Math.abs(dr), Math.abs(dc));
+    if (steps === 0) return [[r1, c1]];
+    var stepR = dr / steps, stepC = dc / steps;
+    if (Math.abs(stepR) !== 0 && Math.abs(stepR) !== 1) return null;
+    if (Math.abs(stepC) !== 0 && Math.abs(stepC) !== 1) return null;
+    var out = [];
+    for (var i = 0; i <= steps; i++) {
+      out.push([r1 + stepR * i, c1 + stepC * i]);
+    }
+    return out;
+  }
+
+  function clearSelection(cells) {
+    cells.forEach(function (rc) {
+      var el = wsCellEls[rc[0] + ',' + rc[1]];
+      if (el && !el.classList.contains('found')) el.classList.remove('selected');
+    });
+  }
+
+  function matchWord(path) {
+    var forward = path.map(function (rc) { return WS_GRID[rc[0]][rc[1]]; }).join('');
+    var backward = forward.split('').reverse().join('');
+    for (var word in WS_WORDS) {
+      if (wsFoundWords[word]) continue;
+      if (word === forward || word === backward) return word;
+    }
+    return null;
+  }
+
+  function startSelect(r, c) {
+    wsSelecting = true;
+    wsStart = [r, c];
+  }
+
+  function updateSelect(r, c) {
+    if (!wsSelecting) return;
+    var path = cellsBetween(wsStart[0], wsStart[1], r, c);
+    Object.keys(wsCellEls).forEach(function (key) {
+      var el = wsCellEls[key];
+      if (!el.classList.contains('found')) el.classList.remove('selected');
+    });
+    if (path) {
+      path.forEach(function (rc) {
+        var el = wsCellEls[rc[0] + ',' + rc[1]];
+        if (el && !el.classList.contains('found')) el.classList.add('selected');
+      });
+    }
+  }
+
+  function endSelect(r, c) {
+    if (!wsSelecting) return;
+    wsSelecting = false;
+    var path = cellsBetween(wsStart[0], wsStart[1], r, c);
+    if (path) {
+      var word = matchWord(path);
+      if (word) {
+        wsFoundWords[word] = true;
+        path.forEach(function (rc) {
+          var el = wsCellEls[rc[0] + ',' + rc[1]];
+          el.classList.remove('selected');
+          el.classList.add('found');
+        });
+        document.getElementById('ws-li-' + word).classList.add('found');
+        if (Object.keys(wsFoundWords).length === Object.keys(WS_WORDS).length) {
+          wsStatusEl.classList.add('show');
+        }
+      } else {
+        clearSelection(path);
+      }
+    }
+  }
+
+  wsGridEl.addEventListener('mousedown', function (e) {
+    if (!e.target.classList.contains('ws-cell')) return;
+    startSelect(+e.target.dataset.r, +e.target.dataset.c);
+  });
+  wsGridEl.addEventListener('mouseover', function (e) {
+    if (!e.target.classList.contains('ws-cell')) return;
+    updateSelect(+e.target.dataset.r, +e.target.dataset.c);
+  });
+  window.addEventListener('mouseup', function (e) {
+    if (!wsSelecting) return;
+    var target = document.elementFromPoint(e.clientX, e.clientY);
+    if (target && target.classList.contains('ws-cell')) {
+      endSelect(+target.dataset.r, +target.dataset.c);
+    } else {
+      wsSelecting = false;
+    }
+  });
+
+  wsGridEl.addEventListener('touchstart', function (e) {
+    var t = e.touches[0];
+    var el = document.elementFromPoint(t.clientX, t.clientY);
+    if (el && el.classList.contains('ws-cell')) startSelect(+el.dataset.r, +el.dataset.c);
+  }, { passive: true });
+  wsGridEl.addEventListener('touchmove', function (e) {
+    var t = e.touches[0];
+    var el = document.elementFromPoint(t.clientX, t.clientY);
+    if (el && el.classList.contains('ws-cell')) updateSelect(+el.dataset.r, +el.dataset.c);
+  }, { passive: true });
+  wsGridEl.addEventListener('touchend', function (e) {
+    var t = e.changedTouches[0];
+    var el = document.elementFromPoint(t.clientX, t.clientY);
+    if (el && el.classList.contains('ws-cell')) endSelect(+el.dataset.r, +el.dataset.c);
+  });
+
+  /* ===================== 2. TRUE OR FALSE QUIZ ===================== */
+  var QUIZ = [
+    { q: "Crabby thinks the Science Museum is the greatest place ever.", answer: true },
+    { q: "In the Exploring Space gallery, a real rocket engine hangs from the ceiling.", answer: true },
+    { q: "Crabby presses a big blue button with his claw.", answer: false },
+    { q: "When Crabby presses the button, coloured lights sweep across the ceiling.", answer: true },
+    { q: "Sofia is picked as a volunteer for the Van de Graaff generator.", answer: false },
+    { q: "Crabby trusts static electricity.", answer: false },
+    { q: "Stephenson's Rocket is a steam train from 1829.", answer: true },
+    { q: "Crabby gets stuck with a pencil under the train display barrier.", answer: true }
+  ];
+
+  var quizBody = document.getElementById('quiz-body');
+  var quizScoreEl = document.getElementById('quiz-score');
+  var quizCorrectCount = 0;
+  var quizAnswered = 0;
+
+  function buildQuiz() {
+    var T = CrabbyLang.t;
+    quizBody.innerHTML = '';
+    quizScoreEl.textContent = '';
+    quizCorrectCount = 0;
+    quizAnswered = 0;
+
+    QUIZ.forEach(function (item, i) {
+      var wrap = document.createElement('div');
+      wrap.className = 'quiz-q';
+
+      var qText = document.createElement('p');
+      qText.className = 'q-text';
+      qText.textContent = (i + 1) + '. ' + item.q;
+      wrap.appendChild(qText);
+
+      var btns = document.createElement('div');
+      btns.className = 'quiz-btns';
+
+      var feedback = document.createElement('p');
+      feedback.className = 'quiz-feedback';
+      feedback.textContent = item.answer ? T('quizTrueFb', 'True!') : T('quizFalseFb', 'False!');
+
+      [true, false].forEach(function (value) {
+        var btn = document.createElement('button');
+        btn.className = 'quiz-btn';
+        btn.textContent = value ? T('quizTrue', 'True') : T('quizFalse', 'False');
+        btn.dataset.value = value ? 'true' : 'false';
+        btn.addEventListener('click', function () {
+          if (btn.disabled) return;
+          var isCorrect = value === item.answer;
+          Array.prototype.forEach.call(btns.children, function (b) { b.disabled = true; });
+          btn.classList.add(isCorrect ? 'correct' : 'wrong');
+          if (!isCorrect) {
+            Array.prototype.forEach.call(btns.children, function (b) {
+              if ((b.dataset.value === 'true') === item.answer) b.classList.add('correct');
+            });
+          }
+          feedback.classList.add('show');
+          quizAnswered++;
+          if (isCorrect) quizCorrectCount++;
+          quizScoreEl.textContent = T('quizScore', 'Score: {c} / {n} answered so far ({a}/{n})')
+            .replace(/\{c\}/g, quizCorrectCount)
+            .replace(/\{a\}/g, quizAnswered)
+            .replace(/\{n\}/g, QUIZ.length);
+        });
+        btns.appendChild(btn);
+      });
+
+      wrap.appendChild(btns);
+      wrap.appendChild(feedback);
+      quizBody.appendChild(wrap);
+    });
+  }
+
+  /* ===================== 3. ORDER THE STORY ===================== */
+  var ORDER_SET = [
+    "Sofia races to the Exploring Space gallery to see a real rocket engine.",
+    "Crabby presses a big red button and lights sweep across the ceiling.",
+    "Crabby hides under a display case after nearly being stepped on.",
+    "A girl's ponytail stands straight up at the Van de Graaff generator.",
+    "Crabby climbs down to look at Stephenson's Rocket.",
+    "Crabby gets stuck with a pencil, then escapes back to Sofia."
+  ];
+
+  var orderListEl = document.getElementById('order-list');
+  var orderFeedbackEl = document.getElementById('order-feedback');
+  var orderDragEl = null;
+
+  function shuffledCopy(arr) {
+    var copy = arr.slice();
+    for (var i = copy.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = copy[i]; copy[i] = copy[j]; copy[j] = tmp;
+    }
+    if (copy.join('') === arr.join('')) return shuffledCopy(arr);
+    return copy;
+  }
+
+  function renderOrderList() {
+    orderListEl.innerHTML = '';
+    orderFeedbackEl.classList.remove('show');
+    var shuffled = shuffledCopy(ORDER_SET);
+    shuffled.forEach(function (text) {
+      var li = document.createElement('li');
+      li.className = 'order-item';
+      li.dataset.text = text;
+      li.innerHTML =
+        '<span class="handle" aria-hidden="true">&#9776;</span>' +
+        '<span class="order-text">' + text + '</span>' +
+        '<span class="order-moves">' +
+          '<button type="button" class="move-btn" data-dir="-1" aria-label="' + CrabbyLang.t('moveUp', 'Move up') + '">&#9650;</button>' +
+          '<button type="button" class="move-btn" data-dir="1" aria-label="' + CrabbyLang.t('moveDown', 'Move down') + '">&#9660;</button>' +
+        '</span>';
+
+      // Up / down buttons — easiest option on phones
+      Array.prototype.forEach.call(li.querySelectorAll('.move-btn'), function (btn) {
+        btn.addEventListener('click', function () {
+          clearMarks();
+          if (btn.dataset.dir === '-1' && li.previousElementSibling) {
+            orderListEl.insertBefore(li, li.previousElementSibling);
+          } else if (btn.dataset.dir === '1' && li.nextElementSibling) {
+            orderListEl.insertBefore(li.nextElementSibling, li);
+          }
+        });
+      });
+
+      // Drag — works with mouse, finger and pen (pointer events)
+      li.addEventListener('pointerdown', function (e) {
+        if (e.target.closest('.move-btn')) return;
+        // On touch screens, drag from the ☰ handle so the page can still scroll
+        if (e.pointerType !== 'mouse' && !e.target.closest('.handle')) return;
+        e.preventDefault();
+        orderDragEl = li;
+        li.classList.add('dragging');
+        clearMarks();
+      });
+
+      orderListEl.appendChild(li);
+    });
+  }
+
+  // Drag tracking lives on the document, because moving an item in the
+  // list would otherwise cancel the finger/mouse "grab" part-way through.
+  document.addEventListener('pointermove', function (e) {
+    if (!orderDragEl) return;
+    e.preventDefault();
+    var after = getDragAfterElement(orderListEl, e.clientY);
+    if (after == null) {
+      if (orderListEl.lastElementChild !== orderDragEl) orderListEl.appendChild(orderDragEl);
+    } else if (after !== orderDragEl.nextElementSibling) {
+      orderListEl.insertBefore(orderDragEl, after);
+    }
+  }, { passive: false });
+  function endOrderDrag() {
+    if (!orderDragEl) return;
+    orderDragEl.classList.remove('dragging');
+    orderDragEl = null;
+  }
+  document.addEventListener('pointerup', endOrderDrag);
+  document.addEventListener('pointercancel', endOrderDrag);
+
+  function clearMarks() {
+    orderFeedbackEl.classList.remove('show');
+    Array.prototype.forEach.call(orderListEl.children, function (el) {
+      el.classList.remove('correct-spot');
+    });
+  }
+
+  function getDragAfterElement(container, y) {
+    var items = Array.prototype.slice.call(container.querySelectorAll('.order-item:not(.dragging)'));
+    return items.reduce(function (closest, child) {
+      var box = child.getBoundingClientRect();
+      var offset = y - box.top - box.height / 2;
+      if (offset < 0 && offset > closest.offset) {
+        return { offset: offset, element: child };
+      } else {
+        return closest;
+      }
+    }, { offset: -Infinity, element: null }).element;
+  }
+
+  document.getElementById('order-check').addEventListener('click', function () {
+    var items = Array.prototype.slice.call(orderListEl.children);
+    var allCorrect = true;
+    items.forEach(function (li, i) {
+      var isCorrect = li.dataset.text === ORDER_SET[i];
+      li.classList.toggle('correct-spot', isCorrect);
+      if (!isCorrect) allCorrect = false;
+    });
+    if (allCorrect) orderFeedbackEl.classList.add('show');
+  });
+
+  document.getElementById('order-shuffle').addEventListener('click', renderOrderList);
+
+  /* ===================== LANGUAGE ===================== */
+  // Redraw the word search, quiz and ordering game whenever the
+  // site-wide language changes (the picker comes from lang/i18n.js).
+  // The English is the WS_GRID / WS_WORDS / QUIZ / ORDER_SET above;
+  // the other languages are in ACTIVITY_LANGS just above this script.
+  var ENGLISH = { grid: WS_GRID, words: WS_WORDS, quiz: QUIZ, order: ORDER_SET };
+  CrabbyLang.onChange(function (code) {
+    var set = (window.ACTIVITY_LANGS && window.ACTIVITY_LANGS[code]) || ENGLISH;
+    WS_GRID = set.grid;
+    WS_WORDS = set.words;
+    QUIZ = set.quiz;
+    ORDER_SET = set.order;
+    buildWordSearch();
+    buildQuiz();
+    renderOrderList();
+  });
+
+  /* ===================== 5. YOUR TURN ===================== */
+  document.getElementById('your-turn-clear').addEventListener('click', function () {
+    document.getElementById('your-turn').value = '';
+  });
+
+})();
+</script>
+
+</body>
+</html>

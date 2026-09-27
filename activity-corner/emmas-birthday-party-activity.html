@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- EDIT: the text shown on the browser tab -->
+<title data-i18n="pageTitle">Activity Corner — Crabby goes to Emma&#x27;s Birthday Party</title>
+
+<meta name="description" content="Word search, quiz, story-ordering game, colouring page and a writing space for Crabby goes to Emma&#x27;s Birthday Party.">
+
+<style>
+  /* Custom fonts — files live in /fonts at the repo root. */
+  @font-face {
+    font-family: "Marelle Baton";
+    src: url("../fonts/MarelleBaton-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Gill Sans MT Pro";
+    src: url("../fonts/Gill_Sans_MT_Pro_Book.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Gill Sans MT Pro";
+    src: url("../fonts/Gill_Sans_MT_Pro_Book_Italic.otf") format("opentype");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Gill Sans MT Pro";
+    src: url("../fonts/Gill_Sans_MT_Pro_Bold_Italic.otf") format("opentype");
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  :root {
+    --paper: #fbf4dd;
+    --ink:   #163a5c;
+    --text:  #2b2b2b;
+    --accent: #d64545;
+    --good:  #2e7d32;
+    --bad:   #c62828;
+    --card:  #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    padding: 50px 20px 90px;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    color: var(--text);
+  }
+
+  .page {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .back {
+    display: inline-block;
+    margin-bottom: 24px;
+    font-size: 16px;
+    color: var(--ink);
+    text-decoration: none;
+    opacity: .75;
+  }
+
+  .back:hover { opacity: 1; }
+
+  /* EDIT: the page heading */
+  h1 {
+    font-family: "Marelle Baton", cursive;
+    font-weight: 400;
+    font-size: 58px;
+    color: var(--ink);
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .story-tag {
+    text-align: center;
+    font-family: "Gill Sans MT Pro", "Gill Sans MT", "Gill Sans", Calibri,
+                 "Segoe UI", Arial, sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 18px;
+  }
+
+  .intro {
+    text-align: center;
+    font-size: 17px;
+    line-height: 1.6;
+    max-width: 560px;
+    margin: 0 auto 44px;
+  }
+
+  .intro a { color: var(--ink); }
+
+  .card {
+    background: var(--card);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(90, 66, 30, .14);
+    padding: 30px 26px;
+    margin-bottom: 36px;
+  }
+
+  .card h2 {
+    font-family: "Gill Sans MT Pro", "Gill Sans MT", "Gill Sans", Calibri,
+                 "Segoe UI", Arial, sans-serif;
+    font-weight: 400;
+    font-size: 36px;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .card .sub {
+    font-size: 15px;
+    color: var(--text);
+    opacity: .75;
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  /* ===================== 1. WORD SEARCH ===================== */
+  .ws-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    align-items: flex-start;
+  }
+
+  #ws-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 2px;
+    max-width: 420px;
+    width: 100%;
+    user-select: none;
+    touch-action: none;
+  }
+
+  .ws-cell {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f4ecd8;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: clamp(11px, 2.6vw, 15px);
+    color: var(--ink);
+    cursor: pointer;
+  }
+
+  .ws-cell.selected { background: #ffe08a; }
+  .ws-cell.found { background: #b7e4c7; color: #1b4332; }
+
+  .ws-words {
+    flex: 1;
+    min-width: 160px;
+    list-style: none;
+    font-size: 16px;
+    line-height: 2;
+  }
+
+  .ws-words li {
+    font-weight: 700;
+    color: var(--ink);
+    opacity: .55;
+  }
+
+  .ws-words li.found {
+    opacity: 1;
+    color: var(--good);
+    text-decoration: line-through;
+  }
+
+  .ws-status {
+    margin-top: 14px;
+    font-weight: 700;
+    color: var(--good);
+    display: none;
+  }
+
+  .ws-status.show { display: block; }
+
+  /* ===================== 2. TRUE OR FALSE QUIZ ===================== */
+  .quiz-q {
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid rgba(22, 58, 92, .1);
+  }
+
+  .quiz-q:last-of-type { border-bottom: none; }
+
+  .quiz-q p.q-text {
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+
+  .quiz-btns { display: flex; gap: 10px; }
+
+  .quiz-btn {
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 8px 20px;
+    border-radius: 8px;
+    border: 2px solid var(--ink);
+    background: #fff;
+    color: var(--ink);
+    cursor: pointer;
+    transition: background .15s ease, color .15s ease;
+  }
+
+  .quiz-btn:hover { background: #fbf4dd; }
+
+  .quiz-btn.correct { background: var(--good); border-color: var(--good); color: #fff; }
+  .quiz-btn.wrong { background: var(--bad); border-color: var(--bad); color: #fff; }
+  .quiz-btn[disabled] { cursor: default; }
+
+  .quiz-feedback {
+    margin-top: 8px;
+    font-size: 14px;
+    font-style: italic;
+    opacity: .85;
+    display: none;
+  }
+
+  .quiz-feedback.show { display: block; }
+
+  .quiz-score {
+    margin-top: 8px;
+    font-weight: 700;
+    color: var(--ink);
+    font-size: 17px;
+  }
+
+  /* ===================== 3. ORDER THE STORY ===================== */
+  .order-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .order-item {
+    background: #f4ecd8;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 15px;
+    color: var(--ink);
+    cursor: grab;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .order-item .handle {
+    opacity: .5;
+    font-size: 22px;
+    padding: 4px 6px;
+    cursor: grab;
+    touch-action: none;
+  }
+
+  .order-item .order-text { flex: 1; }
+
+  .order-item { user-select: none; -webkit-user-select: none; }
+
+  .order-moves { display: flex; flex-direction: column; gap: 4px; }
+
+  .move-btn {
+    font: inherit;
+    font-size: 14px;
+    line-height: 1;
+    width: 36px;
+    height: 30px;
+    border-radius: 8px;
+    border: 2px solid var(--ink);
+    background: #fff;
+    color: var(--ink);
+    cursor: pointer;
+  }
+
+  .move-btn:active { background: #e8dcbf; }
+
+  .order-item.dragging { opacity: .4; }
+
+  .order-item.correct-spot { background: #b7e4c7; }
+
+  .order-actions {
+    margin-top: 18px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  /* ===================== shared buttons ===================== */
+  .btn {
+    display: inline-block;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 10px 22px;
+    border-radius: 10px;
+    border: none;
+    background: var(--ink);
+    color: #fff;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform .15s ease, opacity .15s ease;
+  }
+
+  .btn:hover { transform: translateY(-2px); opacity: .92; }
+  .btn.secondary { background: transparent; border: 2px solid var(--ink); color: var(--ink); }
+
+  .order-feedback {
+    margin-top: 10px;
+    font-weight: 700;
+    color: var(--good);
+    display: none;
+  }
+
+  .order-feedback.show { display: block; }
+
+  /* ===================== 4. COLOURING PAGE ===================== */
+  .colour-wrap { text-align: center; }
+
+  #crab-svg {
+    width: 100%;
+    max-width: 360px;
+    height: auto;
+    margin: 0 auto 18px;
+  }
+
+  /* ===================== 5. YOUR TURN (writing) ===================== */
+  textarea#your-turn {
+    width: 100%;
+    min-height: 160px;
+    font-family: inherit;
+    font-size: 16px;
+    line-height: 1.6;
+    padding: 14px;
+    border-radius: 10px;
+    border: 2px solid rgba(22, 58, 92, .25);
+    background: #fffdf6;
+    color: var(--text);
+    resize: vertical;
+  }
+
+  textarea#your-turn:focus {
+    outline: none;
+    border-color: var(--ink);
+  }
+
+  .your-turn-actions {
+    margin-top: 14px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  @media print {
+    .back, .card:not(.print-target), .your-turn-actions, .order-actions,
+    .ws-wrap, .quiz-q { display: none !important; }
+    body { padding: 20px; }
+  }
+</style>
+<!-- Site-wide language switching (see lang/i18n.js) -->
+<script src="../lang/i18n.js"></script>
+</head>
+
+<body>
+
+  <div class="page">
+
+    <a class="back" href="/activity-corner/activity-corner-index" data-i18n="allActivities">&larr; All Activities</a>
+
+    <h1 data-i18n="navActivity">Activity Corner</h1>
+    <p class="story-tag" data-i18n="titleEmma">Crabby goes to Emma&#x27;s Birthday Party</p>
+    <p class="intro" data-i18n="intro">
+      Five things to do after reading <a href="../stories/crabby-goes-to-emmas-birthday-party">Crabby goes to Emma&#x27;s Birthday Party</a>. Scroll down and give them a try!
+    </p>
+
+    <!-- EDIT: activity 1 — word search. Grid data (WS_GRID / WS_WORDS)
+         is in the script near the bottom. -->
+    <div class="card">
+      <h2 data-i18n="wsHeading">1. Crabby's Word Search</h2>
+      <p class="sub" data-i18n="wsSub">Click a letter, then click the last letter of a word to select the whole line. Find all 10 words hiding in the grid.</p>
+      <div class="ws-wrap">
+        <div id="ws-grid"></div>
+        <ul class="ws-words" id="ws-word-list"></ul>
+      </div>
+      <p class="ws-status" id="ws-status" data-i18n="wsDone">You found them all! Great eyes. 🦀</p>
+    </div>
+
+    <!-- EDIT: activity 2 — true/false quiz. Questions are in the
+         QUIZ constant near the bottom. -->
+    <div class="card">
+      <h2 data-i18n="quizHeading">2. True or False?</h2>
+      <p class="sub" data-i18n="quizSub">Read each sentence about the story and pick True or False.</p>
+      <div id="quiz-body"></div>
+      <p class="quiz-score" id="quiz-score"></p>
+    </div>
+
+    <!-- EDIT: activity 3 — order the story. Correct order is in the
+         ORDER_SET constant near the bottom. -->
+    <div class="card">
+      <h2 data-i18n="orderHeading">3. Put It In Order</h2>
+      <p class="sub" data-i18n="orderSub">Drag (using the &#9776; handle) or tap the arrows to move these moments from <em>Crabby goes to Emma&#x27;s Birthday Party</em> into the order they happened in the story.</p>
+      <ul class="order-list" id="order-list"></ul>
+      <div class="order-actions">
+        <button class="btn" id="order-check" data-i18n="orderCheck">Check my order</button>
+        <button class="btn secondary" id="order-shuffle" data-i18n="orderShuffle">Shuffle again</button>
+      </div>
+      <p class="order-feedback" id="order-feedback" data-i18n="orderDone">That's the right order — well done! 🦀</p>
+    </div>
+
+    <!-- EDIT: activity 4 — printable colouring page. The picture is
+         a simple original line drawing, drawn directly in SVG code
+         right here (not a separate image file), so there's nothing
+         else to upload for it. -->
+    <div class="card print-target">
+      <h2 data-i18n="colourHeading">4. Colour In Crabby</h2>
+      <p class="sub" data-i18n="colourSub">Print this page (or just this picture) and colour in Crabby with Emma's birthday cake — he's not always red!</p>
+      <div class="colour-wrap">
+        <svg id="crab-svg" viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg" stroke="#163a5c" stroke-width="6" fill="none" stroke-linejoin="round" stroke-linecap="round">
+          <!-- Crabby, drawn a little smaller to make room -->
+          <g transform="translate(-10 78) scale(0.72)">
+            <!-- Crabby's body -->
+            <path d="M120 150 C120 100, 160 70, 200 70 C240 70, 280 100, 280 150 C280 195, 245 220, 200 220 C155 220, 120 195, 120 150 Z"></path>
+            <circle cx="170" cy="130" r="6"></circle>
+            <circle cx="200" cy="118" r="6"></circle>
+            <circle cx="230" cy="130" r="6"></circle>
+            <circle cx="185" cy="150" r="6"></circle>
+            <circle cx="215" cy="150" r="6"></circle>
+            <path d="M172 90 C168 65, 165 50, 160 38"></path>
+            <path d="M228 90 C232 65, 235 50, 240 38"></path>
+            <circle cx="158" cy="28" r="14"></circle>
+            <circle cx="242" cy="28" r="14"></circle>
+            <circle cx="155" cy="25" r="3" fill="#163a5c"></circle>
+            <circle cx="245" cy="25" r="3" fill="#163a5c"></circle>
+            <path d="M178 175 Q200 190 222 175"></path>
+            <!-- left claw and legs -->
+            <path d="M130 140 C90 130, 65 110, 55 85"></path>
+            <path d="M55 85 C40 78, 28 82, 22 95"></path>
+            <path d="M55 85 C48 68, 55 55, 70 52"></path>
+            <path d="M132 158 C102 164, 78 174, 58 188"></path>
+            <path d="M130 175 C100 185, 78 195, 62 210"></path>
+            <path d="M128 195 C100 210, 82 225, 68 245"></path>
+            <path d="M135 212 C112 232, 98 250, 88 272"></path>
+            <!-- right legs -->
+            <path d="M268 158 C298 164, 322 174, 342 188"></path>
+            <path d="M270 175 C300 185, 322 195, 338 210"></path>
+            <path d="M272 195 C300 210, 318 225, 332 245"></path>
+            <path d="M265 212 C288 232, 302 250, 312 272"></path>
+            <!-- raised right claw, waving -->
+            <path d="M270 140 C300 110, 308 75, 305 45"></path>
+            <path d="M305 45 C318 40, 330 44, 336 56"></path>
+            <path d="M305 45 C310 30, 303 18, 289 14"></path>
+          </g>
+          <!-- party bunting -->
+          <path d="M150 18 Q270 44 392 18"></path>
+          <path d="M175 24 L186 50 L199 28"></path>
+          <path d="M223 32 L234 58 L247 34"></path>
+          <path d="M272 34 L283 60 L296 34"></path>
+          <path d="M321 32 L332 58 L345 28"></path>
+          <path d="M366 24 L376 48 L388 20"></path>
+          <!-- the birthday cake -->
+          <rect x="272" y="220" width="116" height="56" rx="8"></rect>
+          <rect x="288" y="178" width="84" height="42" rx="6"></rect>
+          <path d="M272 244 Q287 256 302 244 Q317 256 332 244 Q347 256 362 244 Q377 256 388 244"></path>
+          <path d="M288 196 Q302 206 316 196 Q330 206 344 196 Q358 206 372 196"></path>
+          <path d="M260 282 L400 282"></path>
+          <!-- candles and flames -->
+          <path d="M302 178 L302 148"></path>
+          <path d="M320 178 L320 144"></path>
+          <path d="M338 178 L338 144"></path>
+          <path d="M356 178 L356 148"></path>
+          <path d="M302 140 C296 132, 300 124, 302 118 C304 124, 308 132, 302 140 Z"></path>
+          <path d="M320 136 C314 128, 318 120, 320 114 C322 120, 326 128, 320 136 Z"></path>
+          <path d="M338 136 C332 128, 336 120, 338 114 C340 120, 344 128, 338 136 Z"></path>
+          <path d="M356 140 C350 132, 354 124, 356 118 C358 124, 362 132, 356 140 Z"></path>
+          <!-- bubbles -->
+          <circle cx="250" cy="100" r="12"></circle>
+          <circle cx="270" cy="72" r="8"></circle>
+          <circle cx="232" cy="66" r="6"></circle>
+        </svg>
+        <br>
+        <button class="btn" onclick="window.print()" data-i18n="printPicture">Print this picture</button>
+      </div>
+    </div>
+
+    <!-- EDIT: activity 5 — creative writing prompt -->
+    <div class="card">
+      <h2 data-i18n="yourTurnHeading">5. Your Turn!</h2>
+      <p class="sub" data-i18n="yourTurnSub">Crabby couldn't eat any cake or sing happy birthday. If Crabby had his very own birthday party, what do you think it would be like? Write (or dictate to a grown-up) your own Crabby story idea below, then print it out to keep.</p>
+      <textarea id="your-turn" data-i18n-placeholder="yourTurnPlaceholder" placeholder="One day, Crabby decided to..."></textarea>
+      <div class="your-turn-actions">
+        <button class="btn" onclick="window.print()" data-i18n="printStory">Print my story</button>
+        <button class="btn secondary" id="your-turn-clear" data-i18n="clear">Clear</button>
+      </div>
+    </div>
+
+  </div>
+
+<!-- EDIT: translations for this page.
+     1. CrabbyLang.add(...) holds the fixed text that is only on this page
+        (text shared by all the activity pages is in lang/i18n.js).
+     2. ACTIVITY_LANGS holds each language's own word search (grid + where
+        each word sits, as [row, column] from the top-left, counting from 0),
+        quiz sentences (same order and answers as the English) and the
+        story moments in their correct order. -->
+<script>
+CrabbyLang.add({
+  "el": {
+    "pageTitle": "Γωνιά δραστηριοτήτων — Ο Κράμπι πάει στο πάρτι γενεθλίων της Έμμα",
+    "intro": "Πέντε πράγματα να κάνεις αφού διαβάσεις την ιστορία <a href=\"../stories/crabby-goes-to-emmas-birthday-party\">«Ο Κράμπι πάει στο πάρτι γενεθλίων της Έμμα»</a>. Κατέβα πιο κάτω και δοκίμασέ τα!",
+    "orderSub": "Σύρε (από τη λαβή &#9776;) ή πάτα τα βελάκια για να βάλεις αυτές τις στιγμές από την ιστορία <em>«Ο Κράμπι πάει στο πάρτι γενεθλίων της Έμμα»</em> στη σειρά που έγιναν.",
+    "colourSub": "Εκτύπωσε αυτή τη σελίδα (ή μόνο τη ζωγραφιά) και ζωγράφισε τον Κράμπι με την τούρτα γενεθλίων της Έμμα — δεν είναι πάντα κόκκινος!",
+    "yourTurnSub": "Ο Κράμπι δεν μπορούσε να φάει τούρτα ούτε να τραγουδήσει «Να ζήσεις». Αν ο Κράμπι είχε το δικό του πάρτι γενεθλίων, πώς λες να ήταν; Γράψε (ή πες σε έναν μεγάλο να γράψει) τη δική σου ιδέα για μια ιστορία του Κράμπι παρακάτω και μετά εκτύπωσέ την για να την κρατήσεις."
+  },
+  "it": {
+    "pageTitle": "Angolo delle attività — Crabby va alla festa di compleanno di Emma",
+    "intro": "Cinque cose da fare dopo aver letto <a href=\"../stories/crabby-goes-to-emmas-birthday-party\">Crabby va alla festa di compleanno di Emma</a>. Scorri in basso e provale!",
+    "orderSub": "Trascina (usando la maniglia &#9776;) o tocca le frecce per mettere questi momenti di <em>Crabby va alla festa di compleanno di Emma</em> nell'ordine in cui sono successi nella storia.",
+    "colourSub": "Stampa questa pagina (o solo il disegno) e colora Crabby con la torta di compleanno di Emma — non deve per forza essere rosso!",
+    "yourTurnSub": "Crabby non poteva mangiare la torta né cantare tanti auguri. Se Crabby avesse una festa di compleanno tutta sua, come pensi che sarebbe? Scrivi (o detta a un adulto) la tua idea per una storia di Crabby qui sotto, poi stampala per conservarla."
+  },
+  "fr": {
+    "pageTitle": "Coin des activités — Crabby va à l'anniversaire d'Emma",
+    "intro": "Cinq choses à faire après avoir lu <a href=\"../stories/crabby-goes-to-emmas-birthday-party\">Crabby va à l'anniversaire d'Emma</a>. Descends et essaie-les !",
+    "orderSub": "Fais glisser (avec la poignée &#9776;) ou touche les flèches pour remettre ces moments de <em>Crabby va à l'anniversaire d'Emma</em> dans l'ordre où ils se sont passés dans l'histoire.",
+    "colourSub": "Imprime cette page (ou juste le dessin) et colorie Crabby avec le gâteau d'anniversaire d'Emma — il n'est pas obligé d'être rouge !",
+    "yourTurnSub": "Crabby ne pouvait ni manger de gâteau ni chanter joyeux anniversaire. Si Crabby avait sa propre fête d'anniversaire, à quoi ressemblerait-elle, à ton avis ? Écris (ou dicte à un adulte) ta propre idée d'histoire de Crabby ci-dessous, puis imprime-la pour la garder."
+  },
+  "es": {
+    "pageTitle": "Rincón de actividades — Crabby va a la fiesta de cumpleaños de Emma",
+    "intro": "Cinco cosas para hacer después de leer <a href=\"../stories/crabby-goes-to-emmas-birthday-party\">Crabby va a la fiesta de cumpleaños de Emma</a>. ¡Baja y pruébalas!",
+    "orderSub": "Arrastra (con el asa &#9776;) o toca las flechas para poner estos momentos de <em>Crabby va a la fiesta de cumpleaños de Emma</em> en el orden en que pasaron en el cuento.",
+    "colourSub": "Imprime esta página (o solo el dibujo) y colorea a Crabby con la tarta de cumpleaños de Emma. ¡No tiene por qué ser rojo!",
+    "yourTurnSub": "Crabby no podía comer tarta ni cantar cumpleaños feliz. Si Crabby tuviera su propia fiesta de cumpleaños, ¿cómo crees que sería? Escribe (o díctale a un adulto) tu propia idea para un cuento de Crabby aquí abajo y luego imprímela para guardarla."
+  }
+});
+
+window.ACTIVITY_LANGS = {
+  el: {
+    grid: [
+      ["Ο", "Ν", "Α", "Ο", "Ι", "Φ", "Ο", "Σ", "Λ", "Β", "Π", "Ζ"],
+      ["Α", "Ζ", "Η", "Ι", "Τ", "Φ", "Ο", "Υ", "Σ", "Κ", "Ε", "Σ"],
+      ["Ψ", "Τ", "Β", "Τ", "Λ", "Ψ", "Ι", "Τ", "Ρ", "Α", "Π", "Η"],
+      ["Ψ", "Α", "Υ", "Λ", "Α", "Θ", "Α", "Μ", "Μ", "Ε", "Β", "Π"],
+      ["Δ", "Ω", "Ρ", "Ο", "Τ", "Ζ", "Ε", "Ρ", "Δ", "Φ", "Τ", "Π"],
+      ["Ψ", "Κ", "Τ", "Α", "Α", "Ξ", "Ζ", "Ν", "Μ", "Χ", "Μ", "Η"],
+      ["Τ", "Α", "Μ", "Τ", "Λ", "Π", "Μ", "Β", "Ε", "Ο", "Δ", "Θ"],
+      ["Ι", "Σ", "Π", "Ρ", "Ο", "Μ", "Σ", "Θ", "Λ", "Γ", "Χ", "Κ"],
+      ["Δ", "Τ", "Η", "Υ", "Κ", "Η", "Ρ", "Π", "Ω", "Τ", "Ι", "Ω"],
+      ["Ρ", "Ρ", "Υ", "Ο", "Ο", "Κ", "Ε", "Ρ", "Α", "Κ", "Ι", "Α"],
+      ["Ο", "Ο", "Π", "Τ", "Σ", "Φ", "Ε", "Τ", "Ψ", "Ζ", "Θ", "Ε"],
+      ["Μ", "Φ", "Λ", "Μ", "Κ", "Μ", "Ν", "Ζ", "Η", "Χ", "Ψ", "Θ"]
+    ],
+    words: {
+      "ΠΑΡΤΙ": [[2, 10], [2, 9], [2, 8], [2, 7], [2, 6]],
+      "ΤΟΥΡΤΑ": [[10, 3], [9, 3], [8, 3], [7, 3], [6, 3], [5, 3]],
+      "ΚΕΡΑΚΙΑ": [[9, 5], [9, 6], [9, 7], [9, 8], [9, 9], [9, 10], [9, 11]],
+      "ΚΑΣΤΡΟ": [[5, 1], [6, 1], [7, 1], [8, 1], [9, 1], [10, 1]],
+      "ΦΟΥΣΚΕΣ": [[1, 5], [1, 6], [1, 7], [1, 8], [1, 9], [1, 10], [1, 11]],
+      "ΔΩΡΟ": [[4, 0], [4, 1], [4, 2], [4, 3]],
+      "ΕΜΜΑ": [[3, 9], [3, 8], [3, 7], [3, 6]],
+      "ΣΟΦΙ": [[0, 7], [0, 6], [0, 5], [0, 4]],
+      "ΓΕΝΕΘΛΙΑ": [[7, 9], [6, 8], [5, 7], [4, 6], [3, 5], [2, 4], [1, 3], [0, 2]],
+      "ΣΟΚΟΛΑΤΑ": [[10, 4], [9, 4], [8, 4], [7, 4], [6, 4], [5, 4], [4, 4], [3, 4]]
+    },
+    quiz: [
+      { q: "Η Έμμα κλείνει τα δέκα.", answer: true },
+      { q: "Το δώρο της Σοφίας για την Έμμα είναι ένα σετ χειροτεχνίας.", answer: true },
+      { q: "Για το πάρτι, στην πίσω αυλή της Έμμα έχει μια πισίνα.", answer: false },
+      { q: "Στο «πάσο το πακέτο», στη Σοφία πέφτει ένα πακετάκι αυτοκόλλητα.", answer: true },
+      { q: "Η τούρτα γενεθλίων είναι φράουλα.", answer: false },
+      { q: "Η Έμμα σβήνει και τα δέκα κεράκια με την πρώτη.", answer: true },
+      { q: "Ο Κράμπι τρώει ένα μεγάλο κομμάτι τούρτα.", answer: false },
+      { q: "Στον δρόμο για το σπίτι, η Σοφία λέει ότι το πάρτι ήταν «τέλειο».", answer: true }
+    ],
+    order: [
+      "Η μαμά τυλίγει το δώρο, το σετ χειροτεχνίας, το προηγούμενο βράδυ.",
+      "Ο Κράμπι βλέπει το τεράστιο φουσκωτό κάστρο από το παράθυρο του αυτοκινήτου.",
+      "Η Σοφία χοροπηδάει στο φουσκωτό κάστρο με τη Σόφι.",
+      "Τα παιδιά κάθονται σε κύκλο και παίζουν «πάσο το πακέτο».",
+      "Η Έμμα σβήνει τα δέκα κεράκια στη σοκολατένια τούρτα της.",
+      "Στον δρόμο για το σπίτι, η Σοφία τα λέει όλα στη μαμά για το πάρτι."
+    ]
+  },
+  it: {
+    grid: [
+      ["B", "L", "E", "I", "H", "P", "O", "S", "A", "G", "J", "M"],
+      ["I", "N", "E", "E", "R", "L", "I", "Q", "A", "X", "E", "B"],
+      ["S", "V", "W", "M", "I", "I", "U", "I", "R", "C", "N", "A"],
+      ["L", "B", "I", "N", "M", "Z", "B", "O", "E", "H", "I", "T"],
+      ["M", "R", "E", "S", "E", "A", "B", "L", "G", "K", "L", "R"],
+      ["S", "F", "O", "O", "E", "R", "X", "L", "A", "J", "E", "O"],
+      ["U", "E", "T", "D", "O", "D", "E", "E", "L", "Q", "D", "T"],
+      ["W", "S", "L", "O", "B", "L", "A", "T", "O", "O", "N", "U"],
+      ["F", "T", "A", "C", "L", "L", "U", "S", "M", "M", "A", "R"],
+      ["L", "A", "S", "O", "G", "T", "W", "A", "D", "F", "C", "R"],
+      ["T", "P", "B", "L", "H", "A", "X", "C", "N", "H", "U", "F"],
+      ["G", "T", "P", "T", "L", "K", "O", "Z", "U", "E", "U", "M"]
+    ],
+    words: {
+      "FESTA": [[5, 1], [6, 1], [7, 1], [8, 1], [9, 1]],
+      "TORTA": [[6, 11], [5, 11], [4, 11], [3, 11], [2, 11]],
+      "CANDELINE": [[9, 10], [8, 10], [7, 10], [6, 10], [5, 10], [4, 10], [3, 10], [2, 10], [1, 10]],
+      "CASTELLO": [[10, 7], [9, 7], [8, 7], [7, 7], [6, 7], [5, 7], [4, 7], [3, 7]],
+      "BOLLE": [[10, 2], [9, 3], [8, 4], [7, 5], [6, 6]],
+      "REGALO": [[2, 8], [3, 8], [4, 8], [5, 8], [6, 8], [7, 8]],
+      "EMMA": [[1, 2], [2, 3], [3, 4], [4, 5]],
+      "SOPHIE": [[0, 7], [0, 6], [0, 5], [0, 4], [0, 3], [0, 2]],
+      "ADESIVI": [[7, 6], [6, 5], [5, 4], [4, 3], [3, 2], [2, 1], [1, 0]],
+      "SALTO": [[9, 2], [8, 2], [7, 2], [6, 2], [5, 2]]
+    },
+    quiz: [
+      { q: "Emma compie dieci anni.", answer: true },
+      { q: "Il regalo di Sofia per Emma è un kit per lavoretti.", answer: true },
+      { q: "Per la festa, a casa di Emma c'è una piscina in giardino.", answer: false },
+      { q: "Al gioco del pacco passa-passa, a Sofia tocca un pacchettino di adesivi.", answer: true },
+      { q: "La torta di compleanno è alla fragola.", answer: false },
+      { q: "Emma spegne tutte e dieci le candeline al primo colpo.", answer: true },
+      { q: "Crabby mangia una bella fetta di torta.", answer: false },
+      { q: "Sulla strada di casa, Sofia dice di essersi divertita «tantissimo».", answer: true }
+    ],
+    order: [
+      "La mamma incarta il regalo, il kit per lavoretti, la sera prima.",
+      "Crabby vede l'enorme castello gonfiabile dal finestrino della macchina.",
+      "Sofia salta sul castello gonfiabile con Sophie.",
+      "I bambini si siedono in cerchio e giocano al pacco passa-passa.",
+      "Emma spegne le dieci candeline sulla sua torta al cioccolato.",
+      "Sulla strada di casa, Sofia racconta alla mamma tutta la festa."
+    ]
+  },
+  fr: {
+    grid: [
+      ["E", "Z", "F", "D", "F", "V", "U", "A", "E", "T", "A", "G"],
+      ["S", "A", "U", "T", "E", "R", "M", "B", "U", "F", "S", "P"],
+      ["M", "C", "U", "P", "S", "E", "O", "A", "X", "E", "B", "M"],
+      ["U", "L", "J", "C", "I", "K", "E", "C", "I", "V", "I", "R"],
+      ["F", "O", "X", "H", "J", "T", "H", "G", "A", "C", "B", "E"],
+      ["I", "A", "P", "W", "A", "O", "U", "A", "R", "L", "T", "W"],
+      ["K", "O", "M", "H", "C", "O", "L", "T", "G", "E", "B", "U"],
+      ["S", "L", "C", "O", "B", "B", "R", "U", "F", "C", "L", "S"],
+      ["V", "I", "L", "W", "J", "Q", "Y", "F", "F", "K", "S", "N"],
+      ["O", "A", "V", "B", "U", "L", "L", "E", "S", "B", "T", "B"],
+      ["T", "I", "C", "A", "D", "E", "A", "U", "I", "F", "R", "L"],
+      ["I", "F", "L", "S", "N", "Q", "A", "M", "M", "E", "H", "D"]
+    ],
+    words: {
+      "FETE": [[7, 8], [6, 9], [5, 10], [4, 11]],
+      "GATEAU": [[0, 11], [0, 10], [0, 9], [0, 8], [0, 7], [0, 6]],
+      "BOUGIES": [[7, 4], [6, 5], [5, 6], [4, 7], [3, 8], [2, 9], [1, 10]],
+      "CHATEAU": [[7, 2], [6, 3], [5, 4], [4, 5], [3, 6], [2, 7], [1, 8]],
+      "BULLES": [[9, 3], [9, 4], [9, 5], [9, 6], [9, 7], [9, 8]],
+      "CADEAU": [[10, 2], [10, 3], [10, 4], [10, 5], [10, 6], [10, 7]],
+      "EMMA": [[11, 9], [11, 8], [11, 7], [11, 6]],
+      "SOPHIE": [[7, 0], [6, 1], [5, 2], [4, 3], [3, 4], [2, 5]],
+      "CHOCOLAT": [[3, 7], [4, 6], [5, 5], [6, 4], [7, 3], [8, 2], [9, 1], [10, 0]],
+      "SAUTER": [[1, 0], [1, 1], [1, 2], [1, 3], [1, 4], [1, 5]]
+    },
+    quiz: [
+      { q: "Emma fête ses dix ans.", answer: true },
+      { q: "Le cadeau de Sofia pour Emma est un kit de bricolage.", answer: true },
+      { q: "Pour la fête, il y a une piscine dans le jardin d'Emma.", answer: false },
+      { q: "Au jeu du « passe le paquet », Sofia gagne un petit paquet d'autocollants.", answer: true },
+      { q: "Le gâteau d'anniversaire est à la fraise.", answer: false },
+      { q: "Emma souffle les dix bougies du premier coup.", answer: true },
+      { q: "Crabby mange une grosse part de gâteau.", answer: false },
+      { q: "Sur le chemin du retour, Sofia dit que la fête était « géniale ».", answer: true }
+    ],
+    order: [
+      "Maman emballe le cadeau, le kit de bricolage, la veille au soir.",
+      "Crabby aperçoit l'énorme château gonflable par la vitre de la voiture.",
+      "Sofia rebondit sur le château gonflable avec Sophie.",
+      "Les enfants s'assoient en cercle et jouent à « passe le paquet ».",
+      "Emma souffle les dix bougies de son gâteau au chocolat.",
+      "Sur le chemin du retour, Sofia raconte toute la fête à Maman."
+    ]
+  },
+  es: {
+    grid: [
+      ["Y", "H", "F", "L", "K", "A", "F", "B", "J", "S", "O", "X"],
+      ["H", "P", "S", "O", "P", "H", "I", "E", "O", "E", "W", "D"],
+      ["H", "H", "U", "D", "R", "M", "O", "U", "L", "B", "A", "U"],
+      ["F", "I", "E", "S", "T", "A", "A", "M", "M", "E", "V", "I"],
+      ["H", "K", "W", "P", "E", "G", "A", "T", "I", "N", "A", "S"],
+      ["A", "N", "G", "E", "T", "A", "L", "O", "C", "O", "H", "C"],
+      ["T", "F", "T", "C", "A", "S", "T", "I", "L", "L", "O", "Z"],
+      ["S", "Y", "P", "O", "M", "P", "A", "S", "F", "S", "X", "V"],
+      ["A", "D", "N", "T", "Z", "T", "O", "X", "I", "X", "Z", "Z"],
+      ["L", "V", "T", "A", "R", "T", "A", "M", "O", "M", "A", "V"],
+      ["E", "G", "W", "X", "A", "T", "N", "X", "G", "G", "R", "E"],
+      ["V", "M", "W", "E", "D", "B", "R", "E", "G", "A", "L", "O"]
+    ],
+    words: {
+      "FIESTA": [[3, 0], [3, 1], [3, 2], [3, 3], [3, 4], [3, 5]],
+      "TARTA": [[9, 2], [9, 3], [9, 4], [9, 5], [9, 6]],
+      "VELAS": [[11, 0], [10, 0], [9, 0], [8, 0], [7, 0]],
+      "CASTILLO": [[6, 3], [6, 4], [6, 5], [6, 6], [6, 7], [6, 8], [6, 9], [6, 10]],
+      "POMPAS": [[7, 2], [7, 3], [7, 4], [7, 5], [7, 6], [7, 7]],
+      "REGALO": [[11, 6], [11, 7], [11, 8], [11, 9], [11, 10], [11, 11]],
+      "EMMA": [[3, 9], [3, 8], [3, 7], [3, 6]],
+      "SOPHIE": [[1, 2], [1, 3], [1, 4], [1, 5], [1, 6], [1, 7]],
+      "PEGATINAS": [[4, 3], [4, 4], [4, 5], [4, 6], [4, 7], [4, 8], [4, 9], [4, 10], [4, 11]],
+      "CHOCOLATE": [[5, 11], [5, 10], [5, 9], [5, 8], [5, 7], [5, 6], [5, 5], [5, 4], [5, 3]]
+    },
+    quiz: [
+      { q: "Emma cumple diez años.", answer: true },
+      { q: "El regalo de Sofia para Emma es un kit de manualidades.", answer: true },
+      { q: "Para la fiesta, en el jardín de Emma hay una piscina.", answer: false },
+      { q: "En el juego de pasar el paquete, a Sofia le toca un paquetito de pegatinas.", answer: true },
+      { q: "La tarta de cumpleaños es de fresa.", answer: false },
+      { q: "Emma sopla las diez velas a la primera.", answer: true },
+      { q: "Crabby se come un buen trozo de tarta.", answer: false },
+      { q: "De camino a casa, Sofia dice que la fiesta ha sido «genial».", answer: true }
+    ],
+    order: [
+      "Mamá envuelve el regalo, el kit de manualidades, la noche anterior.",
+      "Crabby ve el enorme castillo hinchable por la ventanilla del coche.",
+      "Sofia bota en el castillo hinchable con Sophie.",
+      "Los niños se sientan en círculo y juegan a pasar el paquete.",
+      "Emma sopla las diez velas de su tarta de chocolate.",
+      "De camino a casa, Sofia le cuenta a mamá todo sobre la fiesta."
+    ]
+  }
+};
+</script>
+
+<script>
+(function () {
+
+  /* ===================== 1. WORD SEARCH ===================== */
+  var WS_GRID = [
+    ['F','W','K','T','L','O','X','O','A','Y','B','L'],
+    ['O','A','Y','N','L','G','E','O','T','U','Y','E'],
+    ['V','A','O','E','E','G','M','R','B','S','L','L'],
+    ['L','D','Z','S','A','V','A','B','T','T','D','G'],
+    ['E','S','Y','E','D','P','L','I','S','E','P','I'],
+    ['E','M','E','R','S','E','C','A','C','Z','E','X'],
+    ['I','B','M','P','S','K','C','G','A','C','Y','A'],
+    ['H','K','M','A','E','O','C','Z','N','T','F','N'],
+    ['P','M','X','R','C','A','T','U','D','P','R','M'],
+    ['O','F','S','C','K','G','O','Q','L','H','N','M'],
+    ['S','M','W','E','Z','B','M','L','E','A','I','C'],
+    ['L','L','O','I','I','U','B','A','S','L','O','P']
+  ];
+
+  var WS_WORDS = {
+    "PARTY": [[4,5],[3,6],[2,7],[1,8],[0,9]],
+    "CAKE": [[7,6],[8,5],[9,4],[10,3]],
+    "CANDLES": [[5,8],[6,8],[7,8],[8,8],[9,8],[10,8],[11,8]],
+    "CASTLE": [[6,6],[5,7],[4,8],[3,9],[2,10],[1,11]],
+    "BUBBLES": [[0,10],[1,9],[2,8],[3,7],[4,6],[5,5],[6,4]],
+    "PRESENT": [[6,3],[5,3],[4,3],[3,3],[2,3],[1,3],[0,3]],
+    "EMMA": [[4,0],[5,1],[6,2],[7,3]],
+    "SOPHIE": [[10,0],[9,0],[8,0],[7,0],[6,0],[5,0]],
+    "STICKERS": [[2,9],[3,8],[4,7],[5,6],[6,5],[7,4],[8,3],[9,2]],
+    "BOUNCE": [[10,5],[9,6],[8,7],[7,8],[6,9],[5,10]]
+  };
+
+  var wsGridEl = document.getElementById('ws-grid');
+  var wsWordListEl = document.getElementById('ws-word-list');
+  var wsStatusEl = document.getElementById('ws-status');
+  var wsFoundWords = {};
+  var wsCellEls = {};
+  var wsSelecting = false;
+  var wsStart = null;
+
+  // Draws the grid and word list for the current language (see ACTIVITY_LANGS)
+  function buildWordSearch() {
+    wsGridEl.innerHTML = '';
+    wsWordListEl.innerHTML = '';
+    wsStatusEl.classList.remove('show');
+    wsFoundWords = {};
+    wsCellEls = {};
+    wsSelecting = false;
+
+    WS_GRID.forEach(function (row, r) {
+      row.forEach(function (letter, c) {
+        var cell = document.createElement('div');
+        cell.className = 'ws-cell';
+        cell.textContent = letter;
+        cell.dataset.r = r;
+        cell.dataset.c = c;
+        wsGridEl.appendChild(cell);
+        wsCellEls[r + ',' + c] = cell;
+      });
+    });
+
+    Object.keys(WS_WORDS).forEach(function (word) {
+      var li = document.createElement('li');
+      li.textContent = word;
+      li.id = 'ws-li-' + word;
+      wsWordListEl.appendChild(li);
+    });
+  }
+
+  function cellsBetween(r1, c1, r2, c2) {
+    var dr = r2 - r1, dc = c2 - c1;
+    var steps = Math.max(Math.abs(dr), Math.abs(dc));
+    if (steps === 0) return [[r1, c1]];
+    var stepR = dr / steps, stepC = dc / steps;
+    if (Math.abs(stepR) !== 0 && Math.abs(stepR) !== 1) return null;
+    if (Math.abs(stepC) !== 0 && Math.abs(stepC) !== 1) return null;
+    var out = [];
+    for (var i = 0; i <= steps; i++) {
+      out.push([r1 + stepR * i, c1 + stepC * i]);
+    }
+    return out;
+  }
+
+  function clearSelection(cells) {
+    cells.forEach(function (rc) {
+      var el = wsCellEls[rc[0] + ',' + rc[1]];
+      if (el && !el.classList.contains('found')) el.classList.remove('selected');
+    });
+  }
+
+  function matchWord(path) {
+    var forward = path.map(function (rc) { return WS_GRID[rc[0]][rc[1]]; }).join('');
+    var backward = forward.split('').reverse().join('');
+    for (var word in WS_WORDS) {
+      if (wsFoundWords[word]) continue;
+      if (word === forward || word === backward) return word;
+    }
+    return null;
+  }
+
+  function startSelect(r, c) {
+    wsSelecting = true;
+    wsStart = [r, c];
+  }
+
+  function updateSelect(r, c) {
+    if (!wsSelecting) return;
+    var path = cellsBetween(wsStart[0], wsStart[1], r, c);
+    Object.keys(wsCellEls).forEach(function (key) {
+      var el = wsCellEls[key];
+      if (!el.classList.contains('found')) el.classList.remove('selected');
+    });
+    if (path) {
+      path.forEach(function (rc) {
+        var el = wsCellEls[rc[0] + ',' + rc[1]];
+        if (el && !el.classList.contains('found')) el.classList.add('selected');
+      });
+    }
+  }
+
+  function endSelect(r, c) {
+    if (!wsSelecting) return;
+    wsSelecting = false;
+    var path = cellsBetween(wsStart[0], wsStart[1], r, c);
+    if (path) {
+      var word = matchWord(path);
+      if (word) {
+        wsFoundWords[word] = true;
+        path.forEach(function (rc) {
+          var el = wsCellEls[rc[0] + ',' + rc[1]];
+          el.classList.remove('selected');
+          el.classList.add('found');
+        });
+        document.getElementById('ws-li-' + word).classList.add('found');
+        if (Object.keys(wsFoundWords).length === Object.keys(WS_WORDS).length) {
+          wsStatusEl.classList.add('show');
+        }
+      } else {
+        clearSelection(path);
+      }
+    }
+  }
+
+  wsGridEl.addEventListener('mousedown', function (e) {
+    if (!e.target.classList.contains('ws-cell')) return;
+    startSelect(+e.target.dataset.r, +e.target.dataset.c);
+  });
+  wsGridEl.addEventListener('mouseover', function (e) {
+    if (!e.target.classList.contains('ws-cell')) return;
+    updateSelect(+e.target.dataset.r, +e.target.dataset.c);
+  });
+  window.addEventListener('mouseup', function (e) {
+    if (!wsSelecting) return;
+    var target = document.elementFromPoint(e.clientX, e.clientY);
+    if (target && target.classList.contains('ws-cell')) {
+      endSelect(+target.dataset.r, +target.dataset.c);
+    } else {
+      wsSelecting = false;
+    }
+  });
+
+  wsGridEl.addEventListener('touchstart', function (e) {
+    var t = e.touches[0];
+    var el = document.elementFromPoint(t.clientX, t.clientY);
+    if (el && el.classList.contains('ws-cell')) startSelect(+el.dataset.r, +el.dataset.c);
+  }, { passive: true });
+  wsGridEl.addEventListener('touchmove', function (e) {
+    var t = e.touches[0];
+    var el = document.elementFromPoint(t.clientX, t.clientY);
+    if (el && el.classList.contains('ws-cell')) updateSelect(+el.dataset.r, +el.dataset.c);
+  }, { passive: true });
+  wsGridEl.addEventListener('touchend', function (e) {
+    var t = e.changedTouches[0];
+    var el = document.elementFromPoint(t.clientX, t.clientY);
+    if (el && el.classList.contains('ws-cell')) endSelect(+el.dataset.r, +el.dataset.c);
+  });
+
+  /* ===================== 2. TRUE OR FALSE QUIZ ===================== */
+  var QUIZ = [
+    { q: "Emma is turning ten.", answer: true },
+    { q: "Sofia's present for Emma is a craft kit.", answer: true },
+    { q: "Emma's house has a swimming pool in the backyard for the party.", answer: false },
+    { q: "Sofia gets a small packet of stickers in pass the parcel.", answer: true },
+    { q: "The birthday cake is strawberry.", answer: false },
+    { q: "Emma blows out all ten candles on the first try.", answer: true },
+    { q: "Crabby eats a big piece of birthday cake.", answer: false },
+    { q: "On the way home, Sofia says the party was \"the best\".", answer: true }
+  ];
+
+  var quizBody = document.getElementById('quiz-body');
+  var quizScoreEl = document.getElementById('quiz-score');
+  var quizCorrectCount = 0;
+  var quizAnswered = 0;
+
+  function buildQuiz() {
+    var T = CrabbyLang.t;
+    quizBody.innerHTML = '';
+    quizScoreEl.textContent = '';
+    quizCorrectCount = 0;
+    quizAnswered = 0;
+
+    QUIZ.forEach(function (item, i) {
+      var wrap = document.createElement('div');
+      wrap.className = 'quiz-q';
+
+      var qText = document.createElement('p');
+      qText.className = 'q-text';
+      qText.textContent = (i + 1) + '. ' + item.q;
+      wrap.appendChild(qText);
+
+      var btns = document.createElement('div');
+      btns.className = 'quiz-btns';
+
+      var feedback = document.createElement('p');
+      feedback.className = 'quiz-feedback';
+      feedback.textContent = item.answer ? T('quizTrueFb', 'True!') : T('quizFalseFb', 'False!');
+
+      [true, false].forEach(function (value) {
+        var btn = document.createElement('button');
+        btn.className = 'quiz-btn';
+        btn.textContent = value ? T('quizTrue', 'True') : T('quizFalse', 'False');
+        btn.dataset.value = value ? 'true' : 'false';
+        btn.addEventListener('click', function () {
+          if (btn.disabled) return;
+          var isCorrect = value === item.answer;
+          Array.prototype.forEach.call(btns.children, function (b) { b.disabled = true; });
+          btn.classList.add(isCorrect ? 'correct' : 'wrong');
+          if (!isCorrect) {
+            Array.prototype.forEach.call(btns.children, function (b) {
+              if ((b.dataset.value === 'true') === item.answer) b.classList.add('correct');
+            });
+          }
+          feedback.classList.add('show');
+          quizAnswered++;
+          if (isCorrect) quizCorrectCount++;
+          quizScoreEl.textContent = T('quizScore', 'Score: {c} / {n} answered so far ({a}/{n})')
+            .replace(/\{c\}/g, quizCorrectCount)
+            .replace(/\{a\}/g, quizAnswered)
+            .replace(/\{n\}/g, QUIZ.length);
+        });
+        btns.appendChild(btn);
+      });
+
+      wrap.appendChild(btns);
+      wrap.appendChild(feedback);
+      quizBody.appendChild(wrap);
+    });
+  }
+
+  /* ===================== 3. ORDER THE STORY ===================== */
+  var ORDER_SET = [
+    "Mummy wraps the craft kit present the night before.",
+    "Crabby sees the enormous jumping castle through the car window.",
+    "Sofia bounces on the jumping castle with Sophie.",
+    "The children sit in a circle and play pass the parcel.",
+    "Emma blows out the ten candles on her chocolate cake.",
+    "On the way home, Sofia tells Mummy all about the party."
+  ];
+
+  var orderListEl = document.getElementById('order-list');
+  var orderFeedbackEl = document.getElementById('order-feedback');
+  var orderDragEl = null;
+
+  function shuffledCopy(arr) {
+    var copy = arr.slice();
+    for (var i = copy.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = copy[i]; copy[i] = copy[j]; copy[j] = tmp;
+    }
+    if (copy.join('') === arr.join('')) return shuffledCopy(arr);
+    return copy;
+  }
+
+  function renderOrderList() {
+    orderListEl.innerHTML = '';
+    orderFeedbackEl.classList.remove('show');
+    var shuffled = shuffledCopy(ORDER_SET);
+    shuffled.forEach(function (text) {
+      var li = document.createElement('li');
+      li.className = 'order-item';
+      li.dataset.text = text;
+      li.innerHTML =
+        '<span class="handle" aria-hidden="true">&#9776;</span>' +
+        '<span class="order-text">' + text + '</span>' +
+        '<span class="order-moves">' +
+          '<button type="button" class="move-btn" data-dir="-1" aria-label="' + CrabbyLang.t('moveUp', 'Move up') + '">&#9650;</button>' +
+          '<button type="button" class="move-btn" data-dir="1" aria-label="' + CrabbyLang.t('moveDown', 'Move down') + '">&#9660;</button>' +
+        '</span>';
+
+      // Up / down buttons — easiest option on phones
+      Array.prototype.forEach.call(li.querySelectorAll('.move-btn'), function (btn) {
+        btn.addEventListener('click', function () {
+          clearMarks();
+          if (btn.dataset.dir === '-1' && li.previousElementSibling) {
+            orderListEl.insertBefore(li, li.previousElementSibling);
+          } else if (btn.dataset.dir === '1' && li.nextElementSibling) {
+            orderListEl.insertBefore(li.nextElementSibling, li);
+          }
+        });
+      });
+
+      // Drag — works with mouse, finger and pen (pointer events)
+      li.addEventListener('pointerdown', function (e) {
+        if (e.target.closest('.move-btn')) return;
+        // On touch screens, drag from the ☰ handle so the page can still scroll
+        if (e.pointerType !== 'mouse' && !e.target.closest('.handle')) return;
+        e.preventDefault();
+        orderDragEl = li;
+        li.classList.add('dragging');
+        clearMarks();
+      });
+
+      orderListEl.appendChild(li);
+    });
+  }
+
+  // Drag tracking lives on the document, because moving an item in the
+  // list would otherwise cancel the finger/mouse "grab" part-way through.
+  document.addEventListener('pointermove', function (e) {
+    if (!orderDragEl) return;
+    e.preventDefault();
+    var after = getDragAfterElement(orderListEl, e.clientY);
+    if (after == null) {
+      if (orderListEl.lastElementChild !== orderDragEl) orderListEl.appendChild(orderDragEl);
+    } else if (after !== orderDragEl.nextElementSibling) {
+      orderListEl.insertBefore(orderDragEl, after);
+    }
+  }, { passive: false });
+  function endOrderDrag() {
+    if (!orderDragEl) return;
+    orderDragEl.classList.remove('dragging');
+    orderDragEl = null;
+  }
+  document.addEventListener('pointerup', endOrderDrag);
+  document.addEventListener('pointercancel', endOrderDrag);
+
+  function clearMarks() {
+    orderFeedbackEl.classList.remove('show');
+    Array.prototype.forEach.call(orderListEl.children, function (el) {
+      el.classList.remove('correct-spot');
+    });
+  }
+
+  function getDragAfterElement(container, y) {
+    var items = Array.prototype.slice.call(container.querySelectorAll('.order-item:not(.dragging)'));
+    return items.reduce(function (closest, child) {
+      var box = child.getBoundingClientRect();
+      var offset = y - box.top - box.height / 2;
+      if (offset < 0 && offset > closest.offset) {
+        return { offset: offset, element: child };
+      } else {
+        return closest;
+      }
+    }, { offset: -Infinity, element: null }).element;
+  }
+
+  document.getElementById('order-check').addEventListener('click', function () {
+    var items = Array.prototype.slice.call(orderListEl.children);
+    var allCorrect = true;
+    items.forEach(function (li, i) {
+      var isCorrect = li.dataset.text === ORDER_SET[i];
+      li.classList.toggle('correct-spot', isCorrect);
+      if (!isCorrect) allCorrect = false;
+    });
+    if (allCorrect) orderFeedbackEl.classList.add('show');
+  });
+
+  document.getElementById('order-shuffle').addEventListener('click', renderOrderList);
+
+  /* ===================== LANGUAGE ===================== */
+  // Redraw the word search, quiz and ordering game whenever the
+  // site-wide language changes (the picker comes from lang/i18n.js).
+  // The English is the WS_GRID / WS_WORDS / QUIZ / ORDER_SET above;
+  // the other languages are in ACTIVITY_LANGS just above this script.
+  var ENGLISH = { grid: WS_GRID, words: WS_WORDS, quiz: QUIZ, order: ORDER_SET };
+  CrabbyLang.onChange(function (code) {
+    var set = (window.ACTIVITY_LANGS && window.ACTIVITY_LANGS[code]) || ENGLISH;
+    WS_GRID = set.grid;
+    WS_WORDS = set.words;
+    QUIZ = set.quiz;
+    ORDER_SET = set.order;
+    buildWordSearch();
+    buildQuiz();
+    renderOrderList();
+  });
+
+  /* ===================== 5. YOUR TURN ===================== */
+  document.getElementById('your-turn-clear').addEventListener('click', function () {
+    document.getElementById('your-turn').value = '';
+  });
+
+})();
+</script>
+
+</body>
+</html>

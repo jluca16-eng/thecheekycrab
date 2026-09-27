@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- EDIT: the text shown on the browser tab -->
+<title data-i18n="pageTitle">Activity Corner — Crabby goes on the Plane</title>
+
+<meta name="description" content="Word search, quiz, story-ordering game, colouring page and a writing space for Crabby goes on the Plane.">
+
+<style>
+  /* Custom fonts — files live in /fonts at the repo root. */
+  @font-face {
+    font-family: "Marelle Baton";
+    src: url("../fonts/MarelleBaton-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Gill Sans MT Pro";
+    src: url("../fonts/Gill_Sans_MT_Pro_Book.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Gill Sans MT Pro";
+    src: url("../fonts/Gill_Sans_MT_Pro_Book_Italic.otf") format("opentype");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Gill Sans MT Pro";
+    src: url("../fonts/Gill_Sans_MT_Pro_Bold_Italic.otf") format("opentype");
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  :root {
+    --paper: #fbf4dd;
+    --ink:   #163a5c;
+    --text:  #2b2b2b;
+    --accent: #d64545;
+    --good:  #2e7d32;
+    --bad:   #c62828;
+    --card:  #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    padding: 50px 20px 90px;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    color: var(--text);
+  }
+
+  .page {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .back {
+    display: inline-block;
+    margin-bottom: 24px;
+    font-size: 16px;
+    color: var(--ink);
+    text-decoration: none;
+    opacity: .75;
+  }
+
+  .back:hover { opacity: 1; }
+
+  /* EDIT: the page heading */
+  h1 {
+    font-family: "Marelle Baton", cursive;
+    font-weight: 400;
+    font-size: 58px;
+    color: var(--ink);
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .story-tag {
+    text-align: center;
+    font-family: "Gill Sans MT Pro", "Gill Sans MT", "Gill Sans", Calibri,
+                 "Segoe UI", Arial, sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 18px;
+  }
+
+  .intro {
+    text-align: center;
+    font-size: 17px;
+    line-height: 1.6;
+    max-width: 560px;
+    margin: 0 auto 44px;
+  }
+
+  .intro a { color: var(--ink); }
+
+  .card {
+    background: var(--card);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(90, 66, 30, .14);
+    padding: 30px 26px;
+    margin-bottom: 36px;
+  }
+
+  .card h2 {
+    font-family: "Gill Sans MT Pro", "Gill Sans MT", "Gill Sans", Calibri,
+                 "Segoe UI", Arial, sans-serif;
+    font-weight: 400;
+    font-size: 36px;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .card .sub {
+    font-size: 15px;
+    color: var(--text);
+    opacity: .75;
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  /* ===================== 1. WORD SEARCH ===================== */
+  .ws-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    align-items: flex-start;
+  }
+
+  #ws-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 2px;
+    max-width: 420px;
+    width: 100%;
+    user-select: none;
+    touch-action: none;
+  }
+
+  .ws-cell {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f4ecd8;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: clamp(11px, 2.6vw, 15px);
+    color: var(--ink);
+    cursor: pointer;
+  }
+
+  .ws-cell.selected { background: #ffe08a; }
+  .ws-cell.found { background: #b7e4c7; color: #1b4332; }
+
+  .ws-words {
+    flex: 1;
+    min-width: 160px;
+    list-style: none;
+    font-size: 16px;
+    line-height: 2;
+  }
+
+  .ws-words li {
+    font-weight: 700;
+    color: var(--ink);
+    opacity: .55;
+  }
+
+  .ws-words li.found {
+    opacity: 1;
+    color: var(--good);
+    text-decoration: line-through;
+  }
+
+  .ws-status {
+    margin-top: 14px;
+    font-weight: 700;
+    color: var(--good);
+    display: none;
+  }
+
+  .ws-status.show { display: block; }
+
+  /* ===================== 2. TRUE OR FALSE QUIZ ===================== */
+  .quiz-q {
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid rgba(22, 58, 92, .1);
+  }
+
+  .quiz-q:last-of-type { border-bottom: none; }
+
+  .quiz-q p.q-text {
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+
+  .quiz-btns { display: flex; gap: 10px; }
+
+  .quiz-btn {
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 8px 20px;
+    border-radius: 8px;
+    border: 2px solid var(--ink);
+    background: #fff;
+    color: var(--ink);
+    cursor: pointer;
+    transition: background .15s ease, color .15s ease;
+  }
+
+  .quiz-btn:hover { background: #fbf4dd; }
+
+  .quiz-btn.correct { background: var(--good); border-color: var(--good); color: #fff; }
+  .quiz-btn.wrong { background: var(--bad); border-color: var(--bad); color: #fff; }
+  .quiz-btn[disabled] { cursor: default; }
+
+  .quiz-feedback {
+    margin-top: 8px;
+    font-size: 14px;
+    font-style: italic;
+    opacity: .85;
+    display: none;
+  }
+
+  .quiz-feedback.show { display: block; }
+
+  .quiz-score {
+    margin-top: 8px;
+    font-weight: 700;
+    color: var(--ink);
+    font-size: 17px;
+  }
+
+  /* ===================== 3. ORDER THE STORY ===================== */
+  .order-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .order-item {
+    background: #f4ecd8;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 15px;
+    color: var(--ink);
+    cursor: grab;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .order-item .handle {
+    opacity: .5;
+    font-size: 22px;
+    padding: 4px 6px;
+    cursor: grab;
+    touch-action: none;
+  }
+
+  .order-item .order-text { flex: 1; }
+
+  .order-item { user-select: none; -webkit-user-select: none; }
+
+  .order-moves { display: flex; flex-direction: column; gap: 4px; }
+
+  .move-btn {
+    font: inherit;
+    font-size: 14px;
+    line-height: 1;
+    width: 36px;
+    height: 30px;
+    border-radius: 8px;
+    border: 2px solid var(--ink);
+    background: #fff;
+    color: var(--ink);
+    cursor: pointer;
+  }
+
+  .move-btn:active { background: #e8dcbf; }
+
+  .order-item.dragging { opacity: .4; }
+
+  .order-item.correct-spot { background: #b7e4c7; }
+
+  .order-actions {
+    margin-top: 18px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  /* ===================== shared buttons ===================== */
+  .btn {
+    display: inline-block;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 10px 22px;
+    border-radius: 10px;
+    border: none;
+    background: var(--ink);
+    color: #fff;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform .15s ease, opacity .15s ease;
+  }
+
+  .btn:hover { transform: translateY(-2px); opacity: .92; }
+  .btn.secondary { background: transparent; border: 2px solid var(--ink); color: var(--ink); }
+
+  .order-feedback {
+    margin-top: 10px;
+    font-weight: 700;
+    color: var(--good);
+    display: none;
+  }
+
+  .order-feedback.show { display: block; }
+
+  /* ===================== 4. COLOURING PAGE ===================== */
+  .colour-wrap { text-align: center; }
+
+  #crab-svg {
+    width: 100%;
+    max-width: 360px;
+    height: auto;
+    margin: 0 auto 18px;
+  }
+
+  /* ===================== 5. YOUR TURN (writing) ===================== */
+  textarea#your-turn {
+    width: 100%;
+    min-height: 160px;
+    font-family: inherit;
+    font-size: 16px;
+    line-height: 1.6;
+    padding: 14px;
+    border-radius: 10px;
+    border: 2px solid rgba(22, 58, 92, .25);
+    background: #fffdf6;
+    color: var(--text);
+    resize: vertical;
+  }
+
+  textarea#your-turn:focus {
+    outline: none;
+    border-color: var(--ink);
+  }
+
+  .your-turn-actions {
+    margin-top: 14px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  @media print {
+    .back, .card:not(.print-target), .your-turn-actions, .order-actions,
+    .ws-wrap, .quiz-q { display: none !important; }
+    body { padding: 20px; }
+  }
+</style>
+<!-- Site-wide language switching (see lang/i18n.js) -->
+<script src="../lang/i18n.js"></script>
+</head>
+
+<body>
+
+  <div class="page">
+
+    <a class="back" href="/activity-corner/activity-corner-index" data-i18n="allActivities">&larr; All Activities</a>
+
+    <h1 data-i18n="navActivity">Activity Corner</h1>
+    <p class="story-tag" data-i18n="titlePlane">Crabby goes on the Plane</p>
+    <p class="intro" data-i18n="intro">
+      Five things to do after reading <a href="../stories/crabby-goes-on-the-plane">Crabby goes on the Plane</a>. Scroll down and give them a try!
+    </p>
+
+    <!-- EDIT: activity 1 — word search. Grid data (WS_GRID / WS_WORDS)
+         is in the script near the bottom. -->
+    <div class="card">
+      <h2 data-i18n="wsHeading">1. Crabby's Word Search</h2>
+      <p class="sub" data-i18n="wsSub">Click a letter, then click the last letter of a word to select the whole line. Find all 10 words hiding in the grid.</p>
+      <div class="ws-wrap">
+        <div id="ws-grid"></div>
+        <ul class="ws-words" id="ws-word-list"></ul>
+      </div>
+      <p class="ws-status" id="ws-status" data-i18n="wsDone">You found them all! Great eyes. 🦀</p>
+    </div>
+
+    <!-- EDIT: activity 2 — true/false quiz. Questions are in the
+         QUIZ constant near the bottom. -->
+    <div class="card">
+      <h2 data-i18n="quizHeading">2. True or False?</h2>
+      <p class="sub" data-i18n="quizSub">Read each sentence about the story and pick True or False.</p>
+      <div id="quiz-body"></div>
+      <p class="quiz-score" id="quiz-score"></p>
+    </div>
+
+    <!-- EDIT: activity 3 — order the story. Correct order is in the
+         ORDER_SET constant near the bottom. -->
+    <div class="card">
+      <h2 data-i18n="orderHeading">3. Put It In Order</h2>
+      <p class="sub" data-i18n="orderSub">Drag (using the &#9776; handle) or tap the arrows to move these moments from <em>Crabby goes on the Plane</em> into the order they happened in the story.</p>
+      <ul class="order-list" id="order-list"></ul>
+      <div class="order-actions">
+        <button class="btn" id="order-check" data-i18n="orderCheck">Check my order</button>
+        <button class="btn secondary" id="order-shuffle" data-i18n="orderShuffle">Shuffle again</button>
+      </div>
+      <p class="order-feedback" id="order-feedback" data-i18n="orderDone">That's the right order — well done! 🦀</p>
+    </div>
+
+    <!-- EDIT: activity 4 — printable colouring page. The picture is
+         a simple original line drawing, drawn directly in SVG code
+         right here (not a separate image file), so there's nothing
+         else to upload for it. -->
+    <div class="card print-target">
+      <h2 data-i18n="colourHeading">4. Colour In Crabby</h2>
+      <p class="sub" data-i18n="colourSub">Print this page (or just this picture) and colour in Crabby waving goodbye as his plane flies off to London — he's not always red!</p>
+      <div class="colour-wrap">
+        <svg id="crab-svg" viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg" stroke="#163a5c" stroke-width="6" fill="none" stroke-linejoin="round" stroke-linecap="round">
+          <!-- Crabby, drawn a little smaller to make room -->
+          <g transform="translate(-10 78) scale(0.72)">
+            <!-- Crabby's body -->
+            <path d="M120 150 C120 100, 160 70, 200 70 C240 70, 280 100, 280 150 C280 195, 245 220, 200 220 C155 220, 120 195, 120 150 Z"></path>
+            <circle cx="170" cy="130" r="6"></circle>
+            <circle cx="200" cy="118" r="6"></circle>
+            <circle cx="230" cy="130" r="6"></circle>
+            <circle cx="185" cy="150" r="6"></circle>
+            <circle cx="215" cy="150" r="6"></circle>
+            <path d="M172 90 C168 65, 165 50, 160 38"></path>
+            <path d="M228 90 C232 65, 235 50, 240 38"></path>
+            <circle cx="158" cy="28" r="14"></circle>
+            <circle cx="242" cy="28" r="14"></circle>
+            <circle cx="155" cy="25" r="3" fill="#163a5c"></circle>
+            <circle cx="245" cy="25" r="3" fill="#163a5c"></circle>
+            <path d="M178 175 Q200 190 222 175"></path>
+            <!-- left claw and legs -->
+            <path d="M130 140 C90 130, 65 110, 55 85"></path>
+            <path d="M55 85 C40 78, 28 82, 22 95"></path>
+            <path d="M55 85 C48 68, 55 55, 70 52"></path>
+            <path d="M132 158 C102 164, 78 174, 58 188"></path>
+            <path d="M130 175 C100 185, 78 195, 62 210"></path>
+            <path d="M128 195 C100 210, 82 225, 68 245"></path>
+            <path d="M135 212 C112 232, 98 250, 88 272"></path>
+            <!-- right legs -->
+            <path d="M268 158 C298 164, 322 174, 342 188"></path>
+            <path d="M270 175 C300 185, 322 195, 338 210"></path>
+            <path d="M272 195 C300 210, 318 225, 332 245"></path>
+            <path d="M265 212 C288 232, 302 250, 312 272"></path>
+            <!-- raised right claw, waving -->
+            <path d="M270 140 C300 110, 308 75, 305 45"></path>
+            <path d="M305 45 C318 40, 330 44, 336 56"></path>
+            <path d="M305 45 C310 30, 303 18, 289 14"></path>
+          </g>
+          <!-- the plane -->
+          <path d="M245 78 C245 64, 262 56, 290 56 L360 56 C382 56, 396 66, 396 72 C396 80, 382 88, 360 88 L270 88 C255 88, 245 84, 245 78 Z"></path>
+          <path d="M252 62 L236 30 L254 30 L280 56"></path>
+          <path d="M305 88 L285 132 L306 132 L340 88"></path>
+          <path d="M310 56 L296 36 L312 36 L334 56"></path>
+          <circle cx="300" cy="70" r="4"></circle>
+          <circle cx="318" cy="70" r="4"></circle>
+          <circle cx="336" cy="70" r="4"></circle>
+          <circle cx="354" cy="70" r="4"></circle>
+          <path d="M376 64 C384 64, 390 68, 391 72"></path>
+          <!-- clouds -->
+          <path d="M262 200 C262 186, 280 180, 290 188 C296 174, 320 174, 326 190 C340 186, 352 196, 346 208 L268 208 C262 208, 260 204, 262 200 Z"></path>
+          <path d="M320 262 C320 250, 335 245, 343 252 C348 240, 368 240, 373 254 C385 250, 395 259, 390 270 L326 270 C321 270, 318 266, 320 262 Z"></path>
+          <path d="M150 34 C150 24, 162 20, 168 26 C172 16, 188 16, 191 28 C200 25, 208 32, 204 40 L156 40 C151 40, 149 37, 150 34 Z"></path>
+        </svg>
+        <br>
+        <button class="btn" onclick="window.print()" data-i18n="printPicture">Print this picture</button>
+      </div>
+    </div>
+
+    <!-- EDIT: activity 5 — creative writing prompt -->
+    <div class="card">
+      <h2 data-i18n="yourTurnHeading">5. Your Turn!</h2>
+      <p class="sub" data-i18n="yourTurnSub">Crabby had a very busy flight, and nobody saw a thing! Where would you like Crabby to fly to next, and what might he get up to on the way? Write (or dictate to a grown-up) your own Crabby story idea below, then print it out to keep.</p>
+      <textarea id="your-turn" data-i18n-placeholder="yourTurnPlaceholder" placeholder="One day, Crabby decided to..."></textarea>
+      <div class="your-turn-actions">
+        <button class="btn" onclick="window.print()" data-i18n="printStory">Print my story</button>
+        <button class="btn secondary" id="your-turn-clear" data-i18n="clear">Clear</button>
+      </div>
+    </div>
+
+  </div>
+
+<!-- EDIT: translations for this page.
+     1. CrabbyLang.add(...) holds the fixed text that is only on this page
+        (text shared by all the activity pages is in lang/i18n.js).
+     2. ACTIVITY_LANGS holds each language's own word search (grid + where
+        each word sits, as [row, column] from the top-left, counting from 0),
+        quiz sentences (same order and answers as the English) and the
+        story moments in their correct order. -->
+<script>
+CrabbyLang.add({
+  "el": {
+    "pageTitle": "Γωνιά δραστηριοτήτων — Ο Κράμπι ταξιδεύει με αεροπλάνο",
+    "intro": "Πέντε πράγματα να κάνεις αφού διαβάσεις την ιστορία <a href=\"../stories/crabby-goes-on-the-plane\">«Ο Κράμπι ταξιδεύει με αεροπλάνο»</a>. Κατέβα πιο κάτω και δοκίμασέ τα!",
+    "orderSub": "Σύρε (από τη λαβή &#9776;) ή πάτα τα βελάκια για να βάλεις αυτές τις στιγμές από την ιστορία <em>«Ο Κράμπι ταξιδεύει με αεροπλάνο»</em> στη σειρά που έγιναν.",
+    "colourSub": "Εκτύπωσε αυτή τη σελίδα (ή μόνο τη ζωγραφιά) και ζωγράφισε τον Κράμπι να χαιρετάει καθώς το αεροπλάνο του πετάει για το Λονδίνο — δεν είναι πάντα κόκκινος!",
+    "yourTurnSub": "Ο Κράμπι είχε μια πολύ πολυάσχολη πτήση, και κανείς δεν είδε τίποτα! Πού θα ήθελες να πετάξει την επόμενη φορά, και τι σκανταλιές θα μπορούσε να κάνει στον δρόμο; Γράψε (ή πες σε έναν μεγάλο να γράψει) τη δική σου ιδέα για μια ιστορία του Κράμπι παρακάτω και μετά εκτύπωσέ την για να την κρατήσεις."
+  },
+  "it": {
+    "pageTitle": "Angolo delle attività — Crabby prende l'aereo",
+    "intro": "Cinque cose da fare dopo aver letto <a href=\"../stories/crabby-goes-on-the-plane\">Crabby prende l'aereo</a>. Scorri in basso e provale!",
+    "orderSub": "Trascina (usando la maniglia &#9776;) o tocca le frecce per mettere questi momenti di <em>Crabby prende l'aereo</em> nell'ordine in cui sono successi nella storia.",
+    "colourSub": "Stampa questa pagina (o solo il disegno) e colora Crabby che saluta mentre il suo aereo vola verso Londra — non deve per forza essere rosso!",
+    "yourTurnSub": "Crabby ha avuto un volo molto movimentato, e nessuno ha visto niente! Dove vorresti che volasse la prossima volta, e che cosa potrebbe combinare durante il viaggio? Scrivi (o detta a un adulto) la tua idea per una storia di Crabby qui sotto, poi stampala per conservarla."
+  },
+  "fr": {
+    "pageTitle": "Coin des activités — Crabby prend l'avion",
+    "intro": "Cinq choses à faire après avoir lu <a href=\"../stories/crabby-goes-on-the-plane\">Crabby prend l'avion</a>. Descends et essaie-les !",
+    "orderSub": "Fais glisser (avec la poignée &#9776;) ou touche les flèches pour remettre ces moments de <em>Crabby prend l'avion</em> dans l'ordre où ils se sont passés dans l'histoire.",
+    "colourSub": "Imprime cette page (ou juste le dessin) et colorie Crabby qui fait coucou pendant que son avion s'envole vers Londres — il n'est pas obligé d'être rouge !",
+    "yourTurnSub": "Crabby a eu un vol très mouvementé, et personne n'a rien vu ! Où aimerais-tu que Crabby s'envole la prochaine fois, et quelles bêtises pourrait-il faire en chemin ? Écris (ou dicte à un adulte) ta propre idée d'histoire de Crabby ci-dessous, puis imprime-la pour la garder."
+  },
+  "es": {
+    "pageTitle": "Rincón de actividades — Crabby viaja en avión",
+    "intro": "Cinco cosas para hacer después de leer <a href=\"../stories/crabby-goes-on-the-plane\">Crabby viaja en avión</a>. ¡Baja y pruébalas!",
+    "orderSub": "Arrastra (con el asa &#9776;) o toca las flechas para poner estos momentos de <em>Crabby viaja en avión</em> en el orden en que pasaron en el cuento.",
+    "colourSub": "Imprime esta página (o solo el dibujo) y colorea a Crabby saludando mientras su avión vuela hacia Londres. ¡No tiene por qué ser rojo!",
+    "yourTurnSub": "Crabby tuvo un vuelo muy movidito, ¡y nadie vio nada! ¿Adónde te gustaría que volara la próxima vez, y qué travesuras podría hacer por el camino? Escribe (o díctale a un adulto) tu propia idea para un cuento de Crabby aquí abajo y luego imprímela para guardarla."
+  }
+});
+
+window.ACTIVITY_LANGS = {
+  el: {
+    grid: [
+      ["Γ", "Β", "Ρ", "Δ", "Γ", "Τ", "Α", "Ι", "Ν", "Ι", "Α", "Ν"],
+      ["Α", "Μ", "Ρ", "Ο", "Ρ", "Υ", "Θ", "Α", "Ρ", "Α", "Π", "Μ"],
+      ["Ε", "Ξ", "Σ", "Σ", "Ρ", "Λ", "Μ", "Ξ", "Χ", "Δ", "Α", "Λ"],
+      ["Ρ", "Γ", "Ο", "Ι", "Μ", "Τ", "Ζ", "Χ", "Μ", "Ο", "Ι", "Χ"],
+      ["Ο", "Ψ", "Τ", "Λ", "Ο", "Ν", "Δ", "Ι", "Ν", "Ο", "Χ", "Φ"],
+      ["Π", "Α", "Ο", "Ι", "Ο", "Ψ", "Η", "Ζ", "Π", "Β", "Υ", "Κ"],
+      ["Λ", "Σ", "Λ", "Π", "Κ", "Ψ", "Υ", "Α", "Ι", "Φ", "Ο", "Σ"],
+      ["Α", "Τ", "Ι", "Σ", "Ο", "Μ", "Ο", "Ρ", "Δ", "Α", "Ι", "Δ"],
+      ["Ν", "Ι", "Π", "Δ", "Ρ", "Ι", "Ψ", "Υ", "Ω", "Ε", "Χ", "Σ"],
+      ["Ο", "Λ", "Α", "Ε", "Ρ", "Ο", "Δ", "Ρ", "Ο", "Μ", "Ι", "Ο"],
+      ["Η", "Α", "Ε", "Ζ", "Χ", "Ξ", "Υ", "Π", "Ι", "Ξ", "Λ", "Μ"],
+      ["Κ", "Β", "Α", "Ο", "Τ", "Η", "Ξ", "Ω", "Ν", "Θ", "Π", "Ζ"]
+    ],
+    words: {
+      "ΑΕΡΟΠΛΑΝΟ": [[1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], [9, 0]],
+      "ΑΕΡΟΔΡΟΜΙΟ": [[9, 2], [9, 3], [9, 4], [9, 5], [9, 6], [9, 7], [9, 8], [9, 9], [9, 10], [9, 11]],
+      "ΛΟΝΔΙΝΟ": [[4, 3], [4, 4], [4, 5], [4, 6], [4, 7], [4, 8], [4, 9]],
+      "ΜΟΥΣ": [[3, 8], [4, 9], [5, 10], [6, 11]],
+      "ΠΙΛΟΤΟΣ": [[8, 2], [7, 2], [6, 2], [5, 2], [4, 2], [3, 2], [2, 2]],
+      "ΠΑΡΑΘΥΡΟ": [[1, 10], [1, 9], [1, 8], [1, 7], [1, 6], [1, 5], [1, 4], [1, 3]],
+      "ΒΑΛΙΤΣΑ": [[11, 1], [10, 1], [9, 1], [8, 1], [7, 1], [6, 1], [5, 1]],
+      "ΔΙΑΔΡΟΜΟΣ": [[7, 11], [7, 10], [7, 9], [7, 8], [7, 7], [7, 6], [7, 5], [7, 4], [7, 3]],
+      "ΤΑΙΝΙΑ": [[0, 5], [0, 6], [0, 7], [0, 8], [0, 9], [0, 10]],
+      "ΣΟΦΙΑ": [[6, 11], [6, 10], [6, 9], [6, 8], [6, 7]]
+    },
+    quiz: [
+      { q: "Ο Κράμπι κρύβεται στην αλογοουρά της Σοφίας στο αεροδρόμιο του Περθ.", answer: true },
+      { q: "Η πτήση για το Λονδίνο κρατάει περίπου δύο ώρες.", answer: false },
+      { q: "Ο Κράμπι πέφτει στο τραπεζάκι του κυρίου στη θέση 34C.", answer: true },
+      { q: "Ο Κράμπι βρίσκει παγωτό φράουλα στο καροτσάκι με το φαγητό.", answer: false },
+      { q: "Η αεροσυνοδός αναρωτιέται αν τις μουτζούρες τις έκαναν οι αναταράξεις.", answer: true },
+      { q: "Στις αναταράξεις, ο Κράμπι τυλίγεται μέσα σε μια κάρτα επιβίβασης.", answer: true },
+      { q: "Η Σοφία βλέπει τον Κράμπι στο αεροπλάνο και το λέει στον μπαμπά της.", answer: false },
+      { q: "Ο Κράμπι πιστεύει ότι η μους σοκολάτας ήταν εξαιρετική.", answer: true }
+    ],
+    order: [
+      "Ο Κράμπι κρύβεται στην αλογοουρά της Σοφίας καθώς περνάνε από το αεροδρόμιο του Περθ.",
+      "Ο Κράμπι πέφτει στο τραπεζάκι του κυρίου στη θέση 34C.",
+      "Ο Κράμπι βρίσκει μους σοκολάτας στο καροτσάκι με το φαγητό.",
+      "Ο Κράμπι το σκάει για να δει την ταινία της πτήσης.",
+      "Οι αναταράξεις τυλίγουν τον Κράμπι μέσα σε μια κάρτα επιβίβασης.",
+      "Η Σοφία ξυπνάει και βλέπει από κάτω τα φώτα του Λονδίνου."
+    ]
+  },
+  it: {
+    grid: [
+      ["K", "U", "S", "X", "M", "A", "L", "A", "D", "R", "X", "Y"],
+      ["W", "M", "F", "B", "B", "R", "O", "T", "G", "A", "P", "P"],
+      ["J", "L", "I", "O", "W", "D", "L", "O", "W", "E", "L", "R"],
+      ["N", "I", "N", "I", "G", "N", "O", "L", "V", "R", "B", "E"],
+      ["E", "F", "E", "O", "I", "O", "V", "I", "G", "O", "D", "S"],
+      ["N", "H", "S", "D", "K", "L", "O", "P", "T", "P", "A", "S"],
+      ["X", "N", "T", "I", "D", "V", "C", "R", "B", "O", "I", "U"],
+      ["Y", "C", "R", "R", "R", "B", "O", "A", "A", "R", "G", "O"],
+      ["Q", "C", "I", "R", "Z", "I", "Z", "X", "E", "T", "I", "M"],
+      ["K", "I", "N", "O", "R", "K", "J", "Z", "R", "O", "L", "D"],
+      ["X", "V", "O", "C", "V", "D", "J", "P", "E", "F", "A", "G"],
+      ["A", "R", "A", "R", "A", "C", "W", "W", "O", "X", "V", "G"]
+    ],
+    words: {
+      "AEREO": [[7, 8], [8, 8], [9, 8], [10, 8], [11, 8]],
+      "AEROPORTO": [[1, 9], [2, 9], [3, 9], [4, 9], [5, 9], [6, 9], [7, 9], [8, 9], [9, 9]],
+      "LONDRA": [[5, 5], [4, 5], [3, 5], [2, 5], [1, 5], [0, 5]],
+      "MOUSSE": [[8, 11], [7, 11], [6, 11], [5, 11], [4, 11], [3, 11]],
+      "PILOTA": [[5, 7], [4, 7], [3, 7], [2, 7], [1, 7], [0, 7]],
+      "FINESTRINO": [[1, 2], [2, 2], [3, 2], [4, 2], [5, 2], [6, 2], [7, 2], [8, 2], [9, 2], [10, 2]],
+      "VALIGIA": [[11, 10], [10, 10], [9, 10], [8, 10], [7, 10], [6, 10], [5, 10]],
+      "CORRIDOIO": [[10, 3], [9, 3], [8, 3], [7, 3], [6, 3], [5, 3], [4, 3], [3, 3], [2, 3]],
+      "FILM": [[4, 1], [3, 1], [2, 1], [1, 1]],
+      "VOLO": [[4, 6], [3, 6], [2, 6], [1, 6]]
+    },
+    quiz: [
+      { q: "Crabby si nasconde nella coda di cavallo di Sofia all'aeroporto di Perth.", answer: true },
+      { q: "Il volo per Londra dura circa due ore.", answer: false },
+      { q: "Crabby atterra sul tavolino del signore del posto 34C.", answer: true },
+      { q: "Crabby trova del gelato alla fragola sul carrello del cibo.", answer: false },
+      { q: "L'assistente di volo si chiede se le macchie siano colpa della turbolenza.", answer: true },
+      { q: "Durante la turbolenza, Crabby si ritrova arrotolato in una carta d'imbarco.", answer: true },
+      { q: "Sofia vede Crabby sull'aereo e lo dice a Baba.", answer: false },
+      { q: "Crabby pensa che la mousse al cioccolato fosse eccellente.", answer: true }
+    ],
+    order: [
+      "Crabby si nasconde nella coda di cavallo di Sofia mentre attraversano l'aeroporto di Perth.",
+      "Crabby atterra sul tavolino del signore del posto 34C.",
+      "Crabby trova la mousse al cioccolato sul carrello del cibo.",
+      "Crabby sgattaiola via per guardare il film di bordo.",
+      "La turbolenza fa arrotolare Crabby in una carta d'imbarco.",
+      "Sofia si sveglia e vede le luci di Londra là sotto."
+    ]
+  },
+  fr: {
+    grid: [
+      ["W", "E", "J", "Y", "L", "O", "K", "F", "M", "A", "W", "B"],
+      ["F", "S", "A", "G", "R", "X", "E", "J", "Z", "L", "X", "U"],
+      ["I", "S", "K", "E", "V", "T", "O", "T", "F", "L", "B", "N"],
+      ["L", "U", "W", "H", "R", "L", "N", "C", "F", "E", "D", "E"],
+      ["M", "O", "Q", "U", "E", "O", "O", "E", "X", "E", "K", "S"],
+      ["Q", "M", "E", "B", "Q", "O", "P", "R", "C", "G", "B", "I"],
+      ["E", "T", "O", "L", "I", "P", "U", "O", "U", "F", "P", "L"],
+      ["J", "P", "Y", "O", "J", "T", "X", "N", "R", "Y", "N", "A"],
+      ["O", "E", "P", "T", "X", "R", "R", "C", "D", "T", "Z", "V"],
+      ["U", "B", "A", "V", "I", "O", "N", "B", "X", "V", "O", "L"],
+      ["N", "L", "O", "N", "D", "R", "E", "S", "A", "X", "C", "W"],
+      ["N", "S", "Y", "I", "H", "D", "L", "W", "W", "X", "E", "R"]
+    ],
+    words: {
+      "AVION": [[9, 2], [9, 3], [9, 4], [9, 5], [9, 6]],
+      "AEROPORT": [[1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [8, 9]],
+      "LONDRES": [[10, 1], [10, 2], [10, 3], [10, 4], [10, 5], [10, 6], [10, 7]],
+      "MOUSSE": [[5, 1], [4, 1], [3, 1], [2, 1], [1, 1], [0, 1]],
+      "PILOTE": [[6, 5], [6, 4], [6, 3], [6, 2], [6, 1], [6, 0]],
+      "HUBLOT": [[3, 3], [4, 3], [5, 3], [6, 3], [7, 3], [8, 3]],
+      "VALISE": [[8, 11], [7, 11], [6, 11], [5, 11], [4, 11], [3, 11]],
+      "ALLEE": [[0, 9], [1, 9], [2, 9], [3, 9], [4, 9]],
+      "FILM": [[1, 0], [2, 0], [3, 0], [4, 0]],
+      "VOL": [[9, 9], [9, 10], [9, 11]]
+    },
+    quiz: [
+      { q: "Crabby se cache dans la queue de cheval de Sofia à l'aéroport de Perth.", answer: true },
+      { q: "Le vol pour Londres dure environ deux heures.", answer: false },
+      { q: "Crabby tombe sur la tablette du monsieur du siège 34C.", answer: true },
+      { q: "Crabby trouve de la glace à la fraise sur le chariot-repas.", answer: false },
+      { q: "L'hôtesse se demande si les traces viennent des turbulences.", answer: true },
+      { q: "Pendant les turbulences, Crabby se retrouve enroulé dans une carte d'embarquement.", answer: true },
+      { q: "Sofia repère Crabby dans l'avion et le dit à Baba.", answer: false },
+      { q: "Crabby trouve que la mousse au chocolat était excellente.", answer: true }
+    ],
+    order: [
+      "Crabby se cache dans la queue de cheval de Sofia pendant qu'ils traversent l'aéroport de Perth.",
+      "Crabby tombe sur la tablette du monsieur du siège 34C.",
+      "Crabby trouve de la mousse au chocolat sur le chariot-repas.",
+      "Crabby file en douce regarder le film à bord.",
+      "Les turbulences enroulent Crabby dans une carte d'embarquement.",
+      "Sofia se réveille et voit les lumières de Londres en contrebas."
+    ]
+  },
+  es: {
+    grid: [
+      ["E", "F", "K", "A", "L", "V", "O", "L", "E", "U", "V", "I"],
+      ["V", "E", "O", "L", "Y", "O", "H", "F", "J", "E", "Z", "P"],
+      ["E", "R", "Y", "U", "O", "I", "N", "B", "S", "A", "C", "I"],
+      ["N", "Z", "I", "C", "S", "L", "K", "D", "E", "Z", "O", "L"],
+      ["T", "J", "L", "I", "Q", "E", "L", "R", "R", "P", "S", "O"],
+      ["A", "C", "D", "L", "D", "J", "O", "I", "I", "E", "C", "T"],
+      ["N", "A", "K", "E", "Y", "P", "A", "Z", "S", "B", "S", "O"],
+      ["I", "A", "T", "P", "U", "Q", "Q", "K", "K", "A", "F", "X"],
+      ["L", "J", "V", "E", "B", "H", "Q", "K", "W", "H", "P", "X"],
+      ["L", "O", "R", "I", "L", "L", "M", "O", "U", "S", "S", "E"],
+      ["A", "T", "E", "T", "O", "A", "L", "O", "F", "T", "X", "J"],
+      ["O", "S", "Q", "E", "W", "N", "M", "C", "M", "D", "Z", "E"]
+    ],
+    words: {
+      "AVION": [[7, 1], [8, 2], [9, 3], [10, 4], [11, 5]],
+      "AEROPUERTO": [[2, 9], [3, 8], [4, 7], [5, 6], [6, 5], [7, 4], [8, 3], [9, 2], [10, 1], [11, 0]],
+      "LONDRES": [[0, 4], [1, 5], [2, 6], [3, 7], [4, 8], [5, 9], [6, 10]],
+      "MOUSSE": [[9, 6], [9, 7], [9, 8], [9, 9], [9, 10], [9, 11]],
+      "PILOTO": [[1, 11], [2, 11], [3, 11], [4, 11], [5, 11], [6, 11]],
+      "VENTANILLA": [[1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], [9, 0], [10, 0]],
+      "MALETA": [[11, 6], [10, 5], [9, 4], [8, 3], [7, 2], [6, 1]],
+      "PASILLO": [[8, 10], [7, 9], [6, 8], [5, 7], [4, 6], [3, 5], [2, 4]],
+      "PELICULA": [[7, 3], [6, 3], [5, 3], [4, 3], [3, 3], [2, 3], [1, 3], [0, 3]],
+      "VUELO": [[0, 10], [0, 9], [0, 8], [0, 7], [0, 6]]
+    },
+    quiz: [
+      { q: "Crabby se esconde en la coleta de Sofia en el aeropuerto de Perth.", answer: true },
+      { q: "El vuelo a Londres dura unas dos horas.", answer: false },
+      { q: "Crabby cae sobre la bandeja del señor del asiento 34C.", answer: true },
+      { q: "Crabby encuentra helado de fresa en el carrito de la comida.", answer: false },
+      { q: "La azafata se pregunta si las manchas son culpa de las turbulencias.", answer: true },
+      { q: "Durante las turbulencias, Crabby acaba envuelto en una tarjeta de embarque.", answer: true },
+      { q: "Sofia ve a Crabby en el avión y se lo cuenta a Baba.", answer: false },
+      { q: "Crabby piensa que la mousse de chocolate estaba buenísima.", answer: true }
+    ],
+    order: [
+      "Crabby se esconde en la coleta de Sofia mientras cruzan el aeropuerto de Perth.",
+      "Crabby cae sobre la bandeja del señor del asiento 34C.",
+      "Crabby encuentra mousse de chocolate en el carrito de la comida.",
+      "Crabby se escapa a escondidas para ver la película del avión.",
+      "Las turbulencias dejan a Crabby envuelto en una tarjeta de embarque.",
+      "Sofia se despierta y ve las luces de Londres allá abajo."
+    ]
+  }
+};
+</script>
+
+<script>
+(function () {
+
+  /* ===================== 1. WORD SEARCH ===================== */
+  var WS_GRID = [
+    ['P','M','Q','E','S','A','C','T','I','U','S','C'],
+    ['I','H','K','C','G','U','Y','D','A','V','K','Y'],
+    ['L','W','R','N','H','W','H','S','I','C','U','E'],
+    ['O','B','C','E','C','T','W','F','R','G','Q','N'],
+    ['T','B','S','L','B','W','N','O','P','D','H','A'],
+    ['E','E','Q','U','H','I','O','A','O','Y','F','L'],
+    ['B','I','Z','B','E','N','D','E','R','R','Z','P'],
+    ['I','V','R','R','L','D','N','S','T','D','I','M'],
+    ['Z','O','T','U','S','O','O','P','R','D','G','A'],
+    ['G','M','J','T','I','W','L','L','D','F','U','B'],
+    ['M','Z','L','G','A','T','N','P','C','D','J','H'],
+    ['C','G','D','E','S','S','U','O','M','K','Z','A']
+  ];
+
+  var WS_WORDS = {
+    "PLANE": [[6,11],[5,11],[4,11],[3,11],[2,11]],
+    "AIRPORT": [[1,8],[2,8],[3,8],[4,8],[5,8],[6,8],[7,8]],
+    "LONDON": [[9,6],[8,6],[7,6],[6,6],[5,6],[4,6]],
+    "MOUSSE": [[11,8],[11,7],[11,6],[11,5],[11,4],[11,3]],
+    "TURBULENCE": [[9,3],[8,3],[7,3],[6,3],[5,3],[4,3],[3,3],[2,3],[1,3],[0,3]],
+    "PILOT": [[0,0],[1,0],[2,0],[3,0],[4,0]],
+    "WINDOW": [[4,5],[5,5],[6,5],[7,5],[8,5],[9,5]],
+    "SUITCASE": [[0,10],[0,9],[0,8],[0,7],[0,6],[0,5],[0,4],[0,3]],
+    "AISLE": [[10,4],[9,4],[8,4],[7,4],[6,4]],
+    "MOVIE": [[9,1],[8,1],[7,1],[6,1],[5,1]]
+  };
+
+  var wsGridEl = document.getElementById('ws-grid');
+  var wsWordListEl = document.getElementById('ws-word-list');
+  var wsStatusEl = document.getElementById('ws-status');
+  var wsFoundWords = {};
+  var wsCellEls = {};
+  var wsSelecting = false;
+  var wsStart = null;
+
+  // Draws the grid and word list for the current language (see ACTIVITY_LANGS)
+  function buildWordSearch() {
+    wsGridEl.innerHTML = '';
+    wsWordListEl.innerHTML = '';
+    wsStatusEl.classList.remove('show');
+    wsFoundWords = {};
+    wsCellEls = {};
+    wsSelecting = false;
+
+    WS_GRID.forEach(function (row, r) {
+      row.forEach(function (letter, c) {
+        var cell = document.createElement('div');
+        cell.className = 'ws-cell';
+        cell.textContent = letter;
+        cell.dataset.r = r;
+        cell.dataset.c = c;
+        wsGridEl.appendChild(cell);
+        wsCellEls[r + ',' + c] = cell;
+      });
+    });
+
+    Object.keys(WS_WORDS).forEach(function (word) {
+      var li = document.createElement('li');
+      li.textContent = word;
+      li.id = 'ws-li-' + word;
+      wsWordListEl.appendChild(li);
+    });
+  }
+
+  function cellsBetween(r1, c1, r2, c2) {
+    var dr = r2 - r1, dc = c2 - c1;
+    var steps = Math.max(Math.abs(dr), Math.abs(dc));
+    if (steps === 0) return [[r1, c1]];
+    var stepR = dr / steps, stepC = dc / steps;
+    if (Math.abs(stepR) !== 0 && Math.abs(stepR) !== 1) return null;
+    if (Math.abs(stepC) !== 0 && Math.abs(stepC) !== 1) return null;
+    var out = [];
+    for (var i = 0; i <= steps; i++) {
+      out.push([r1 + stepR * i, c1 + stepC * i]);
+    }
+    return out;
+  }
+
+  function clearSelection(cells) {
+    cells.forEach(function (rc) {
+      var el = wsCellEls[rc[0] + ',' + rc[1]];
+      if (el && !el.classList.contains('found')) el.classList.remove('selected');
+    });
+  }
+
+  function matchWord(path) {
+    var forward = path.map(function (rc) { return WS_GRID[rc[0]][rc[1]]; }).join('');
+    var backward = forward.split('').reverse().join('');
+    for (var word in WS_WORDS) {
+      if (wsFoundWords[word]) continue;
+      if (word === forward || word === backward) return word;
+    }
+    return null;
+  }
+
+  function startSelect(r, c) {
+    wsSelecting = true;
+    wsStart = [r, c];
+  }
+
+  function updateSelect(r, c) {
+    if (!wsSelecting) return;
+    var path = cellsBetween(wsStart[0], wsStart[1], r, c);
+    Object.keys(wsCellEls).forEach(function (key) {
+      var el = wsCellEls[key];
+      if (!el.classList.contains('found')) el.classList.remove('selected');
+    });
+    if (path) {
+      path.forEach(function (rc) {
+        var el = wsCellEls[rc[0] + ',' + rc[1]];
+        if (el && !el.classList.contains('found')) el.classList.add('selected');
+      });
+    }
+  }
+
+  function endSelect(r, c) {
+    if (!wsSelecting) return;
+    wsSelecting = false;
+    var path = cellsBetween(wsStart[0], wsStart[1], r, c);
+    if (path) {
+      var word = matchWord(path);
+      if (word) {
+        wsFoundWords[word] = true;
+        path.forEach(function (rc) {
+          var el = wsCellEls[rc[0] + ',' + rc[1]];
+          el.classList.remove('selected');
+          el.classList.add('found');
+        });
+        document.getElementById('ws-li-' + word).classList.add('found');
+        if (Object.keys(wsFoundWords).length === Object.keys(WS_WORDS).length) {
+          wsStatusEl.classList.add('show');
+        }
+      } else {
+        clearSelection(path);
+      }
+    }
+  }
+
+  wsGridEl.addEventListener('mousedown', function (e) {
+    if (!e.target.classList.contains('ws-cell')) return;
+    startSelect(+e.target.dataset.r, +e.target.dataset.c);
+  });
+  wsGridEl.addEventListener('mouseover', function (e) {
+    if (!e.target.classList.contains('ws-cell')) return;
+    updateSelect(+e.target.dataset.r, +e.target.dataset.c);
+  });
+  window.addEventListener('mouseup', function (e) {
+    if (!wsSelecting) return;
+    var target = document.elementFromPoint(e.clientX, e.clientY);
+    if (target && target.classList.contains('ws-cell')) {
+      endSelect(+target.dataset.r, +target.dataset.c);
+    } else {
+      wsSelecting = false;
+    }
+  });
+
+  wsGridEl.addEventListener('touchstart', function (e) {
+    var t = e.touches[0];
+    var el = document.elementFromPoint(t.clientX, t.clientY);
+    if (el && el.classList.contains('ws-cell')) startSelect(+el.dataset.r, +el.dataset.c);
+  }, { passive: true });
+  wsGridEl.addEventListener('touchmove', function (e) {
+    var t = e.touches[0];
+    var el = document.elementFromPoint(t.clientX, t.clientY);
+    if (el && el.classList.contains('ws-cell')) updateSelect(+el.dataset.r, +el.dataset.c);
+  }, { passive: true });
+  wsGridEl.addEventListener('touchend', function (e) {
+    var t = e.changedTouches[0];
+    var el = document.elementFromPoint(t.clientX, t.clientY);
+    if (el && el.classList.contains('ws-cell')) endSelect(+el.dataset.r, +el.dataset.c);
+  });
+
+  /* ===================== 2. TRUE OR FALSE QUIZ ===================== */
+  var QUIZ = [
+    { q: "Crabby hides in Sofia's ponytail at Perth Airport.", answer: true },
+    { q: "The flight to London takes about two hours.", answer: false },
+    { q: "Crabby drops onto the tray table of the man in seat 34C.", answer: true },
+    { q: "Crabby finds strawberry ice cream on the food cart.", answer: false },
+    { q: "The flight attendant wonders if the mess was caused by turbulence.", answer: true },
+    { q: "During the turbulence, Crabby gets wrapped up in a boarding pass.", answer: true },
+    { q: "Sofia spots Crabby on the plane and tells Baba.", answer: false },
+    { q: "Crabby thinks the chocolate mousse was excellent.", answer: true }
+  ];
+
+  var quizBody = document.getElementById('quiz-body');
+  var quizScoreEl = document.getElementById('quiz-score');
+  var quizCorrectCount = 0;
+  var quizAnswered = 0;
+
+  function buildQuiz() {
+    var T = CrabbyLang.t;
+    quizBody.innerHTML = '';
+    quizScoreEl.textContent = '';
+    quizCorrectCount = 0;
+    quizAnswered = 0;
+
+    QUIZ.forEach(function (item, i) {
+      var wrap = document.createElement('div');
+      wrap.className = 'quiz-q';
+
+      var qText = document.createElement('p');
+      qText.className = 'q-text';
+      qText.textContent = (i + 1) + '. ' + item.q;
+      wrap.appendChild(qText);
+
+      var btns = document.createElement('div');
+      btns.className = 'quiz-btns';
+
+      var feedback = document.createElement('p');
+      feedback.className = 'quiz-feedback';
+      feedback.textContent = item.answer ? T('quizTrueFb', 'True!') : T('quizFalseFb', 'False!');
+
+      [true, false].forEach(function (value) {
+        var btn = document.createElement('button');
+        btn.className = 'quiz-btn';
+        btn.textContent = value ? T('quizTrue', 'True') : T('quizFalse', 'False');
+        btn.dataset.value = value ? 'true' : 'false';
+        btn.addEventListener('click', function () {
+          if (btn.disabled) return;
+          var isCorrect = value === item.answer;
+          Array.prototype.forEach.call(btns.children, function (b) { b.disabled = true; });
+          btn.classList.add(isCorrect ? 'correct' : 'wrong');
+          if (!isCorrect) {
+            Array.prototype.forEach.call(btns.children, function (b) {
+              if ((b.dataset.value === 'true') === item.answer) b.classList.add('correct');
+            });
+          }
+          feedback.classList.add('show');
+          quizAnswered++;
+          if (isCorrect) quizCorrectCount++;
+          quizScoreEl.textContent = T('quizScore', 'Score: {c} / {n} answered so far ({a}/{n})')
+            .replace(/\{c\}/g, quizCorrectCount)
+            .replace(/\{a\}/g, quizAnswered)
+            .replace(/\{n\}/g, QUIZ.length);
+        });
+        btns.appendChild(btn);
+      });
+
+      wrap.appendChild(btns);
+      wrap.appendChild(feedback);
+      quizBody.appendChild(wrap);
+    });
+  }
+
+  /* ===================== 3. ORDER THE STORY ===================== */
+  var ORDER_SET = [
+    "Crabby hides in Sofia's ponytail as they go through Perth Airport.",
+    "Crabby drops onto the tray table of the man in 34C.",
+    "Crabby finds chocolate mousse on the food cart.",
+    "Crabby sneaks off to watch the in-flight movie.",
+    "Turbulence rolls Crabby up in a boarding pass.",
+    "Sofia wakes up and sees the lights of London below."
+  ];
+
+  var orderListEl = document.getElementById('order-list');
+  var orderFeedbackEl = document.getElementById('order-feedback');
+  var orderDragEl = null;
+
+  function shuffledCopy(arr) {
+    var copy = arr.slice();
+    for (var i = copy.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = copy[i]; copy[i] = copy[j]; copy[j] = tmp;
+    }
+    if (copy.join('') === arr.join('')) return shuffledCopy(arr);
+    return copy;
+  }
+
+  function renderOrderList() {
+    orderListEl.innerHTML = '';
+    orderFeedbackEl.classList.remove('show');
+    var shuffled = shuffledCopy(ORDER_SET);
+    shuffled.forEach(function (text) {
+      var li = document.createElement('li');
+      li.className = 'order-item';
+      li.dataset.text = text;
+      li.innerHTML =
+        '<span class="handle" aria-hidden="true">&#9776;</span>' +
+        '<span class="order-text">' + text + '</span>' +
+        '<span class="order-moves">' +
+          '<button type="button" class="move-btn" data-dir="-1" aria-label="' + CrabbyLang.t('moveUp', 'Move up') + '">&#9650;</button>' +
+          '<button type="button" class="move-btn" data-dir="1" aria-label="' + CrabbyLang.t('moveDown', 'Move down') + '">&#9660;</button>' +
+        '</span>';
+
+      // Up / down buttons — easiest option on phones
+      Array.prototype.forEach.call(li.querySelectorAll('.move-btn'), function (btn) {
+        btn.addEventListener('click', function () {
+          clearMarks();
+          if (btn.dataset.dir === '-1' && li.previousElementSibling) {
+            orderListEl.insertBefore(li, li.previousElementSibling);
+          } else if (btn.dataset.dir === '1' && li.nextElementSibling) {
+            orderListEl.insertBefore(li.nextElementSibling, li);
+          }
+        });
+      });
+
+      // Drag — works with mouse, finger and pen (pointer events)
+      li.addEventListener('pointerdown', function (e) {
+        if (e.target.closest('.move-btn')) return;
+        // On touch screens, drag from the ☰ handle so the page can still scroll
+        if (e.pointerType !== 'mouse' && !e.target.closest('.handle')) return;
+        e.preventDefault();
+        orderDragEl = li;
+        li.classList.add('dragging');
+        clearMarks();
+      });
+
+      orderListEl.appendChild(li);
+    });
+  }
+
+  // Drag tracking lives on the document, because moving an item in the
+  // list would otherwise cancel the finger/mouse "grab" part-way through.
+  document.addEventListener('pointermove', function (e) {
+    if (!orderDragEl) return;
+    e.preventDefault();
+    var after = getDragAfterElement(orderListEl, e.clientY);
+    if (after == null) {
+      if (orderListEl.lastElementChild !== orderDragEl) orderListEl.appendChild(orderDragEl);
+    } else if (after !== orderDragEl.nextElementSibling) {
+      orderListEl.insertBefore(orderDragEl, after);
+    }
+  }, { passive: false });
+  function endOrderDrag() {
+    if (!orderDragEl) return;
+    orderDragEl.classList.remove('dragging');
+    orderDragEl = null;
+  }
+  document.addEventListener('pointerup', endOrderDrag);
+  document.addEventListener('pointercancel', endOrderDrag);
+
+  function clearMarks() {
+    orderFeedbackEl.classList.remove('show');
+    Array.prototype.forEach.call(orderListEl.children, function (el) {
+      el.classList.remove('correct-spot');
+    });
+  }
+
+  function getDragAfterElement(container, y) {
+    var items = Array.prototype.slice.call(container.querySelectorAll('.order-item:not(.dragging)'));
+    return items.reduce(function (closest, child) {
+      var box = child.getBoundingClientRect();
+      var offset = y - box.top - box.height / 2;
+      if (offset < 0 && offset > closest.offset) {
+        return { offset: offset, element: child };
+      } else {
+        return closest;
+      }
+    }, { offset: -Infinity, element: null }).element;
+  }
+
+  document.getElementById('order-check').addEventListener('click', function () {
+    var items = Array.prototype.slice.call(orderListEl.children);
+    var allCorrect = true;
+    items.forEach(function (li, i) {
+      var isCorrect = li.dataset.text === ORDER_SET[i];
+      li.classList.toggle('correct-spot', isCorrect);
+      if (!isCorrect) allCorrect = false;
+    });
+    if (allCorrect) orderFeedbackEl.classList.add('show');
+  });
+
+  document.getElementById('order-shuffle').addEventListener('click', renderOrderList);
+
+  /* ===================== LANGUAGE ===================== */
+  // Redraw the word search, quiz and ordering game whenever the
+  // site-wide language changes (the picker comes from lang/i18n.js).
+  // The English is the WS_GRID / WS_WORDS / QUIZ / ORDER_SET above;
+  // the other languages are in ACTIVITY_LANGS just above this script.
+  var ENGLISH = { grid: WS_GRID, words: WS_WORDS, quiz: QUIZ, order: ORDER_SET };
+  CrabbyLang.onChange(function (code) {
+    var set = (window.ACTIVITY_LANGS && window.ACTIVITY_LANGS[code]) || ENGLISH;
+    WS_GRID = set.grid;
+    WS_WORDS = set.words;
+    QUIZ = set.quiz;
+    ORDER_SET = set.order;
+    buildWordSearch();
+    buildQuiz();
+    renderOrderList();
+  });
+
+  /* ===================== 5. YOUR TURN ===================== */
+  document.getElementById('your-turn-clear').addEventListener('click', function () {
+    document.getElementById('your-turn').value = '';
+  });
+
+})();
+</script>
+
+</body>
+</html>
