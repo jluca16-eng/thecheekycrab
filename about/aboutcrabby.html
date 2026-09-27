@@ -26,7 +26,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- EDIT: the text shown on the browser tab -->
-<title>About Crabby</title>
+<title data-i18n="pageTitle">About Crabby</title>
 
 <meta name="description" content="About Crabby — a children's picture book.">
 
@@ -97,25 +97,66 @@
     border-radius: 6px;
   }
 </style>
+<!-- Site-wide language switching (see lang/i18n.js) -->
+<script src="../lang/i18n.js"></script>
 </head>
 
 <body>
 
   <div class="page">
 
-    <a class="back" href="../index.html">&larr; Back</a>
+    <a class="back" href="../index.html" data-i18n="back">&larr; Back</a>
 
-    <h1>Welcome to the Adventures of Crabby</h1>
+    <h1 data-i18n="heading">Welcome to the Adventures of Crabby</h1>
 
-    <p>Crabby is a small red Lego crab who lives in a crevice on a brown rock of a Lego Beach Club set. He belongs to Sofia Kontorinis, a nine-year-old girl who loves adventure and has a wonderful imagination.</p>
+    <p data-i18n="p1">Crabby is a small red Lego crab who lives in a crevice on a brown rock of a Lego Beach Club set. He belongs to Sofia Kontorinis, a nine-year-old girl who loves adventure and has a wonderful imagination.</p>
 
-    <p>Crabby is a mischievous crab who also loves adventure. He interacts with Sofia's world in a very strange way. He stows away nestled deep in her ponytail, which allows him to experience her adventures firsthand without anyone ever noticing that he is there. Crabby also has adventures in the world of Lego, where he explores Sofia's many Lego sets and befriends other Lego characters.</p>
+    <p data-i18n="p2">Crabby is a mischievous crab who also loves adventure. He interacts with Sofia's world in a very strange way. He stows away nestled deep in her ponytail, which allows him to experience her adventures firsthand without anyone ever noticing that he is there. Crabby also has adventures in the world of Lego, where he explores Sofia's many Lego sets and befriends other Lego characters.</p>
 
-    <p>I hope you enjoy reading about the wonderful adventures of Crabby.</p>
+    <p data-i18n="p3">I hope you enjoy reading about the wonderful adventures of Crabby.</p>
 
-    <img class="crab-pic" src="../images/Crabby%20Image.png" alt="Crabby peeking out of his sandcastle hideaway">
+    <img class="crab-pic" src="../images/Crabby%20Image.png" alt="Crabby peeking out of his sandcastle hideaway" data-i18n-alt="alt">
 
   </div>
 
+
+<!-- EDIT: translations of this page's labelled text (data-i18n="...").
+     Words shared with other pages (Back, story titles, menu names) are in lang/i18n.js. -->
+<script>
+CrabbyLang.add({
+  "el": {
+    "pageTitle": "Σχετικά με τον Κράμπι",
+    "heading": "Καλώς ήρθες στις περιπέτειες του Κράμπι",
+    "p1": "Ο Κράμπι είναι ένας μικρός κόκκινος κάβουρας από Lego που ζει σε μια σχισμή ενός καφέ βράχου, σε ένα σετ Lego Beach Club. Ανήκει στη Σοφία Κοντορίνη, ένα εννιάχρονο κορίτσι που λατρεύει την περιπέτεια και έχει υπέροχη φαντασία.",
+    "p2": "Ο Κράμπι είναι ένας σκανταλιάρης κάβουρας που λατρεύει κι αυτός την περιπέτεια. Μπαίνει στον κόσμο της Σοφίας με έναν πολύ παράξενο τρόπο. Ταξιδεύει κρυφά, χωμένος βαθιά μέσα στην αλογοουρά της, κι έτσι ζει τις περιπέτειές της από πρώτο χέρι χωρίς να καταλάβει ποτέ κανείς ότι βρίσκεται εκεί. Ο Κράμπι ζει περιπέτειες και στον κόσμο της Lego, όπου εξερευνά τα πολλά σετ Lego της Σοφίας και γίνεται φίλος με άλλους χαρακτήρες Lego.",
+    "p3": "Ελπίζω να απολαύσεις τις υπέροχες περιπέτειες του Κράμπι.",
+    "alt": "Ο Κράμπι κρυφοκοιτάζει από την κρυψώνα του σε ένα κάστρο από άμμο"
+  },
+  "it": {
+    "pageTitle": "Chi è Crabby",
+    "heading": "Benvenuti nelle avventure di Crabby",
+    "p1": "Crabby è un piccolo granchio Lego rosso che vive in una fessura di uno scoglio marrone, in un set Lego Beach Club. Appartiene a Sofia Kontorinis, una bambina di nove anni che ama l'avventura e ha una fantasia meravigliosa.",
+    "p2": "Crabby è un granchio birichino che ama anche lui l'avventura. Entra nel mondo di Sofia in un modo davvero strano: viaggia di nascosto, rannicchiato in fondo alla sua coda di cavallo, e così vive le sue avventure in prima persona senza che nessuno si accorga mai che è lì. Crabby vive avventure anche nel mondo Lego, dove esplora i tanti set Lego di Sofia e fa amicizia con altri personaggi Lego.",
+    "p3": "Spero che ti piaccia leggere le meravigliose avventure di Crabby.",
+    "alt": "Crabby che sbircia dal suo nascondiglio nel castello di sabbia"
+  },
+  "fr": {
+    "pageTitle": "À propos de Crabby",
+    "heading": "Bienvenue dans les aventures de Crabby",
+    "p1": "Crabby est un petit crabe en Lego rouge qui vit dans une crevasse d'un rocher brun, dans un set Lego Beach Club. Il appartient à Sofia Kontorinis, une petite fille de neuf ans qui adore l'aventure et qui a une imagination merveilleuse.",
+    "p2": "Crabby est un crabe espiègle qui adore lui aussi l'aventure. Il se mêle au monde de Sofia d'une façon très étrange : il voyage en passager clandestin, blotti tout au fond de sa queue de cheval, ce qui lui permet de vivre ses aventures aux premières loges sans que personne ne remarque jamais qu'il est là. Crabby vit aussi des aventures dans le monde des Lego, où il explore les nombreux sets Lego de Sofia et se lie d'amitié avec d'autres personnages Lego.",
+    "p3": "J'espère que tu aimeras lire les merveilleuses aventures de Crabby.",
+    "alt": "Crabby qui jette un œil hors de sa cachette dans un château de sable"
+  },
+  "es": {
+    "pageTitle": "Sobre Crabby",
+    "heading": "Bienvenidos a las aventuras de Crabby",
+    "p1": "Crabby es un pequeño cangrejo rojo de Lego que vive en una grieta de una roca marrón, en un set Lego Beach Club. Pertenece a Sofia Kontorinis, una niña de nueve años a la que le encanta la aventura y que tiene una imaginación maravillosa.",
+    "p2": "Crabby es un cangrejo travieso al que también le encanta la aventura. Se mete en el mundo de Sofia de una forma muy curiosa: viaja de polizón, bien escondido en lo más hondo de su coleta, y así vive sus aventuras en primera persona sin que nadie se dé cuenta nunca de que está allí. Crabby también vive aventuras en el mundo de Lego, donde explora los muchos sets de Lego de Sofia y se hace amigo de otros personajes de Lego.",
+    "p3": "Espero que disfrutes leyendo las maravillosas aventuras de Crabby.",
+    "alt": "Crabby asomándose desde su escondite en un castillo de arena"
+  }
+});
+</script>
 </body>
 </html>

@@ -27,7 +27,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- EDIT: the text shown on the browser tab -->
-<title>Coming Soon — The Adventures of Crabby</title>
+<title data-i18n="pageTitle">Coming Soon — The Adventures of Crabby</title>
 
 <meta name="description" content="This page is under construction — check back soon.">
 <meta name="robots" content="noindex">
@@ -104,16 +104,45 @@
     background: #fff;
   }
 </style>
+<!-- Site-wide language switching (see lang/i18n.js) -->
+<script src="lang/i18n.js"></script>
 </head>
 
 <body>
 
   <div class="page">
     <div class="mark">🦀</div>
-    <h1>Under Construction</h1>
-    <p>Check back soon — Crabby's still busy putting this bit of the beach together.</p>
-    <a class="back" href="/">← Back to the beach</a>
+    <h1 data-i18n="heading">Under Construction</h1>
+    <p data-i18n="message">Check back soon — Crabby's still busy putting this bit of the beach together.</p>
+    <a class="back" href="/" data-i18n="backToBeach">← Back to the beach</a>
   </div>
 
+
+<!-- EDIT: translations of this page's labelled text (data-i18n="...").
+     Words shared with other pages (Back, story titles, menu names) are in lang/i18n.js. -->
+<script>
+CrabbyLang.add({
+  "el": {
+    "pageTitle": "Έρχεται σύντομα — Οι περιπέτειες του Κράμπι",
+    "heading": "Υπό κατασκευή",
+    "message": "Έλα ξανά σύντομα — ο Κράμπι ακόμα φτιάχνει αυτό το κομμάτι της παραλίας."
+  },
+  "it": {
+    "pageTitle": "Prossimamente — Le avventure di Crabby",
+    "heading": "Lavori in corso",
+    "message": "Torna presto — Crabby è ancora impegnato a sistemare questo pezzetto di spiaggia."
+  },
+  "fr": {
+    "pageTitle": "Bientôt disponible — Les aventures de Crabby",
+    "heading": "En construction",
+    "message": "Reviens bientôt — Crabby est encore occupé à aménager ce coin de plage."
+  },
+  "es": {
+    "pageTitle": "Próximamente — Las aventuras de Crabby",
+    "heading": "En construcción",
+    "message": "Vuelve pronto — Crabby todavía está ocupado preparando este trocito de playa."
+  }
+});
+</script>
 </body>
 </html>

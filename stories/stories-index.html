@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- EDIT: the text shown on the browser tab -->
-<title>Stories — The Adventures of Crabby</title>
+<title data-i18n="pageTitle">Stories — The Adventures of Crabby</title>
 
 <meta name="description" content="All the stories from The Adventures of Crabby.">
 
@@ -163,33 +163,35 @@
     color: var(--ink);
   }
 </style>
+<!-- Site-wide language switching (see lang/i18n.js) -->
+<script src="../lang/i18n.js"></script>
 </head>
 
 <body>
 
   <div class="page">
 
-    <a class="back" href="/">← Back</a>
+    <a class="back" href="/" data-i18n="back">← Back</a>
 
-    <h1>Stories</h1>
+    <h1 data-i18n="navStories">Stories</h1>
 
     <div class="story-list">
 
       <!-- EDIT: one line per story. Copy this whole block for a new one. -->
       <div class="story-line">
         <a class="story-row" href="/stories/crabby-and-the-mango-ice-cream">
-          <img src="../images/Crabby%20Mango%20Ice%20Cream.png" alt="Crabby the Lego crab triumphantly holding a mango ice cream cone">
-          <span>Crabby and the Mango Ice Cream</span>
+          <img src="../images/Crabby%20Mango%20Ice%20Cream.png" alt="Crabby the Lego crab triumphantly holding a mango ice cream cone" data-i18n-alt="altMangoCone">
+          <span data-i18n="titleMango">Crabby and the Mango Ice Cream</span>
         </a>
-        <a class="activity-btn" href="/activity-corner/mango-ice-cream-activity" title="Try this story's activity">🦀 Activity</a>
+        <a class="activity-btn" href="/activity-corner/mango-ice-cream-activity" title="Try this story's activity" data-i18n-title="activityBtnTitle" data-i18n="activityBtn">🦀 Activity</a>
       </div>
 
       <div class="story-line">
         <a class="story-row" href="/stories/crabby-and-the-perfect-hiding-place">
-          <img src="../images/Crabby%20and%20Sofia%20Windowsill.jpg" alt="Crabby the Lego crab watching Sofia brush her hair">
-          <span>Crabby and the Perfect Hiding Place</span>
+          <img src="../images/Crabby%20and%20Sofia%20Windowsill.jpg" alt="Crabby the Lego crab watching Sofia brush her hair" data-i18n-alt="altWindowsill">
+          <span data-i18n="titleHiding">Crabby and the Perfect Hiding Place</span>
         </a>
-        <a class="activity-btn" href="/activity-corner/perfect-hiding-place-activity" title="Try this story's activity">🦀 Activity</a>
+        <a class="activity-btn" href="/activity-corner/perfect-hiding-place-activity" title="Try this story's activity" data-i18n-title="activityBtnTitle" data-i18n="activityBtn">🦀 Activity</a>
       </div>
 
     </div>
@@ -197,4 +199,23 @@
   </div>
 
 
+
+<!-- EDIT: translations of this page's labelled text (data-i18n="...").
+     Words shared with other pages (Back, story titles, menu names) are in lang/i18n.js. -->
+<script>
+CrabbyLang.add({
+  "el": {
+    "pageTitle": "Ιστορίες — Οι περιπέτειες του Κράμπι"
+  },
+  "it": {
+    "pageTitle": "Storie — Le avventure di Crabby"
+  },
+  "fr": {
+    "pageTitle": "Histoires — Les aventures de Crabby"
+  },
+  "es": {
+    "pageTitle": "Cuentos — Las aventuras de Crabby"
+  }
+});
+</script>
 </body></html>

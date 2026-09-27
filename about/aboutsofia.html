@@ -23,7 +23,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- EDIT: the text shown on the browser tab -->
-<title>About Sofia</title>
+<title data-i18n="pageTitle">About Sofia</title>
 
 <meta name="description" content="About Sofia — a children's picture book.">
 
@@ -89,19 +89,44 @@
     color: var(--text);
   }
 </style>
+<!-- Site-wide language switching (see lang/i18n.js) -->
+<script src="../lang/i18n.js"></script>
 </head>
 
 <body>
 
   <div class="page">
 
-    <a class="back" href="../index.html">&larr; Back</a>
+    <a class="back" href="../index.html" data-i18n="back">&larr; Back</a>
 
-    <h1>About Sofia</h1>
+    <h1 data-i18n="pageTitle">About Sofia</h1>
 
-    <p>Under construction — check back soon!</p>
+    <p data-i18n="message">Under construction — check back soon!</p>
 
   </div>
 
+
+<!-- EDIT: translations of this page's labelled text (data-i18n="...").
+     Words shared with other pages (Back, story titles, menu names) are in lang/i18n.js. -->
+<script>
+CrabbyLang.add({
+  "el": {
+    "pageTitle": "Σχετικά με τη Σοφία",
+    "message": "Υπό κατασκευή — έλα ξανά σύντομα!"
+  },
+  "it": {
+    "pageTitle": "Chi è Sofia",
+    "message": "Lavori in corso — torna presto!"
+  },
+  "fr": {
+    "pageTitle": "À propos de Sofia",
+    "message": "En construction — reviens bientôt !"
+  },
+  "es": {
+    "pageTitle": "Sobre Sofia",
+    "message": "En construcción — ¡vuelve pronto!"
+  }
+});
+</script>
 </body>
 </html>

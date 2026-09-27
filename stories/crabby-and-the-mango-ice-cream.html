@@ -122,27 +122,6 @@
 
   .activity-link a:hover { transform: translateY(-2px); opacity: .92; }
 
-  /* Language buttons at the top of the story */
-  .lang-bar {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px;
-    margin: 0 auto 26px;
-  }
-  .lang-bar button {
-    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
-                 "Helvetica Neue", Arial, sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    padding: 7px 14px;
-    border-radius: 999px;
-    border: 2px solid var(--ink);
-    background: transparent;
-    color: var(--ink);
-    cursor: pointer;
-  }
-  .lang-bar button[aria-pressed="true"] { background: var(--ink); color: #fff; }
   /* The title lettering font has no Greek letters, so Greek uses this */
   html[lang="el"] h1,
   html[lang="el"] .the-end {
@@ -152,6 +131,8 @@
   html[lang="el"] h1 { font-size: 40px; }
   html[lang="el"] .the-end { font-size: 28px; }
 </style>
+<!-- Site-wide language switching (see lang/i18n.js) -->
+<script src="../lang/i18n.js"></script>
 </head>
 
 <body>
@@ -160,14 +141,6 @@
 
     <a class="back" href="/">← Back</a>
 
-    <!-- Language buttons — the translations are in the script at the bottom of this page -->
-    <div class="lang-bar" role="group" aria-label="Language">
-      <button type="button" data-lang="en" lang="en">English</button>
-      <button type="button" data-lang="el" lang="el">Ελληνικά</button>
-      <button type="button" data-lang="it" lang="it">Italiano</button>
-      <button type="button" data-lang="fr" lang="fr">Français</button>
-      <button type="button" data-lang="es" lang="es">Español</button>
-    </div>
 
     <h1>Crabby and the Mango Ice Cream</h1>
 
@@ -217,7 +190,8 @@
 
 <!-- EDIT: story translations. Each language has the title, the two picture
      descriptions, and the story paragraphs in the same order as the English
-     above (one line per paragraph). The English is read straight from the page. -->
+     above (one line per paragraph). The English is read straight from the page.
+     The language picker itself comes from lang/i18n.js. -->
 <script>
 (function () {
   var TRANSLATIONS = {
@@ -338,7 +312,6 @@
   var back = document.querySelector('.back');
   var theEnd = document.querySelector('.the-end');
   var activity = document.querySelector('.activity-link a');
-  var buttons = Array.prototype.slice.call(document.querySelectorAll('.lang-bar button'));
 
   // Keep the English exactly as written on the page
   TRANSLATIONS.en = {
@@ -349,37 +322,21 @@
     end: theEnd.textContent,
     activity: activity.textContent
   };
-  var htmlLang = { en: 'en-AU', el: 'el', it: 'it', fr: 'fr', es: 'es' };
 
-  function setLang(code) {
+  // The language itself is chosen with the site-wide picker (lang/i18n.js);
+  // this redraws the story whenever it changes.
+  CrabbyLang.onChange(function (code) {
     var t = TRANSLATIONS[code] || TRANSLATIONS.en;
-    if (!TRANSLATIONS[code]) code = 'en';
-    document.documentElement.lang = htmlLang[code];
     h1.textContent = t.title;
     document.title = t.title;
     imgs.forEach(function (img, i) { if (t.alts[i]) img.alt = t.alts[i]; });
     paras.forEach(function (p, i) {
-      if (code === 'en') p.innerHTML = t.p[i]; else p.textContent = t.p[i];
+      if (t === TRANSLATIONS.en) p.innerHTML = t.p[i]; else p.textContent = t.p[i];
     });
     back.textContent = t.back;
     theEnd.textContent = t.end;
     activity.textContent = t.activity;
-    buttons.forEach(function (b) {
-      b.setAttribute('aria-pressed', b.dataset.lang === code ? 'true' : 'false');
-    });
-    try { localStorage.setItem('crabby-lang', code); } catch (e) {}
-  }
-
-  buttons.forEach(function (b) {
-    b.addEventListener('click', function () { setLang(b.dataset.lang); });
   });
-
-  // Start in ?lang=xx from the link, else the reader's last choice, else English
-  var start = 'en';
-  var m = location.search.match(/[?&]lang=(en|el|it|fr|es)/);
-  if (m) start = m[1];
-  else { try { start = localStorage.getItem('crabby-lang') || 'en'; } catch (e) {} }
-  setLang(start);
 })();
 </script>
 </body></html>

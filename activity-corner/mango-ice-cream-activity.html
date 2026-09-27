@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- EDIT: the text shown on the browser tab -->
-<title>Activity Corner — Crabby and the Mango Ice Cream</title>
+<title data-i18n="pageTitle">Activity Corner — Crabby and the Mango Ice Cream</title>
 
 <meta name="description" content="Word search, quiz, story-ordering game, colouring page and a writing space for Crabby and the Mango Ice Cream.">
 
@@ -384,17 +384,19 @@
     body { padding: 20px; }
   }
 </style>
+<!-- Site-wide language switching (see lang/i18n.js) -->
+<script src="../lang/i18n.js"></script>
 </head>
 
 <body>
 
   <div class="page">
 
-    <a class="back" href="/activity-corner/activity-corner-index">&larr; All Activities</a>
+    <a class="back" href="/activity-corner/activity-corner-index" data-i18n="allActivities">&larr; All Activities</a>
 
-    <h1>Activity Corner</h1>
-    <p class="story-tag">Crabby and the Mango Ice Cream</p>
-    <p class="intro">
+    <h1 data-i18n="navActivity">Activity Corner</h1>
+    <p class="story-tag" data-i18n="titleMango">Crabby and the Mango Ice Cream</p>
+    <p class="intro" data-i18n="intro">
       Five things to do after reading
       <a href="../stories/crabby-and-the-mango-ice-cream">Crabby and the Mango Ice Cream</a>.
       Scroll down and give them a try!
@@ -403,20 +405,20 @@
     <!-- EDIT: activity 1 — word search. Grid data (WS_GRID / WS_WORDS)
          is in the script near the bottom. -->
     <div class="card">
-      <h2>1. Crabby's Word Search</h2>
-      <p class="sub">Click a letter, then click the last letter of a word to select the whole line. Find all 10 words hiding in the grid.</p>
+      <h2 data-i18n="wsHeading">1. Crabby's Word Search</h2>
+      <p class="sub" data-i18n="wsSub">Click a letter, then click the last letter of a word to select the whole line. Find all 10 words hiding in the grid.</p>
       <div class="ws-wrap">
         <div id="ws-grid"></div>
         <ul class="ws-words" id="ws-word-list"></ul>
       </div>
-      <p class="ws-status" id="ws-status">You found them all! Great eyes. 🦀</p>
+      <p class="ws-status" id="ws-status" data-i18n="wsDone">You found them all! Great eyes. 🦀</p>
     </div>
 
     <!-- EDIT: activity 2 — true/false quiz. Questions are in the
          QUIZ constant near the bottom. -->
     <div class="card">
-      <h2>2. True or False?</h2>
-      <p class="sub">Read each sentence about the story and pick True or False.</p>
+      <h2 data-i18n="quizHeading">2. True or False?</h2>
+      <p class="sub" data-i18n="quizSub">Read each sentence about the story and pick True or False.</p>
       <div id="quiz-body"></div>
       <p class="quiz-score" id="quiz-score"></p>
     </div>
@@ -424,14 +426,14 @@
     <!-- EDIT: activity 3 — order the story. Correct order is in the
          ORDER_SET constant near the bottom. -->
     <div class="card">
-      <h2>3. Put It In Order</h2>
-      <p class="sub">Drag (using the &#9776; handle) or tap the arrows to move these moments from <em>Crabby and the Mango Ice Cream</em> into the order they happened in the story.</p>
+      <h2 data-i18n="orderHeading">3. Put It In Order</h2>
+      <p class="sub" data-i18n="orderSub">Drag (using the &#9776; handle) or tap the arrows to move these moments from <em>Crabby and the Mango Ice Cream</em> into the order they happened in the story.</p>
       <ul class="order-list" id="order-list"></ul>
       <div class="order-actions">
-        <button class="btn" id="order-check">Check my order</button>
-        <button class="btn secondary" id="order-shuffle">Shuffle again</button>
+        <button class="btn" id="order-check" data-i18n="orderCheck">Check my order</button>
+        <button class="btn secondary" id="order-shuffle" data-i18n="orderShuffle">Shuffle again</button>
       </div>
-      <p class="order-feedback" id="order-feedback">That's the right order — well done! 🦀</p>
+      <p class="order-feedback" id="order-feedback" data-i18n="orderDone">That's the right order — well done! 🦀</p>
     </div>
 
     <!-- EDIT: activity 4 — printable colouring page. The picture is
@@ -440,8 +442,8 @@
          a separate image file), so there's nothing else to upload
          for it. -->
     <div class="card print-target">
-      <h2>4. Colour In Crabby</h2>
-      <p class="sub">Print this page (or just this picture) and colour in Crabby holding his hard-won mango ice cream — he's not always red!</p>
+      <h2 data-i18n="colourHeading">4. Colour In Crabby</h2>
+      <p class="sub" data-i18n="colourSub">Print this page (or just this picture) and colour in Crabby holding his hard-won mango ice cream — he's not always red!</p>
       <div class="colour-wrap">
         <svg id="crab-svg" viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg" stroke="#163a5c" stroke-width="6" fill="none" stroke-linejoin="round" stroke-linecap="round">
           <!-- Crabby's body -->
@@ -481,22 +483,249 @@
           <path d="M305 32 Q318 24 331 32"></path>
         </svg>
         <br>
-        <button class="btn" onclick="window.print()">Print this picture</button>
+        <button class="btn" onclick="window.print()" data-i18n="printPicture">Print this picture</button>
       </div>
     </div>
 
     <!-- EDIT: activity 5 — creative writing prompt -->
     <div class="card">
-      <h2>5. Your Turn!</h2>
-      <p class="sub">Crabby's just had his first taste of adventure (and mango ice cream!). What do you think he should get up to next? Write (or dictate to a grown-up) your own Crabby story idea below, then print it out to keep.</p>
-      <textarea id="your-turn" placeholder="One day, Crabby decided to..."></textarea>
+      <h2 data-i18n="yourTurnHeading">5. Your Turn!</h2>
+      <p class="sub" data-i18n="yourTurnSub">Crabby's just had his first taste of adventure (and mango ice cream!). What do you think he should get up to next? Write (or dictate to a grown-up) your own Crabby story idea below, then print it out to keep.</p>
+      <textarea id="your-turn" data-i18n-placeholder="yourTurnPlaceholder" placeholder="One day, Crabby decided to..."></textarea>
       <div class="your-turn-actions">
-        <button class="btn" onclick="window.print()">Print my story</button>
-        <button class="btn secondary" id="your-turn-clear">Clear</button>
+        <button class="btn" onclick="window.print()" data-i18n="printStory">Print my story</button>
+        <button class="btn secondary" id="your-turn-clear" data-i18n="clear">Clear</button>
       </div>
     </div>
 
   </div>
+
+<!-- EDIT: translations for this page.
+     1. CrabbyLang.add(...) holds the fixed text that is only on this page
+        (text shared by both activity pages is in lang/i18n.js).
+     2. ACTIVITY_LANGS holds each language's own word search (grid + where
+        each word sits, as [row, column] from the top-left, counting from 0),
+        quiz sentences (same order and answers as the English) and the
+        story moments in their correct order. -->
+<script>
+CrabbyLang.add({
+  "el": {
+    "pageTitle": "Γωνιά δραστηριοτήτων — Ο Κράμπι και το παγωτό μάνγκο",
+    "intro": "Πέντε πράγματα να κάνεις αφού διαβάσεις την ιστορία <a href=\"../stories/crabby-and-the-mango-ice-cream\">«Ο Κράμπι και το παγωτό μάνγκο»</a>. Κατέβα πιο κάτω και δοκίμασέ τα!",
+    "orderSub": "Σύρε (από τη λαβή &#9776;) ή πάτα τα βελάκια για να βάλεις αυτές τις στιγμές από την ιστορία <em>«Ο Κράμπι και το παγωτό μάνγκο»</em> στη σειρά που έγιναν.",
+    "colourSub": "Εκτύπωσε αυτή τη σελίδα (ή μόνο τη ζωγραφιά) και ζωγράφισε τον Κράμπι να κρατά το παγωτό μάνγκο που τόσο κόπιασε να αποκτήσει — δεν είναι πάντα κόκκινος!",
+    "yourTurnSub": "Ο Κράμπι μόλις δοκίμασε για πρώτη φορά την περιπέτεια (και το παγωτό μάνγκο!). Τι λες να κάνει μετά; Γράψε (ή πες σε έναν μεγάλο να γράψει) τη δική σου ιδέα για μια ιστορία του Κράμπι παρακάτω και μετά εκτύπωσέ την για να την κρατήσεις."
+  },
+  "it": {
+    "pageTitle": "Angolo delle attività — Crabby e il gelato al mango",
+    "intro": "Cinque cose da fare dopo aver letto <a href=\"../stories/crabby-and-the-mango-ice-cream\">Crabby e il gelato al mango</a>. Scorri in basso e provale!",
+    "orderSub": "Trascina (usando la maniglia &#9776;) o tocca le frecce per mettere questi momenti di <em>Crabby e il gelato al mango</em> nell'ordine in cui sono successi nella storia.",
+    "colourSub": "Stampa questa pagina (o solo il disegno) e colora Crabby con il suo sudatissimo gelato al mango — non deve per forza essere rosso!",
+    "yourTurnSub": "Crabby ha appena assaggiato la sua prima avventura (e il gelato al mango!). Secondo te, cosa dovrebbe combinare adesso? Scrivi (o detta a un adulto) la tua idea per una storia di Crabby qui sotto, poi stampala per conservarla."
+  },
+  "fr": {
+    "pageTitle": "Coin des activités — Crabby et la glace à la mangue",
+    "intro": "Cinq choses à faire après avoir lu <a href=\"../stories/crabby-and-the-mango-ice-cream\">Crabby et la glace à la mangue</a>. Descends et essaie-les !",
+    "orderSub": "Fais glisser (avec la poignée &#9776;) ou touche les flèches pour remettre ces moments de <em>Crabby et la glace à la mangue</em> dans l'ordre où ils se sont passés dans l'histoire.",
+    "colourSub": "Imprime cette page (ou juste le dessin) et colorie Crabby qui tient sa glace à la mangue durement gagnée — il n'est pas obligé d'être rouge !",
+    "yourTurnSub": "Crabby vient de goûter à sa première aventure (et à la glace à la mangue !). Que devrait-il faire ensuite, à ton avis ? Écris (ou dicte à un adulte) ta propre idée d'histoire de Crabby ci-dessous, puis imprime-la pour la garder."
+  },
+  "es": {
+    "pageTitle": "Rincón de actividades — Crabby y el helado de mango",
+    "intro": "Cinco cosas para hacer después de leer <a href=\"../stories/crabby-and-the-mango-ice-cream\">Crabby y el helado de mango</a>. ¡Baja y pruébalas!",
+    "orderSub": "Arrastra (con el asa &#9776;) o toca las flechas para poner estos momentos de <em>Crabby y el helado de mango</em> en el orden en que pasaron en el cuento.",
+    "colourSub": "Imprime esta página (o solo el dibujo) y colorea a Crabby con su helado de mango, que tanto le costó conseguir. ¡No tiene por qué ser rojo!",
+    "yourTurnSub": "Crabby acaba de probar su primera aventura (¡y el helado de mango!). ¿Qué crees que debería hacer ahora? Escribe (o díctale a un adulto) tu propia idea para un cuento de Crabby aquí abajo y luego imprímela para guardarla."
+  }
+});
+
+window.ACTIVITY_LANGS = {
+  el: {
+    grid: [
+      ["Λ", "Ψ", "Π", "Π", "Χ", "Ζ", "Ρ", "Χ", "Τ", "Ζ", "Ρ", "Π"],
+      ["Γ", "Θ", "Σ", "Α", "Τ", "Υ", "Λ", "Υ", "Δ", "Μ", "Ε", "Θ"],
+      ["Ο", "Ω", "Ο", "Υ", "Κ", "Α", "Β", "Ο", "Υ", "Ρ", "Α", "Σ"],
+      ["Τ", "Σ", "Φ", "Η", "Γ", "Ο", "Π", "Ι", "Ι", "Υ", "Δ", "Ζ"],
+      ["Η", "Α", "Ι", "Σ", "Ξ", "Υ", "Τ", "Π", "Η", "Α", "Υ", "Γ"],
+      ["Γ", "Κ", "Α", "Ε", "Α", "Π", "Ε", "Ω", "Λ", "Ι", "Η", "Α"],
+      ["Η", "Ι", "Ι", "Ν", "Α", "Τ", "Ψ", "Κ", "Γ", "Λ", "Λ", "Λ"],
+      ["Ν", "Ν", "Φ", "Γ", "Ε", "Ο", "Α", "Λ", "Ο", "Α", "Ω", "Ν"],
+      ["Υ", "Ι", "Α", "Ι", "Ψ", "Σ", "Ι", "Ω", "Π", "Ρ", "Π", "Λ"],
+      ["Κ", "Ο", "Α", "Ι", "Ρ", "Χ", "Κ", "Μ", "Υ", "Α", "Π", "Κ"],
+      ["Ο", "Φ", "Ο", "Κ", "Γ", "Ν", "Α", "Μ", "Ξ", "Π", "Γ", "Φ"],
+      ["Χ", "Δ", "Π", "Α", "Γ", "Κ", "Ο", "Σ", "Ω", "Δ", "Χ", "Ω"]
+    ],
+    words: {
+      "ΠΑΓΩΤΟ": [[8, 10], [7, 9], [6, 8], [5, 7], [4, 6], [3, 5]],
+      "ΚΑΒΟΥΡΑΣ": [[2, 4], [2, 5], [2, 6], [2, 7], [2, 8], [2, 9], [2, 10], [2, 11]],
+      "ΜΑΝΓΚΟ": [[10, 7], [10, 6], [10, 5], [10, 4], [10, 3], [10, 2]],
+      "ΠΑΡΑΛΙΑ": [[10, 9], [9, 9], [8, 9], [7, 9], [6, 9], [5, 9], [4, 9]],
+      "ΜΠΑΛΑ": [[9, 7], [8, 8], [7, 9], [6, 10], [5, 11]],
+      "ΚΥΝΗΓΗΤΟ": [[9, 0], [8, 0], [7, 0], [6, 0], [5, 0], [4, 0], [3, 0], [2, 0]],
+      "ΦΟΙΝΙΚΑΣ": [[10, 1], [9, 1], [8, 1], [7, 1], [6, 1], [5, 1], [4, 1], [3, 1]],
+      "ΠΑΓΚΟΣ": [[11, 2], [11, 3], [11, 4], [11, 5], [11, 6], [11, 7]],
+      "ΣΟΦΙΑ": [[1, 2], [2, 2], [3, 2], [4, 2], [5, 2]],
+      "ΠΕΡΙΠΕΤΕΙΑ": [[0, 11], [1, 10], [2, 9], [3, 8], [4, 7], [5, 6], [6, 5], [7, 4], [8, 3], [9, 2]]
+    },
+    quiz: [
+      { q: "Ο Κράμπι είναι φτιαγμένος από κατακόκκινο πλαστικό Lego.", answer: true },
+      { q: "Ο Κράμπι ζει στον ωκεανό.", answer: false },
+      { q: "Ο Κράμπι κλέβει ένα παγωτό μάνγκο από τον πάγκο με τα παγωτά.", answer: true },
+      { q: "Ο παγωτατζής δεν προσέχει ποτέ ότι λείπει το παγωτό.", answer: false },
+      { q: "Μετά το κυνηγητό, ο Κράμπι βρίσκει μια καινούργια κρυψώνα κοντά στον πάγκο με τα παγωτά.", answer: true },
+      { q: "Ο Κράμπι έχει δύο δαγκάνες και οκτώ ποδαράκια.", answer: true },
+      { q: "Ο δρόμος μέσα από το Beach Club είναι σύντομος και ο Κράμπι φτάνει αμέσως στον πάγκο με τα παγωτά.", answer: false },
+      { q: "Κατά τη διάρκεια του κυνηγητού, ο Κράμπι κρύβεται στη σκιά του φοίνικα.", answer: true }
+    ],
+    order: [
+      "Ο Κράμπι αποφασίζει να βγει για περιπέτεια και φεύγει από τη σχισμή του.",
+      "Διασχίζει όλο το Beach Club μέχρι τον πάγκο με τα παγωτά.",
+      "Ο Κράμπι αρπάζει τη μπάλα παγωτό μάνγκο και την ξεκολλάει.",
+      "Ο παγωτατζής τον βλέπει και φωνάζει «Πιάστε αυτόν τον κάβουρα!»",
+      "Ο Κράμπι κρύβεται κάτω από τον φοίνικα μέχρι να περάσει ο κίνδυνος.",
+      "Ο Κράμπι βρίσκει μια καινούργια κρυψώνα κοντά στον πάγκο με τα παγωτά."
+    ]
+  },
+  it: {
+    grid: [
+      ["C", "B", "Q", "D", "Z", "S", "O", "F", "I", "A", "C", "A"],
+      ["M", "L", "Q", "G", "L", "N", "R", "Q", "K", "L", "N", "V"],
+      ["V", "Z", "D", "Z", "R", "A", "K", "C", "Z", "I", "L", "V"],
+      ["S", "A", "I", "G", "G", "A", "I", "P", "S", "F", "V", "E"],
+      ["O", "Y", "O", "I", "Z", "V", "N", "W", "V", "U", "I", "N"],
+      ["C", "O", "W", "G", "F", "P", "B", "C", "J", "P", "J", "T"],
+      ["S", "O", "M", "A", "N", "G", "O", "W", "H", "T", "D", "U"],
+      ["O", "G", "Q", "I", "P", "W", "T", "T", "X", "I", "Y", "R"],
+      ["I", "E", "E", "A", "V", "R", "G", "E", "A", "F", "O", "A"],
+      ["H", "L", "L", "V", "N", "T", "Y", "P", "I", "L", "N", "K"],
+      ["C", "M", "L", "J", "A", "O", "S", "G", "N", "X", "E", "M"],
+      ["A", "G", "U", "F", "H", "P", "F", "V", "D", "Q", "T", "G"]
+    ],
+    words: {
+      "LEGO": [[9, 1], [8, 1], [7, 1], [6, 1]],
+      "GRANCHIO": [[1, 3], [2, 4], [3, 5], [4, 6], [5, 7], [6, 8], [7, 9], [8, 10]],
+      "MANGO": [[6, 2], [6, 3], [6, 4], [6, 5], [6, 6]],
+      "SPIAGGIA": [[3, 8], [3, 7], [3, 6], [3, 5], [3, 4], [3, 3], [3, 2], [3, 1]],
+      "GELATO": [[11, 11], [10, 10], [9, 9], [8, 8], [7, 7], [6, 6]],
+      "FUGA": [[11, 3], [11, 2], [11, 1], [11, 0]],
+      "PALMA": [[7, 4], [8, 3], [9, 2], [10, 1], [11, 0]],
+      "CHIOSCO": [[10, 0], [9, 0], [8, 0], [7, 0], [6, 0], [5, 0], [4, 0]],
+      "SOFIA": [[0, 5], [0, 6], [0, 7], [0, 8], [0, 9]],
+      "AVVENTURA": [[0, 11], [1, 11], [2, 11], [3, 11], [4, 11], [5, 11], [6, 11], [7, 11], [8, 11]]
+    },
+    quiz: [
+      { q: "Crabby è fatto di plastica Lego rosso vivo.", answer: true },
+      { q: "Crabby vive nell'oceano.", answer: false },
+      { q: "Crabby ruba un gelato al mango dal chiosco dei gelati.", answer: true },
+      { q: "Il gelataio non si accorge mai che manca il gelato.", answer: false },
+      { q: "Dopo l'inseguimento, Crabby si trasferisce in un nuovo nascondiglio vicino al chiosco dei gelati.", answer: true },
+      { q: "Crabby ha due chele e otto zampette.", answer: true },
+      { q: "Il sentiero attraverso il Beach Club è corto e Crabby arriva subito al chiosco dei gelati.", answer: false },
+      { q: "Durante l'inseguimento, Crabby si nasconde all'ombra della palma.", answer: true }
+    ],
+    order: [
+      "Crabby decide di partire per un'avventura e lascia la sua fessura.",
+      "Attraversa zampettando tutto il Beach Club fino al chiosco dei gelati.",
+      "Crabby afferra la pallina di gelato al mango e la stacca.",
+      "Il gelataio lo vede e grida «Prendete quel granchio!»",
+      "Crabby si nasconde sotto la palma finché il pericolo non è passato.",
+      "Crabby trova un nuovo nascondiglio vicino al chiosco dei gelati."
+    ]
+  },
+  fr: {
+    grid: [
+      ["O", "O", "N", "S", "E", "L", "H", "C", "H", "D", "R", "A"],
+      ["W", "E", "U", "Y", "C", "C", "E", "Q", "R", "P", "U", "J"],
+      ["P", "U", "Y", "C", "Q", "Y", "J", "L", "O", "A", "S", "G"],
+      ["A", "G", "Q", "K", "B", "L", "Q", "U", "U", "S", "B", "Z"],
+      ["L", "N", "G", "V", "W", "V", "R", "N", "E", "O", "E", "E"],
+      ["M", "A", "O", "I", "N", "S", "E", "I", "W", "I", "B", "D"],
+      ["I", "M", "Q", "G", "U", "U", "Z", "V", "A", "H", "H", "N"],
+      ["E", "G", "K", "I", "E", "W", "L", "J", "T", "O", "M", "A"],
+      ["R", "F", "T", "J", "R", "L", "E", "G", "A", "L", "P", "T"],
+      ["O", "E", "A", "V", "E", "N", "T", "U", "R", "E", "B", "S"],
+      ["P", "R", "R", "Q", "F", "P", "U", "M", "I", "W", "A", "Y"],
+      ["M", "X", "A", "I", "F", "O", "S", "K", "G", "W", "Y", "D"]
+    ],
+    words: {
+      "LEGO": [[8, 5], [7, 4], [6, 3], [5, 2]],
+      "CRABE": [[0, 7], [1, 8], [2, 9], [3, 10], [4, 11]],
+      "MANGUE": [[6, 1], [5, 1], [4, 1], [3, 1], [2, 1], [1, 1]],
+      "PLAGE": [[8, 10], [8, 9], [8, 8], [8, 7], [8, 6]],
+      "BOULE": [[5, 10], [4, 9], [3, 8], [2, 7], [1, 6]],
+      "POURSUITE": [[1, 9], [2, 8], [3, 7], [4, 6], [5, 5], [6, 4], [7, 3], [8, 2], [9, 1]],
+      "PALMIER": [[2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0]],
+      "STAND": [[9, 11], [8, 11], [7, 11], [6, 11], [5, 11]],
+      "SOFIA": [[11, 6], [11, 5], [11, 4], [11, 3], [11, 2]],
+      "AVENTURE": [[9, 2], [9, 3], [9, 4], [9, 5], [9, 6], [9, 7], [9, 8], [9, 9]]
+    },
+    quiz: [
+      { q: "Crabby est fait de plastique Lego rouge vif.", answer: true },
+      { q: "Crabby vit dans l'océan.", answer: false },
+      { q: "Crabby vole une glace à la mangue au stand de glaces.", answer: true },
+      { q: "Le marchand de glaces ne remarque jamais que la glace a disparu.", answer: false },
+      { q: "Après la poursuite, Crabby s'installe dans une nouvelle cachette près du stand de glaces.", answer: true },
+      { q: "Crabby a deux pinces et huit petites pattes.", answer: true },
+      { q: "Le chemin à travers le Beach Club est court, et Crabby arrive tout de suite au stand de glaces.", answer: false },
+      { q: "Pendant la poursuite, Crabby se cache à l'ombre du palmier.", answer: true }
+    ],
+    order: [
+      "Crabby décide de partir à l'aventure et quitte sa crevasse.",
+      "Il trottine à travers tout le Beach Club jusqu'au stand de glaces.",
+      "Crabby attrape la boule de glace à la mangue et la détache.",
+      "Le marchand de glaces le repère et crie « Attrapez ce crabe ! »",
+      "Crabby se cache sous le palmier jusqu'à ce que la voie soit libre.",
+      "Crabby trouve une nouvelle cachette près du stand de glaces."
+    ]
+  },
+  es: {
+    grid: [
+      ["N", "N", "B", "O", "L", "A", "R", "E", "M", "O", "Q", "X"],
+      ["G", "O", "V", "D", "C", "O", "G", "O", "G", "G", "D", "I"],
+      ["A", "I", "D", "T", "U", "A", "B", "E", "I", "O", "R", "U"],
+      ["V", "C", "A", "R", "E", "M", "L", "A", "P", "T", "J", "K"],
+      ["E", "U", "D", "C", "X", "W", "P", "S", "H", "S", "P", "Y"],
+      ["N", "C", "Z", "O", "A", "G", "J", "F", "X", "E", "L", "O"],
+      ["T", "E", "V", "Y", "S", "N", "P", "E", "P", "U", "C", "G"],
+      ["U", "S", "O", "M", "O", "D", "G", "V", "T", "P", "A", "N"],
+      ["R", "R", "S", "I", "F", "R", "B", "R", "R", "A", "J", "A"],
+      ["A", "E", "A", "H", "I", "H", "H", "K", "E", "W", "L", "M"],
+      ["W", "P", "P", "L", "A", "Y", "A", "R", "M", "J", "X", "E"],
+      ["Y", "F", "G", "M", "C", "S", "L", "A", "H", "M", "O", "M"]
+    ],
+    words: {
+      "LEGO": [[3, 6], [2, 7], [1, 8], [0, 9]],
+      "CANGREJO": [[4, 3], [5, 4], [6, 5], [7, 6], [8, 7], [9, 8], [10, 9], [11, 10]],
+      "MANGO": [[9, 11], [8, 11], [7, 11], [6, 11], [5, 11]],
+      "PLAYA": [[10, 2], [10, 3], [10, 4], [10, 5], [10, 6]],
+      "BOLA": [[0, 2], [0, 3], [0, 4], [0, 5]],
+      "PERSECUCION": [[10, 1], [9, 1], [8, 1], [7, 1], [6, 1], [5, 1], [4, 1], [3, 1], [2, 1], [1, 1], [0, 1]],
+      "PALMERA": [[3, 8], [3, 7], [3, 6], [3, 5], [3, 4], [3, 3], [3, 2]],
+      "PUESTO": [[7, 9], [6, 9], [5, 9], [4, 9], [3, 9], [2, 9]],
+      "SOFIA": [[6, 4], [7, 4], [8, 4], [9, 4], [10, 4]],
+      "AVENTURA": [[2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], [9, 0]]
+    },
+    quiz: [
+      { q: "Crabby está hecho de plástico Lego rojo brillante.", answer: true },
+      { q: "Crabby vive en el océano.", answer: false },
+      { q: "Crabby roba un helado de mango del puesto de helados.", answer: true },
+      { q: "El heladero nunca se da cuenta de que falta el helado.", answer: false },
+      { q: "Después de la persecución, Crabby se muda a un nuevo escondite cerca del puesto de helados.", answer: true },
+      { q: "Crabby tiene dos pinzas y ocho patitas.", answer: true },
+      { q: "El camino a través del Beach Club es corto y Crabby llega enseguida al puesto de helados.", answer: false },
+      { q: "Durante la persecución, Crabby se esconde a la sombra de la palmera.", answer: true }
+    ],
+    order: [
+      "Crabby decide vivir una aventura y sale de su grieta.",
+      "Cruza correteando todo el Beach Club hasta el puesto de helados.",
+      "Crabby agarra la bola de helado de mango y la arranca.",
+      "El heladero lo ve y grita «¡Atrapen a ese cangrejo!»",
+      "Crabby se esconde bajo la palmera hasta que ya no hay peligro.",
+      "Crabby encuentra un nuevo escondite cerca del puesto de helados."
+    ]
+  }
+};
+</script>
 
 <script>
 (function () {
@@ -538,24 +767,34 @@
   var wsSelecting = false;
   var wsStart = null;
 
-  WS_GRID.forEach(function (row, r) {
-    row.forEach(function (letter, c) {
-      var cell = document.createElement('div');
-      cell.className = 'ws-cell';
-      cell.textContent = letter;
-      cell.dataset.r = r;
-      cell.dataset.c = c;
-      wsGridEl.appendChild(cell);
-      wsCellEls[r + ',' + c] = cell;
-    });
-  });
+  // Draws the grid and word list for the current language (see ACTIVITY_LANGS)
+  function buildWordSearch() {
+    wsGridEl.innerHTML = '';
+    wsWordListEl.innerHTML = '';
+    wsStatusEl.classList.remove('show');
+    wsFoundWords = {};
+    wsCellEls = {};
+    wsSelecting = false;
 
-  Object.keys(WS_WORDS).forEach(function (word) {
-    var li = document.createElement('li');
-    li.textContent = word;
-    li.id = 'ws-li-' + word;
-    wsWordListEl.appendChild(li);
-  });
+    WS_GRID.forEach(function (row, r) {
+      row.forEach(function (letter, c) {
+        var cell = document.createElement('div');
+        cell.className = 'ws-cell';
+        cell.textContent = letter;
+        cell.dataset.r = r;
+        cell.dataset.c = c;
+        wsGridEl.appendChild(cell);
+        wsCellEls[r + ',' + c] = cell;
+      });
+    });
+
+    Object.keys(WS_WORDS).forEach(function (word) {
+      var li = document.createElement('li');
+      li.textContent = word;
+      li.id = 'ws-li-' + word;
+      wsWordListEl.appendChild(li);
+    });
+  }
 
   function cellsBetween(r1, c1, r2, c2) {
     var dr = r2 - r1, dc = c2 - c1;
@@ -682,50 +921,60 @@
   var quizCorrectCount = 0;
   var quizAnswered = 0;
 
-  QUIZ.forEach(function (item, i) {
-    var wrap = document.createElement('div');
-    wrap.className = 'quiz-q';
+  function buildQuiz() {
+    var T = CrabbyLang.t;
+    quizBody.innerHTML = '';
+    quizScoreEl.textContent = '';
+    quizCorrectCount = 0;
+    quizAnswered = 0;
 
-    var qText = document.createElement('p');
-    qText.className = 'q-text';
-    qText.textContent = (i + 1) + '. ' + item.q;
-    wrap.appendChild(qText);
+    QUIZ.forEach(function (item, i) {
+      var wrap = document.createElement('div');
+      wrap.className = 'quiz-q';
 
-    var btns = document.createElement('div');
-    btns.className = 'quiz-btns';
+      var qText = document.createElement('p');
+      qText.className = 'q-text';
+      qText.textContent = (i + 1) + '. ' + item.q;
+      wrap.appendChild(qText);
 
-    var feedback = document.createElement('p');
-    feedback.className = 'quiz-feedback';
-    feedback.textContent = item.answer ? 'True!' : 'False!';
+      var btns = document.createElement('div');
+      btns.className = 'quiz-btns';
 
-    ['True', 'False'].forEach(function (label) {
-      var btn = document.createElement('button');
-      btn.className = 'quiz-btn';
-      btn.textContent = label;
-      btn.addEventListener('click', function () {
-        if (btn.disabled) return;
-        var chosenTrue = (label === 'True');
-        var isCorrect = chosenTrue === item.answer;
-        Array.prototype.forEach.call(btns.children, function (b) { b.disabled = true; });
-        btn.classList.add(isCorrect ? 'correct' : 'wrong');
-        if (!isCorrect) {
-          Array.prototype.forEach.call(btns.children, function (b) {
-            var bIsTrueBtn = (b.textContent === 'True');
-            if (bIsTrueBtn === item.answer) b.classList.add('correct');
-          });
-        }
-        feedback.classList.add('show');
-        quizAnswered++;
-        if (isCorrect) quizCorrectCount++;
-        quizScoreEl.textContent = 'Score: ' + quizCorrectCount + ' / ' + QUIZ.length + ' answered so far (' + quizAnswered + '/' + QUIZ.length + ')';
+      var feedback = document.createElement('p');
+      feedback.className = 'quiz-feedback';
+      feedback.textContent = item.answer ? T('quizTrueFb', 'True!') : T('quizFalseFb', 'False!');
+
+      [true, false].forEach(function (value) {
+        var btn = document.createElement('button');
+        btn.className = 'quiz-btn';
+        btn.textContent = value ? T('quizTrue', 'True') : T('quizFalse', 'False');
+        btn.dataset.value = value ? 'true' : 'false';
+        btn.addEventListener('click', function () {
+          if (btn.disabled) return;
+          var isCorrect = value === item.answer;
+          Array.prototype.forEach.call(btns.children, function (b) { b.disabled = true; });
+          btn.classList.add(isCorrect ? 'correct' : 'wrong');
+          if (!isCorrect) {
+            Array.prototype.forEach.call(btns.children, function (b) {
+              if ((b.dataset.value === 'true') === item.answer) b.classList.add('correct');
+            });
+          }
+          feedback.classList.add('show');
+          quizAnswered++;
+          if (isCorrect) quizCorrectCount++;
+          quizScoreEl.textContent = T('quizScore', 'Score: {c} / {n} answered so far ({a}/{n})')
+            .replace(/\{c\}/g, quizCorrectCount)
+            .replace(/\{a\}/g, quizAnswered)
+            .replace(/\{n\}/g, QUIZ.length);
+        });
+        btns.appendChild(btn);
       });
-      btns.appendChild(btn);
-    });
 
-    wrap.appendChild(btns);
-    wrap.appendChild(feedback);
-    quizBody.appendChild(wrap);
-  });
+      wrap.appendChild(btns);
+      wrap.appendChild(feedback);
+      quizBody.appendChild(wrap);
+    });
+  }
 
   /* ===================== 3. ORDER THE STORY ===================== */
   var ORDER_SET = [
@@ -763,8 +1012,8 @@
         '<span class="handle" aria-hidden="true">&#9776;</span>' +
         '<span class="order-text">' + text + '</span>' +
         '<span class="order-moves">' +
-          '<button type="button" class="move-btn" data-dir="-1" aria-label="Move up">&#9650;</button>' +
-          '<button type="button" class="move-btn" data-dir="1" aria-label="Move down">&#9660;</button>' +
+          '<button type="button" class="move-btn" data-dir="-1" aria-label="' + CrabbyLang.t('moveUp', 'Move up') + '">&#9650;</button>' +
+          '<button type="button" class="move-btn" data-dir="1" aria-label="' + CrabbyLang.t('moveDown', 'Move down') + '">&#9660;</button>' +
         '</span>';
 
       // Up / down buttons — easiest option on phones
@@ -847,7 +1096,22 @@
 
   document.getElementById('order-shuffle').addEventListener('click', renderOrderList);
 
-  renderOrderList();
+  /* ===================== LANGUAGE ===================== */
+  // Redraw the word search, quiz and ordering game whenever the
+  // site-wide language changes (the picker comes from lang/i18n.js).
+  // The English is the WS_GRID / WS_WORDS / QUIZ / ORDER_SET above;
+  // the other languages are in ACTIVITY_LANGS just above this script.
+  var ENGLISH = { grid: WS_GRID, words: WS_WORDS, quiz: QUIZ, order: ORDER_SET };
+  CrabbyLang.onChange(function (code) {
+    var set = (window.ACTIVITY_LANGS && window.ACTIVITY_LANGS[code]) || ENGLISH;
+    WS_GRID = set.grid;
+    WS_WORDS = set.words;
+    QUIZ = set.quiz;
+    ORDER_SET = set.order;
+    buildWordSearch();
+    buildQuiz();
+    renderOrderList();
+  });
 
   /* ===================== 5. YOUR TURN ===================== */
   document.getElementById('your-turn-clear').addEventListener('click', function () {

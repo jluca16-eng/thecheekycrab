@@ -22,7 +22,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Activity Corner — The Adventures of Crabby</title>
+<title data-i18n="pageTitle">Activity Corner — The Adventures of Crabby</title>
 
 <meta name="description" content="Pick a story to find its word search, quiz, story-ordering game, colouring page and writing space.">
 
@@ -150,33 +150,58 @@
     color: var(--ink);
   }
 </style>
+<!-- Site-wide language switching (see lang/i18n.js) -->
+<script src="../lang/i18n.js"></script>
 </head>
 
 <body>
 
   <div class="page">
 
-    <a class="back" href="/">&larr; Back</a>
+    <a class="back" href="/" data-i18n="back">&larr; Back</a>
 
-    <h1>Activity Corner</h1>
-    <p class="intro">Pick a story below to find its own word search, quiz, story-ordering game, colouring page and writing space.</p>
+    <h1 data-i18n="navActivity">Activity Corner</h1>
+    <p class="intro" data-i18n="intro">Pick a story below to find its own word search, quiz, story-ordering game, colouring page and writing space.</p>
 
     <div class="story-list">
 
       <!-- EDIT: one line per story's activity page. Copy this whole block for a new one. -->
       <a class="story-row" href="mango-ice-cream-activity">
-        <img src="../images/Crabby%20Mango%20Ice%20Cream.png" alt="Crabby the Lego crab triumphantly holding a mango ice cream cone">
-        <span>Crabby and the Mango Ice Cream</span>
+        <img src="../images/Crabby%20Mango%20Ice%20Cream.png" alt="Crabby the Lego crab triumphantly holding a mango ice cream cone" data-i18n-alt="altMangoCone">
+        <span data-i18n="titleMango">Crabby and the Mango Ice Cream</span>
       </a>
 
       <a class="story-row" href="perfect-hiding-place-activity">
-        <img src="../images/Crabby%20and%20Sofia%20Windowsill.jpg" alt="Crabby the Lego crab watching Sofia brush her hair">
-        <span>Crabby and the Perfect Hiding Place</span>
+        <img src="../images/Crabby%20and%20Sofia%20Windowsill.jpg" alt="Crabby the Lego crab watching Sofia brush her hair" data-i18n-alt="altWindowsill">
+        <span data-i18n="titleHiding">Crabby and the Perfect Hiding Place</span>
       </a>
 
     </div>
 
   </div>
 
+
+<!-- EDIT: translations of this page's labelled text (data-i18n="...").
+     Words shared with other pages (Back, story titles, menu names) are in lang/i18n.js. -->
+<script>
+CrabbyLang.add({
+  "el": {
+    "pageTitle": "Γωνιά δραστηριοτήτων — Οι περιπέτειες του Κράμπι",
+    "intro": "Διάλεξε μια ιστορία παρακάτω για να βρεις το δικό της κρυπτόλεξο, κουίζ, παιχνίδι με τη σειρά της ιστορίας, σελίδα ζωγραφικής και χώρο για να γράψεις."
+  },
+  "it": {
+    "pageTitle": "Angolo delle attività — Le avventure di Crabby",
+    "intro": "Scegli una storia qui sotto per trovare il suo crucipuzzle, il quiz, il gioco per rimettere in ordine la storia, il disegno da colorare e uno spazio per scrivere."
+  },
+  "fr": {
+    "pageTitle": "Coin des activités — Les aventures de Crabby",
+    "intro": "Choisis une histoire ci-dessous pour trouver ses mots mêlés, son quiz, son jeu pour remettre l'histoire dans l'ordre, son coloriage et un espace pour écrire."
+  },
+  "es": {
+    "pageTitle": "Rincón de actividades — Las aventuras de Crabby",
+    "intro": "Elige un cuento aquí abajo para encontrar su sopa de letras, su cuestionario, su juego para ordenar la historia, su dibujo para colorear y un espacio para escribir."
+  }
+});
+</script>
 </body>
 </html>
