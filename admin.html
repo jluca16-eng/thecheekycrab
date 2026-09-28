@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  thecheekycrab.com  —  Admin   (/admin)
+  ============================================================
+
+  For Administrators only: read every feedback message, manage who
+  has an account (and whether they're an Administrator or a User),
+  and open the unreleased pages in /preview/.
+
+  Anyone can load this page, but it shows nothing unless the person
+  is logged in as an Administrator — all the information comes from
+  the functions in netlify/functions/, which check the role on
+  Netlify's side every time.
+
+  English only (it's just for the people running the site).
+  ============================================================
+-->
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Admin — The Adventures of Crabby</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper: #fbf4dd;
+    --ink:   #163a5c;
+    --text:  #2b2b2b;
+    --muted: #6b6456;
+    --line:  #e6dcc2;
+    --card:  #ffffff;
+    --red:   #c8372d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--paper);
+    color: var(--text);
+    font: 16px/1.5 "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+    padding: 40px 16px 80px;
+  }
+  .page { max-width: 900px; margin: 0 auto; }
+  .back { display: inline-block; margin-bottom: 18px; color: var(--ink); text-decoration: none; opacity: .75; }
+  .back:hover { opacity: 1; }
+  h1 {
+    font: 400 52px/1.1 "Alex Brush", "Segoe Script", "Brush Script MT", cursive;
+    color: var(--ink); text-align: center; margin-bottom: 6px;
+  }
+  .who { text-align: center; color: var(--muted); margin-bottom: 26px; font-size: 15px; }
+  .who strong { color: var(--ink); }
+  .who button { background: none; border: none; font: inherit; color: var(--ink); text-decoration: underline; cursor: pointer; margin-left: 8px; }
+
+  .tabs { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-bottom: 22px; }
+  .tabs button {
+    font: 600 15px/1 inherit; font-family: inherit; padding: 10px 18px; border-radius: 999px;
+    border: 2px solid var(--ink); background: transparent; color: var(--ink); cursor: pointer;
+  }
+  .tabs button[aria-selected="true"] { background: var(--ink); color: #fff; }
+  .tabs .count { font-weight: 400; opacity: .8; margin-left: 4px; }
+
+  .panel[hidden] { display: none; }
+  .toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .toolbar select, .toolbar input {
+    font: inherit; padding: 8px 10px; border: 1.5px solid #c9bfa3; border-radius: 8px; background: #fffdf6; color: var(--text);
+    min-width: 0;
+  }
+  .toolbar input { flex: 1 1 200px; }
+  .toolbar .summary { color: var(--muted); font-size: 14px; }
+
+  .card {
+    background: var(--card); border-radius: 12px; box-shadow: 0 4px 14px rgba(90, 66, 30, .12);
+    padding: 16px 18px; margin-bottom: 12px;
+  }
+  .card-head { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; justify-content: space-between; margin-bottom: 6px; }
+  .card-title { font-weight: 700; color: var(--ink); }
+  .meta { color: var(--muted); font-size: 13.5px; }
+  .rating { font-size: 18px; letter-spacing: 1px; }
+  .rating .off { filter: grayscale(1); opacity: .35; }
+  .message { white-space: pre-wrap; overflow-wrap: anywhere; margin: 6px 0 10px; }
+  .card-foot { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; justify-content: space-between; }
+  .from { font-size: 14px; overflow-wrap: anywhere; }
+  .from a { color: var(--ink); }
+
+  .pill {
+    display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+    padding: 2px 8px; border-radius: 999px; background: #efe3c2; color: var(--ink); vertical-align: 1px;
+  }
+  .pill.admin { background: var(--red); color: #fff; }
+  .pill.wait { background: #fdf0c8; color: #7a5a00; }
+  .pill.you { background: #e3ecf5; }
+
+  .btn {
+    font: 600 14px/1 inherit; font-family: inherit; padding: 8px 14px; border-radius: 8px; cursor: pointer;
+    border: 1.5px solid var(--ink); background: #fff; color: var(--ink);
+  }
+  .btn.primary { background: var(--ink); color: #fff; }
+  .btn.danger { border-color: var(--red); color: var(--red); }
+  .btn.danger.armed { background: var(--red); color: #fff; }
+  .btn[disabled] { opacity: .5; cursor: default; }
+
+  .user-row { display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; align-items: center; }
+  .user-main { min-width: 0; }
+  .user-name { font-weight: 700; color: var(--ink); overflow-wrap: anywhere; }
+  .user-email { font-size: 14px; overflow-wrap: anywhere; }
+  .user-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: flex-end; }
+  .user-actions select { font: inherit; font-size: 14px; padding: 7px 8px; border: 1.5px solid #c9bfa3; border-radius: 8px; background: #fffdf6; }
+  @media (max-width: 560px) {
+    .user-row { grid-template-columns: 1fr; }
+    .user-actions { justify-content: flex-start; }
+  }
+
+  .note { background: var(--card); border-radius: 12px; padding: 22px; text-align: center; box-shadow: 0 4px 14px rgba(90, 66, 30, .12); }
+  .note h2 { font-size: 20px; color: var(--ink); margin-bottom: 8px; }
+  .note p { margin-bottom: 10px; }
+  .note ol { text-align: left; max-width: 560px; margin: 10px auto; padding-left: 22px; }
+  .note li { margin-bottom: 6px; }
+  .note a { color: var(--ink); }
+  .empty { text-align: center; color: var(--muted); padding: 30px 0; }
+  .msg { padding: 10px 12px; border-radius: 8px; margin-bottom: 12px; font-size: 15px; }
+  .msg.err { background: #fde8e4; color: #8a2412; }
+  .msg.ok { background: #e6f2e2; color: #245b16; }
+  code { background: #f1ead6; padding: 1px 5px; border-radius: 4px; font-size: 14px; }
+</style>
+</head>
+
+<body data-no-lang-picker>
+  <div class="page">
+    <a class="back" href="/">← Back to the beach</a>
+    <h1>Admin</h1>
+    <p class="who" id="who"></p>
+    <div id="app"><p class="empty">Loading…</p></div>
+  </div>
+
+<script src="account/feedback.js"></script>
+<script>
+(function () {
+  var app = document.getElementById('app');
+  var who = document.getElementById('who');
+  var state = { tab: 'feedback', feedback: null, feedbackErr: null, users: null, usersErr: null, me: null, story: '', q: '', flash: null };
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function when(iso) {
+    if (!iso) return '';
+    var d = new Date(iso);
+    return d.toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' }) + ', ' +
+           d.toLocaleTimeString('en-AU', { hour: 'numeric', minute: '2-digit' });
+  }
+  var LANGS = { en: 'English', el: 'Greek', it: 'Italian', fr: 'French', es: 'Spanish' };
+
+  function api(path, json) {
+    return CrabbyAccount.fetch('/.netlify/functions/' + path, json ? { json: json } : {}).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (d) {
+        if (!r.ok) { var e = new Error(d.error || ('HTTP ' + r.status)); e.status = r.status; throw e; }
+        return d;
+      });
+    });
+  }
+
+  // ---------- who's here ----------
+  function start() {
+    CrabbyAccount.reload().then(function (s) {
+      if (!s) {
+        who.textContent = '';
+        app.innerHTML = '<div class="note"><h2>Please log in first</h2><p>Log in on the Feedback page with an Administrator account, then come back here.</p>' +
+          '<p><a class="btn primary" href="/feedback" style="text-decoration:none;display:inline-block">Go to log in</a></p></div>';
+        return;
+      }
+      who.innerHTML = 'Logged in as <strong>' + esc(s.user.name || s.user.email) + '</strong> ' +
+        '<span class="pill ' + (s.user.role === 'admin' ? 'admin' : '') + '">' + (s.user.role === 'admin' ? 'Administrator' : 'User') + '</span>' +
+        '<button type="button" data-act="logout">Log out</button>';
+      if (s.user.role !== 'admin') {
+        app.innerHTML = '<div class="note"><h2>Administrators only</h2><p>This page is for the people who look after the website. ' +
+          'If you should be an Administrator, ask one to change your role.</p></div>';
+        return;
+      }
+      render();
+      loadFeedback();
+      loadUsers();
+    });
+  }
+
+  function loadFeedback() {
+    api('admin-feedback').then(function (d) {
+      state.feedback = d.messages.sort(function (a, b) { return String(b.created_at).localeCompare(String(a.created_at)); });
+      state.feedbackErr = null;
+    }, function (e) { state.feedbackErr = e.message; }).then(render);
+  }
+  function loadUsers() {
+    api('admin-users').then(function (d) {
+      state.users = d.users; state.me = d.me; state.usersErr = null;
+    }, function (e) { state.usersErr = e.message; }).then(render);
+  }
+
+  // ---------- drawing ----------
+  function render() {
+    var h = '<div class="tabs" role="tablist">' +
+      tab('feedback', 'Feedback', state.feedback && state.feedback.length) +
+      tab('users', 'Users', state.users && state.users.length) +
+      tab('preview', 'Preview pages') + '</div>';
+    if (state.flash) h += '<p class="msg ' + state.flash.kind + '" role="status">' + esc(state.flash.text) + '</p>';
+    h += '<section class="panel"' + (state.tab === 'feedback' ? '' : ' hidden') + '>' + feedbackPanel() + '</section>';
+    h += '<section class="panel"' + (state.tab === 'users' ? '' : ' hidden') + '>' + usersPanel() + '</section>';
+    h += '<section class="panel"' + (state.tab === 'preview' ? '' : ' hidden') + '>' + previewPanel() + '</section>';
+    var focusId = document.activeElement && document.activeElement.id;
+    var caret = focusId === 'q' ? document.activeElement.selectionStart : null;
+    app.innerHTML = h;
+    if (focusId) { var el = document.getElementById(focusId); if (el) { el.focus(); if (caret != null) el.setSelectionRange(caret, caret); } }
+  }
+  function tab(id, label, n) {
+    return '<button type="button" role="tab" data-tab="' + id + '" aria-selected="' + (state.tab === id) + '">' + label +
+      (n != null && n !== false ? '<span class="count">(' + n + ')</span>' : '') + '</button>';
+  }
+
+  function feedbackPanel() {
+    if (state.feedbackErr === 'no-token' || state.feedbackErr === 'bad-token') {
+      return '<div class="note"><h2>One more step to see feedback here</h2>' +
+        '<p>Netlify only hands over form messages to the site with an access key. ' +
+        (state.feedbackErr === 'bad-token' ? 'The key saved at the moment isn\'t working — make a new one.' : 'It takes about two minutes:') + '</p><ol>' +
+        '<li>In Netlify, click your picture (bottom-left) → <strong>User settings</strong> → <strong>Applications</strong> → <strong>Personal access tokens</strong> → <strong>New access token</strong>. Call it “Crabby admin”, set it to never expire (or a long time), and copy it.</li>' +
+        '<li>Open the <strong>thecheekycrab</strong> project → <strong>Project configuration</strong> → <strong>Environment variables</strong> → <strong>Add a variable</strong>. Key: <code>NETLIFY_API_TOKEN</code>, value: the token. Tick “Contains secret values” if offered.</li>' +
+        '<li><strong>Deploys</strong> → <strong>Trigger deploy</strong> → <strong>Deploy site</strong>, wait a minute, then reload this page.</li></ol>' +
+        '<p>Until then, messages are still under <strong>Forms → feedback</strong> in Netlify.</p></div>';
+    }
+    if (state.feedbackErr) return '<p class="msg err">Couldn\'t load feedback: ' + esc(state.feedbackErr) + '</p>';
+    if (!state.feedback) return '<p class="empty">Loading feedback…</p>';
+    if (!state.feedback.length) return '<p class="empty">No feedback yet. When readers send some, it will appear here. 🦀</p>';
+
+    var stories = {};
+    state.feedback.forEach(function (m) { if (m.story) stories[m.story] = (stories[m.story] || 0) + 1; });
+    var q = state.q.toLowerCase();
+    var list = state.feedback.filter(function (m) {
+      if (state.story && m.story !== state.story) return false;
+      if (q && (m.message + ' ' + m.name + ' ' + m.email).toLowerCase().indexOf(q) === -1) return false;
+      return true;
+    });
+    var rated = list.filter(function (m) { return parseInt(m.rating, 10); });
+    var avg = rated.length ? (rated.reduce(function (t, m) { return t + parseInt(m.rating, 10); }, 0) / rated.length) : 0;
+
+    var h = '<div class="toolbar"><select id="story" aria-label="Which story"><option value="">All stories and pages</option>';
+    Object.keys(stories).sort().forEach(function (s) {
+      h += '<option value="' + esc(s) + '"' + (state.story === s ? ' selected' : '') + '>' + esc(s) + ' (' + stories[s] + ')</option>';
+    });
+    h += '</select><input id="q" type="search" placeholder="Search messages, names, emails" value="' + esc(state.q) + '">' +
+      '<span class="summary">' + list.length + ' message' + (list.length === 1 ? '' : 's') +
+      (rated.length ? ' · average ' + avg.toFixed(1) + ' / 5 🦀' : '') + '</span></div>';
+    if (!list.length) return h + '<p class="empty">Nothing matches.</p>';
+    list.forEach(function (m) {
+      var n = parseInt(m.rating, 10) || 0, crabs = '';
+      if (n) for (var i = 1; i <= 5; i++) crabs += '<span class="' + (i <= n ? '' : 'off') + '">🦀</span>';
+      h += '<article class="card"><div class="card-head"><span class="card-title">' + esc(m.story || 'Feedback') + '</span>' +
+        '<span class="meta">' + esc(when(m.created_at)) + (m.language ? ' · ' + esc(LANGS[m.language] || m.language) : '') + '</span></div>' +
+        (crabs ? '<div class="rating" aria-label="' + n + ' out of 5">' + crabs + '</div>' : '') +
+        '<p class="message">' + esc(m.message) + '</p>' +
+        '<div class="card-foot"><span class="from">From <strong>' + esc(m.name || 'someone') + '</strong>' +
+        (m.email ? ' · <a href="mailto:' + esc(m.email) + '">' + esc(m.email) + '</a>' : '') +
+        (m.page ? ' · <span class="meta">sent from ' + esc(m.page) + '</span>' : '') + '</span>' +
+        '<button type="button" class="btn danger" data-del-msg="' + esc(m.id) + '">Delete</button></div></article>';
+    });
+    return h;
+  }
+
+  function usersPanel() {
+    if (state.usersErr) return '<p class="msg err">Couldn\'t load accounts: ' + esc(state.usersErr) + '</p>';
+    if (!state.users) return '<p class="empty">Loading accounts…</p>';
+    var admins = state.users.filter(function (u) { return u.role === 'admin'; }).length;
+    var h = '<div class="toolbar"><span class="summary">' + state.users.length + ' account' + (state.users.length === 1 ? '' : 's') +
+      ' · ' + admins + ' Administrator' + (admins === 1 ? '' : 's') + '</span></div>';
+    if (!state.users.length) return h + '<p class="empty">Nobody has signed up yet.</p>';
+    state.users.forEach(function (u) {
+      var me = u.id === state.me, locked = me || u.owner;
+      h += '<div class="card"><div class="user-row"><div class="user-main">' +
+        '<div class="user-name">' + esc(u.name || '(no name)') + ' ' +
+        '<span class="pill ' + (u.role === 'admin' ? 'admin' : '') + '">' + (u.role === 'admin' ? 'Administrator' : 'User') + '</span>' +
+        (me ? ' <span class="pill you">You</span>' : '') +
+        (!u.confirmed ? ' <span class="pill wait">Email not confirmed</span>' : '') + '</div>' +
+        '<div class="user-email"><a href="mailto:' + esc(u.email) + '" style="color:inherit">' + esc(u.email) + '</a></div>' +
+        '<div class="meta">Joined ' + esc(when(u.created_at)) + (u.last_login ? ' · last logged in ' + esc(when(u.last_login)) : '') + '</div></div>' +
+        '<div class="user-actions">' +
+        '<select data-role="' + esc(u.id) + '" aria-label="Role for ' + esc(u.name || u.email) + '"' + (locked ? ' disabled title="' + (me ? "You can't change your own role" : 'Always an Administrator (ADMIN_EMAILS)') + '"' : '') + '>' +
+        '<option value="user"' + (u.role === 'user' ? ' selected' : '') + '>User</option>' +
+        '<option value="admin"' + (u.role === 'admin' ? ' selected' : '') + '>Administrator</option></select>' +
+        '<button type="button" class="btn danger" data-del-user="' + esc(u.id) + '"' + (locked ? ' disabled' : '') + '>Delete</button>' +
+        '</div></div></div>';
+    });
+    h += '<p class="meta" style="margin-top:14px">Administrators can see this page, read all feedback, manage accounts and open preview pages. ' +
+      'Users can send feedback. New sign-ups are always Users. Someone whose role you change will see it the next time they open a page.</p>';
+    return h;
+  }
+
+  function previewPanel() {
+    return '<div class="note"><h2>Unreleased pages</h2>' +
+      '<p>Anything in the website\'s <code>preview</code> folder can only be opened by Administrators. Everyone else sees the Coming Soon page.</p>' +
+      '<p><a class="btn primary" href="/preview/" style="text-decoration:none;display:inline-block">Open the preview pages</a></p>' +
+      '<p class="meta">To release a page, move it out of <code>preview</code> into its normal place (for a story, the <code>stories</code> folder) and link to it.</p></div>';
+  }
+
+  // ---------- actions ----------
+  function flash(kind, text) { state.flash = { kind: kind, text: text }; render(); setTimeout(function () { if (state.flash && state.flash.text === text) { state.flash = null; render(); } }, 5000); }
+
+  // Delete buttons need a second click within 4 seconds.
+  function armed(btn) {
+    if (btn.classList.contains('armed')) return true;
+    btn.classList.add('armed'); btn.textContent = 'Really delete?';
+    setTimeout(function () { if (btn.isConnected) { btn.classList.remove('armed'); btn.textContent = 'Delete'; } }, 4000);
+    return false;
+  }
+
+  app.addEventListener('click', function (e) {
+    var b = e.target.closest('button');
+    if (!b) return;
+    if (b.dataset.tab) { state.tab = b.dataset.tab; render(); return; }
+    if (b.dataset.delMsg) {
+      if (!armed(b)) return;
+      b.disabled = true;
+      api('admin-feedback', { action: 'delete', id: b.dataset.delMsg }).then(function () {
+        state.feedback = state.feedback.filter(function (m) { return m.id !== b.dataset.delMsg; });
+        flash('ok', 'Message deleted.');
+      }, function (err) { flash('err', 'Couldn\'t delete it: ' + err.message); });
+    }
+    if (b.dataset.delUser) {
+      if (!armed(b)) return;
+      b.disabled = true;
+      var u = state.users.filter(function (x) { return x.id === b.dataset.delUser; })[0];
+      api('admin-users', { action: 'delete', id: b.dataset.delUser }).then(function () {
+        state.users = state.users.filter(function (x) { return x.id !== b.dataset.delUser; });
+        flash('ok', 'Deleted the account for ' + (u ? u.email : 'that person') + '.');
+      }, function (err) { flash('err', 'Couldn\'t delete it: ' + err.message); });
+    }
+  });
+  app.addEventListener('change', function (e) {
+    var t = e.target;
+    if (t.id === 'story') { state.story = t.value; render(); }
+    if (t.dataset.role) {
+      t.disabled = true;
+      api('admin-users', { action: 'role', id: t.dataset.role, role: t.value }).then(function (d) {
+        state.users = state.users.map(function (x) { return x.id === d.user.id ? d.user : x; });
+        flash('ok', d.user.email + ' is now ' + (d.user.role === 'admin' ? 'an Administrator.' : 'a User.'));
+      }, function (err) { flash('err', 'Couldn\'t change the role: ' + err.message); render(); });
+    }
+  });
+  app.addEventListener('input', function (e) { if (e.target.id === 'q') { state.q = e.target.value; render(); } });
+  who.addEventListener('click', function (e) {
+    if (e.target.closest('[data-act="logout"]')) { CrabbyAccount.logout(); location.href = '/'; }
+  });
+
+  start();
+})();
+</script>
+</body>
+</html>

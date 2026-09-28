@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  thecheekycrab.com  —  Preview pages   (/preview/)
+  ============================================================
+
+  Everything in this folder is unreleased: only Administrators can
+  open it (the rules are in the _redirects file at the top of the
+  site). Everyone else is shown the Coming Soon page.
+
+  TO ADD A PAGE TO PREVIEW
+    1. Put the page in this folder, e.g. preview/crabby-goes-camping.html
+       (links inside it to pictures etc. need one more "../").
+    2. Add a line for it to the list below.
+
+  TO RELEASE IT
+    Move it to its real folder (a story goes in stories/), fix its
+    "../" links, link to it from the Stories page, and remove it
+    from the list below.
+  ============================================================
+-->
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Preview pages — The Adventures of Crabby</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #fbf4dd; color: #2b2b2b; padding: 50px 16px 80px;
+         font: 17px/1.6 "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif; }
+  .page { max-width: 640px; margin: 0 auto; }
+  .back { color: #163a5c; text-decoration: none; opacity: .75; display: inline-block; margin-bottom: 20px; }
+  .back:hover { opacity: 1; }
+  h1 { font: 400 50px/1.1 "Alex Brush", "Segoe Script", cursive; color: #163a5c; text-align: center; margin-bottom: 8px; }
+  .lead { text-align: center; color: #6b6456; margin-bottom: 26px; }
+  ul { list-style: none; }
+  li a { display: block; background: #fff; border-radius: 12px; padding: 14px 18px; margin-bottom: 10px;
+         color: #163a5c; font-weight: 700; text-decoration: none; box-shadow: 0 4px 14px rgba(90, 66, 30, .12); }
+  li a:hover { box-shadow: 0 6px 18px rgba(90, 66, 30, .2); }
+  .empty { text-align: center; color: #6b6456; background: #fff; border-radius: 12px; padding: 22px; }
+</style>
+</head>
+<body data-no-lang-picker>
+  <div class="page">
+    <a class="back" href="/admin">← Admin</a>
+    <h1>Preview pages</h1>
+    <p class="lead">Not released yet — only Administrators can see these.</p>
+
+    <!-- EDIT: one line per unreleased page, e.g.
+         <li><a href="/preview/crabby-goes-camping">Crabby goes Camping</a></li> -->
+    <ul>
+    </ul>
+    <p class="empty" id="empty">Nothing waiting to be released right now. 🦀</p>
+  </div>
+<script>
+  if (document.querySelector('ul li')) document.getElementById('empty').remove();
+</script>
+</body>
+</html>

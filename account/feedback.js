@@ -275,8 +275,28 @@
       user: tok.user || (loadSession() || {}).user
     } : null;
     try { s ? localStorage.setItem(SESSION_KEY, JSON.stringify(s)) : localStorage.removeItem(SESSION_KEY); } catch (e) {}
+    setCookie(s);
     return s;
   }
+
+  // Netlify checks this cookie before opening Administrator-only pages
+  // (the /preview/ rules in _redirects), so it mirrors the login token.
+  function setCookie(s) {
+    var secure = location.protocol === 'https:' ? '; Secure' : '';
+    document.cookie = s
+      ? 'nf_jwt=' + s.access_token + '; Path=/; Max-Age=' + Math.max(60, Math.round((s.expires_at - Date.now()) / 1000) + 60) + '; SameSite=Lax' + secure
+      : 'nf_jwt=; Path=/; Max-Age=0; SameSite=Lax' + secure;
+  }
+
+  // The roles written inside a login token.
+  function tokenRoles(accessToken) {
+    try {
+      var part = accessToken.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+      var claims = JSON.parse(decodeURIComponent(escape(atob(part))));
+      return (claims.app_metadata && claims.app_metadata.roles) || [];
+    } catch (e) { return []; }
+  }
+  function roleFrom(roles) { return roles && roles.indexOf('admin') !== -1 ? 'admin' : (roles && roles.length ? 'user' : ''); }
 
   function call(path, opts) {
     opts = opts || {};
@@ -300,11 +320,21 @@
     return call('/token', { method: 'POST', body: body, headers: { 'Content-Type': 'application/x-www-form-urlencoded' } });
   }
 
-  function withUser(tok) {
+  function withUser(tok, refreshed) {
     // Fetch the account details that go with a fresh token, then remember both.
     return call('/user', { token: tok.access_token }).then(function (user) {
-      tok.user = { email: user.email, name: (user.user_metadata && user.user_metadata.full_name) || '' };
-      return saveSession(tok);
+      var role = roleFrom(user.app_metadata && user.app_metadata.roles);
+      // A role given at this very login may not be inside the token yet —
+      // swap it for a fresh one once, so Administrator pages open.
+      if (!refreshed && role && roleFrom(tokenRoles(tok.access_token)) !== role) {
+        return tokenRequest({ grant_type: 'refresh_token', refresh_token: tok.refresh_token })
+          .then(function (t2) { return withUser(t2, true); }, function () { return finish(); });
+      }
+      return finish();
+      function finish() {
+        tok.user = { email: user.email, name: (user.user_metadata && user.user_metadata.full_name) || '', role: role };
+        return saveSession(tok);
+      }
     });
   }
 
@@ -312,7 +342,16 @@
   function currentSession() {
     var s = loadSession();
     if (!s) return Promise.resolve(null);
-    if (Date.now() < s.expires_at) return Promise.resolve(s);
+    if (Date.now() < s.expires_at) {
+      setCookie(s);
+      // logins saved before roles existed: look the role up once
+      if (s.user && s.user.role === undefined) {
+        return withUser({ access_token: s.access_token, refresh_token: s.refresh_token,
+                          expires_in: Math.round((s.expires_at - Date.now()) / 1000) + 60 })
+          .catch(function () { return s; });
+      }
+      return Promise.resolve(s);
+    }
     return tokenRequest({ grant_type: 'refresh_token', refresh_token: s.refresh_token })
       .then(withUser)
       .catch(function () { saveSession(null); return null; });
@@ -556,6 +595,36 @@
       })
       .catch(function (err) { go('login', { kind: 'err', text: friendlyError(err, 'verify') }); });
   }
+
+  // ---------- for other pages (home page badge, Admin page) ----------
+  window.CrabbyAccount = {
+    // Promise of the current login (refreshed if needed), or null.
+    current: currentSession,
+    // Re-reads the account from Netlify, e.g. to pick up a role change.
+    reload: function () {
+      return currentSession().then(function (s) {
+        return s ? withUser({ access_token: s.access_token, refresh_token: s.refresh_token,
+                              expires_in: Math.round((s.expires_at - Date.now()) / 1000) + 60 }) : null;
+      }).catch(function () { return loadSession(); });
+    },
+    logout: function () {
+      var s = loadSession();
+      if (s) call('/logout', { method: 'POST', token: s.access_token }).catch(function () {});
+      saveSession(null);
+      session = null;
+      if (boxes.length) go('login');
+    },
+    // Calls one of the site's own functions with the login attached.
+    fetch: function (path, opts) {
+      return currentSession().then(function (s) {
+        opts = opts || {};
+        var headers = { Authorization: 'Bearer ' + (s ? s.access_token : '') };
+        if (opts.json) headers['Content-Type'] = 'application/json';
+        return fetch(path, { method: opts.method || (opts.json ? 'POST' : 'GET'), headers: headers,
+                             body: opts.json ? JSON.stringify(opts.json) : undefined });
+      });
+    }
+  };
 
   function init() {
     boxes = Array.prototype.slice.call(document.querySelectorAll('[data-feedback]'));

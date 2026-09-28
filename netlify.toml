@@ -1,0 +1,5 @@
+# Netlify settings kept with the site.
+# The server-side bits (roles, the Admin page's data) live in
+# netlify/functions/. Nothing needs building.
+[functions]
+  directory = "netlify/functions"

@@ -314,6 +314,7 @@
           "Helvetica Neue", Arial, sans-serif;
     color: var(--ink);
     max-width: calc(50vw - 30px);
+    min-width: 0;
   }
   .account-badge.is-on { display: inline-flex; }
   body.is-portrait .account-badge { display: none; }
@@ -321,12 +322,27 @@
   .account-text { display: flex; flex-direction: column; min-width: 0; line-height: 1.2; }
   .account-label { font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; opacity: .7; }
   .account-name, .account-email { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .account-name .account-role { margin-left: 2px; }
   .account-email { font-size: 12px; font-weight: 400; opacity: .8; }
   .account-logout {
     font: inherit; font-size: 13px; color: var(--ink);
     background: none; border: none; padding: 2px 0; cursor: pointer;
     text-decoration: underline; white-space: nowrap;
   }
+  .account-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+  .nav-account .account-actions { flex-direction: row; gap: 14px; align-items: center; }
+  .account-admin {
+    font-size: 13px; font-weight: 700; color: #fff; background: var(--ink);
+    padding: 2px 10px; border-radius: 999px; text-decoration: none; white-space: nowrap;
+  }
+  .account-admin:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .account-role {
+    display: inline-block; vertical-align: 1px;
+    font-size: 10.5px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+    padding: 1px 7px; border-radius: 999px; background: #efe3c2; color: var(--ink);
+  }
+  .account-role.is-admin { background: #c8372d; color: #fff; }
+  .account-role:empty { display: none; }
   .account-logout:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 4px; }
 
   /* the phone-menu copy of the badge */
@@ -401,9 +417,12 @@
     <!-- who's logged in (only shown when someone is) -->
     <div class="nav-account" data-account>
       <span class="account-label" data-i18n="loggedInAs">Logged in as</span>
-      <span class="account-name" data-account-name></span>
+      <span class="account-name"><span data-account-name></span> <span class="account-role" data-account-role></span></span>
       <span class="account-email" data-account-email></span>
-      <button type="button" class="account-logout" data-account-logout data-i18n="logOut">Log out</button>
+      <span class="account-actions">
+        <a class="account-admin" href="/admin" data-account-admin data-i18n="adminPage">Admin</a>
+        <button type="button" class="account-logout" data-account-logout data-i18n="logOut">Log out</button>
+      </span>
     </div>
     <a href="/stories/stories-index" data-i18n="navStories">Crab Stories</a>
     <a href="/about/aboutcrabby" data-i18n="navMeet">Meet the Crab</a>
@@ -429,10 +448,13 @@
     <span class="account-icon" aria-hidden="true">🦀</span>
     <span class="account-text">
       <span class="account-label" data-i18n="loggedInAs">Logged in as</span>
-      <span class="account-name" data-account-name></span>
+      <span class="account-name"><span data-account-name></span> <span class="account-role" data-account-role></span></span>
       <span class="account-email" data-account-email></span>
     </span>
-    <button type="button" class="account-logout" data-account-logout data-i18n="logOut">Log out</button>
+    <span class="account-actions">
+      <a class="account-admin" href="/admin" data-account-admin data-i18n="adminPage">Admin</a>
+      <button type="button" class="account-logout" data-account-logout data-i18n="logOut">Log out</button>
+    </span>
   </div>
 
 <script>
@@ -685,6 +707,9 @@
 <script>
 CrabbyLang.add({
   "el": {
+    "roleAdmin": "Διαχειριστής",
+    "roleUser": "Χρήστης",
+    "adminPage": "Διαχείριση",
     "loggedInAs": "Συνδεδεμένος λογαριασμός",
     "logOut": "Αποσύνδεση",
     "pageTitle": "Οι περιπέτειες του Κράμπι",
@@ -693,6 +718,9 @@ CrabbyLang.add({
     "altMobile": "Οι περιπέτειες του Κράμπι, της Kylie Luca και της Σοφίας Κοντορίνη — ο Κράμπι, ο χαρούμενος κόκκινος κάβουρας, στον βραχώδη κολπίσκο του"
   },
   "it": {
+    "roleAdmin": "Amministratore",
+    "roleUser": "Utente",
+    "adminPage": "Admin",
     "loggedInAs": "Accesso effettuato come",
     "logOut": "Esci",
     "pageTitle": "Le avventure di Crabby",
@@ -701,6 +729,9 @@ CrabbyLang.add({
     "altMobile": "Le avventure di Crabby, di Kylie Luca e Sofia Kontorinis — Crabby, l'allegro granchio rosso, nella sua caletta rocciosa"
   },
   "fr": {
+    "roleAdmin": "Administrateur",
+    "roleUser": "Utilisateur",
+    "adminPage": "Admin",
     "loggedInAs": "Connecté en tant que",
     "logOut": "Se déconnecter",
     "pageTitle": "Les aventures de Crabby",
@@ -709,6 +740,9 @@ CrabbyLang.add({
     "altMobile": "Les aventures de Crabby, par Kylie Luca et Sofia Kontorinis — Crabby, le joyeux crabe rouge, dans sa crique rocheuse"
   },
   "es": {
+    "roleAdmin": "Administrador",
+    "roleUser": "Usuario",
+    "adminPage": "Admin",
     "loggedInAs": "Sesión iniciada como",
     "logOut": "Salir",
     "pageTitle": "Las aventuras de Crabby",
@@ -718,18 +752,19 @@ CrabbyLang.add({
   }
 });
 </script>
-<!-- ACCOUNT BADGE: shows who's logged in. The log-in itself happens on
-     the Feedback page (account/feedback.js), which saves the reader's
-     name and email in their browser under "crabby-session"; this just
-     reads it back. -->
+<!-- ACCOUNT BADGE: shows who's logged in, their role (Administrator or
+     User) and, for Administrators, a link to the Admin page. The log-in
+     itself happens on the Feedback page; account/feedback.js keeps it and
+     is loaded here only for that. Nothing shows when nobody is logged in. -->
+<script src="account/feedback.js"></script>
 <script>
 (function () {
-  var KEY = 'crabby-session';
-  function load() {
-    try { return JSON.parse(localStorage.getItem(KEY)) || null; } catch (e) { return null; }
-  }
-  function show() {
-    var s = load(), u = s && s.user;
+  var ROLE_LABEL = { admin: 'roleAdmin', user: 'roleUser' };
+  var ROLE_EN = { admin: 'Administrator', user: 'User' };
+  var shown = null;
+  function paint(s) {
+    shown = s;
+    var u = s && s.user;
     var on = !!(u && (u.name || u.email));
     Array.prototype.forEach.call(document.querySelectorAll('[data-account]'), function (el) {
       el.classList.toggle('is-on', on);
@@ -738,21 +773,23 @@ CrabbyLang.add({
       var em = el.querySelector('[data-account-email]');
       em.textContent = u.name ? (u.email || '') : '';
       em.style.display = em.textContent ? '' : 'none';
+      var r = el.querySelector('[data-account-role]');
+      r.textContent = u.role ? CrabbyLang.t(ROLE_LABEL[u.role], ROLE_EN[u.role]) : '';
+      r.classList.toggle('is-admin', u.role === 'admin');
+      el.querySelector('[data-account-admin]').style.display = u.role === 'admin' ? '' : 'none';
     });
   }
+  function refresh() { CrabbyAccount.current().then(paint, function () { paint(null); }); }
   document.addEventListener('click', function (e) {
     if (!e.target.closest('[data-account-logout]')) return;
-    var s = load();
-    if (s && s.access_token) {
-      fetch('/.netlify/identity/logout', { method: 'POST', headers: { Authorization: 'Bearer ' + s.access_token } }).catch(function () {});
-    }
-    try { localStorage.removeItem(KEY); } catch (err) {}
-    show();
+    CrabbyAccount.logout();
+    paint(null);
   });
   // keeps the badge right if they log in or out in another tab
-  window.addEventListener('storage', function (e) { if (e.key === KEY) show(); });
-  window.addEventListener('pageshow', show);
-  show();
+  window.addEventListener('storage', function (e) { if (e.key === 'crabby-session') refresh(); });
+  window.addEventListener('pageshow', refresh);
+  CrabbyLang.onChange(function () { paint(shown); });
+  refresh();
 })();
 </script>
 

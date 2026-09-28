@@ -1,0 +1,8 @@
+# Pages in /preview/ are unreleased — only Administrators can open them.
+# Everyone else is shown the Coming Soon page instead.
+# (Needs Netlify Identity switched on. The login cookie is set by
+# account/feedback.js.)
+/preview      /preview/index.html  200!  Role=admin
+/preview/*    200!  Role=admin
+/preview      /coming-soon         401!
+/preview/*    /coming-soon         401!
