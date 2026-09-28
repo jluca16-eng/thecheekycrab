@@ -95,11 +95,17 @@
   .pill.you { background: #e3ecf5; }
 
   .btn {
-    font: 600 14px/1 inherit; font-family: inherit; padding: 8px 14px; border-radius: 8px; cursor: pointer;
+    font-family: inherit; font-size: 14px; font-weight: 600; line-height: 1.2;
+    padding: 8px 14px; border-radius: 8px; cursor: pointer;
     border: 1.5px solid var(--ink); background: #fff; color: var(--ink);
   }
   .btn.primary { background: var(--ink); color: #fff; }
+  a.btn { display: inline-block; text-decoration: none; }
+  .btn.nudge { background: #e6f2e2; border-color: #2f7a1f; color: #245b16; }
   .btn.danger { border-color: var(--red); color: var(--red); }
+  .card-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+  .card.is-replied { box-shadow: inset 4px 0 0 #6aa35a, 0 4px 14px rgba(90, 66, 30, .12); }
+  .pill.done { background: #e6f2e2; color: #245b16; text-transform: none; letter-spacing: 0; font-size: 12px; margin-left: 4px; }
   .btn.danger.armed { background: var(--red); color: #fff; }
   .btn[disabled] { opacity: .5; cursor: default; }
 
@@ -141,7 +147,7 @@
 (function () {
   var app = document.getElementById('app');
   var who = document.getElementById('who');
-  var state = { tab: 'feedback', feedback: null, feedbackErr: null, users: null, usersErr: null, me: null, story: '', q: '', flash: null };
+  var state = { tab: 'feedback', show: '', justReplied: {}, feedback: null, feedbackErr: null, users: null, usersErr: null, me: null, story: '', q: '', flash: null };
 
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
@@ -154,6 +160,22 @@
     return d.toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' }) + ', ' +
            d.toLocaleTimeString('en-AU', { hour: 'numeric', minute: '2-digit' });
   }
+  function day(iso) { return iso ? new Date(iso).toLocaleDateString('en-AU', { day: 'numeric', month: 'short' }) : ''; }
+
+  // EDIT: the wording that's filled in when you click Reply.
+  function replyLink(m) {
+    var about = !m.story || m.story === 'The website in general' ? 'The Adventures of Crabby' : '"' + m.story + '"';
+    var msg = m.message.length > 1200 ? m.message.slice(0, 1200) + '…' : m.message;
+    var body = 'Hi ' + (m.name || 'there') + ',\n\n' +
+      'Thank you so much for your message about ' + about + '!\n\n\n\n' +
+      'Best wishes,\n' + (state.myName || 'Crabby') + '\nThe Adventures of Crabby — thecheekycrab.com.au\n\n' +
+      '———\nOn ' + when(m.created_at) + ' you wrote:\n' +
+      msg.split('\n').map(function (l) { return '> ' + l; }).join('\n');
+    var enc = function (t) { return encodeURIComponent(t).replace(/%0A/g, '%0D%0A'); };
+    return 'mailto:' + encodeURIComponent(m.email).replace(/%40/g, '@') +
+      '?subject=' + enc('Re: your feedback on ' + about) + '&body=' + enc(body);
+  }
+
   var LANGS = { en: 'English', el: 'Greek', it: 'Italian', fr: 'French', es: 'Spanish' };
 
   function api(path, json) {
@@ -168,6 +190,7 @@
   // ---------- who's here ----------
   function start() {
     CrabbyAccount.reload().then(function (s) {
+      state.myName = s && s.user ? (s.user.name || '') : '';
       if (!s) {
         who.textContent = '';
         app.innerHTML = '<div class="note"><h2>Please log in first</h2><p>Log in on the Feedback page with an Administrator account, then come back here.</p>' +
@@ -203,7 +226,7 @@
   // ---------- drawing ----------
   function render() {
     var h = '<div class="tabs" role="tablist">' +
-      tab('feedback', 'Feedback', state.feedback && state.feedback.length) +
+      tab('feedback', 'Feedback', state.feedback && (state.feedback.length + (todoCount() ? ' · ' + todoCount() + ' to reply' : ''))) +
       tab('users', 'Users', state.users && state.users.length) +
       tab('preview', 'Preview pages') + '</div>';
     if (state.flash) h += '<p class="msg ' + state.flash.kind + '" role="status">' + esc(state.flash.text) + '</p>';
@@ -215,6 +238,7 @@
     app.innerHTML = h;
     if (focusId) { var el = document.getElementById(focusId); if (el) { el.focus(); if (caret != null) el.setSelectionRange(caret, caret); } }
   }
+  function todoCount() { return (state.feedback || []).filter(function (m) { return !m.replied; }).length; }
   function tab(id, label, n) {
     return '<button type="button" role="tab" data-tab="' + id + '" aria-selected="' + (state.tab === id) + '">' + label +
       (n != null && n !== false ? '<span class="count">(' + n + ')</span>' : '') + '</button>';
@@ -239,6 +263,8 @@
     var q = state.q.toLowerCase();
     var list = state.feedback.filter(function (m) {
       if (state.story && m.story !== state.story) return false;
+      if (state.show === 'todo' && m.replied) return false;
+      if (state.show === 'done' && !m.replied) return false;
       if (q && (m.message + ' ' + m.name + ' ' + m.email).toLowerCase().indexOf(q) === -1) return false;
       return true;
     });
@@ -249,21 +275,32 @@
     Object.keys(stories).sort().forEach(function (s) {
       h += '<option value="' + esc(s) + '"' + (state.story === s ? ' selected' : '') + '>' + esc(s) + ' (' + stories[s] + ')</option>';
     });
-    h += '</select><input id="q" type="search" placeholder="Search messages, names, emails" value="' + esc(state.q) + '">' +
+    h += '</select><select id="show" aria-label="Replied or not">' +
+      '<option value="">All messages</option>' +
+      '<option value="todo"' + (state.show === 'todo' ? ' selected' : '') + '>Not replied yet (' + todoCount() + ')</option>' +
+      '<option value="done"' + (state.show === 'done' ? ' selected' : '') + '>Replied</option></select>';
+    h += '<input id="q" type="search" placeholder="Search messages, names, emails" value="' + esc(state.q) + '">' +
       '<span class="summary">' + list.length + ' message' + (list.length === 1 ? '' : 's') +
       (rated.length ? ' · average ' + avg.toFixed(1) + ' / 5 🦀' : '') + '</span></div>';
     if (!list.length) return h + '<p class="empty">Nothing matches.</p>';
     list.forEach(function (m) {
       var n = parseInt(m.rating, 10) || 0, crabs = '';
       if (n) for (var i = 1; i <= 5; i++) crabs += '<span class="' + (i <= n ? '' : 'off') + '">🦀</span>';
-      h += '<article class="card"><div class="card-head"><span class="card-title">' + esc(m.story || 'Feedback') + '</span>' +
+      h += '<article class="card' + (m.replied ? ' is-replied' : '') + '"><div class="card-head"><span class="card-title">' + esc(m.story || 'Feedback') +
+        (m.replied ? ' <span class="pill done">✓ Replied' + (m.replied.by ? ' by ' + esc(m.replied.by) : '') + ' · ' + esc(day(m.replied.at)) + '</span>' : '') + '</span>' +
         '<span class="meta">' + esc(when(m.created_at)) + (m.language ? ' · ' + esc(LANGS[m.language] || m.language) : '') + '</span></div>' +
         (crabs ? '<div class="rating" aria-label="' + n + ' out of 5">' + crabs + '</div>' : '') +
         '<p class="message">' + esc(m.message) + '</p>' +
         '<div class="card-foot"><span class="from">From <strong>' + esc(m.name || 'someone') + '</strong>' +
         (m.email ? ' · <a href="mailto:' + esc(m.email) + '">' + esc(m.email) + '</a>' : '') +
         (m.page ? ' · <span class="meta">sent from ' + esc(m.page) + '</span>' : '') + '</span>' +
-        '<button type="button" class="btn danger" data-del-msg="' + esc(m.id) + '">Delete</button></div></article>';
+        '<span class="card-buttons">' +
+        (m.email ? '<a class="btn primary" href="' + esc(replyLink(m)) + '" data-reply="' + esc(m.id) + '">Reply</a>' : '') +
+        (m.replied
+          ? '<button type="button" class="btn" data-replied="' + esc(m.id) + '" data-value="0">Mark as not replied</button>'
+          : '<button type="button" class="btn' + (state.justReplied[m.id] ? ' nudge' : '') + '" data-replied="' + esc(m.id) + '" data-value="1">' +
+            (state.justReplied[m.id] ? 'Sent it? Mark as replied' : 'Mark as replied') + '</button>') +
+        '<button type="button" class="btn danger" data-del-msg="' + esc(m.id) + '">Delete</button></span></div></article>';
     });
     return h;
   }
@@ -318,6 +355,16 @@
     var b = e.target.closest('button');
     if (!b) return;
     if (b.dataset.tab) { state.tab = b.dataset.tab; render(); return; }
+    if (b.dataset.replied) {
+      var on = b.dataset.value === '1', mid = b.dataset.replied;
+      b.disabled = true;
+      api('admin-feedback', { action: 'replied', id: mid, value: on }).then(function (d) {
+        state.feedback.forEach(function (m) { if (m.id === mid) m.replied = d.replied; });
+        delete state.justReplied[mid];
+        render();
+      }, function (err) { flash('err', 'Couldn\'t save that: ' + err.message); });
+      return;
+    }
     if (b.dataset.delMsg) {
       if (!armed(b)) return;
       b.disabled = true;
@@ -336,8 +383,16 @@
       }, function (err) { flash('err', 'Couldn\'t delete it: ' + err.message); });
     }
   });
+  // Clicking Reply opens the email app; the card then offers to mark it as replied.
+  app.addEventListener('click', function (e) {
+    var a = e.target.closest('a[data-reply]');
+    if (!a) return;
+    var id = a.dataset.reply;
+    setTimeout(function () { state.justReplied[id] = true; render(); }, 300);
+  });
   app.addEventListener('change', function (e) {
     var t = e.target;
+    if (t.id === 'show') { state.show = t.value; render(); }
     if (t.id === 'story') { state.story = t.value; render(); }
     if (t.dataset.role) {
       t.disabled = true;

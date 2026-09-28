@@ -1,0 +1,8 @@
+{
+  "name": "thecheekycrab",
+  "private": true,
+  "description": "The Adventures of Crabby website. No build step — this file only lists what the Netlify functions need.",
+  "dependencies": {
+    "@netlify/blobs": "^11.1.1"
+  }
+}
