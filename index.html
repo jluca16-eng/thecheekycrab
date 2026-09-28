@@ -286,12 +286,66 @@
   .hotspot-2 { left: 26.27%; }  /* Meet the Crab   */
   .hotspot-3 { left: 42.89%; }  /* Crab Facts      */
   .hotspot-4 { left: 59.70%; }  /* Activity Corner */
-  .hotspot-5 { left: 76.42%; }  /* Contact         */
+  .hotspot-5 { left: 76.42%; }  /* Feedback        */
 
   /* On a portrait phone the phone-only picture doesn't have these
      buttons painted into it at all — the menu button takes over
      navigation instead, so the hotspots are simply hidden. */
   body.is-portrait .hotspot { display: none; }
+
+  /* EDIT: the "Logged in as …" badge. On wide screens it sits in the
+     top-left corner (the Language picker has the top-right); on a
+     portrait phone it's at the top of the menu instead. It only
+     appears when someone is logged in — see the script near the
+     bottom of the page, search ACCOUNT BADGE. */
+  .account-badge {
+    position: fixed;
+    top: 14px;
+    left: 14px;
+    z-index: 30;
+    display: none;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 14px 6px 8px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .92);
+    box-shadow: 0 3px 12px rgba(90, 66, 30, .22);
+    font: 600 15px "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+    color: var(--ink);
+    max-width: calc(50vw - 30px);
+  }
+  .account-badge.is-on { display: inline-flex; }
+  body.is-portrait .account-badge { display: none; }
+  .account-icon { font-size: 22px; line-height: 1; }
+  .account-text { display: flex; flex-direction: column; min-width: 0; line-height: 1.2; }
+  .account-label { font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; opacity: .7; }
+  .account-name, .account-email { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .account-email { font-size: 12px; font-weight: 400; opacity: .8; }
+  .account-logout {
+    font: inherit; font-size: 13px; color: var(--ink);
+    background: none; border: none; padding: 2px 0; cursor: pointer;
+    text-decoration: underline; white-space: nowrap;
+  }
+  .account-logout:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 4px; }
+
+  /* the phone-menu copy of the badge */
+  .nav-account {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding-bottom: 10px;
+    margin-bottom: 2px;
+    border-bottom: 1px solid rgba(22, 58, 92, .15);
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    color: var(--ink);
+    text-align: center;
+  }
+  .nav-account.is-on { display: flex; }
+  .nav-account .account-name { font-weight: 700; font-size: 15px; max-width: 100%; }
+  .nav-account .account-email { max-width: 100%; }
 
   /* Respects the visitor's "reduce motion" accessibility setting */
   @media (prefers-reduced-motion: reduce) {
@@ -316,7 +370,7 @@
          script at the bottom. The title, byline, wooden sign and
          five buttons are painted into this picture — see "ABOUT THE
          TITLE, BUTTONS AND WOODEN SIGN" up top. -->
-    <img class="desktop-img" src="images/mainpagebackground.webp" data-i18n-alt="altDesktop" alt="The Adventures of Crabby, by Kylie Luca and Sofia Kontorinis — a cheerful red crab on a rocky cove shoreline, with a lighthouse, seagulls, fish, and five buttons: Crab Stories, Meet the Crab, Crab Facts, Activity Corner and Contact" style="object-position: 50% 50%;">
+    <img class="desktop-img" src="images/mainpagebackground.webp" data-i18n-alt="altDesktop" alt="The Adventures of Crabby, by Kylie Luca and Sofia Kontorinis — a cheerful red crab on a rocky cove shoreline, with a lighthouse, seagulls, fish, and five buttons: Crab Stories, Meet the Crab, Crab Facts, Activity Corner and Feedback" style="object-position: 50% 50%;">
 
     <!-- EDIT: the portrait-phone-only picture — see "ABOUT THE
          MOBILE (PORTRAIT) LAYOUT" up top. Change MOBILE_IMG_W /
@@ -331,7 +385,7 @@
     <a class="hotspot hotspot-2" href="/about/aboutcrabby" aria-label="Meet the Crab" title="Meet the Crab" data-i18n-aria-label="navMeet" data-i18n-title="navMeet"></a>
     <a class="hotspot hotspot-3" href="/coming-soon" aria-label="Crab Facts" title="Crab Facts" data-i18n-aria-label="navFacts" data-i18n-title="navFacts"></a>
     <a class="hotspot hotspot-4" href="/activity-corner/activity-corner-index" aria-label="Activity Corner" title="Activity Corner" data-i18n-aria-label="navActivity" data-i18n-title="navActivity"></a>
-    <a class="hotspot hotspot-5" href="/feedback" aria-label="Contact" title="Contact" data-i18n-aria-label="navContact" data-i18n-title="navContact"></a>
+    <a class="hotspot hotspot-5" href="/feedback" aria-label="Feedback" title="Feedback" data-i18n-aria-label="navContact" data-i18n-title="navContact"></a>
 
   </div>
 
@@ -344,11 +398,18 @@
   </button>
 
   <nav class="mobile-nav" id="mobile-nav">
+    <!-- who's logged in (only shown when someone is) -->
+    <div class="nav-account" data-account>
+      <span class="account-label" data-i18n="loggedInAs">Logged in as</span>
+      <span class="account-name" data-account-name></span>
+      <span class="account-email" data-account-email></span>
+      <button type="button" class="account-logout" data-account-logout data-i18n="logOut">Log out</button>
+    </div>
     <a href="/stories/stories-index" data-i18n="navStories">Crab Stories</a>
     <a href="/about/aboutcrabby" data-i18n="navMeet">Meet the Crab</a>
     <a href="/coming-soon" data-i18n="navFacts">Crab Facts</a>
     <a href="/activity-corner/activity-corner-index" data-i18n="navActivity">Activity Corner</a>
-    <a href="/feedback" data-i18n="navContact">Contact</a>
+    <a href="/feedback" data-i18n="navContact">Feedback</a>
 
     <!-- EDIT: the Language choice in the menu. The buttons themselves
          are added by lang/i18n.js, which also translates the whole site. -->
@@ -362,6 +423,17 @@
        screens (on a portrait phone it's in the menu instead). Built by
        lang/i18n.js. -->
   <div class="landing-lang" data-lang-picker data-fixed></div>
+
+  <!-- EDIT: the "Logged in as …" badge, top-left on wide screens -->
+  <div class="account-badge" data-account>
+    <span class="account-icon" aria-hidden="true">🦀</span>
+    <span class="account-text">
+      <span class="account-label" data-i18n="loggedInAs">Logged in as</span>
+      <span class="account-name" data-account-name></span>
+      <span class="account-email" data-account-email></span>
+    </span>
+    <button type="button" class="account-logout" data-account-logout data-i18n="logOut">Log out</button>
+  </div>
 
 <script>
 (function () {
@@ -613,29 +685,75 @@
 <script>
 CrabbyLang.add({
   "el": {
+    "loggedInAs": "Συνδεδεμένος λογαριασμός",
+    "logOut": "Αποσύνδεση",
     "pageTitle": "Οι περιπέτειες του Κράμπι",
     "openMenu": "Άνοιγμα μενού",
-    "altDesktop": "Οι περιπέτειες του Κράμπι, της Kylie Luca και της Σοφίας Κοντορίνη — ένας χαρούμενος κόκκινος κάβουρας σε έναν βραχώδη κολπίσκο, με φάρο, γλάρους, ψάρια και πέντε κουμπιά: Ιστορίες, Γνώρισε τον Κράμπι, Γεγονότα για κάβουρες, Γωνιά δραστηριοτήτων και Επικοινωνία",
+    "altDesktop": "Οι περιπέτειες του Κράμπι, της Kylie Luca και της Σοφίας Κοντορίνη — ένας χαρούμενος κόκκινος κάβουρας σε έναν βραχώδη κολπίσκο, με φάρο, γλάρους, ψάρια και πέντε κουμπιά: Ιστορίες, Γνώρισε τον Κράμπι, Γεγονότα για κάβουρες, Γωνιά δραστηριοτήτων και Σχόλια",
     "altMobile": "Οι περιπέτειες του Κράμπι, της Kylie Luca και της Σοφίας Κοντορίνη — ο Κράμπι, ο χαρούμενος κόκκινος κάβουρας, στον βραχώδη κολπίσκο του"
   },
   "it": {
+    "loggedInAs": "Accesso effettuato come",
+    "logOut": "Esci",
     "pageTitle": "Le avventure di Crabby",
     "openMenu": "Apri il menu",
-    "altDesktop": "Le avventure di Crabby, di Kylie Luca e Sofia Kontorinis — un allegro granchio rosso sulla riva di una caletta rocciosa, con un faro, gabbiani, pesci e cinque pulsanti: Storie, Conosci Crabby, Curiosità sui granchi, Angolo delle attività e Contatti",
+    "altDesktop": "Le avventure di Crabby, di Kylie Luca e Sofia Kontorinis — un allegro granchio rosso sulla riva di una caletta rocciosa, con un faro, gabbiani, pesci e cinque pulsanti: Storie, Conosci Crabby, Curiosità sui granchi, Angolo delle attività e Opinioni",
     "altMobile": "Le avventure di Crabby, di Kylie Luca e Sofia Kontorinis — Crabby, l'allegro granchio rosso, nella sua caletta rocciosa"
   },
   "fr": {
+    "loggedInAs": "Connecté en tant que",
+    "logOut": "Se déconnecter",
     "pageTitle": "Les aventures de Crabby",
     "openMenu": "Ouvrir le menu",
-    "altDesktop": "Les aventures de Crabby, par Kylie Luca et Sofia Kontorinis — un joyeux crabe rouge sur le rivage d'une crique rocheuse, avec un phare, des mouettes, des poissons et cinq boutons : Histoires, Rencontre Crabby, Le savais-tu ?, Coin des activités et Contact",
+    "altDesktop": "Les aventures de Crabby, par Kylie Luca et Sofia Kontorinis — un joyeux crabe rouge sur le rivage d'une crique rocheuse, avec un phare, des mouettes, des poissons et cinq boutons : Histoires, Rencontre Crabby, Le savais-tu ?, Coin des activités et Avis",
     "altMobile": "Les aventures de Crabby, par Kylie Luca et Sofia Kontorinis — Crabby, le joyeux crabe rouge, dans sa crique rocheuse"
   },
   "es": {
+    "loggedInAs": "Sesión iniciada como",
+    "logOut": "Salir",
     "pageTitle": "Las aventuras de Crabby",
     "openMenu": "Abrir el menú",
-    "altDesktop": "Las aventuras de Crabby, de Kylie Luca y Sofia Kontorinis — un alegre cangrejo rojo en la orilla de una cala rocosa, con un faro, gaviotas, peces y cinco botones: Cuentos, Conoce a Crabby, Datos de cangrejos, Rincón de actividades y Contacto",
+    "altDesktop": "Las aventuras de Crabby, de Kylie Luca y Sofia Kontorinis — un alegre cangrejo rojo en la orilla de una cala rocosa, con un faro, gaviotas, peces y cinco botones: Cuentos, Conoce a Crabby, Datos de cangrejos, Rincón de actividades y Opiniones",
     "altMobile": "Las aventuras de Crabby, de Kylie Luca y Sofia Kontorinis — Crabby, el alegre cangrejo rojo, en su cala rocosa"
   }
 });
 </script>
+<!-- ACCOUNT BADGE: shows who's logged in. The log-in itself happens on
+     the Feedback page (account/feedback.js), which saves the reader's
+     name and email in their browser under "crabby-session"; this just
+     reads it back. -->
+<script>
+(function () {
+  var KEY = 'crabby-session';
+  function load() {
+    try { return JSON.parse(localStorage.getItem(KEY)) || null; } catch (e) { return null; }
+  }
+  function show() {
+    var s = load(), u = s && s.user;
+    var on = !!(u && (u.name || u.email));
+    Array.prototype.forEach.call(document.querySelectorAll('[data-account]'), function (el) {
+      el.classList.toggle('is-on', on);
+      if (!on) return;
+      el.querySelector('[data-account-name]').textContent = u.name || u.email;
+      var em = el.querySelector('[data-account-email]');
+      em.textContent = u.name ? (u.email || '') : '';
+      em.style.display = em.textContent ? '' : 'none';
+    });
+  }
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('[data-account-logout]')) return;
+    var s = load();
+    if (s && s.access_token) {
+      fetch('/.netlify/identity/logout', { method: 'POST', headers: { Authorization: 'Bearer ' + s.access_token } }).catch(function () {});
+    }
+    try { localStorage.removeItem(KEY); } catch (err) {}
+    show();
+  });
+  // keeps the badge right if they log in or out in another tab
+  window.addEventListener('storage', function (e) { if (e.key === KEY) show(); });
+  window.addEventListener('pageshow', show);
+  show();
+})();
+</script>
+
 </body></html>
