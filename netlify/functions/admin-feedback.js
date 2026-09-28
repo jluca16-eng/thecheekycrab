@@ -1,85 +1,78 @@
 /* /.netlify/functions/admin-feedback — Administrators only.
-   GET                        → every message sent with the feedback form,
-                                each with its "replied" mark (or null)
-   POST {action:'replied', id, value:true|false} → mark / unmark as replied
-   POST {action:'delete', id} → delete one message
-
-   The "replied" marks are kept in Netlify Blobs (store "feedback",
-   key "replied"), since form messages themselves can't be changed.
-
-   Reading form messages needs a Netlify access token, saved as the
-   environment variable NETLIFY_API_TOKEN (Netlify: User settings →
-   Applications → Personal access tokens → New access token; then
-   Project configuration → Environment variables). */
+   GET                                  → every feedback message, with its replies
+   POST {action:'reply', id, text}      → email a reply to the reader and record it
+   POST {action:'replied', id, value}   → mark / unmark as replied by hand
+   POST {action:'delete', id}           → delete one message (and its replies)
+   Storage: see netlify/lib/feedback-store.js. Email: netlify/lib/send-email.js. */
 var R = require('../lib/roles');
-var blobs = require('@netlify/blobs');
+var F = require('../lib/feedback-store');
+var Mail = require('../lib/send-email');
 
-// { <message id>: { at: <ISO date>, by: <admin name> } }
-function repliedStore() { return blobs.getStore('feedback'); }
-function loadReplied() {
-  return repliedStore().get('replied', { type: 'json' }).then(function (m) { return m || {}; });
-}
-function saveReplied(m) { return repliedStore().setJSON('replied', m); }
-var API = 'https://api.netlify.com/api/v1';
-var SITE_ID = process.env.SITE_ID || '8e5240ba-87a0-4848-8681-92e3eb7e298f';
-var FORM_NAME = 'feedback';
-
-function netlify(path, method) {
-  return fetch(API + path, {
-    method: method || 'GET',
-    headers: { Authorization: 'Bearer ' + process.env.NETLIFY_API_TOKEN }
-  }).then(function (r) {
-    if (!r.ok) { var e = new Error('Netlify API ' + r.status); e.status = r.status; throw e; }
-    return r.status === 204 ? {} : r.json();
-  });
+function dateText(iso) {
+  return new Date(iso).toLocaleString('en-AU', { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: 'Australia/Perth' });
 }
 
 exports.handler = function (event, context) {
-  blobs.connectLambda(event);
+  F.connect(event);
   return R.requireAdmin(context).then(function (a) {
     if (a.error) return a.error;
-    if (!process.env.NETLIFY_API_TOKEN) return R.json(503, { error: 'no-token' });
+    var myName = (a.me.user_metadata && a.me.user_metadata.full_name) || a.me.email;
 
     if (event.httpMethod === 'GET') {
-      return netlify('/sites/' + SITE_ID + '/forms').then(function (forms) {
-        var form = forms.filter(function (f) { return f.name === FORM_NAME; })[0];
-        if (!form) return R.json(200, { messages: [] });
-        return Promise.all([netlify('/forms/' + form.id + '/submissions?per_page=1000'), loadReplied()]).then(function (res) {
-          var subs = res[0], replied = res[1];
-          var list = subs.map(function (s) {
-            var d = s.data || {};
-            return {
-              id: s.id, created_at: s.created_at,
-              name: d.name || '', email: d.email || '', story: d.story || '',
-              rating: d.rating || '', message: d.message || '',
-              page: d.page || '', language: d.language || '',
-              replied: replied[s.id] || null
-            };
+      return F.listMessages().then(function (list) { return R.json(200, { messages: list }); });
+    }
+    if (event.httpMethod !== 'POST') return R.json(405, { error: 'Not allowed' });
+    var body = {};
+    try { body = JSON.parse(event.body || '{}'); } catch (e) {}
+    if (!body.id) return R.json(400, { error: 'Which message?' });
+
+    if (body.action === 'reply') {
+      var text = String(body.text || '').trim();
+      if (!text) return R.json(400, { error: 'Write your reply first.' });
+      if (text.length > 5000) return R.json(400, { error: 'That reply is too long (5000 characters at most).' });
+      return F.listMessages().then(function (list) {
+        var m = list.filter(function (x) { return x.id === body.id; })[0];
+        if (!m) return R.json(404, { error: 'That message has gone.' });
+        if (!m.email) return R.json(400, { error: 'This message has no email address to reply to.' });
+        var about = !m.story || m.story === 'The website in general' ? 'The Adventures of Crabby' : '"' + m.story + '"';
+        return Mail.sendReply({
+          to: m.email, name: m.name,
+          subject: 'Re: your feedback on ' + about,
+          text: text, original: m.message, originalDate: dateText(m.created_at)
+        }).then(function (emailId) {
+          return F.load('replies').then(function (all) {
+            var entry = { at: new Date().toISOString(), by: myName, text: text, emailed: true };
+            (all[m.id] = all[m.id] || []).push(entry);
+            return F.save('replies', all).then(function () {
+              return R.json(200, { id: m.id, reply: entry, replies: all[m.id] });
+            });
           });
-          return R.json(200, { messages: list });
         });
       });
     }
 
-    if (event.httpMethod !== 'POST') return R.json(405, { error: 'Not allowed' });
-    var body = {};
-    try { body = JSON.parse(event.body || '{}'); } catch (e) {}
-    if (body.action === 'replied' && body.id) {
-      return loadReplied().then(function (m) {
-        if (body.value) m[body.id] = { at: new Date().toISOString(), by: (a.me.user_metadata && a.me.user_metadata.full_name) || a.me.email };
-        else delete m[body.id];
-        return saveReplied(m).then(function () { return R.json(200, { id: body.id, replied: m[body.id] || null }); });
+    if (body.action === 'replied') {
+      return F.load('replied').then(function (map) {
+        if (body.value) map[body.id] = { at: new Date().toISOString(), by: myName };
+        else delete map[body.id];
+        return F.save('replied', map).then(function () { return R.json(200, { id: body.id, replied: map[body.id] || null }); });
       });
     }
-    if (body.action === 'delete' && body.id) {
-      return netlify('/submissions/' + encodeURIComponent(body.id), 'DELETE')
-        .then(loadReplied)
-        .then(function (m) { if (m[body.id]) { delete m[body.id]; return saveReplied(m); } })
+
+    if (body.action === 'delete') {
+      return F.netlify('/submissions/' + encodeURIComponent(body.id), 'DELETE')
+        .then(function () { return Promise.all([F.load('replied'), F.load('replies')]); })
+        .then(function (maps) {
+          var jobs = [];
+          if (maps[0][body.id]) { delete maps[0][body.id]; jobs.push(F.save('replied', maps[0])); }
+          if (maps[1][body.id]) { delete maps[1][body.id]; jobs.push(F.save('replies', maps[1])); }
+          return Promise.all(jobs);
+        })
         .then(function () { return R.json(200, { deleted: body.id }); });
     }
     return R.json(400, { error: 'Unknown action' });
   }).catch(function (err) {
-    if (err.status === 401 || err.status === 403) return R.json(503, { error: 'bad-token' });
-    return R.json(500, { error: err.message || 'Something went wrong' });
+    if (err.code) return R.json(503, { error: err.code });
+    return R.json(err.status || 500, { error: err.message || 'Something went wrong' });
   });
 };

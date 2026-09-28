@@ -6,7 +6,9 @@
 
   For Administrators only: read every feedback message, manage who
   has an account (and whether they're an Administrator or a User),
-  and open the unreleased pages in /preview/.
+  and open the unreleased pages in /preview/. Replies typed here are
+  emailed to the reader (through Resend — see netlify/lib/send-email.js)
+  and kept under the message; readers see them on the Feedback page.
 
   Anyone can load this page, but it shows nothing unless the person
   is logged in as an Administrator — all the information comes from
@@ -101,7 +103,17 @@
   }
   .btn.primary { background: var(--ink); color: #fff; }
   a.btn { display: inline-block; text-decoration: none; }
-  .btn.nudge { background: #e6f2e2; border-color: #2f7a1f; color: #245b16; }
+  .reply { margin: 4px 0 12px 14px; padding: 10px 14px; border-left: 3px solid #6aa35a; background: #f4f9f1; border-radius: 0 8px 8px 0; }
+  .reply-head { font-size: 13.5px; color: var(--muted); margin-bottom: 4px; }
+  .reply-head .sent { color: #245b16; }
+  .reply-text { white-space: pre-wrap; overflow-wrap: anywhere; }
+  .composer { margin: 6px 0 14px; padding: 12px; background: #fbf8ee; border-radius: 10px; border: 1px solid var(--line); }
+  .composer label { display: block; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+  .composer label .meta { font-weight: 400; }
+  .composer textarea { display: block; width: 100%; min-height: 190px; padding: 10px 12px; border: 1.5px solid #c9bfa3; border-radius: 8px;
+    font: inherit; background: #fff; resize: vertical; margin-bottom: 10px; }
+  .composer textarea:focus { outline: 2px solid var(--ink); outline-offset: 1px; }
+  .composer-buttons { display: flex; gap: 8px; }
   .btn.danger { border-color: var(--red); color: var(--red); }
   .card-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
   .card.is-replied { box-shadow: inset 4px 0 0 #6aa35a, 0 4px 14px rgba(90, 66, 30, .12); }
@@ -147,7 +159,7 @@
 (function () {
   var app = document.getElementById('app');
   var who = document.getElementById('who');
-  var state = { tab: 'feedback', show: '', justReplied: {}, feedback: null, feedbackErr: null, users: null, usersErr: null, me: null, story: '', q: '', flash: null };
+  var state = { tab: 'feedback', show: '', composing: {}, drafts: {}, sending: {}, replyErr: {}, feedback: null, feedbackErr: null, users: null, usersErr: null, me: null, story: '', q: '', flash: null };
 
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
@@ -162,18 +174,11 @@
   }
   function day(iso) { return iso ? new Date(iso).toLocaleDateString('en-AU', { day: 'numeric', month: 'short' }) : ''; }
 
-  // EDIT: the wording that's filled in when you click Reply.
-  function replyLink(m) {
-    var about = !m.story || m.story === 'The website in general' ? 'The Adventures of Crabby' : '"' + m.story + '"';
-    var msg = m.message.length > 1200 ? m.message.slice(0, 1200) + '…' : m.message;
-    var body = 'Hi ' + (m.name || 'there') + ',\n\n' +
-      'Thank you so much for your message about ' + about + '!\n\n\n\n' +
-      'Best wishes,\n' + (state.myName || 'Crabby') + '\nThe Adventures of Crabby — thecheekycrab.com.au\n\n' +
-      '———\nOn ' + when(m.created_at) + ' you wrote:\n' +
-      msg.split('\n').map(function (l) { return '> ' + l; }).join('\n');
-    var enc = function (t) { return encodeURIComponent(t).replace(/%0A/g, '%0D%0A'); };
-    return 'mailto:' + encodeURIComponent(m.email).replace(/%40/g, '@') +
-      '?subject=' + enc('Re: your feedback on ' + about) + '&body=' + enc(body);
+  // EDIT: the text a new reply starts with (you can change it before sending).
+  function replyStarter(m) {
+    return 'Hi ' + (m.name || 'there') + ',\n\n' +
+      'Thank you so much for your message!\n\n\n\n' +
+      'Best wishes,\n' + (state.myName || 'Crabby') + '\nThe Adventures of Crabby';
   }
 
   var LANGS = { en: 'English', el: 'Greek', it: 'Italian', fr: 'French', es: 'Spanish' };
@@ -234,9 +239,11 @@
     h += '<section class="panel"' + (state.tab === 'users' ? '' : ' hidden') + '>' + usersPanel() + '</section>';
     h += '<section class="panel"' + (state.tab === 'preview' ? '' : ' hidden') + '>' + previewPanel() + '</section>';
     var focusId = document.activeElement && document.activeElement.id;
-    var caret = focusId === 'q' ? document.activeElement.selectionStart : null;
+    var ae = document.activeElement;
+    var caret = focusId && (ae.tagName === 'TEXTAREA' || focusId === 'q') ? ae.selectionStart : null;
+    var scrollTop = ae && ae.tagName === 'TEXTAREA' ? ae.scrollTop : 0;
     app.innerHTML = h;
-    if (focusId) { var el = document.getElementById(focusId); if (el) { el.focus(); if (caret != null) el.setSelectionRange(caret, caret); } }
+    if (focusId) { var el = document.getElementById(focusId); if (el) { el.focus(); if (caret != null) el.setSelectionRange(caret, caret); el.scrollTop = scrollTop; } }
   }
   function todoCount() { return (state.feedback || []).filter(function (m) { return !m.replied; }).length; }
   function tab(id, label, n) {
@@ -291,18 +298,38 @@
         '<span class="meta">' + esc(when(m.created_at)) + (m.language ? ' · ' + esc(LANGS[m.language] || m.language) : '') + '</span></div>' +
         (crabs ? '<div class="rating" aria-label="' + n + ' out of 5">' + crabs + '</div>' : '') +
         '<p class="message">' + esc(m.message) + '</p>' +
+        (m.replies || []).map(function (r) {
+          return '<div class="reply"><div class="reply-head">Reply from <strong>' + esc(r.by || 'us') + '</strong> · ' + esc(when(r.at)) +
+            (r.emailed ? ' · <span class="sent">✓ emailed</span>' : '') + '</div><div class="reply-text">' + esc(r.text) + '</div></div>';
+        }).join('') +
+        (state.composing[m.id] ? composer(m) : '') +
         '<div class="card-foot"><span class="from">From <strong>' + esc(m.name || 'someone') + '</strong>' +
         (m.email ? ' · <a href="mailto:' + esc(m.email) + '">' + esc(m.email) + '</a>' : '') +
         (m.page ? ' · <span class="meta">sent from ' + esc(m.page) + '</span>' : '') + '</span>' +
         '<span class="card-buttons">' +
-        (m.email ? '<a class="btn primary" href="' + esc(replyLink(m)) + '" data-reply="' + esc(m.id) + '">Reply</a>' : '') +
-        (m.replied
+        (m.email && !state.composing[m.id] ? '<button type="button" class="btn primary" data-compose="' + esc(m.id) + '">' + (m.replies && m.replies.length ? 'Reply again' : 'Reply') + '</button>' : '') +
+        (m.replies && m.replies.length ? '' : m.replied
           ? '<button type="button" class="btn" data-replied="' + esc(m.id) + '" data-value="0">Mark as not replied</button>'
-          : '<button type="button" class="btn' + (state.justReplied[m.id] ? ' nudge' : '') + '" data-replied="' + esc(m.id) + '" data-value="1">' +
-            (state.justReplied[m.id] ? 'Sent it? Mark as replied' : 'Mark as replied') + '</button>') +
+          : '<button type="button" class="btn" data-replied="' + esc(m.id) + '" data-value="1" title="For when you answered some other way, e.g. by phone">Mark as replied</button>') +
         '<button type="button" class="btn danger" data-del-msg="' + esc(m.id) + '">Delete</button></span></div></article>';
     });
     return h;
+  }
+
+  function composer(m) {
+    if (state.drafts[m.id] == null) state.drafts[m.id] = replyStarter(m);
+    var busy = state.sending[m.id], err = state.replyErr[m.id];
+    var errHtml = '';
+    if (err === 'no-email') {
+      errHtml = '<p class="msg err">Sending isn\'t set up yet — the website needs a Resend account and key first (see the setup steps Claude gave you). ' +
+        'Your reply is kept here until then.</p>';
+    } else if (err) errHtml = '<p class="msg err">Couldn\'t send it: ' + esc(err) + '</p>';
+    return '<div class="composer"><label for="reply-' + esc(m.id) + '">Your reply to ' + esc(m.name || m.email) +
+      ' <span class="meta">— emailed to ' + esc(m.email) + ', and they can read it on the Feedback page</span></label>' +
+      '<textarea id="reply-' + esc(m.id) + '" data-draft="' + esc(m.id) + '" maxlength="5000"' + (busy ? ' disabled' : '') + '>' + esc(state.drafts[m.id]) + '</textarea>' +
+      errHtml +
+      '<div class="composer-buttons"><button type="button" class="btn primary" data-send="' + esc(m.id) + '"' + (busy ? ' disabled' : '') + '>' + (busy ? 'Sending…' : 'Send reply') + '</button>' +
+      '<button type="button" class="btn" data-cancel="' + esc(m.id) + '"' + (busy ? ' disabled' : '') + '>Cancel</button></div></div>';
   }
 
   function usersPanel() {
@@ -355,12 +382,29 @@
     var b = e.target.closest('button');
     if (!b) return;
     if (b.dataset.tab) { state.tab = b.dataset.tab; render(); return; }
+    if (b.dataset.compose) {
+      state.composing[b.dataset.compose] = true; render();
+      var ta = document.getElementById('reply-' + b.dataset.compose);
+      if (ta) { ta.focus(); var pos = ta.value.indexOf('\n\n\n\n'); pos = pos === -1 ? ta.value.length : pos + 2; ta.setSelectionRange(pos, pos); }
+      return;
+    }
+    if (b.dataset.cancel) { delete state.composing[b.dataset.cancel]; delete state.replyErr[b.dataset.cancel]; render(); return; }
+    if (b.dataset.send) {
+      var sid = b.dataset.send, text = (state.drafts[sid] || '').trim();
+      if (!text) return;
+      state.sending[sid] = true; delete state.replyErr[sid]; render();
+      api('admin-feedback', { action: 'reply', id: sid, text: text }).then(function (d) {
+        state.feedback.forEach(function (m) { if (m.id === sid) { m.replies = d.replies; m.replied = { at: d.reply.at, by: d.reply.by }; } });
+        delete state.composing[sid]; delete state.drafts[sid]; delete state.sending[sid];
+        flash('ok', 'Reply sent.');
+      }, function (err) { delete state.sending[sid]; state.replyErr[sid] = err.message; render(); });
+      return;
+    }
     if (b.dataset.replied) {
       var on = b.dataset.value === '1', mid = b.dataset.replied;
       b.disabled = true;
       api('admin-feedback', { action: 'replied', id: mid, value: on }).then(function (d) {
         state.feedback.forEach(function (m) { if (m.id === mid) m.replied = d.replied; });
-        delete state.justReplied[mid];
         render();
       }, function (err) { flash('err', 'Couldn\'t save that: ' + err.message); });
       return;
@@ -383,13 +427,6 @@
       }, function (err) { flash('err', 'Couldn\'t delete it: ' + err.message); });
     }
   });
-  // Clicking Reply opens the email app; the card then offers to mark it as replied.
-  app.addEventListener('click', function (e) {
-    var a = e.target.closest('a[data-reply]');
-    if (!a) return;
-    var id = a.dataset.reply;
-    setTimeout(function () { state.justReplied[id] = true; render(); }, 300);
-  });
   app.addEventListener('change', function (e) {
     var t = e.target;
     if (t.id === 'show') { state.show = t.value; render(); }
@@ -402,7 +439,10 @@
       }, function (err) { flash('err', 'Couldn\'t change the role: ' + err.message); render(); });
     }
   });
-  app.addEventListener('input', function (e) { if (e.target.id === 'q') { state.q = e.target.value; render(); } });
+  app.addEventListener('input', function (e) {
+    if (e.target.id === 'q') { state.q = e.target.value; render(); }
+    if (e.target.dataset.draft) state.drafts[e.target.dataset.draft] = e.target.value;
+  });
   who.addEventListener('click', function (e) {
     if (e.target.closest('[data-act="logout"]')) { CrabbyAccount.logout(); location.href = '/'; }
   });

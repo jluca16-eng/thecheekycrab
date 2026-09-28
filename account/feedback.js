@@ -76,7 +76,15 @@
       errEmpty: 'Please write your feedback first.',
       errLink: 'That link has expired or has already been used.',
       errSetup: "Accounts aren't switched on yet. Please try again soon.",
-      errGeneric: 'Something went wrong. Please try again in a moment.'
+      errGeneric: 'Something went wrong. Please try again in a moment.',
+      myHeading: "Your messages",
+      myIntro: "Everything you've sent Crabby, and our replies.",
+      myEmpty: "You haven't sent any messages yet.",
+      myWaiting: "No reply yet — Crabby reads every message.",
+      myReplyFrom: "Reply from {name}",
+      mySent: "You wrote on {date}",
+      myGeneral: "The website",
+      myError: "Your messages can't be shown right now."
     },
     el: {
       heading: 'Πες μας τη γνώμη σου!',
@@ -108,7 +116,15 @@
       errEmpty: 'Γράψε πρώτα τη γνώμη σου.',
       errLink: 'Αυτός ο σύνδεσμος έχει λήξει ή έχει ήδη χρησιμοποιηθεί.',
       errSetup: 'Οι λογαριασμοί δεν έχουν ενεργοποιηθεί ακόμα. Δοκίμασε ξανά σύντομα.',
-      errGeneric: 'Κάτι πήγε στραβά. Δοκίμασε ξανά σε λίγο.'
+      errGeneric: 'Κάτι πήγε στραβά. Δοκίμασε ξανά σε λίγο.',
+      myHeading: "Τα μηνύματά σου",
+      myIntro: "Ό,τι έχεις στείλει στον Κράμπι, και οι απαντήσεις μας.",
+      myEmpty: "Δεν έχεις στείλει ακόμα μηνύματα.",
+      myWaiting: "Δεν υπάρχει απάντηση ακόμα — ο Κράμπι διαβάζει κάθε μήνυμα.",
+      myReplyFrom: "Απάντηση από {name}",
+      mySent: "Έγραψες στις {date}",
+      myGeneral: "Η ιστοσελίδα",
+      myError: "Τα μηνύματά σου δεν μπορούν να εμφανιστούν αυτή τη στιγμή."
     },
     it: {
       heading: 'Dicci cosa ne pensi!',
@@ -140,7 +156,15 @@
       errEmpty: 'Prima scrivi il tuo parere.',
       errLink: 'Questo link è scaduto o è già stato usato.',
       errSetup: 'Gli account non sono ancora attivi. Riprova presto.',
-      errGeneric: 'Qualcosa è andato storto. Riprova tra poco.'
+      errGeneric: 'Qualcosa è andato storto. Riprova tra poco.',
+      myHeading: "I tuoi messaggi",
+      myIntro: "Tutto quello che hai inviato a Crabby, e le nostre risposte.",
+      myEmpty: "Non hai ancora inviato messaggi.",
+      myWaiting: "Nessuna risposta per ora — Crabby legge ogni messaggio.",
+      myReplyFrom: "Risposta di {name}",
+      mySent: "Hai scritto il {date}",
+      myGeneral: "Il sito",
+      myError: "Al momento non è possibile mostrare i tuoi messaggi."
     },
     fr: {
       heading: "Dis-nous ce que tu en as pensé !",
@@ -172,7 +196,15 @@
       errEmpty: "Écris d'abord ton avis.",
       errLink: 'Ce lien a expiré ou a déjà été utilisé.',
       errSetup: "Les comptes ne sont pas encore activés. Réessaie bientôt.",
-      errGeneric: "Un problème est survenu. Réessaie dans un instant."
+      errGeneric: "Un problème est survenu. Réessaie dans un instant.",
+      myHeading: "Tes messages",
+      myIntro: "Tout ce que tu as envoyé à Crabby, et nos réponses.",
+      myEmpty: "Tu n'as encore envoyé aucun message.",
+      myWaiting: "Pas encore de réponse — Crabby lit chaque message.",
+      myReplyFrom: "Réponse de {name}",
+      mySent: "Tu as écrit le {date}",
+      myGeneral: "Le site",
+      myError: "Impossible d'afficher tes messages pour le moment."
     },
     es: {
       heading: '¡Cuéntanos qué te pareció!',
@@ -204,7 +236,15 @@
       errEmpty: 'Escribe primero tu opinión.',
       errLink: 'Ese enlace ha caducado o ya se ha usado.',
       errSetup: 'Las cuentas aún no están activadas. Vuelve a intentarlo pronto.',
-      errGeneric: 'Algo ha fallado. Inténtalo de nuevo en un momento.'
+      errGeneric: 'Algo ha fallado. Inténtalo de nuevo en un momento.',
+      myHeading: "Tus mensajes",
+      myIntro: "Todo lo que le has enviado a Crabby, y nuestras respuestas.",
+      myEmpty: "Todavía no has enviado ningún mensaje.",
+      myWaiting: "Todavía no hay respuesta — Crabby lee todos los mensajes.",
+      myReplyFrom: "Respuesta de {name}",
+      mySent: "Escribiste el {date}",
+      myGeneral: "La web",
+      myError: "Ahora mismo no se pueden mostrar tus mensajes."
     }
   };
 
@@ -245,6 +285,18 @@
     '.fb-crabs label:hover{transform:scale(1.15)}' +
     '.fb-crabs input:focus-visible + label{outline:2px solid #163a5c;outline-offset:2px;border-radius:6px}' +
     '.fb-hp{position:absolute;left:-9999px}' +
+    '.my-messages{margin:30px auto 0;max-width:560px;font:16px/1.5 "Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",Arial,sans-serif;color:#2b2b2b}' +
+    '.my-messages h2{font:400 34px/1.15 "Alex Brush","Segoe Script","Brush Script MT",cursive;color:#163a5c;text-align:center;margin:0 0 4px}' +
+    'html[lang="el"] .my-messages h2{font:italic 26px/1.2 Georgia,"Times New Roman",serif}' +
+    '.my-messages .my-intro{text-align:center;color:#666;margin:0 0 16px}' +
+    '.my-msg{background:#fff;border-radius:14px;box-shadow:0 8px 24px rgba(90,66,30,.12);padding:16px 18px;margin-bottom:14px}' +
+    '.my-msg-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 12px;font-size:14px;color:#6b6456;margin-bottom:6px}' +
+    '.my-msg-head strong{color:#163a5c;font-size:15.5px}' +
+    '.my-text{white-space:pre-wrap;overflow-wrap:anywhere;margin:0}' +
+    '.my-reply{margin:12px 0 0;padding:10px 14px;border-radius:12px;background:#eef6ea;border-left:4px solid #6aa35a}' +
+    '.my-reply-head{font-size:13.5px;color:#245b16;font-weight:700;margin-bottom:3px}' +
+    '.my-wait{margin:10px 0 0;font-size:14px;color:#6b6456;font-style:italic}' +
+    '.my-empty{text-align:center;color:#6b6456}' +
     '@media print{.feedback-box{display:none!important}}';
   var style = document.createElement('style');
   style.textContent = css;
@@ -461,6 +513,51 @@
     view = next;
     flash = message || null;
     renderAll();
+    loadMine();
+  }
+
+  // ---------- "Your messages" (on the Feedback page) ----------
+  // Any element with data-my-messages shows the logged-in reader's own
+  // feedback and the replies to it. Hidden when nobody is logged in.
+  var mine = null, mineErr = false, mineFor = null;
+  function loadMine() {
+    var hosts = document.querySelectorAll('[data-my-messages]');
+    if (!hosts.length) return;
+    var s = session;
+    if (!s) { mine = null; mineFor = null; return renderMine(); }
+    if (mineFor === s.access_token + view) return;   // already loaded for this login + step
+    mineFor = s.access_token + view;
+    window.CrabbyAccount.fetch('/.netlify/functions/my-messages')
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+      .then(function (d) { mine = d.messages || []; mineErr = false; renderMine(); },
+            function () { mine = null; mineErr = true; renderMine(); });
+  }
+  function fmtDate(iso) {
+    try { return new Date(iso).toLocaleDateString(lang() === 'en' ? 'en-AU' : lang(), { day: 'numeric', month: 'long', year: 'numeric' }); }
+    catch (e) { return iso; }
+  }
+  function renderMine() {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-my-messages]'), function (el) {
+      if (!session || (!mine && !mineErr)) { el.innerHTML = ''; el.hidden = true; return; }
+      el.hidden = false;
+      var h = '<h2>' + esc(t('myHeading')) + '</h2><p class="my-intro">' + esc(t('myIntro')) + '</p>';
+      if (mineErr) h += '<p class="my-empty">' + esc(t('myError')) + '</p>';
+      else if (!mine.length) h += '<p class="my-empty">' + esc(t('myEmpty')) + '</p>';
+      else mine.forEach(function (m) {
+        var story = STORIES.filter(function (x) { return x[1] === m.story; })[0];
+        var title = story ? ((window.CrabbyLang && CrabbyLang.t(story[0], story[1])) || story[1]) : t('myGeneral');
+        h += '<article class="my-msg"><div class="my-msg-head"><strong>' + esc(title) + '</strong><span>' +
+             esc(t('mySent', { date: fmtDate(m.created_at) })) + (parseInt(m.rating, 10) ? ' · ' + new Array(parseInt(m.rating, 10) + 1).join('🦀') : '') +
+             '</span></div><p class="my-text">' + esc(m.message) + '</p>';
+        (m.replies || []).forEach(function (r) {
+          h += '<div class="my-reply"><div class="my-reply-head">' + esc(t('myReplyFrom', { name: r.by || 'Crabby' })) + ' · ' + esc(fmtDate(r.at)) + '</div>' +
+               '<p class="my-text">' + esc(r.text) + '</p></div>';
+        });
+        if (!m.replies || !m.replies.length) h += '<p class="my-wait">' + esc(t('myWaiting')) + '</p>';
+        h += '</article>';
+      });
+      el.innerHTML = h;
+    });
   }
 
   function busy(form, on, label) {
@@ -637,6 +734,7 @@
     if (window.CrabbyLang) CrabbyLang.onChange(function () {
       boxes.forEach(function (b) { var f = b.querySelector('form'); if (f) keepDraft(f); });
       renderAll();
+      renderMine();
     });
     renderAll();
     if (handleEmailLink()) return;
