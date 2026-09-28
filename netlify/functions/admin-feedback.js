@@ -38,7 +38,8 @@ exports.handler = function (event, context) {
         return Mail.sendReply({
           to: m.email, name: m.name,
           subject: 'Re: your feedback on ' + about,
-          text: text, original: m.message, originalDate: dateText(m.created_at)
+          text: text, original: m.message, originalDate: dateText(m.created_at),
+          replyTo: a.me.app_metadata && a.me.app_metadata.reply_to
         }).then(function (emailId) {
           return F.load('replies').then(function (all) {
             var entry = { at: new Date().toISOString(), by: myName, text: text, emailed: true };

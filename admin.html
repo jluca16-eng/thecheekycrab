@@ -125,6 +125,10 @@
   .user-main { min-width: 0; }
   .user-name { font-weight: 700; color: var(--ink); overflow-wrap: anywhere; }
   .user-email { font-size: 14px; overflow-wrap: anywhere; }
+  .replyto { margin-top: 8px; font-size: 13.5px; color: var(--muted); }
+  .replyto label { display: block; margin-bottom: 3px; }
+  .replyto-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .replyto input { flex: 1 1 220px; min-width: 0; font: inherit; font-size: 14px; padding: 7px 9px; border: 1.5px solid #c9bfa3; border-radius: 8px; background: #fffdf6; color: var(--text); }
   .user-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: flex-end; }
   .user-actions select { font: inherit; font-size: 14px; padding: 7px 8px; border: 1.5px solid #c9bfa3; border-radius: 8px; background: #fffdf6; }
   @media (max-width: 560px) {
@@ -316,6 +320,10 @@
     return h;
   }
 
+  function myReplyTo() {
+    var me = (state.users || []).filter(function (u) { return u.id === state.me; })[0];
+    return me && me.reply_to;
+  }
   function composer(m) {
     if (state.drafts[m.id] == null) state.drafts[m.id] = replyStarter(m);
     var busy = state.sending[m.id], err = state.replyErr[m.id];
@@ -325,7 +333,7 @@
         'Your reply is kept here until then.</p>';
     } else if (err) errHtml = '<p class="msg err">Couldn\'t send it: ' + esc(err) + '</p>';
     return '<div class="composer"><label for="reply-' + esc(m.id) + '">Your reply to ' + esc(m.name || m.email) +
-      ' <span class="meta">— emailed to ' + esc(m.email) + ', and they can read it on the Feedback page</span></label>' +
+      ' <span class="meta">— emailed to ' + esc(m.email) + ' from crabby@thecheekycrab.com.au' + (myReplyTo() ? '; if they answer, it comes to ' + esc(myReplyTo()) : '') + '. They can also read it on the Feedback page.</span></label>' +
       '<textarea id="reply-' + esc(m.id) + '" data-draft="' + esc(m.id) + '" maxlength="5000"' + (busy ? ' disabled' : '') + '>' + esc(state.drafts[m.id]) + '</textarea>' +
       errHtml +
       '<div class="composer-buttons"><button type="button" class="btn primary" data-send="' + esc(m.id) + '"' + (busy ? ' disabled' : '') + '>' + (busy ? 'Sending…' : 'Send reply') + '</button>' +
@@ -347,7 +355,13 @@
         (me ? ' <span class="pill you">You</span>' : '') +
         (!u.confirmed ? ' <span class="pill wait">Email not confirmed</span>' : '') + '</div>' +
         '<div class="user-email"><a href="mailto:' + esc(u.email) + '" style="color:inherit">' + esc(u.email) + '</a></div>' +
-        '<div class="meta">Joined ' + esc(when(u.created_at)) + (u.last_login ? ' · last logged in ' + esc(when(u.last_login)) : '') + '</div></div>' +
+        '<div class="meta">Joined ' + esc(when(u.created_at)) + (u.last_login ? ' · last logged in ' + esc(when(u.last_login)) : '') + '</div>' +
+        (u.role === 'admin'
+          ? '<div class="replyto"><label for="rt-' + esc(u.id) + '">Answers to ' + (me ? 'your' : 'their') + ' replies come back to</label>' +
+            '<span class="replyto-row"><input id="rt-' + esc(u.id) + '" type="email" data-rt="' + esc(u.id) + '" value="' + esc(u.reply_to) + '" placeholder="the website\'s main address">' +
+            '<button type="button" class="btn" data-save-rt="' + esc(u.id) + '">Save</button></span></div>'
+          : '') +
+        '</div>' +
         '<div class="user-actions">' +
         '<select data-role="' + esc(u.id) + '" aria-label="Role for ' + esc(u.name || u.email) + '"' + (locked ? ' disabled title="' + (me ? "You can't change your own role" : 'Always an Administrator (ADMIN_EMAILS)') + '"' : '') + '>' +
         '<option value="user"' + (u.role === 'user' ? ' selected' : '') + '>User</option>' +
@@ -355,7 +369,9 @@
         '<button type="button" class="btn danger" data-del-user="' + esc(u.id) + '"' + (locked ? ' disabled' : '') + '>Delete</button>' +
         '</div></div></div>';
     });
-    h += '<p class="meta" style="margin-top:14px">Administrators can see this page, read all feedback, manage accounts and open preview pages. ' +
+    h += '<p class="meta" style="margin-top:14px">Each Administrator\'s replies are sent from crabby@thecheekycrab.com.au; when a reader answers, it goes to the address in their “come back to” box ' +
+      '(an address like joe@thecheekycrab.com.au that ImprovMX forwards to them). Left empty, answers go to the website\'s main address.</p>';
+    h += '<p class="meta" style="margin-top:8px">Administrators can see this page, read all feedback, manage accounts and open preview pages. ' +
       'Users can send feedback. New sign-ups are always Users. Someone whose role you change will see it the next time they open a page.</p>';
     return h;
   }
@@ -416,6 +432,15 @@
         state.feedback = state.feedback.filter(function (m) { return m.id !== b.dataset.delMsg; });
         flash('ok', 'Message deleted.');
       }, function (err) { flash('err', 'Couldn\'t delete it: ' + err.message); });
+    }
+    if (b.dataset.saveRt) {
+      var rid = b.dataset.saveRt, val = document.getElementById('rt-' + rid).value.trim();
+      b.disabled = true;
+      api('admin-users', { action: 'replyto', id: rid, value: val }).then(function (d) {
+        state.users = state.users.map(function (x) { return x.id === d.user.id ? d.user : x; });
+        flash('ok', d.user.reply_to ? 'Answers to ' + (d.user.name || d.user.email) + '\'s replies will now go to ' + d.user.reply_to + '.' : 'Answers will go to the website\'s main address.');
+      }, function (err) { flash('err', 'Couldn\'t save that: ' + err.message); });
+      return;
     }
     if (b.dataset.delUser) {
       if (!armed(b)) return;

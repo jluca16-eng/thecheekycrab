@@ -2,6 +2,9 @@
    GET                          → list every account
    POST {action:'role', id, role:'admin'|'user'}  → change a role
    POST {action:'delete', id}   → delete an account
+   POST {action:'replyto', id, value} → an Administrator's own reply address
+                                  (where readers' answers to their replies go;
+                                  empty = the site default, REPLY_TO)
    Nobody can change their own role or delete themselves (so the site
    can't be left without an Administrator), and ADMIN_EMAILS accounts
    always stay Administrators. */
@@ -14,6 +17,7 @@ function shape(u) {
     name: (u.user_metadata && u.user_metadata.full_name) || '',
     role: R.roleFor(u),
     owner: R.isOwner(u.email),
+    reply_to: (u.app_metadata && u.app_metadata.reply_to) || '',
     created_at: u.created_at,
     confirmed: !!u.confirmed_at,
     last_login: u.last_sign_in_at || null
@@ -37,7 +41,7 @@ exports.handler = function (event, context) {
     var body = {};
     try { body = JSON.parse(event.body || '{}'); } catch (e) {}
     if (!body.id) return R.json(400, { error: 'Which account?' });
-    if (body.id === a.me.id) return R.json(400, { error: "You can't change or delete your own account from here." });
+    if (body.id === a.me.id && body.action !== 'replyto') return R.json(400, { error: "You can't change or delete your own account from here." });
 
     return R.identityApi(id, '/admin/users/' + body.id).then(function (target) {
       if (body.action === 'role') {
@@ -45,6 +49,15 @@ exports.handler = function (event, context) {
         if (R.isOwner(target.email) && body.role !== 'admin') return R.json(400, { error: 'This account is always an Administrator (ADMIN_EMAILS).' });
         var app = Object.assign({}, target.app_metadata || {}, { roles: [body.role] });
         return R.identityApi(id, '/admin/users/' + body.id, { method: 'PUT', body: { app_metadata: app } })
+          .then(function (u) { return R.json(200, { user: shape(u) }); });
+      }
+      if (body.action === 'replyto') {
+        var addr = String(body.value || '').trim().toLowerCase();
+        if (addr && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(addr)) return R.json(400, { error: "That doesn't look like an email address." });
+        if (R.roleFor(target) !== 'admin') return R.json(400, { error: 'Only Administrators send replies.' });
+        var app2 = Object.assign({}, target.app_metadata || {});
+        if (addr) app2.reply_to = addr; else delete app2.reply_to;
+        return R.identityApi(id, '/admin/users/' + body.id, { method: 'PUT', body: { app_metadata: app2 } })
           .then(function (u) { return R.json(200, { user: shape(u) }); });
       }
       if (body.action === 'delete') {

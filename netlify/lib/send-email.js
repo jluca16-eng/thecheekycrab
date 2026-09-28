@@ -5,7 +5,9 @@
      REPLY_FROM      who it's from, e.g.
                      The Adventures of Crabby <crabby@thecheekycrab.com.au>
                      (the domain must be verified in Resend)
-     REPLY_TO        where readers' answers go, e.g. your Gmail
+     REPLY_TO        where readers' answers go when the Administrator
+                     sending the reply hasn't set their own address
+                     (Admin page → Users → "Replies come back to")
    ========================================================== */
 function esc(s) {
   return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
@@ -14,7 +16,7 @@ function esc(s) {
 }
 
 function sendReply(opts) {
-  // opts: { to, name, subject, text, original, originalDate }
+  // opts: { to, name, subject, text, original, originalDate, replyTo }
   if (!process.env.RESEND_API_KEY) { var e0 = new Error('no-email'); e0.code = 'no-email'; e0.status = 503; return Promise.reject(e0); }
   var from = process.env.REPLY_FROM || 'The Adventures of Crabby <crabby@thecheekycrab.com.au>';
   var site = 'https://thecheekycrab.com.au/feedback';
@@ -31,7 +33,8 @@ function sendReply(opts) {
     '<div style="margin-bottom:4px">On ' + esc(opts.originalDate) + ' you wrote:</div>' +
     '<div style="white-space:pre-wrap">' + esc(opts.original) + '</div></div></div>';
   var body = { from: from, to: [opts.to], subject: opts.subject, text: text, html: html };
-  if (process.env.REPLY_TO) body.reply_to = process.env.REPLY_TO;
+  var replyTo = opts.replyTo || process.env.REPLY_TO;
+  if (replyTo) body.reply_to = replyTo;
   return fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: 'Bearer ' + process.env.RESEND_API_KEY, 'Content-Type': 'application/json' },
