@@ -100,7 +100,7 @@
       emailOpt: "Email",
       emailOptHelp: "Only if you'd like a reply — a grown-up's email is best.",
       grownupEmail: "I'm a grown-up, or a grown-up said it's OK to share this email.",
-      haveAccount: "Have an account? Log in to see your messages and replies.",
+      haveAccount: "Want to see your messages and Crabby's replies?",
       backToForm: "← Back",
       errEmail: "That email doesn't look quite right.",
       errGrownupEmail: "Please tick the grown-up box, or leave the email empty.",
@@ -159,7 +159,7 @@
       emailOpt: "Email",
       emailOptHelp: "Μόνο αν θέλεις απάντηση — καλύτερα το email ενός μεγάλου.",
       grownupEmail: "Είμαι μεγάλος/η ή ένας μεγάλος μού είπε ότι μπορώ να δώσω αυτό το email.",
-      haveAccount: "Έχεις λογαριασμό; Συνδέσου για να δεις τα μηνύματά σου και τις απαντήσεις.",
+      haveAccount: "Θέλεις να βλέπεις τα μηνύματά σου και τις απαντήσεις του Κράμπι;",
       backToForm: "← Πίσω",
       errEmail: "Αυτό το email δεν φαίνεται σωστό.",
       errGrownupEmail: "Τσέκαρε το κουτάκι για τους μεγάλους ή άφησε το email κενό.",
@@ -218,7 +218,7 @@
       emailOpt: "Email",
       emailOptHelp: "Solo se vuoi una risposta — meglio l'email di un adulto.",
       grownupEmail: "Sono un adulto, oppure un adulto mi ha detto che posso dare questa email.",
-      haveAccount: "Hai un account? Accedi per vedere i tuoi messaggi e le risposte.",
+      haveAccount: "Vuoi vedere i tuoi messaggi e le risposte di Crabby?",
       backToForm: "← Indietro",
       errEmail: "Questa email non sembra corretta.",
       errGrownupEmail: "Spunta la casella dell'adulto, oppure lascia vuota l'email.",
@@ -277,7 +277,7 @@
       emailOpt: "E-mail",
       emailOptHelp: "Seulement si tu veux une réponse — l'e-mail d'un adulte, c'est mieux.",
       grownupEmail: "Je suis un adulte, ou un adulte m'a dit que je pouvais donner cet e-mail.",
-      haveAccount: "Tu as un compte ? Connecte-toi pour voir tes messages et les réponses.",
+      haveAccount: "Tu veux voir tes messages et les réponses de Crabby ?",
       backToForm: "← Retour",
       errEmail: "Cet e-mail ne semble pas correct.",
       errGrownupEmail: "Coche la case adulte, ou laisse l'e-mail vide.",
@@ -336,7 +336,7 @@
       emailOpt: "Correo electrónico",
       emailOptHelp: "Solo si quieres respuesta — mejor el correo de un adulto.",
       grownupEmail: "Soy un adulto, o un adulto me ha dicho que puedo dar este correo.",
-      haveAccount: "¿Tienes cuenta? Entra para ver tus mensajes y las respuestas.",
+      haveAccount: "¿Quieres ver tus mensajes y las respuestas de Crabby?",
       backToForm: "← Volver",
       errEmail: "Ese correo no parece correcto.",
       errGrownupEmail: "Marca la casilla del adulto, o deja el correo vacío.",
@@ -403,7 +403,11 @@
     '.my-empty{text-align:center;color:#6b6456}' +
     '.my-messages .my-text{text-align:left;font-size:16px;line-height:1.5;text-indent:0}' +
     '.feedback-box .fb-opt{font-weight:400;font-size:14px;color:#777}' +
-    '.fb-account{text-align:center;margin:18px 0 0}' +
+    '.fb-account{text-align:center;margin:22px -24px -24px;padding:18px 24px 22px;border-top:1.5px solid #eee3c8;background:#fdf8ea;border-radius:0 0 14px 14px}' +
+    '.fb-account p{margin:0 0 12px;font-weight:600;color:#163a5c}' +
+    '.fb-account-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}' +
+    '.fb-account-btns .fb-btn{min-width:130px}' +
+    '.fb-btn-outline{background:#fff;color:#163a5c;box-shadow:inset 0 0 0 2px #163a5c}' +
     '.fb-back{margin:0 0 6px}' +
     '.reactions{margin:36px auto 0;max-width:560px;text-align:center;font:16px/1.4 "Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",Arial,sans-serif;color:#163a5c}' +
     '.reactions .react-q{font-weight:700;font-size:19px;margin:0 0 12px;text-align:center;color:#163a5c;text-indent:0}' +
@@ -600,7 +604,9 @@
         h += '</form>';
         // Only the Feedback page (no data-story) offers the optional login.
         if (!session && !story) {
-          h += '<p class="fb-account"><button type="button" class="fb-link" data-act="login">' + esc(t('haveAccount')) + '</button></p>';
+          h += '<div class="fb-account"><p>' + esc(t('haveAccount')) + '</p><div class="fb-account-btns">' +
+               '<button type="button" class="fb-btn fb-btn-outline" data-act="login">' + esc(t('tabLogin')) + '</button>' +
+               '<button type="button" class="fb-btn" data-act="signup">' + esc(t('tabSignup')) + '</button></div></div>';
         }
       }
     } else if (view === 'newpassword') {
