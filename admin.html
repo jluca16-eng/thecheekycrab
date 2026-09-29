@@ -314,14 +314,14 @@
         '<p class="message">' + esc(m.message) + '</p>' +
         (m.replies || []).map(function (r) {
           return '<div class="reply"><div class="reply-head">Reply from <strong>' + esc(r.by || 'us') + '</strong> · ' + esc(when(r.at)) +
-            (r.emailed ? ' · <span class="sent">✓ emailed</span>' : '') + '</div><div class="reply-text">' + esc(r.text) + '</div></div>';
+            (r.emailed ? ' · <span class="sent">✓ emailed</span>' : ' · <span class="meta">website only (no email)</span>') + '</div><div class="reply-text">' + esc(r.text) + '</div></div>';
         }).join('') +
         (state.composing[m.id] ? composer(m) : '') +
         '<div class="card-foot"><span class="from">From <strong>' + esc(m.name || 'someone') + '</strong>' +
-        (m.email ? ' · <a href="mailto:' + esc(m.email) + '">' + esc(m.email) + '</a>' : ' · <span class="meta">no email left, so no reply possible</span>') +
+        (m.email ? ' · <a href="mailto:' + esc(m.email) + '">' + esc(m.email) + '</a>' : ' · <span class="meta">no email left — replies are for the website only</span>') +
         (m.page ? ' · <span class="meta">sent from ' + esc(m.page) + '</span>' : '') + '</span>' +
         '<span class="card-buttons">' +
-        (m.email && !state.composing[m.id] ? '<button type="button" class="btn primary" data-compose="' + esc(m.id) + '">' + (m.replies && m.replies.length ? 'Reply again' : 'Reply') + '</button>' : '') +
+        (!state.composing[m.id] ? '<button type="button" class="btn primary" data-compose="' + esc(m.id) + '">' + (m.replies && m.replies.length ? 'Reply again' : 'Reply') + '</button>' : '') +
         (m.replies && m.replies.length ? '' : m.replied
           ? '<button type="button" class="btn" data-replied="' + esc(m.id) + '" data-value="0">Mark as not replied</button>'
           : '<button type="button" class="btn" data-replied="' + esc(m.id) + '" data-value="1" title="For when you answered some other way, e.g. by phone">Mark as replied</button>') +
@@ -361,6 +361,14 @@
       errHtml = '<p class="msg err">Sending isn\'t set up yet — the website needs a Resend account and key first (see the setup steps Claude gave you). ' +
         'Your reply is kept here until then.</p>';
     } else if (err) errHtml = '<p class="msg err">Couldn\'t send it: ' + esc(err) + '</p>';
+    if (!m.email) {
+      return '<div class="composer"><label for="reply-' + esc(m.id) + '">Your reply to ' + esc(m.name || 'this reader') +
+        ' <span class="meta">— they didn\'t leave an email, so this isn\'t emailed. It\'s saved here, and shows under their message on the website if you click “Show on website” (the “Hi …,” line is left off there).</span></label>' +
+        '<textarea id="reply-' + esc(m.id) + '" data-draft="' + esc(m.id) + '" maxlength="5000"' + (busy ? ' disabled' : '') + '>' + esc(state.drafts[m.id]) + '</textarea>' +
+        errHtml +
+        '<div class="composer-buttons"><button type="button" class="btn primary" data-send="' + esc(m.id) + '"' + (busy ? ' disabled' : '') + '>' + (busy ? 'Saving…' : 'Save reply') + '</button>' +
+        '<button type="button" class="btn" data-cancel="' + esc(m.id) + '"' + (busy ? ' disabled' : '') + '>Cancel</button></div></div>';
+    }
     return '<div class="composer"><label for="reply-' + esc(m.id) + '">Your reply to ' + esc(m.name || m.email) +
       ' <span class="meta">— emailed to ' + esc(m.email) + ' from crabby@thecheekycrab.com.au' + (myReplyTo() ? '; if they answer, it comes to ' + esc(myReplyTo()) : '') + '. They can also read it on the Feedback page.</span></label>' +
       '<textarea id="reply-' + esc(m.id) + '" data-draft="' + esc(m.id) + '" maxlength="5000"' + (busy ? ' disabled' : '') + '>' + esc(state.drafts[m.id]) + '</textarea>' +
@@ -441,7 +449,7 @@
       api('admin-feedback', { action: 'reply', id: sid, text: text }).then(function (d) {
         state.feedback.forEach(function (m) { if (m.id === sid) { m.replies = d.replies; m.replied = { at: d.reply.at, by: d.reply.by }; } });
         delete state.composing[sid]; delete state.drafts[sid]; delete state.sending[sid];
-        flash('ok', 'Reply sent.');
+        flash('ok', d.reply && d.reply.emailed ? 'Reply sent.' : 'Reply saved. Click “Show on website” to let readers see it.');
       }, function (err) { delete state.sending[sid]; state.replyErr[sid] = err.message; render(); });
       return;
     }

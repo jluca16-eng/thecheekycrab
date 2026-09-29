@@ -2,6 +2,8 @@
    GET                                  → every feedback message, with its replies,
                                           plus a tally of the one-tap story reactions
    POST {action:'reply', id, text}      → email a reply to the reader and record it
+                                          (no email left: just record it — it can then
+                                          be shown on the website with the message)
    POST {action:'replied', id, value}   → mark / unmark as replied by hand
    POST {action:'publish', id, value}   → show / hide a message (and its replies) on the website
    POST {action:'delete', id}           → delete one message (and its replies)
@@ -38,16 +40,18 @@ exports.handler = function (event, context) {
       return F.listMessages().then(function (list) {
         var m = list.filter(function (x) { return x.id === body.id; })[0];
         if (!m) return R.json(404, { error: 'That message has gone.' });
-        if (!m.email) return R.json(400, { error: 'This message has no email address to reply to.' });
+        // No email left: record the reply without emailing it. It shows on the
+        // website under the message once an Administrator clicks "Show on website".
+        var send = m.email ? null : Promise.resolve(false);
         var about = !m.story || m.story === 'The website in general' ? 'The Adventures of Crabby' : '"' + m.story + '"';
-        return Mail.sendReply({
+        return (send || Mail.sendReply({
           to: m.email, name: m.name,
           subject: 'Re: your feedback on ' + about,
           text: text, original: m.message, originalDate: dateText(m.created_at),
           replyTo: a.me.app_metadata && a.me.app_metadata.reply_to
-        }).then(function (emailId) {
+        })).then(function (emailId) {
           return F.load('replies').then(function (all) {
-            var entry = { at: new Date().toISOString(), by: myName, text: text, emailed: true };
+            var entry = { at: new Date().toISOString(), by: myName, text: text, emailed: !!emailId };
             (all[m.id] = all[m.id] || []).push(entry);
             return F.save('replies', all).then(function () {
               return R.json(200, { id: m.id, reply: entry, replies: all[m.id] });
