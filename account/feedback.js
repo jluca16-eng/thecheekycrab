@@ -577,8 +577,6 @@
         var name = (session.user && (session.user.name || session.user.email)) || '';
         h += '<div class="fb-user"><span>' + esc(t('hello', { name: name })) + '</span>' +
              '<button type="button" class="fb-link" data-act="logout">' + esc(t('logout')) + '</button></div>';
-      } else if (view === 'form') {
-        h += '<p class="fb-intro">' + esc(t('formIntro')) + '</p>';
       }
       h += msgHtml();
       if (view === 'thanks') {
