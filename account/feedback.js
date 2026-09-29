@@ -15,8 +15,10 @@
    • Accounts use Netlify Identity (turn it on in the Netlify
      dashboard: Project configuration → Identity). Readers never
      need a Netlify account of their own.
-   • No account is needed to send feedback. Name and email are
-     optional; an email needs the grown-up box ticked. Logging in
+   • No account is needed to send feedback: just a rating, the
+     message and an optional first name (seen only by Administrators).
+     No email box — people who want a reply sign up (the sign-up form
+     has the email, grown-up tick-box and privacy note). Logging in
      is optional (Feedback page only) and shows "Your messages";
      Administrators log in the same way.
    • Stories also get one-tap reactions: add
@@ -112,7 +114,9 @@
       reactThanks: "Thanks for telling Crabby! 🦀",
       pubHeading: "What readers are saying",
       pubReader: "A reader",
-      pubReply: "Crabby's reply"
+      pubReply: "Crabby's reply",
+      replyQ: "Want Crabby to reply?",
+      replyLink: "Log in or sign up first."
     },
     el: {
       heading: 'Πες μας τη γνώμη σου!',
@@ -171,7 +175,9 @@
       reactThanks: "Ευχαριστούμε που το είπες στον Κράμπι! 🦀",
       pubHeading: "Τι λένε οι αναγνώστες",
       pubReader: "Ένας αναγνώστης",
-      pubReply: "Η απάντηση του Κράμπι"
+      pubReply: "Η απάντηση του Κράμπι",
+      replyQ: "Θέλεις να σου απαντήσει ο Κράμπι;",
+      replyLink: "Συνδέσου ή κάνε εγγραφή πρώτα."
     },
     it: {
       heading: 'Dicci cosa ne pensi!',
@@ -230,7 +236,9 @@
       reactThanks: "Grazie per averlo detto a Crabby! 🦀",
       pubHeading: "Cosa dicono i lettori",
       pubReader: "Un lettore",
-      pubReply: "La risposta di Crabby"
+      pubReply: "La risposta di Crabby",
+      replyQ: "Vuoi che Crabby ti risponda?",
+      replyLink: "Prima accedi o registrati."
     },
     fr: {
       heading: "Dis-nous ce que tu en as pensé !",
@@ -289,7 +297,9 @@
       reactThanks: "Merci de l'avoir dit à Crabby ! 🦀",
       pubHeading: "Ce que disent les lecteurs",
       pubReader: "Un lecteur",
-      pubReply: "La réponse de Crabby"
+      pubReply: "La réponse de Crabby",
+      replyQ: "Tu veux que Crabby te réponde ?",
+      replyLink: "Connecte-toi ou inscris-toi d'abord."
     },
     es: {
       heading: '¡Cuéntanos qué te pareció!',
@@ -348,7 +358,9 @@
       reactThanks: "¡Gracias por contárselo a Crabby! 🦀",
       pubHeading: "Lo que dicen los lectores",
       pubReader: "Un lector",
-      pubReply: "La respuesta de Crabby"
+      pubReply: "La respuesta de Crabby",
+      replyQ: "¿Quieres que Crabby te responda?",
+      replyLink: "Primero inicia sesión o regístrate."
     }
   };
 
@@ -403,6 +415,8 @@
     '.my-empty{text-align:center;color:#6b6456}' +
     '.my-messages .my-text{text-align:left;font-size:16px;line-height:1.5;text-indent:0}' +
     '.feedback-box .fb-opt{font-weight:400;font-size:14px;color:#777}' +
+    '.fb-replyhint{margin:12px 0 0;font-size:14.5px;color:#555}' +
+    '.fb-replyhint a{color:#163a5c}' +
     '.fb-account{text-align:center;margin:22px -24px -24px;padding:18px 24px 22px;border-top:1.5px solid #eee3c8;background:#fdf8ea;border-radius:0 0 14px 14px}' +
     '.fb-account p{margin:0 0 12px;font-weight:600;color:#163a5c}' +
     '.fb-account-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}' +
@@ -591,16 +605,20 @@
         h += '<label class="fb-field">' + esc(t('message')) +
              '<textarea name="message" maxlength="3000" placeholder="' + esc(t('messagePh')) + '">' + esc(draft.message || '') + '</textarea></label>';
         if (!session) {
-          // No account needed: name and email are both optional.
+          // No account needed. The name is optional and only ever seen by
+          // Administrators. No email here — people who want a reply sign up
+          // (the sign-up form has the email, grown-up tick-box and privacy note).
           h += '<label class="fb-field">' + esc(t('nameOpt')) + ' <span class="fb-opt">' + esc(t('optional')) + '</span>' +
                '<input type="text" name="nickname" maxlength="40" autocomplete="nickname" value="' + esc(draft.nickname || '') + '"></label>';
-          h += '<label class="fb-field">' + esc(t('emailOpt')) + ' <span class="fb-opt">' + esc(t('optional')) + '</span>' +
-               '<span class="fb-help">' + esc(t('emailOptHelp')) + '</span>' +
-               '<input type="email" name="email" maxlength="120" autocomplete="email" value="' + esc(draft.email || '') + '"></label>';
-          h += '<label class="fb-check"><input type="checkbox" name="grownup"' + (draft.grownup ? ' checked' : '') + '><span>' + esc(t('grownupEmail')) + '</span></label>';
-          h += '<p class="fb-privacy">' + esc(t('privacy')) + '</p>';
         }
         h += '<button type="submit" class="fb-btn">' + esc(t('send')) + '</button>';
+        if (!session) {
+          // How to get a reply: on the Feedback page the Log in / Sign up
+          // panel is just below; on a story it links to the Feedback page.
+          h += '<p class="fb-replyhint">' + esc(t('replyQ')) + ' ' + (story
+            ? '<a href="/feedback#login">' + esc(t('replyLink')) + '</a>'
+            : '<button type="button" class="fb-link" data-act="login">' + esc(t('replyLink')) + '</button>') + '</p>';
+        }
         h += '</form>';
         // Only the Feedback page (no data-story) offers the optional login.
         if (!session && !story) {
@@ -969,7 +987,14 @@
     if (!boxes.length) return;
     renderAll();
     if (handleEmailLink()) return;
-    currentSession().then(function (s) { session = s; go('form'); });
+    currentSession().then(function (s) {
+      session = s;
+      // "Log in or sign up first" links on the stories arrive as /feedback#login
+      if (!s && location.hash === '#login') {
+        go('login');
+        var b = boxes[0]; if (b && b.scrollIntoView) b.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else go('form');
+    });
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
