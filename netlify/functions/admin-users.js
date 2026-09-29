@@ -30,7 +30,7 @@ exports.handler = function (event, context) {
     var id = a.identity;
 
     if (event.httpMethod === 'GET') {
-      return R.identityApi(id, '/admin/users?per_page=1000').then(function (d) {
+      return R.identityApi(id, '/admin/users?per_page=500').then(function (d) {
         var list = (d.users || []).map(shape);
         list.sort(function (x, y) { return String(y.created_at).localeCompare(String(x.created_at)); });
         return R.json(200, { me: a.me.id, users: list });
