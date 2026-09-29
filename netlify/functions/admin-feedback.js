@@ -1,5 +1,6 @@
 /* /.netlify/functions/admin-feedback — Administrators only.
-   GET                                  → every feedback message, with its replies
+   GET                                  → every feedback message, with its replies,
+                                          plus a tally of the one-tap story reactions
    POST {action:'reply', id, text}      → email a reply to the reader and record it
    POST {action:'replied', id, value}   → mark / unmark as replied by hand
    POST {action:'delete', id}           → delete one message (and its replies)
@@ -19,7 +20,10 @@ exports.handler = function (event, context) {
     var myName = (a.me.user_metadata && a.me.user_metadata.full_name) || a.me.email;
 
     if (event.httpMethod === 'GET') {
-      return F.listMessages().then(function (list) { return R.json(200, { messages: list }); });
+      return Promise.all([
+        F.listMessages(),
+        F.listReactions().catch(function () { return null; })   // reactions are a bonus; never block the messages
+      ]).then(function (res) { return R.json(200, { messages: res[0], reactions: res[1] }); });
     }
     if (event.httpMethod !== 'POST') return R.json(405, { error: 'Not allowed' });
     var body = {};

@@ -4,6 +4,7 @@
    • The messages themselves are Netlify Forms submissions (form
      "feedback"). Reading them needs the NETLIFY_API_TOKEN
      environment variable.
+   • One-tap story reactions are the form "reaction" (listReactions).
    • Things added afterwards live in Netlify Blobs, store "feedback":
        "replies"  { <message id>: [ { at, by, text, emailed } ] }
        "replied"  { <message id>: { at, by } }   (marked by hand)
@@ -58,7 +59,29 @@ function listMessages() {
   });
 }
 
+// Tally of the one-tap story reactions (Netlify form "reaction"):
+// { <story>: { love, like, ok, total } }
+function listReactions() {
+  return netlify('/sites/' + SITE_ID + '/forms').then(function (forms) {
+    var form = forms.filter(function (f) { return f.name === 'reaction'; })[0];
+    if (!form) return {};
+    return netlify('/forms/' + form.id + '/submissions?per_page=1000').then(function (subs) {
+      var out = {};
+      subs.forEach(function (s) {
+        var d = s.data || {};
+        var r = d.reaction;
+        if (['love', 'like', 'ok'].indexOf(r) === -1) return;
+        var k = d.story || 'Unknown story';
+        var row = out[k] = out[k] || { love: 0, like: 0, ok: 0, total: 0 };
+        row[r]++; row.total++;
+      });
+      return out;
+    });
+  });
+}
+
 module.exports = {
+  listReactions: listReactions,
   connect: function (event) { blobs.connectLambda(event); },
   netlify: netlify, load: load, save: save, listMessages: listMessages
 };

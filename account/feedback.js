@@ -15,7 +15,13 @@
    • Accounts use Netlify Identity (turn it on in the Netlify
      dashboard: Project configuration → Identity). Readers never
      need a Netlify account of their own.
-   • People must be logged in before the feedback form appears.
+   • No account is needed to send feedback. Name and email are
+     optional; an email needs the grown-up box ticked. Logging in
+     is optional (Feedback page only) and shows "Your messages";
+     Administrators log in the same way.
+   • Stories also get one-tap reactions: add
+       <div data-reactions data-story="Story title"></div>
+     They post to the Netlify form "reaction" (see /feedback.html).
    • Sending feedback posts to the Netlify form called "feedback",
      which is declared in /feedback.html. Every message appears
      under Forms in the Netlify dashboard, and is emailed to you
@@ -48,7 +54,7 @@
   var TEXT = {
     en: {
       heading: 'Tell us what you thought!',
-      intro: 'Log in or make an account to send Crabby your feedback.',
+      intro: "Log in or make an account to see your messages and Crabby's replies.",
       tabLogin: 'Log in', tabSignup: 'Sign up',
       nickname: 'First name or nickname', nicknameHelp: "Please don't use your full name.",
       email: 'Email', emailHelp: "A grown-up's email is best.",
@@ -84,11 +90,27 @@
       myReplyFrom: "Reply from {name}",
       mySent: "You wrote on {date}",
       myGeneral: "The website",
-      myError: "Your messages can't be shown right now."
+      myError: "Your messages can't be shown right now.",
+      formIntro: "No account needed — just write to Crabby!",
+      nameOpt: "Your first name or nickname",
+      optional: "(optional)",
+      emailOpt: "Email",
+      emailOptHelp: "Only if you'd like a reply — a grown-up's email is best.",
+      grownupEmail: "I'm a grown-up, or a grown-up said it's OK to share this email.",
+      haveAccount: "Have an account? Log in to see your messages and replies.",
+      backToForm: "← Back",
+      errEmail: "That email doesn't look quite right.",
+      errGrownupEmail: "Please tick the grown-up box, or leave the email empty.",
+      thanksReply: "Thank you! Crabby has your message and will reply by email. 🦀",
+      reactQ: "Did you enjoy this story?",
+      reactLove: "Loved it!",
+      reactLike: "Liked it",
+      reactOk: "It was OK",
+      reactThanks: "Thanks for telling Crabby! 🦀"
     },
     el: {
       heading: 'Πες μας τη γνώμη σου!',
-      intro: 'Συνδέσου ή φτιάξε λογαριασμό για να στείλεις στον Κράμπι τη γνώμη σου.',
+      intro: "Συνδέσου ή φτιάξε λογαριασμό για να δεις τα μηνύματά σου και τις απαντήσεις του Κράμπι.",
       tabLogin: 'Σύνδεση', tabSignup: 'Εγγραφή',
       nickname: 'Μικρό όνομα ή παρατσούκλι', nicknameHelp: 'Μη γράψεις το πλήρες όνομά σου.',
       email: 'Email', emailHelp: 'Καλύτερα το email ενός μεγάλου.',
@@ -124,11 +146,27 @@
       myReplyFrom: "Απάντηση από {name}",
       mySent: "Έγραψες στις {date}",
       myGeneral: "Η ιστοσελίδα",
-      myError: "Τα μηνύματά σου δεν μπορούν να εμφανιστούν αυτή τη στιγμή."
+      myError: "Τα μηνύματά σου δεν μπορούν να εμφανιστούν αυτή τη στιγμή.",
+      formIntro: "Δεν χρειάζεται λογαριασμός — απλώς γράψε στον Κράμπι!",
+      nameOpt: "Το μικρό σου όνομα ή παρατσούκλι",
+      optional: "(προαιρετικό)",
+      emailOpt: "Email",
+      emailOptHelp: "Μόνο αν θέλεις απάντηση — καλύτερα το email ενός μεγάλου.",
+      grownupEmail: "Είμαι μεγάλος/η ή ένας μεγάλος μού είπε ότι μπορώ να δώσω αυτό το email.",
+      haveAccount: "Έχεις λογαριασμό; Συνδέσου για να δεις τα μηνύματά σου και τις απαντήσεις.",
+      backToForm: "← Πίσω",
+      errEmail: "Αυτό το email δεν φαίνεται σωστό.",
+      errGrownupEmail: "Τσέκαρε το κουτάκι για τους μεγάλους ή άφησε το email κενό.",
+      thanksReply: "Ευχαριστούμε! Ο Κράμπι πήρε το μήνυμά σου και θα απαντήσει με email. 🦀",
+      reactQ: "Σου άρεσε αυτή η ιστορία;",
+      reactLove: "Τη λάτρεψα!",
+      reactLike: "Μου άρεσε",
+      reactOk: "Ήταν εντάξει",
+      reactThanks: "Ευχαριστούμε που το είπες στον Κράμπι! 🦀"
     },
     it: {
       heading: 'Dicci cosa ne pensi!',
-      intro: 'Accedi o crea un account per mandare a Crabby il tuo parere.',
+      intro: "Accedi o crea un account per vedere i tuoi messaggi e le risposte di Crabby.",
       tabLogin: 'Accedi', tabSignup: 'Registrati',
       nickname: 'Nome o soprannome', nicknameHelp: 'Per favore non usare il nome completo.',
       email: 'Email', emailHelp: "Meglio l'email di un adulto.",
@@ -164,11 +202,27 @@
       myReplyFrom: "Risposta di {name}",
       mySent: "Hai scritto il {date}",
       myGeneral: "Il sito",
-      myError: "Al momento non è possibile mostrare i tuoi messaggi."
+      myError: "Al momento non è possibile mostrare i tuoi messaggi.",
+      formIntro: "Non serve un account — scrivi pure a Crabby!",
+      nameOpt: "Il tuo nome o soprannome",
+      optional: "(facoltativo)",
+      emailOpt: "Email",
+      emailOptHelp: "Solo se vuoi una risposta — meglio l'email di un adulto.",
+      grownupEmail: "Sono un adulto, oppure un adulto mi ha detto che posso dare questa email.",
+      haveAccount: "Hai un account? Accedi per vedere i tuoi messaggi e le risposte.",
+      backToForm: "← Indietro",
+      errEmail: "Questa email non sembra corretta.",
+      errGrownupEmail: "Spunta la casella dell'adulto, oppure lascia vuota l'email.",
+      thanksReply: "Grazie! Crabby ha ricevuto il tuo messaggio e ti risponderà via email. 🦀",
+      reactQ: "Ti è piaciuta questa storia?",
+      reactLove: "Tantissimo!",
+      reactLike: "Mi è piaciuta",
+      reactOk: "Così così",
+      reactThanks: "Grazie per averlo detto a Crabby! 🦀"
     },
     fr: {
       heading: "Dis-nous ce que tu en as pensé !",
-      intro: 'Connecte-toi ou crée un compte pour envoyer ton avis à Crabby.',
+      intro: "Connecte-toi ou crée un compte pour voir tes messages et les réponses de Crabby.",
       tabLogin: 'Se connecter', tabSignup: "S'inscrire",
       nickname: 'Prénom ou surnom', nicknameHelp: "Merci de ne pas mettre ton nom complet.",
       email: 'E-mail', emailHelp: "L'e-mail d'un adulte, c'est mieux.",
@@ -204,11 +258,27 @@
       myReplyFrom: "Réponse de {name}",
       mySent: "Tu as écrit le {date}",
       myGeneral: "Le site",
-      myError: "Impossible d'afficher tes messages pour le moment."
+      myError: "Impossible d'afficher tes messages pour le moment.",
+      formIntro: "Pas besoin de compte — écris simplement à Crabby !",
+      nameOpt: "Ton prénom ou surnom",
+      optional: "(facultatif)",
+      emailOpt: "E-mail",
+      emailOptHelp: "Seulement si tu veux une réponse — l'e-mail d'un adulte, c'est mieux.",
+      grownupEmail: "Je suis un adulte, ou un adulte m'a dit que je pouvais donner cet e-mail.",
+      haveAccount: "Tu as un compte ? Connecte-toi pour voir tes messages et les réponses.",
+      backToForm: "← Retour",
+      errEmail: "Cet e-mail ne semble pas correct.",
+      errGrownupEmail: "Coche la case adulte, ou laisse l'e-mail vide.",
+      thanksReply: "Merci ! Crabby a bien reçu ton message et te répondra par e-mail. 🦀",
+      reactQ: "Tu as aimé cette histoire ?",
+      reactLove: "Adoré !",
+      reactLike: "Aimé",
+      reactOk: "Pas mal",
+      reactThanks: "Merci de l'avoir dit à Crabby ! 🦀"
     },
     es: {
       heading: '¡Cuéntanos qué te pareció!',
-      intro: 'Inicia sesión o crea una cuenta para enviarle tu opinión a Crabby.',
+      intro: "Inicia sesión o crea una cuenta para ver tus mensajes y las respuestas de Crabby.",
       tabLogin: 'Entrar', tabSignup: 'Registrarse',
       nickname: 'Nombre o apodo', nicknameHelp: 'Por favor, no pongas tu nombre completo.',
       email: 'Correo electrónico', emailHelp: 'Mejor el correo de un adulto.',
@@ -244,7 +314,23 @@
       myReplyFrom: "Respuesta de {name}",
       mySent: "Escribiste el {date}",
       myGeneral: "La web",
-      myError: "Ahora mismo no se pueden mostrar tus mensajes."
+      myError: "Ahora mismo no se pueden mostrar tus mensajes.",
+      formIntro: "¡No hace falta cuenta — escríbele a Crabby!",
+      nameOpt: "Tu nombre o apodo",
+      optional: "(opcional)",
+      emailOpt: "Correo electrónico",
+      emailOptHelp: "Solo si quieres respuesta — mejor el correo de un adulto.",
+      grownupEmail: "Soy un adulto, o un adulto me ha dicho que puedo dar este correo.",
+      haveAccount: "¿Tienes cuenta? Entra para ver tus mensajes y las respuestas.",
+      backToForm: "← Volver",
+      errEmail: "Ese correo no parece correcto.",
+      errGrownupEmail: "Marca la casilla del adulto, o deja el correo vacío.",
+      thanksReply: "¡Gracias! Crabby ha recibido tu mensaje y te responderá por correo. 🦀",
+      reactQ: "¿Te ha gustado esta historia?",
+      reactLove: "¡Me encantó!",
+      reactLike: "Me gustó",
+      reactOk: "Estuvo bien",
+      reactThanks: "¡Gracias por contárselo a Crabby! 🦀"
     }
   };
 
@@ -297,7 +383,19 @@
     '.my-reply-head{font-size:13.5px;color:#245b16;font-weight:700;margin-bottom:3px}' +
     '.my-wait{margin:10px 0 0;font-size:14px;color:#6b6456;font-style:italic}' +
     '.my-empty{text-align:center;color:#6b6456}' +
-    '@media print{.feedback-box{display:none!important}}';
+    '.feedback-box .fb-opt{font-weight:400;font-size:14px;color:#777}' +
+    '.fb-account{text-align:center;margin:18px 0 0}' +
+    '.fb-back{margin:0 0 6px}' +
+    '.reactions{margin:36px auto 0;max-width:560px;text-align:center;font:16px/1.4 "Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",Arial,sans-serif;color:#163a5c}' +
+    '.reactions .react-q{font-weight:700;font-size:19px;margin:0 0 12px;text-align:center;color:#163a5c;text-indent:0}' +
+    '.react-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}' +
+    '.react-btn{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:96px;padding:12px 14px 10px;border-radius:16px;border:2px solid #e3d9bf;background:#fff;color:#163a5c;font:inherit;font-weight:600;font-size:14.5px;cursor:pointer;box-shadow:0 4px 12px rgba(90,66,30,.12);transition:transform .12s}' +
+    '.react-btn:hover:not([disabled]){transform:translateY(-3px) scale(1.04)}' +
+    '.react-btn:focus-visible{outline:3px solid #163a5c;outline-offset:2px}' +
+    '.react-emoji{font-size:40px;line-height:1}' +
+    '.react-btn[disabled]{cursor:default;opacity:.45}' +
+    '.react-btn.picked{opacity:1;border-color:#163a5c;background:#fff7dc}' +
+    '@media print{.feedback-box,.reactions{display:none!important}}';
   var style = document.createElement('style');
   style.textContent = css;
   document.head.appendChild(style);
@@ -423,7 +521,7 @@
   // ---------- the box itself ----------
   var boxes = [];
   var flash = null;       // one-off message shown at the top of every box
-  var view = 'login';     // login | signup | reset | newpassword | form | thanks
+  var view = 'form';      // form | thanks | login | signup | reset | newpassword
   var session = null;
   var draft = {};         // keeps typed text when the language changes
 
@@ -438,9 +536,13 @@
     var h = '<h2>' + esc(t('heading')) + '</h2>';
 
     if (view === 'form' || view === 'thanks') {
-      var name = (session && session.user && (session.user.name || session.user.email)) || '';
-      h += '<div class="fb-user"><span>' + esc(t('hello', { name: name })) + '</span>' +
-           '<button type="button" class="fb-link" data-act="logout">' + esc(t('logout')) + '</button></div>';
+      if (session) {
+        var name = (session.user && (session.user.name || session.user.email)) || '';
+        h += '<div class="fb-user"><span>' + esc(t('hello', { name: name })) + '</span>' +
+             '<button type="button" class="fb-link" data-act="logout">' + esc(t('logout')) + '</button></div>';
+      } else if (view === 'form') {
+        h += '<p class="fb-intro">' + esc(t('formIntro')) + '</p>';
+      }
       h += msgHtml();
       if (view === 'thanks') {
         h += '<button type="button" class="fb-btn" data-act="another">' + esc(t('another')) + '</button>';
@@ -465,8 +567,22 @@
         h += '</div></fieldset>';
         h += '<label class="fb-field">' + esc(t('message')) +
              '<textarea name="message" maxlength="3000" placeholder="' + esc(t('messagePh')) + '">' + esc(draft.message || '') + '</textarea></label>';
+        if (!session) {
+          // No account needed: name and email are both optional.
+          h += '<label class="fb-field">' + esc(t('nameOpt')) + ' <span class="fb-opt">' + esc(t('optional')) + '</span>' +
+               '<input type="text" name="nickname" maxlength="40" autocomplete="nickname" value="' + esc(draft.nickname || '') + '"></label>';
+          h += '<label class="fb-field">' + esc(t('emailOpt')) + ' <span class="fb-opt">' + esc(t('optional')) + '</span>' +
+               '<span class="fb-help">' + esc(t('emailOptHelp')) + '</span>' +
+               '<input type="email" name="email" maxlength="120" autocomplete="email" value="' + esc(draft.email || '') + '"></label>';
+          h += '<label class="fb-check"><input type="checkbox" name="grownup"' + (draft.grownup ? ' checked' : '') + '><span>' + esc(t('grownupEmail')) + '</span></label>';
+          h += '<p class="fb-privacy">' + esc(t('privacy')) + '</p>';
+        }
         h += '<button type="submit" class="fb-btn">' + esc(t('send')) + '</button>';
         h += '</form>';
+        // Only the Feedback page (no data-story) offers the optional login.
+        if (!session && !story) {
+          h += '<p class="fb-account"><button type="button" class="fb-link" data-act="login">' + esc(t('haveAccount')) + '</button></p>';
+        }
       }
     } else if (view === 'newpassword') {
       h += msgHtml();
@@ -482,6 +598,7 @@
            '<button type="button" class="fb-link" data-act="login">' + esc(t('backToLogin')) + '</button></div></form>';
     } else {
       var signup = view === 'signup';
+      h += '<p class="fb-back"><button type="button" class="fb-link" data-act="form">' + esc(t('backToForm')) + '</button></p>';
       h += '<p class="fb-intro">' + esc(t('intro')) + '</p>';
       h += '<div class="fb-tabs" role="tablist">' +
            '<button type="button" role="tab" data-act="login" aria-selected="' + !signup + '">' + esc(t('tabLogin')) + '</button>' +
@@ -583,12 +700,12 @@
     var a = act.getAttribute('data-act');
     var form = act.closest('.feedback-box').querySelector('form');
     if (form) keepDraft(form);
-    if (a === 'login' || a === 'signup' || a === 'reset') go(a);
+    if (a === 'login' || a === 'signup' || a === 'reset' || a === 'form') go(a);
     else if (a === 'another') { draft.message = ''; draft.rating = ''; go('form'); }
     else if (a === 'logout') {
       var s = loadSession();
       if (s) call('/logout', { method: 'POST', token: s.access_token }).catch(function () {});
-      saveSession(null); session = null; go('login');
+      saveSession(null); session = null; go('form');
     }
   }
 
@@ -646,17 +763,22 @@
 
     else if (kind === 'feedback') {
       if (!f.message.value.trim()) return go('form', { kind: 'err', text: t('errEmpty') });
+      var typedEmail = f.email ? f.email.value.trim() : '';
+      if (typedEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(typedEmail)) return go('form', { kind: 'err', text: t('errEmail') });
+      if (typedEmail && !f.grownup.checked) return go('form', { kind: 'err', text: t('errGrownupEmail') });
       busy(form, true, t('sending'));
       var box = form.closest('.feedback-box');
+      // Logged in: the account's name + email go with the message.
+      // Not logged in: whatever (if anything) was typed in the form.
       currentSession().then(function (s) {
-        if (!s) { session = null; return go('login'); }
         session = s;
         var rating = form.querySelector('input[name=rating]:checked');
+        var email = s ? (s.user.email || '') : typedEmail;
         var fields = {
           'form-name': 'feedback',
           'bot-field': f['bot-field'].value,
-          name: s.user.name || '',
-          email: s.user.email || '',
+          name: s ? (s.user.name || '') : (f.nickname ? f.nickname.value.trim().slice(0, 40) : ''),
+          email: email,
           story: box.getAttribute('data-story') || (f.story ? f.story.value : ''),
           rating: rating ? rating.value + ' / 5' : '',
           message: f.message.value.trim(),
@@ -670,7 +792,7 @@
           .then(function (r) {
             if (!r.ok) throw new Error('HTTP ' + r.status);
             draft.message = ''; draft.rating = '';
-            go('thanks', { kind: 'ok', text: t('thanks') });
+            go('thanks', { kind: 'ok', text: t(email ? 'thanksReply' : 'thanks') });
           });
       }).catch(function () { go('form', { kind: 'err', text: t('errGeneric') }); });
     }
@@ -709,7 +831,7 @@
       if (s) call('/logout', { method: 'POST', token: s.access_token }).catch(function () {});
       saveSession(null);
       session = null;
-      if (boxes.length) go('login');
+      if (boxes.length) go('form');
     },
     // Calls one of the site's own functions with the login attached.
     fetch: function (path, opts) {
@@ -723,9 +845,52 @@
     }
   };
 
+  // ---------- one-tap reactions ("Did you enjoy this story?") ----------
+  // Any element with  data-reactions data-story="English title"  shows
+  // three buttons. A tap posts to the Netlify form "reaction" (declared
+  // in /feedback.html) — no typing, no account. Each browser can react
+  // once per story; the choice is remembered in localStorage.
+  var REACTIONS = [['love', '😍', 'reactLove'], ['like', '🙂', 'reactLike'], ['ok', '😐', 'reactOk']];
+  var REACT_KEY = 'crabby-reactions';
+  var reactHosts = [];
+  function reacted() { try { return JSON.parse(localStorage.getItem(REACT_KEY)) || {}; } catch (e) { return {}; } }
+  function renderReactions(el) {
+    var story = el.getAttribute('data-story') || '';
+    var done = reacted()[story];
+    var h = '<p class="react-q">' + esc(done ? t('reactThanks') : t('reactQ')) + '</p><div class="react-row">';
+    REACTIONS.forEach(function (r) {
+      var picked = done === r[0];
+      h += '<button type="button" class="react-btn' + (picked ? ' picked' : '') + '" data-react="' + r[0] + '"' +
+           (done ? ' disabled' : '') + ' aria-pressed="' + picked + '">' +
+           '<span class="react-emoji" aria-hidden="true">' + r[1] + '</span><span class="react-label">' + esc(t(r[2])) + '</span></button>';
+    });
+    el.innerHTML = h + '</div>';
+  }
+  function onReact(e) {
+    var btn = e.target.closest && e.target.closest('[data-react]');
+    if (!btn || btn.disabled) return;
+    var el = btn.closest('[data-reactions]');
+    var story = el.getAttribute('data-story') || '';
+    var map = reacted();
+    if (map[story]) return;
+    map[story] = btn.getAttribute('data-react');
+    try { localStorage.setItem(REACT_KEY, JSON.stringify(map)); } catch (err) {}
+    renderReactions(el);   // say thank you straight away
+    var fields = { 'form-name': 'reaction', 'bot-field': '', story: story, reaction: map[story],
+                   page: location.pathname, language: lang() };
+    fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: Object.keys(fields).map(function (k) { return encodeURIComponent(k) + '=' + encodeURIComponent(fields[k]); }).join('&')
+    }).catch(function () {});
+  }
+
   function init() {
+    reactHosts = Array.prototype.slice.call(document.querySelectorAll('[data-reactions]'));
+    reactHosts.forEach(function (el) {
+      el.classList.add('reactions');
+      el.addEventListener('click', onReact);
+      renderReactions(el);
+    });
     boxes = Array.prototype.slice.call(document.querySelectorAll('[data-feedback]'));
-    if (!boxes.length) return;
     boxes.forEach(function (b) {
       b.classList.add('feedback-box');
       b.addEventListener('click', onClick);
@@ -735,10 +900,12 @@
       boxes.forEach(function (b) { var f = b.querySelector('form'); if (f) keepDraft(f); });
       renderAll();
       renderMine();
+      reactHosts.forEach(renderReactions);
     });
+    if (!boxes.length) return;
     renderAll();
     if (handleEmailLink()) return;
-    currentSession().then(function (s) { session = s; if (s) go('form'); });
+    currentSession().then(function (s) { session = s; go('form'); });
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

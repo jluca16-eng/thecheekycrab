@@ -143,6 +143,11 @@
   .note li { margin-bottom: 6px; }
   .note a { color: var(--ink); }
   .empty { text-align: center; color: var(--muted); padding: 30px 0; }
+  .reactions-box { background: #fff; border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+  .reactions-box summary { cursor: pointer; font-weight: 700; }
+  .reactions-box table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 15px; }
+  .reactions-box th, .reactions-box td { padding: 6px 8px; border-bottom: 1px solid #eee; text-align: center; }
+  .reactions-box th:first-child, .reactions-box td:first-child { text-align: left; }
   .msg { padding: 10px 12px; border-radius: 8px; margin-bottom: 12px; font-size: 15px; }
   .msg.err { background: #fde8e4; color: #8a2412; }
   .msg.ok { background: #e6f2e2; color: #245b16; }
@@ -222,6 +227,7 @@
 
   function loadFeedback() {
     api('admin-feedback').then(function (d) {
+      state.reactions = d.reactions || null;
       state.feedback = d.messages.sort(function (a, b) { return String(b.created_at).localeCompare(String(a.created_at)); });
       state.feedbackErr = null;
     }, function (e) { state.feedbackErr = e.message; }).then(render);
@@ -267,7 +273,7 @@
     }
     if (state.feedbackErr) return '<p class="msg err">Couldn\'t load feedback: ' + esc(state.feedbackErr) + '</p>';
     if (!state.feedback) return '<p class="empty">Loading feedback…</p>';
-    if (!state.feedback.length) return '<p class="empty">No feedback yet. When readers send some, it will appear here. 🦀</p>';
+    if (!state.feedback.length) return reactionsBox() + '<p class="empty">No feedback yet. When readers send some, it will appear here. 🦀</p>';
 
     var stories = {};
     state.feedback.forEach(function (m) { if (m.story) stories[m.story] = (stories[m.story] || 0) + 1; });
@@ -282,7 +288,7 @@
     var rated = list.filter(function (m) { return parseInt(m.rating, 10); });
     var avg = rated.length ? (rated.reduce(function (t, m) { return t + parseInt(m.rating, 10); }, 0) / rated.length) : 0;
 
-    var h = '<div class="toolbar"><select id="story" aria-label="Which story"><option value="">All stories and pages</option>';
+    var h = reactionsBox() + '<div class="toolbar"><select id="story" aria-label="Which story"><option value="">All stories and pages</option>';
     Object.keys(stories).sort().forEach(function (s) {
       h += '<option value="' + esc(s) + '"' + (state.story === s ? ' selected' : '') + '>' + esc(s) + ' (' + stories[s] + ')</option>';
     });
@@ -308,7 +314,7 @@
         }).join('') +
         (state.composing[m.id] ? composer(m) : '') +
         '<div class="card-foot"><span class="from">From <strong>' + esc(m.name || 'someone') + '</strong>' +
-        (m.email ? ' · <a href="mailto:' + esc(m.email) + '">' + esc(m.email) + '</a>' : '') +
+        (m.email ? ' · <a href="mailto:' + esc(m.email) + '">' + esc(m.email) + '</a>' : ' · <span class="meta">no email left, so no reply possible</span>') +
         (m.page ? ' · <span class="meta">sent from ' + esc(m.page) + '</span>' : '') + '</span>' +
         '<span class="card-buttons">' +
         (m.email && !state.composing[m.id] ? '<button type="button" class="btn primary" data-compose="' + esc(m.id) + '">' + (m.replies && m.replies.length ? 'Reply again' : 'Reply') + '</button>' : '') +
@@ -318,6 +324,22 @@
         '<button type="button" class="btn danger" data-del-msg="' + esc(m.id) + '">Delete</button></span></div></article>';
     });
     return h;
+  }
+
+  // One-tap reactions from the end of each story (😍 Loved it / 🙂 Liked it / 😐 It was OK).
+  function reactionsBox() {
+    var r = state.reactions;
+    if (!r) return '';
+    var keys = Object.keys(r).sort(function (a, b) { return r[b].total - r[a].total || a.localeCompare(b); });
+    var total = keys.reduce(function (t, k) { return t + r[k].total; }, 0);
+    var h = '<details class="reactions-box"' + (total ? ' open' : '') + '><summary>Story reactions <span class="meta">— ' +
+      total + ' tap' + (total === 1 ? '' : 's') + ' on 😍 🙂 😐 at the end of the stories</span></summary>';
+    if (!total) return h + '<p class="meta">No reactions yet.</p></details>';
+    h += '<table><thead><tr><th>Story</th><th title="Loved it">😍</th><th title="Liked it">🙂</th><th title="It was OK">😐</th><th>Total</th></tr></thead><tbody>';
+    keys.forEach(function (k) {
+      h += '<tr><td>' + esc(k) + '</td><td>' + r[k].love + '</td><td>' + r[k].like + '</td><td>' + r[k].ok + '</td><td><strong>' + r[k].total + '</strong></td></tr>';
+    });
+    return h + '</tbody></table></details>';
   }
 
   function myReplyTo() {
