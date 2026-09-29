@@ -8,6 +8,7 @@
    • Things added afterwards live in Netlify Blobs, store "feedback":
        "replies"  { <message id>: [ { at, by, text, emailed } ] }
        "replied"  { <message id>: { at, by } }   (marked by hand)
+       "published" { <message id>: { at, by } }  (shown on the website)
    ========================================================== */
 var blobs = require('@netlify/blobs');
 
@@ -39,9 +40,10 @@ function listMessages() {
     return Promise.all([
       netlify('/forms/' + form.id + '/submissions?per_page=1000'),
       load('replies'),
-      load('replied')
+      load('replied'),
+      load('published')
     ]).then(function (res) {
-      var replies = res[1], replied = res[2];
+      var replies = res[1], replied = res[2], published = res[3];
       return res[0].map(function (s) {
         var d = s.data || {};
         var rs = replies[s.id] || [];
@@ -52,6 +54,7 @@ function listMessages() {
           rating: d.rating || '', message: d.message || '',
           page: d.page || '', language: d.language || '',
           replies: rs,
+          published: published[s.id] || null,
           replied: replied[s.id] || (last ? { at: last.at, by: last.by } : null)
         };
       }).sort(function (a, b) { return String(b.created_at).localeCompare(String(a.created_at)); });

@@ -117,6 +117,7 @@
   .btn.danger { border-color: var(--red); color: var(--red); }
   .card-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
   .card.is-replied { box-shadow: inset 4px 0 0 #6aa35a, 0 4px 14px rgba(90, 66, 30, .12); }
+  .pill.live { background: #e3ecf5; color: #163a5c; text-transform: none; letter-spacing: 0; font-size: 12px; margin-left: 4px; }
   .pill.done { background: #e6f2e2; color: #245b16; text-transform: none; letter-spacing: 0; font-size: 12px; margin-left: 4px; }
   .btn.danger.armed { background: var(--red); color: #fff; }
   .btn[disabled] { opacity: .5; cursor: default; }
@@ -282,6 +283,7 @@
       if (state.story && m.story !== state.story) return false;
       if (state.show === 'todo' && m.replied) return false;
       if (state.show === 'done' && !m.replied) return false;
+      if (state.show === 'live' && !m.published) return false;
       if (q && (m.message + ' ' + m.name + ' ' + m.email).toLowerCase().indexOf(q) === -1) return false;
       return true;
     });
@@ -295,7 +297,8 @@
     h += '</select><select id="show" aria-label="Replied or not">' +
       '<option value="">All messages</option>' +
       '<option value="todo"' + (state.show === 'todo' ? ' selected' : '') + '>Not replied yet (' + todoCount() + ')</option>' +
-      '<option value="done"' + (state.show === 'done' ? ' selected' : '') + '>Replied</option></select>';
+      '<option value="done"' + (state.show === 'done' ? ' selected' : '') + '>Replied</option>' +
+      '<option value="live"' + (state.show === 'live' ? ' selected' : '') + '>On the website</option></select>';
     h += '<input id="q" type="search" placeholder="Search messages, names, emails" value="' + esc(state.q) + '">' +
       '<span class="summary">' + list.length + ' message' + (list.length === 1 ? '' : 's') +
       (rated.length ? ' · average ' + avg.toFixed(1) + ' / 5 🦀' : '') + '</span></div>';
@@ -304,7 +307,8 @@
       var n = parseInt(m.rating, 10) || 0, crabs = '';
       if (n) for (var i = 1; i <= 5; i++) crabs += '<span class="' + (i <= n ? '' : 'off') + '">🦀</span>';
       h += '<article class="card' + (m.replied ? ' is-replied' : '') + '"><div class="card-head"><span class="card-title">' + esc(m.story || 'Feedback') +
-        (m.replied ? ' <span class="pill done">✓ Replied' + (m.replied.by ? ' by ' + esc(m.replied.by) : '') + ' · ' + esc(day(m.replied.at)) + '</span>' : '') + '</span>' +
+        (m.replied ? ' <span class="pill done">✓ Replied' + (m.replied.by ? ' by ' + esc(m.replied.by) : '') + ' · ' + esc(day(m.replied.at)) + '</span>' : '') +
+        (m.published ? ' <span class="pill live">🌐 On the website</span>' : '') + '</span>' +
         '<span class="meta">' + esc(when(m.created_at)) + (m.language ? ' · ' + esc(LANGS[m.language] || m.language) : '') + '</span></div>' +
         (crabs ? '<div class="rating" aria-label="' + n + ' out of 5">' + crabs + '</div>' : '') +
         '<p class="message">' + esc(m.message) + '</p>' +
@@ -321,6 +325,9 @@
         (m.replies && m.replies.length ? '' : m.replied
           ? '<button type="button" class="btn" data-replied="' + esc(m.id) + '" data-value="0">Mark as not replied</button>'
           : '<button type="button" class="btn" data-replied="' + esc(m.id) + '" data-value="1" title="For when you answered some other way, e.g. by phone">Mark as replied</button>') +
+        (m.published
+          ? '<button type="button" class="btn" data-publish="' + esc(m.id) + '" data-value="0">Hide from website</button>'
+          : '<button type="button" class="btn" data-publish="' + esc(m.id) + '" data-value="1" title="Shows this message and your replies to everyone, as \u201cA reader\u201d — never their name or email. The \u201cHi …,\u201d line of your reply is left off.">Show on website</button>') +
         '<button type="button" class="btn danger" data-del-msg="' + esc(m.id) + '">Delete</button></span></div></article>';
     });
     return h;
@@ -445,6 +452,15 @@
         state.feedback.forEach(function (m) { if (m.id === mid) m.replied = d.replied; });
         render();
       }, function (err) { flash('err', 'Couldn\'t save that: ' + err.message); });
+      return;
+    }
+    if (b.dataset.publish) {
+      var pOn = b.dataset.value === '1', pid = b.dataset.publish;
+      b.disabled = true;
+      api('admin-feedback', { action: 'publish', id: pid, value: pOn }).then(function (d) {
+        state.feedback.forEach(function (m) { if (m.id === pid) m.published = d.published; });
+        flash('ok', pOn ? 'Now showing on the website (as \u201cA reader\u201d). It can take a minute to appear.' : 'Hidden from the website.');
+      }, function (err) { flash('err', 'Couldn\'t save that: ' + err.message); render(); });
       return;
     }
     if (b.dataset.delMsg) {

@@ -22,6 +22,9 @@
    • Stories also get one-tap reactions: add
        <div data-reactions data-story="Story title"></div>
      They post to the Netlify form "reaction" (see /feedback.html).
+   • "What readers are saying": add <div data-public-feedback></div>
+     (optionally data-story="…"). Shows messages chosen with
+     "Show on website" on /admin — never names or emails.
    • Sending feedback posts to the Netlify form called "feedback",
      which is declared in /feedback.html. Every message appears
      under Forms in the Netlify dashboard, and is emailed to you
@@ -60,7 +63,7 @@
       email: 'Email', emailHelp: "A grown-up's email is best.",
       password: 'Password', passwordHelp: 'At least 8 letters or numbers.',
       grownup: "I'm a grown-up, or a grown-up said it's OK for me to sign up.",
-      privacy: 'We only keep your nickname and email so we can read and reply to your feedback. We never show them on the website or share them with anyone.',
+      privacy: "We only keep your nickname and email so we can read and reply to your feedback. We never show them on the website or share them with anyone. If we share a message on the website, it never shows your name or email.",
       btnSignup: 'Create my account', btnLogin: 'Log in',
       forgot: 'Forgot your password?', btnReset: 'Send me a reset link', backToLogin: '← Back to log in',
       checkEmail: "Nearly there! We've sent an email to {email}. Click the link in it to finish signing up.",
@@ -106,7 +109,10 @@
       reactLove: "Loved it!",
       reactLike: "Liked it",
       reactOk: "It was OK",
-      reactThanks: "Thanks for telling Crabby! 🦀"
+      reactThanks: "Thanks for telling Crabby! 🦀",
+      pubHeading: "What readers are saying",
+      pubReader: "A reader",
+      pubReply: "Crabby's reply"
     },
     el: {
       heading: 'Πες μας τη γνώμη σου!',
@@ -116,7 +122,7 @@
       email: 'Email', emailHelp: 'Καλύτερα το email ενός μεγάλου.',
       password: 'Κωδικός', passwordHelp: 'Τουλάχιστον 8 γράμματα ή αριθμοί.',
       grownup: 'Είμαι μεγάλος/η ή ένας μεγάλος μού είπε ότι μπορώ να εγγραφώ.',
-      privacy: 'Κρατάμε μόνο το παρατσούκλι και το email σου για να διαβάσουμε και να απαντήσουμε στη γνώμη σου. Δεν τα δείχνουμε ποτέ στον ιστότοπο και δεν τα δίνουμε σε κανέναν.',
+      privacy: "Κρατάμε μόνο το παρατσούκλι και το email σου για να διαβάσουμε και να απαντήσουμε στη γνώμη σου. Δεν τα δείχνουμε ποτέ στον ιστότοπο και δεν τα δίνουμε σε κανέναν. Αν δείξουμε ένα μήνυμα στον ιστότοπο, δεν φαίνεται ποτέ το όνομα ή το email σου.",
       btnSignup: 'Φτιάξε τον λογαριασμό μου', btnLogin: 'Σύνδεση',
       forgot: 'Ξέχασες τον κωδικό σου;', btnReset: 'Στείλε μου σύνδεσμο επαναφοράς', backToLogin: '← Πίσω στη σύνδεση',
       checkEmail: 'Σχεδόν έτοιμο! Στείλαμε ένα email στο {email}. Πάτησε τον σύνδεσμο μέσα για να ολοκληρωθεί η εγγραφή.',
@@ -162,7 +168,10 @@
       reactLove: "Τη λάτρεψα!",
       reactLike: "Μου άρεσε",
       reactOk: "Ήταν εντάξει",
-      reactThanks: "Ευχαριστούμε που το είπες στον Κράμπι! 🦀"
+      reactThanks: "Ευχαριστούμε που το είπες στον Κράμπι! 🦀",
+      pubHeading: "Τι λένε οι αναγνώστες",
+      pubReader: "Ένας αναγνώστης",
+      pubReply: "Η απάντηση του Κράμπι"
     },
     it: {
       heading: 'Dicci cosa ne pensi!',
@@ -172,7 +181,7 @@
       email: 'Email', emailHelp: "Meglio l'email di un adulto.",
       password: 'Password', passwordHelp: 'Almeno 8 lettere o numeri.',
       grownup: 'Sono un adulto, oppure un adulto mi ha detto che posso registrarmi.',
-      privacy: 'Teniamo solo il tuo soprannome e la tua email per leggere e rispondere al tuo parere. Non li mostriamo mai sul sito e non li diamo a nessuno.',
+      privacy: "Teniamo solo il tuo soprannome e la tua email per leggere e rispondere al tuo parere. Non li mostriamo mai sul sito e non li diamo a nessuno. Se mostriamo un messaggio sul sito, non compaiono mai il tuo nome o la tua email.",
       btnSignup: 'Crea il mio account', btnLogin: 'Accedi',
       forgot: 'Hai dimenticato la password?', btnReset: 'Mandami un link per reimpostarla', backToLogin: "← Torna all'accesso",
       checkEmail: 'Ci siamo quasi! Abbiamo mandato un\'email a {email}. Clicca sul link per completare la registrazione.',
@@ -218,7 +227,10 @@
       reactLove: "Tantissimo!",
       reactLike: "Mi è piaciuta",
       reactOk: "Così così",
-      reactThanks: "Grazie per averlo detto a Crabby! 🦀"
+      reactThanks: "Grazie per averlo detto a Crabby! 🦀",
+      pubHeading: "Cosa dicono i lettori",
+      pubReader: "Un lettore",
+      pubReply: "La risposta di Crabby"
     },
     fr: {
       heading: "Dis-nous ce que tu en as pensé !",
@@ -228,7 +240,7 @@
       email: 'E-mail', emailHelp: "L'e-mail d'un adulte, c'est mieux.",
       password: 'Mot de passe', passwordHelp: 'Au moins 8 lettres ou chiffres.',
       grownup: "Je suis un adulte, ou un adulte m'a dit que je pouvais m'inscrire.",
-      privacy: "Nous gardons seulement ton surnom et ton e-mail pour lire ton avis et y répondre. Nous ne les affichons jamais sur le site et ne les donnons à personne.",
+      privacy: "Nous gardons seulement ton surnom et ton e-mail pour lire ton avis et y répondre. Nous ne les affichons jamais sur le site et ne les donnons à personne. Si nous partageons un message sur le site, ton nom et ton e-mail n'apparaissent jamais.",
       btnSignup: 'Créer mon compte', btnLogin: 'Se connecter',
       forgot: 'Mot de passe oublié ?', btnReset: "Envoyez-moi un lien", backToLogin: '← Retour à la connexion',
       checkEmail: "Presque fini ! Nous avons envoyé un e-mail à {email}. Clique sur le lien pour terminer ton inscription.",
@@ -274,7 +286,10 @@
       reactLove: "Adoré !",
       reactLike: "Aimé",
       reactOk: "Pas mal",
-      reactThanks: "Merci de l'avoir dit à Crabby ! 🦀"
+      reactThanks: "Merci de l'avoir dit à Crabby ! 🦀",
+      pubHeading: "Ce que disent les lecteurs",
+      pubReader: "Un lecteur",
+      pubReply: "La réponse de Crabby"
     },
     es: {
       heading: '¡Cuéntanos qué te pareció!',
@@ -284,7 +299,7 @@
       email: 'Correo electrónico', emailHelp: 'Mejor el correo de un adulto.',
       password: 'Contraseña', passwordHelp: 'Al menos 8 letras o números.',
       grownup: 'Soy un adulto, o un adulto me ha dicho que puedo registrarme.',
-      privacy: 'Solo guardamos tu apodo y tu correo para leer tu opinión y responderte. Nunca los mostramos en la web ni se los damos a nadie.',
+      privacy: "Solo guardamos tu apodo y tu correo para leer tu opinión y responderte. Nunca los mostramos en la web ni se los damos a nadie. Si compartimos un mensaje en la web, nunca aparecen tu nombre ni tu correo.",
       btnSignup: 'Crear mi cuenta', btnLogin: 'Entrar',
       forgot: '¿Olvidaste tu contraseña?', btnReset: 'Envíame un enlace', backToLogin: '← Volver a entrar',
       checkEmail: '¡Ya casi está! Hemos enviado un correo a {email}. Pulsa el enlace para terminar de registrarte.',
@@ -330,7 +345,10 @@
       reactLove: "¡Me encantó!",
       reactLike: "Me gustó",
       reactOk: "Estuvo bien",
-      reactThanks: "¡Gracias por contárselo a Crabby! 🦀"
+      reactThanks: "¡Gracias por contárselo a Crabby! 🦀",
+      pubHeading: "Lo que dicen los lectores",
+      pubReader: "Un lector",
+      pubReply: "La respuesta de Crabby"
     }
   };
 
@@ -383,6 +401,7 @@
     '.my-reply-head{font-size:13.5px;color:#245b16;font-weight:700;margin-bottom:3px}' +
     '.my-wait{margin:10px 0 0;font-size:14px;color:#6b6456;font-style:italic}' +
     '.my-empty{text-align:center;color:#6b6456}' +
+    '.my-messages .my-text{text-align:left;font-size:16px;line-height:1.5;text-indent:0}' +
     '.feedback-box .fb-opt{font-weight:400;font-size:14px;color:#777}' +
     '.fb-account{text-align:center;margin:18px 0 0}' +
     '.fb-back{margin:0 0 6px}' +
@@ -845,6 +864,41 @@
     }
   };
 
+  // ---------- "What readers are saying" (public, no login) ----------
+  // Any element with data-public-feedback shows the messages an
+  // Administrator chose to show ("Show on website" on /admin), with the
+  // replies. Add data-story="English title" to show only that story's.
+  // Names and emails are never sent to the browser — each is "A reader".
+  // Hidden when there's nothing to show.
+  var pubHosts = [], pubList = null;
+  function loadPublic() {
+    if (!pubHosts.length) return;
+    fetch('/.netlify/functions/public-feedback')
+      .then(function (r) { return r.ok ? r.json() : { messages: [] }; })
+      .then(function (d) { pubList = d.messages || []; pubHosts.forEach(renderPublic); },
+            function () { pubList = []; pubHosts.forEach(renderPublic); });
+  }
+  function renderPublic(el) {
+    var only = el.getAttribute('data-story');
+    var list = (pubList || []).filter(function (m) { return !only || m.story === only; });
+    if (!list.length) { el.hidden = true; el.innerHTML = ''; return; }
+    el.hidden = false;
+    var h = '<h2>' + esc(t('pubHeading')) + '</h2>';
+    list.forEach(function (m) {
+      var story = STORIES.filter(function (x) { return x[1] === m.story; })[0];
+      var title = only ? '' : (story ? ((window.CrabbyLang && CrabbyLang.t(story[0], story[1])) || story[1]) : t('myGeneral'));
+      var n = parseInt(m.rating, 10) || 0;
+      h += '<article class="my-msg"><div class="my-msg-head"><strong>' + esc(t('pubReader')) + (title ? ' · ' + esc(title) : '') + '</strong><span>' +
+           esc(fmtDate(m.created_at)) + (n ? ' · ' + new Array(n + 1).join('🦀') : '') + '</span></div>' +
+           '<p class="my-text">' + esc(m.message) + '</p>';
+      (m.replies || []).forEach(function (r) {
+        h += '<div class="my-reply"><div class="my-reply-head">' + esc(t('pubReply')) + '</div><p class="my-text">' + esc(r.text) + '</p></div>';
+      });
+      h += '</article>';
+    });
+    el.innerHTML = h;
+  }
+
   // ---------- one-tap reactions ("Did you enjoy this story?") ----------
   // Any element with  data-reactions data-story="English title"  shows
   // three buttons. A tap posts to the Netlify form "reaction" (declared
@@ -884,6 +938,9 @@
   }
 
   function init() {
+    pubHosts = Array.prototype.slice.call(document.querySelectorAll('[data-public-feedback]'));
+    pubHosts.forEach(function (el) { el.classList.add('my-messages', 'public-feedback'); el.hidden = true; });
+    loadPublic();
     reactHosts = Array.prototype.slice.call(document.querySelectorAll('[data-reactions]'));
     reactHosts.forEach(function (el) {
       el.classList.add('reactions');
@@ -901,6 +958,7 @@
       renderAll();
       renderMine();
       reactHosts.forEach(renderReactions);
+      if (pubList) pubHosts.forEach(renderPublic);
     });
     if (!boxes.length) return;
     renderAll();

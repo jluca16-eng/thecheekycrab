@@ -3,6 +3,7 @@
                                           plus a tally of the one-tap story reactions
    POST {action:'reply', id, text}      → email a reply to the reader and record it
    POST {action:'replied', id, value}   → mark / unmark as replied by hand
+   POST {action:'publish', id, value}   → show / hide a message (and its replies) on the website
    POST {action:'delete', id}           → delete one message (and its replies)
    Storage: see netlify/lib/feedback-store.js. Email: netlify/lib/send-email.js. */
 var R = require('../lib/roles');
@@ -64,11 +65,20 @@ exports.handler = function (event, context) {
       });
     }
 
+    if (body.action === 'publish') {
+      return F.load('published').then(function (map) {
+        if (body.value) map[body.id] = { at: new Date().toISOString(), by: myName };
+        else delete map[body.id];
+        return F.save('published', map).then(function () { return R.json(200, { id: body.id, published: map[body.id] || null }); });
+      });
+    }
+
     if (body.action === 'delete') {
       return F.netlify('/submissions/' + encodeURIComponent(body.id), 'DELETE')
-        .then(function () { return Promise.all([F.load('replied'), F.load('replies')]); })
+        .then(function () { return Promise.all([F.load('replied'), F.load('replies'), F.load('published')]); })
         .then(function (maps) {
           var jobs = [];
+          if (maps[2][body.id]) { delete maps[2][body.id]; jobs.push(F.save('published', maps[2])); }
           if (maps[0][body.id]) { delete maps[0][body.id]; jobs.push(F.save('replied', maps[0])); }
           if (maps[1][body.id]) { delete maps[1][body.id]; jobs.push(F.save('replies', maps[1])); }
           return Promise.all(jobs);
