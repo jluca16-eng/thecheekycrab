@@ -9,6 +9,8 @@
    can't be left without an Administrator), and ADMIN_EMAILS accounts
    always stay Administrators. */
 var R = require('../lib/roles');
+var Admins = require('../lib/admin-list');
+var blobs = require('@netlify/blobs');
 
 function shape(u) {
   return {
@@ -24,13 +26,22 @@ function shape(u) {
   };
 }
 
+// Re-saves who the Administrators are (for the "new feedback" emails).
+function refreshAdmins(id) {
+  return R.identityApi(id, '/admin/users?per_page=500')
+    .then(function (d) { return Admins.saveFromUsers(d.users); })
+    .catch(function () {});
+}
+
 exports.handler = function (event, context) {
+  try { blobs.connectLambda(event); } catch (e) {}
   return R.requireAdmin(context).then(function (a) {
     if (a.error) return a.error;
     var id = a.identity;
 
     if (event.httpMethod === 'GET') {
       return R.identityApi(id, '/admin/users?per_page=500').then(function (d) {
+        Admins.saveFromUsers(d.users);   // keep the "new feedback" email list up to date
         var list = (d.users || []).map(shape);
         list.sort(function (x, y) { return String(y.created_at).localeCompare(String(x.created_at)); });
         return R.json(200, { me: a.me.id, users: list });
@@ -49,7 +60,7 @@ exports.handler = function (event, context) {
         if (R.isOwner(target.email) && body.role !== 'admin') return R.json(400, { error: 'This account is always an Administrator (ADMIN_EMAILS).' });
         var app = Object.assign({}, target.app_metadata || {}, { roles: [body.role] });
         return R.identityApi(id, '/admin/users/' + body.id, { method: 'PUT', body: { app_metadata: app } })
-          .then(function (u) { return R.json(200, { user: shape(u) }); });
+          .then(function (u) { return refreshAdmins(id).then(function () { return R.json(200, { user: shape(u) }); }); });
       }
       if (body.action === 'replyto') {
         var addr = String(body.value || '').trim().toLowerCase();
@@ -63,7 +74,7 @@ exports.handler = function (event, context) {
       if (body.action === 'delete') {
         if (R.isOwner(target.email)) return R.json(400, { error: "This account can't be deleted here (ADMIN_EMAILS)." });
         return R.identityApi(id, '/admin/users/' + body.id, { method: 'DELETE' })
-          .then(function () { return R.json(200, { deleted: body.id }); });
+          .then(function () { return refreshAdmins(id).then(function () { return R.json(200, { deleted: body.id }); }); });
       }
       return R.json(400, { error: 'Unknown action' });
     });
