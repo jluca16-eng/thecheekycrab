@@ -119,10 +119,13 @@
      wide-screen one, so only one of the two <img> elements inside
      .plate is ever shown at a time — this swaps between them based
      on body.is-portrait, which the script sets. */
-  .mobile-img { display: none; }
+  /* ".plate" is included so these beat the ".plate img { display: block }"
+     rule above — without it the phone picture also showed on computers,
+     peeking out below the main picture (fixed 29 Sep 2026). */
+  .plate .mobile-img { display: none; }
 
-  body.is-portrait .desktop-img { display: none; }
-  body.is-portrait .mobile-img  { display: block; }
+  body.is-portrait .plate .desktop-img { display: none; }
+  body.is-portrait .plate .mobile-img  { display: block; }
 
   /* ===================== MOBILE MENU ===================== */
   /* EDIT: the round menu button — only shown on portrait phones (see
